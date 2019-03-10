@@ -1,16 +1,23 @@
 package com.ebnbin.eb.debug
 
 import android.view.MotionEvent
+import com.ebnbin.eb.app.EBActivity
 import com.ebnbin.eb.util.dpToPx
 
 /**
  * 用于 debug 的多指滑动检测器.
  */
-internal class DebugSwipeDetector {
+internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
     /**
      * 滑动距离.
      */
     private val offset: Float = 64f.dpToPx
+
+    /**
+     * Debug 模式且非 debug 页面时启用.
+     */
+    private val isEnabled: Boolean = debug && (ebActivity::class.java != EBActivity::class.java ||
+            ebActivity.fragmentClass != DebugFragment::class.java)
 
     /**
      * 当指定数量的手指按下时设置为 true. 当最后一个手指抬起时设置为 false.
@@ -29,7 +36,7 @@ internal class DebugSwipeDetector {
      */
     fun dispatchTouchEvent(motionEvent: MotionEvent?): Boolean {
         motionEvent ?: return false
-        if (!debug) return false
+        if (!isEnabled) return false
         val pointerCount = motionEvent.pointerCount
         if (pointerCount == 3) {
             if (!isSwiping) {
@@ -58,7 +65,7 @@ internal class DebugSwipeDetector {
                 leftToRight -> log("leftToRight")
                 rightToLeft -> log("rightToLeft")
                 topToBottom -> log("topToBottom")
-                bottomToTop -> log("bottomToTop")
+                bottomToTop -> DebugFragment.start(ebActivity)
                 else -> return false
             }
             isSwiped = true

@@ -31,7 +31,8 @@ open class EBActivity : AppCompatActivity() {
 
     //*****************************************************************************************************************
 
-    private var fragmentClass: Class<out Fragment>? = null
+    var fragmentClass: Class<out Fragment>? = null
+        private set
 
     private fun initFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) return
@@ -42,7 +43,9 @@ open class EBActivity : AppCompatActivity() {
 
     //*****************************************************************************************************************
 
-    private val debugSwipeDetector: DebugSwipeDetector = DebugSwipeDetector()
+    private val debugSwipeDetector: DebugSwipeDetector by lazy {
+        DebugSwipeDetector(this)
+    }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (debugSwipeDetector.dispatchTouchEvent(ev)) return true
