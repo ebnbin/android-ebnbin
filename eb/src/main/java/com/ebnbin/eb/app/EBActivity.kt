@@ -8,7 +8,6 @@ import android.view.MotionEvent
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb.R
 import com.ebnbin.eb.debug.DebugSwipeDetector
 import com.ebnbin.eb.util.ebApp
 
@@ -18,8 +17,6 @@ import com.ebnbin.eb.util.ebApp
 open class EBActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_AppCompat)
-
         onInitArguments(savedInstanceState, intent?.extras ?: Bundle.EMPTY)
         initFragment(savedInstanceState)
     }
