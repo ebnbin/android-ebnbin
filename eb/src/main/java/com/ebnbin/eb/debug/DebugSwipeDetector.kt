@@ -2,6 +2,10 @@ package com.ebnbin.eb.debug
 
 import android.view.MotionEvent
 import com.ebnbin.eb.app.EBActivity
+import com.ebnbin.eb.debug.event.DebugLeftToRightEvent
+import com.ebnbin.eb.debug.event.DebugRightToLeftEvent
+import com.ebnbin.eb.debug.event.DebugTopToBottomEvent
+import com.ebnbin.eb.library.eventBus
 import com.ebnbin.eb.util.dpToPx
 
 /**
@@ -62,9 +66,9 @@ internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
                 if (offsetY > -offset) bottomToTop = false
             }
             when {
-                leftToRight -> log("leftToRight")
-                rightToLeft -> log("rightToLeft")
-                topToBottom -> log("topToBottom")
+                leftToRight -> eventBus.post(DebugLeftToRightEvent(ebActivity))
+                rightToLeft -> eventBus.post(DebugRightToLeftEvent(ebActivity))
+                topToBottom -> eventBus.post(DebugTopToBottomEvent(ebActivity))
                 bottomToTop -> DebugFragment.start(ebActivity)
                 else -> return false
             }
