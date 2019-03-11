@@ -4,6 +4,8 @@
     <style name="EBTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/eb_material_gray_50</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">?android:attr/statusBarColor</item>
         <item name="colorPrimary">?android:attr/windowBackground</item>
         <item name="colorPrimaryDark">?attr/colorPrimary</item>
         <item name="colorAccent">@color/eb_material_light_blue_500</item>

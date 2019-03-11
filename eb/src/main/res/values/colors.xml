@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="eb_black">#000</color>
+
+    <color name="eb_material_light_blue_200">#81d4fa</color>
+    <color name="eb_material_light_blue_500">#03a9f4</color>
+    <color name="eb_material_gray_50">#fafafa</color>
+    <color name="eb_material_gray_900">#212121</color>
 </resources>
