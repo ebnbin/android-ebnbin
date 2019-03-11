@@ -15,6 +15,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     api 'androidx.appcompat:appcompat:1.1.0-alpha02'
     api 'androidx.core:core-ktx:1.1.0-alpha04'
+    api 'androidx.preference:preference-ktx:1.1.0-alpha03'
     api 'com.google.android.material:material:1.1.0-alpha04'
     api 'org.greenrobot:eventbus:3.1.1' // https://github.com/greenrobot/EventBus
 }
