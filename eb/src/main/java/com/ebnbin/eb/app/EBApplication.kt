@@ -11,6 +11,11 @@ open class EBApplication : Application() {
         instance = this
     }
 
+    /**
+     * Application 配置.
+     */
+    open val config: EBApplicationConfig = EBApplicationConfig()
+
     companion object {
         internal lateinit var instance: EBApplication
             private set
