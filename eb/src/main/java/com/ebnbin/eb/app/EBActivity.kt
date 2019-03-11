@@ -9,7 +9,11 @@ import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.debug.DebugSwipeDetector
+import com.ebnbin.eb.event.NightModeEvent
+import com.ebnbin.eb.library.eventBus
 import com.ebnbin.eb.util.ebApp
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Base Activity.
@@ -17,8 +21,15 @@ import com.ebnbin.eb.util.ebApp
 open class EBActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        eventBus.register(this)
+
         onInitArguments(savedInstanceState, intent?.extras ?: Bundle.EMPTY)
         initFragment(savedInstanceState)
+    }
+
+    override fun onDestroy() {
+        eventBus.unregister(this)
+        super.onDestroy()
     }
 
     //*****************************************************************************************************************
@@ -50,6 +61,13 @@ open class EBActivity : AppCompatActivity() {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (debugSwipeDetector.dispatchTouchEvent(ev)) return true
         return super.dispatchTouchEvent(ev)
+    }
+
+    //*****************************************************************************************************************
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: NightModeEvent) {
+        recreate()
     }
 
     //*****************************************************************************************************************
