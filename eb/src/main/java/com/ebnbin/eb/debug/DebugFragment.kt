@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.app.EBActivity
 import com.ebnbin.eb.app.EBFragment
+import com.ebnbin.eb.sharedpreferences.EBSp
 import kotlinx.android.synthetic.main.eb_debug_fragment.*
 
 /**
@@ -32,6 +33,7 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
 
         val count = eb_view_pager.adapter?.count ?: 0
         eb_toolbar.menu.findItem(R.id.eb_switch)?.isVisible = count > 1
+        if (savedInstanceState == null) eb_view_pager.currentItem = EBSp.eb_debug.page
         if (eb_view_pager.currentItem == 0) onPageSelected(0)
     }
 
@@ -65,6 +67,7 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
 
     override fun onPageSelected(position: Int) {
         eb_toolbar.title = eb_view_pager.adapter?.getPageTitle(position)
+        EBSp.eb_debug.page = position
     }
 
     override fun onPageScrollStateChanged(state: Int) {

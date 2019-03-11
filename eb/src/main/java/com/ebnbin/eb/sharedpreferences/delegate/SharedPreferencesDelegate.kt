@@ -1,6 +1,8 @@
-package com.ebnbin.eb.sharedpreferences
+package com.ebnbin.eb.sharedpreferences.delegate
 
 import android.content.SharedPreferences
+import com.ebnbin.eb.sharedpreferences.get
+import com.ebnbin.eb.sharedpreferences.put
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
