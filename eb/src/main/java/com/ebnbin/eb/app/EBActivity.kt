@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.debug.DebugSwipeDetector
 import com.ebnbin.eb.library.eventBus
-import com.ebnbin.eb.util.ebApp
 
 /**
  * Base Activity.
@@ -56,8 +55,7 @@ open class EBActivity : AppCompatActivity() {
     private fun initFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) return
         val fragmentClass = fragmentClass ?: return
-        val fragment = supportFragmentManager.fragmentFactory.instantiate(ebApp.classLoader, fragmentClass.name, null)
-        supportFragmentManager.beginTransaction().add(android.R.id.content, fragment, fragmentClass.name).commit()
+        FragmentHelper.add(supportFragmentManager, fragmentClass, android.R.id.content)
     }
 
     //*****************************************************************************************************************
