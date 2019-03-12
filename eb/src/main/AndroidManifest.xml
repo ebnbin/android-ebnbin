@@ -5,6 +5,10 @@
     <application
         android:name=".app.EBApplication"
         android:theme="@style/EBTheme">
+        <activity
+            android:name=".crash.CrashActivity"
+            android:theme="@style/EBCrashTheme"/>
+
         <activity android:name=".app.EBActivity"/>
     </application>
 </manifest>

@@ -29,5 +29,9 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("夜间模式", "开启") {
             EBSp.eb.night_mode = AppCompatDelegate.MODE_NIGHT_YES
         }
+
+        addDebugItem("Crash") {
+            throw RuntimeException()
+        }
     }
 }
