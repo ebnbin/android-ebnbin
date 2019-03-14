@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="eb_permission_hint">请在系统设置中手动允许权限</string>
+    <string name="eb_permission_denied">权限被拒绝</string>
+</resources>
