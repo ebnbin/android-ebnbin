@@ -9,7 +9,7 @@
 
     <!-- CrashActivity 主题. -->
     <style name="EBCrashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowBackground">@color/eb_material_red_a700</item>
+        <item name="android:windowBackground">@color/eb_material_red_900</item>
         <item name="android:statusBarColor">?android:attr/windowBackground</item>
         <item name="android:navigationBarColor">?android:attr/statusBarColor</item>
         <item name="colorPrimary">@color/eb_material_gray_50</item>

@@ -2,7 +2,7 @@
 <resources>
     <color name="eb_black">#000</color>
 
-    <color name="eb_material_red_a700">#d50000</color>
+    <color name="eb_material_red_900">#b71c1c</color>
     <color name="eb_material_light_blue_200">#81d4fa</color>
     <color name="eb_material_light_blue_500">#03a9f4</color>
     <color name="eb_material_gray_50">#fafafa</color>
