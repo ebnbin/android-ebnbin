@@ -78,6 +78,7 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
 
         fun start(ebActivity: EBActivity) {
             EBActivity.startFragmentFromActivity(ebActivity, DebugFragment::class.java) {
+                putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_Debug)
                 putExtra(KEY_CALLING_FRAGMENT_CLASS_NAME, ebActivity.fragmentClass?.name)
             }
         }

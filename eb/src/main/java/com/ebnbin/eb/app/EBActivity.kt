@@ -22,6 +22,7 @@ open class EBActivity : AppCompatActivity() {
         }
 
         onInitArguments(savedInstanceState, intent?.extras ?: Bundle.EMPTY)
+        initTheme()
         initFragment(savedInstanceState)
     }
 
@@ -43,8 +44,17 @@ open class EBActivity : AppCompatActivity() {
 
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
+        themeStyleId = extras.getInt(KEY_THEME_STYLE_ID)
         @Suppress("UNCHECKED_CAST")
         fragmentClass = extras.getSerializable(KEY_FRAGMENT_CLASS) as Class<out Fragment>?
+    }
+
+    //*****************************************************************************************************************
+
+    private var themeStyleId: Int = 0
+
+    private fun initTheme() {
+        if (themeStyleId != 0) setTheme(themeStyleId)
     }
 
     //*****************************************************************************************************************
@@ -72,6 +82,8 @@ open class EBActivity : AppCompatActivity() {
     //*****************************************************************************************************************
 
     companion object {
+        const val KEY_THEME_STYLE_ID = "theme_style_id"
+
         private const val KEY_FRAGMENT_CLASS = "fragment_class"
 
         /**

@@ -2,6 +2,7 @@ package com.ebnbin.eb.debug
 
 import android.view.MotionEvent
 import com.ebnbin.eb.app.EBActivity
+import com.ebnbin.eb.debug.event.DebugBottomToTopEvent
 import com.ebnbin.eb.debug.event.DebugLeftToRightEvent
 import com.ebnbin.eb.debug.event.DebugRightToLeftEvent
 import com.ebnbin.eb.debug.event.DebugTopToBottomEvent
@@ -10,6 +11,8 @@ import com.ebnbin.eb.util.dpToPx
 
 /**
  * 用于 debug 的多指滑动检测器.
+ *
+ * 在非 DebugFragment 任意 Activity 三指上滑启动 DebugFragment, 在 DebugFragment 三指下滑关闭 DebugFragment.
  */
 internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
     /**
@@ -18,10 +21,10 @@ internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
     private val offset: Float = 64f.dpToPx
 
     /**
-     * Debug 模式且非 debug 页面时启用.
+     * 是否为 debug 页面.
      */
-    private val isEnabled: Boolean = debug && (ebActivity::class.java != EBActivity::class.java ||
-            ebActivity.fragmentClass != DebugFragment::class.java)
+    private val isDebugFragment: Boolean = ebActivity::class.java == EBActivity::class.java &&
+            ebActivity.fragmentClass == DebugFragment::class.java
 
     /**
      * 当指定数量的手指按下时设置为 true. 当最后一个手指抬起时设置为 false.
@@ -40,7 +43,7 @@ internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
      */
     fun dispatchTouchEvent(motionEvent: MotionEvent?): Boolean {
         motionEvent ?: return false
-        if (!isEnabled) return false
+        if (!debug) return false
         val pointerCount = motionEvent.pointerCount
         if (pointerCount == 3) {
             if (!isSwiping) {
@@ -68,8 +71,20 @@ internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
             when {
                 leftToRight -> eventBus.post(DebugLeftToRightEvent(ebActivity))
                 rightToLeft -> eventBus.post(DebugRightToLeftEvent(ebActivity))
-                topToBottom -> eventBus.post(DebugTopToBottomEvent(ebActivity))
-                bottomToTop -> DebugFragment.start(ebActivity)
+                topToBottom -> {
+                    if (isDebugFragment) {
+                        ebActivity.finish()
+                    } else {
+                        eventBus.post(DebugTopToBottomEvent(ebActivity))
+                    }
+                }
+                bottomToTop -> {
+                    if (isDebugFragment) {
+                        eventBus.post(DebugBottomToTopEvent(ebActivity))
+                    } else {
+                        DebugFragment.start(ebActivity)
+                    }
+                }
                 else -> return false
             }
             isSwiped = true
