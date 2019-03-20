@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.sharedpreferences.EBSp
+import com.ebnbin.eb.util.restartMainActivity
 
 /**
  * Debug EB 页面.
@@ -24,10 +25,16 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
 
         addDebugItem("夜间模式", "关闭") {
             EBSp.eb.night_mode = AppCompatDelegate.MODE_NIGHT_NO
+            restartMainActivity()
         }
 
         addDebugItem("夜间模式", "开启") {
             EBSp.eb.night_mode = AppCompatDelegate.MODE_NIGHT_YES
+            restartMainActivity()
+        }
+
+        addDebugItem("重启 MainActivity") {
+            restartMainActivity()
         }
 
         addDebugItem("Crash") {

@@ -1,6 +1,7 @@
 package com.ebnbin.eb.util
 
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import com.ebnbin.eb.app.EBApplication
 import kotlin.math.roundToInt
@@ -10,6 +11,17 @@ import kotlin.math.roundToInt
  */
 val ebApp: EBApplication
     get() = EBApplication.instance
+
+//*********************************************************************************************************************
+
+/**
+ * 关闭所有 Activity 并重启 MainActivity.
+ */
+fun restartMainActivity() {
+    val intent = ebApp.packageManager.getLaunchIntentForPackage(ebApp.packageName) ?: return
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+    ebApp.startActivity(intent)
+}
 
 //*********************************************************************************************************************
 
