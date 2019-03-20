@@ -33,6 +33,11 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
             restartMainActivity()
         }
 
+        addDebugItem("重置偏好", "TODO") {
+            // 删除 sp 后重启到 MainActivity, 在 Application 中保存的偏好不会被初始化 (如: version_code), 需要在 MainActivity
+            // 中处理.
+        }
+
         addDebugItem("重启 MainActivity") {
             restartMainActivity()
         }
