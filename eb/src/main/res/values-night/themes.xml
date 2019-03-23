@@ -7,5 +7,6 @@
         <item name="colorPrimary">?android:attr/windowBackground</item>
         <item name="colorPrimaryDark">?attr/colorPrimary</item>
         <item name="colorAccent">@color/eb_material_light_blue_200</item>
+        <item name="colorSecondary">?attr/colorAccent</item>
     </style>
 </resources>
