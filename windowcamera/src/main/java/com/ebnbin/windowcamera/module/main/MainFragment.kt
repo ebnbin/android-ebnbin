@@ -26,6 +26,12 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener {
         view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
         view_pager.addOnPageChangeListener(this)
         tab_layout.setupWithViewPager(view_pager)
+        val list = listOf(
+            getString(R.string.profile_default),
+            getString(R.string.profile_custom_1),
+            getString(R.string.profile_custom_2)
+        )
+        spinner.adapter = MainSpinnerAdapter(bottom_app_bar.context, list)
     }
 
     override fun onDestroyView() {
