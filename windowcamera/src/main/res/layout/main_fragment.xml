@@ -19,10 +19,11 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:tabBackground="?android:attr/windowBackground"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-    
+
     <com.google.android.material.bottomappbar.BottomAppBar
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:id="@+id/bottom_app_bar"
@@ -50,5 +51,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottom_app_bar"/>
-    
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
