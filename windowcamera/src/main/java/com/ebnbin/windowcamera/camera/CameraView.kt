@@ -3,8 +3,10 @@ package com.ebnbin.windowcamera.camera
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.SurfaceTexture
+import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.util.AttributeSet
+import android.view.Surface
 import android.view.TextureView
 import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.toast
@@ -54,36 +56,83 @@ class CameraView @JvmOverloads constructor(
 
     private var cameraDevice: CameraDevice? = null
 
-    private val cameraDeviceStateCallback: CameraDevice.StateCallback = object : CameraDevice.StateCallback() {
-        override fun onOpened(camera: CameraDevice) {
-            cameraDevice = camera
-        }
-
-        override fun onClosed(camera: CameraDevice) {
-            super.onClosed(camera)
-            cameraDevice = null
-        }
-
-        override fun onDisconnected(camera: CameraDevice) {
-            camera.close()
-            onCameraError()
-        }
-
-        override fun onError(camera: CameraDevice, error: Int) {
-            camera.close()
-            onCameraError()
-        }
-    }
-
     @SuppressLint("MissingPermission")
     private fun openCamera() {
-        cameraManager.openCamera(cameraId, cameraDeviceStateCallback, null)
+        val callback = object : CameraDevice.StateCallback() {
+            override fun onOpened(camera: CameraDevice) {
+                cameraDevice = camera
+
+                startPreview()
+            }
+
+            override fun onClosed(camera: CameraDevice) {
+                super.onClosed(camera)
+                cameraDevice = null
+            }
+
+            override fun onDisconnected(camera: CameraDevice) {
+                // 通常发生在通过别的应用启动相机时.
+                // 先将 cameraDevice 设置为 null, 以防在关闭摄像头过程中错误的调用.
+                cameraDevice = null
+                camera.close()
+                // TODO: 更合理的提示.
+                onCameraError()
+            }
+
+            override fun onError(camera: CameraDevice, error: Int) {
+                // 先将 cameraDevice 设置为 null, 以防在关闭摄像头过程中错误的调用.
+                cameraDevice = null
+                camera.close()
+                onCameraError()
+            }
+        }
+        cameraManager.openCamera(cameraId, callback, null)
     }
 
     private fun closeCamera() {
+        stopPreview()
+
         cameraDevice?.run {
-            close()
             cameraDevice = null
+            close()
+        }
+    }
+
+    //*****************************************************************************************************************
+
+    private var cameraCaptureSession: CameraCaptureSession? = null
+
+    private fun startPreview() {
+        val cameraDevice = cameraDevice ?: return
+
+        val surface = Surface(surfaceTexture)
+        val outputs = listOf(surface)
+        val callback = object : CameraCaptureSession.StateCallback() {
+            override fun onConfigured(session: CameraCaptureSession) {
+                cameraCaptureSession = session
+
+                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                captureRequestBuilder.addTarget(surface)
+                val request = captureRequestBuilder.build()
+                session.setRepeatingRequest(request, null, null)
+            }
+
+            override fun onConfigureFailed(session: CameraCaptureSession) {
+                onCameraError()
+            }
+        }
+        cameraDevice.createCaptureSession(outputs, callback, null)
+    }
+
+    private fun stopPreview() {
+        cameraCaptureSession?.run {
+            cameraCaptureSession = null
+            try {
+                stopRepeating()
+            } catch (e: IllegalStateException) {
+                // stopRepeating 对应 setRepeatingRequest, 但有可能出现 cameraCaptureSession 已经 closed 的情况.
+            }
+            close()
         }
     }
 
