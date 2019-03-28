@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.module.main
+package com.ebnbin.windowcamera.main
 
 import android.content.Context
 import android.content.res.Resources

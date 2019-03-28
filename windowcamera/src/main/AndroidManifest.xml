@@ -9,7 +9,7 @@
         android:name=".AppApplication"
         android:label="Window Camera"
         tools:replace="android:name">
-        <activity android:name=".module.main.MainActivity">
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
