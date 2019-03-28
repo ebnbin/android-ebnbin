@@ -7,4 +7,5 @@
     <string name="profile_default">默认</string>
     <string name="profile_custom_1">自定义 1</string>
     <string name="profile_custom_2">自定义 2</string>
+    <string name="camera_error">相机异常。</string>
 </resources>

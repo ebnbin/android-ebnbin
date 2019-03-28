@@ -1,28 +1,51 @@
 package com.ebnbin.windowcamera.service
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import android.view.WindowManager
 import androidx.core.app.NotificationCompat
+import com.ebnbin.eb.permission.PermissionHelper
+import com.ebnbin.eb.util.dpToPxRound
 import com.ebnbin.eb.util.notificationManager
 import com.ebnbin.eb.util.sdk26O
+import com.ebnbin.eb.util.toast
+import com.ebnbin.eb.util.windowManager
+import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.camera.CameraView
 
 /**
  * 前台服务.
  */
 class WindowCameraService : Service() {
+    private var cameraView: CameraView? = null
+
     override fun onCreate() {
         super.onCreate()
         startForeground()
+
+        cameraView = CameraView(this)
+        val params = WindowManager.LayoutParams()
+        params.width = 160f.dpToPxRound
+        params.height = 160f.dpToPxRound
+        params.type = if (sdk26O()) {
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        } else {
+            @Suppress("DEPRECATION")
+            WindowManager.LayoutParams.TYPE_PHONE
+        }
+        params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+        windowManager.addView(cameraView, params)
     }
 
     private fun startForeground() {
         if (sdk26O() && notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
-            val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID,
-                WindowCameraService::class.java.simpleName, NotificationManager.IMPORTANCE_HIGH)
+            val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "WindowCameraService",
+                NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
@@ -32,6 +55,11 @@ class WindowCameraService : Service() {
     }
 
     override fun onDestroy() {
+        cameraView?.run {
+            windowManager.removeView(cameraView)
+            cameraView = null
+        }
+
         stopForeground(true)
         super.onDestroy()
     }
@@ -45,7 +73,17 @@ class WindowCameraService : Service() {
 
         private const val NOTIFICATION_ID = 1
 
+        /**
+         * 所需权限.
+         */
+        val permissions: List<String> = listOf(Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.CAMERA)
+
         fun start(context: Context) {
+            // TODO: 检测 Service 正在运行.
+            if (!PermissionHelper.isPermissionsGranted(permissions)) {
+                toast(context, R.string.eb_permission_denied)
+                return
+            }
             val intent = Intent(context, WindowCameraService::class.java)
             if (sdk26O()) {
                 context.startForegroundService(intent)

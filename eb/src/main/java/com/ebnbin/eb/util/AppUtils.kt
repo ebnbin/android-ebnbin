@@ -3,6 +3,8 @@ package com.ebnbin.eb.util
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.hardware.camera2.CameraManager
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.getSystemService
 import com.ebnbin.eb.app.EBApplication
@@ -52,5 +54,11 @@ fun toast(context: Context, any: Any?, long: Boolean = false) {
 
 //*********************************************************************************************************************
 
+val cameraManager: CameraManager
+    get() = ebApp.getSystemService() ?: throw RuntimeException()
+
 val notificationManager: NotificationManager
+    get() = ebApp.getSystemService() ?: throw RuntimeException()
+
+val windowManager: WindowManager
     get() = ebApp.getSystemService() ?: throw RuntimeException()
