@@ -1,8 +1,10 @@
 package com.ebnbin.eb.util
 
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import com.ebnbin.eb.app.EBApplication
 import kotlin.math.roundToInt
 
@@ -47,3 +49,8 @@ fun toast(context: Context, any: Any?, long: Boolean = false) {
         Toast.makeText(context, any.toString(), duration).show()
     }
 }
+
+//*********************************************************************************************************************
+
+val notificationManager: NotificationManager
+    get() = ebApp.getSystemService() ?: throw RuntimeException()
