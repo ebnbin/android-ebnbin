@@ -50,7 +50,7 @@ class CameraView @JvmOverloads constructor(
 
     //*****************************************************************************************************************
 
-    private var cameraId: String = cameraManager.cameraIdList.first()
+    private var device: CameraHelper.Device = CameraHelper.backDevice
 
     //*****************************************************************************************************************
 
@@ -86,7 +86,7 @@ class CameraView @JvmOverloads constructor(
                 onCameraError()
             }
         }
-        cameraManager.openCamera(cameraId, callback, null)
+        cameraManager.openCamera(device.id, callback, null)
     }
 
     private fun closeCamera() {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.ebnbin.eb.debug.BaseDebugPageFragment
 import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 
 /**
@@ -12,6 +13,14 @@ import com.ebnbin.windowcamera.service.WindowCameraService
 class DebugPageFragment : BaseDebugPageFragment(), PermissionFragment.Callback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addDebugItem("CameraHelper") {
+            try {
+                CameraHelper
+            } catch (throwable: Throwable) {
+                // 需要 catch Throwable 避免 ExceptionInInitializerError.
+            }
+        }
+
         addDebugItem("Start WindowCameraService") {
             PermissionFragment.start(childFragmentManager, "WindowCameraService", WindowCameraService.permissions)
         }
