@@ -2,15 +2,18 @@ package com.ebnbin.windowcamera.camera
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.util.AttributeSet
 import android.view.Surface
 import android.view.TextureView
+import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.toast
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 
 /**
@@ -21,13 +24,20 @@ class CameraView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-) : TextureView(context, attrs, defStyleAttr, defStyleRes), TextureView.SurfaceTextureListener {
+) : TextureView(context, attrs, defStyleAttr, defStyleRes),
+    TextureView.SurfaceTextureListener,
+    SharedPreferences.OnSharedPreferenceChangeListener {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         surfaceTextureListener = this
+
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+
+        invalidateProfile()
     }
 
     override fun onDetachedFromWindow() {
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
     }
 
@@ -50,7 +60,23 @@ class CameraView @JvmOverloads constructor(
 
     //*****************************************************************************************************************
 
-    private var device: CameraHelper.Device = CameraHelper.backDevice
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            ProfileHelper.KEY_IS_FRONT -> {
+                closeCamera()
+                invalidateProfile()
+                openCamera()
+            }
+        }
+    }
+
+    //*****************************************************************************************************************
+
+    private lateinit var device: CameraHelper.Device
+
+    private fun invalidateProfile() {
+        device = if (ProfileHelper.isFront) CameraHelper.frontDevice else CameraHelper.backDevice
+    }
 
     //*****************************************************************************************************************
 
