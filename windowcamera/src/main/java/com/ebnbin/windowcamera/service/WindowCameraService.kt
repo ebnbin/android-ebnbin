@@ -9,14 +9,17 @@ import android.content.Intent
 import android.os.IBinder
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
+import com.ebnbin.eb.library.eventBus
 import com.ebnbin.eb.permission.PermissionHelper
 import com.ebnbin.eb.util.dpToPxRound
+import com.ebnbin.eb.util.isServiceRunning
 import com.ebnbin.eb.util.notificationManager
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb.util.toast
 import com.ebnbin.eb.util.windowManager
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraView
+import com.ebnbin.windowcamera.event.WindowCameraServiceIsRunningEvent
 
 /**
  * 前台服务.
@@ -26,6 +29,8 @@ class WindowCameraService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        eventBus.post(WindowCameraServiceIsRunningEvent(true))
+
         startForeground()
 
         cameraView = CameraView(this)
@@ -61,6 +66,8 @@ class WindowCameraService : Service() {
         }
 
         stopForeground(true)
+
+        eventBus.post(WindowCameraServiceIsRunningEvent(false))
         super.onDestroy()
     }
 
@@ -79,7 +86,7 @@ class WindowCameraService : Service() {
         val permissions: List<String> = listOf(Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.CAMERA)
 
         fun start(context: Context) {
-            // TODO: 检测 Service 正在运行.
+            if (isRunning()) return
             if (!PermissionHelper.isPermissionsGranted(permissions)) {
                 toast(context, R.string.eb_permission_denied)
                 return
@@ -93,8 +100,13 @@ class WindowCameraService : Service() {
         }
 
         fun stop(context: Context) {
+            if (!isRunning()) return
             val intent = Intent(context, WindowCameraService::class.java)
             context.stopService(intent)
+        }
+
+        fun isRunning(): Boolean {
+            return isServiceRunning(WindowCameraService::class.java)
         }
     }
 }
