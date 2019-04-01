@@ -11,7 +11,7 @@ import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.util.getColorAttr
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.event.WindowCameraServiceIsRunningEvent
+import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -87,7 +87,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
     override val isEventBusEnabled: Boolean = true
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: WindowCameraServiceIsRunningEvent) {
+    fun onEvent(event: WindowCameraServiceEvent) {
         invalidateFloatingActionButton(event.isRunning)
     }
 

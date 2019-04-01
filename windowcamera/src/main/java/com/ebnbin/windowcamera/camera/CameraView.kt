@@ -27,10 +27,12 @@ class CameraView @JvmOverloads constructor(
 ) : TextureView(context, attrs, defStyleAttr, defStyleRes),
     TextureView.SurfaceTextureListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
+    init {
+        surfaceTextureListener = this
+    }
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        surfaceTextureListener = this
-
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
 
         invalidateProfile()
@@ -84,6 +86,8 @@ class CameraView @JvmOverloads constructor(
 
     @SuppressLint("MissingPermission")
     private fun openCamera() {
+        ProfileHelper.isCameraProfileInvalidating = true
+
         val callback = object : CameraDevice.StateCallback() {
             override fun onOpened(camera: CameraDevice) {
                 cameraDevice = camera
@@ -116,12 +120,16 @@ class CameraView @JvmOverloads constructor(
     }
 
     private fun closeCamera() {
+        ProfileHelper.isCameraProfileInvalidating = true
+
         stopPreview()
 
         cameraDevice?.run {
             cameraDevice = null
             close()
         }
+
+        ProfileHelper.isCameraProfileInvalidating = false
     }
 
     //*****************************************************************************************************************
@@ -141,6 +149,8 @@ class CameraView @JvmOverloads constructor(
                 captureRequestBuilder.addTarget(surface)
                 val request = captureRequestBuilder.build()
                 session.setRepeatingRequest(request, null, null)
+
+                ProfileHelper.isCameraProfileInvalidating = false
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {

@@ -19,7 +19,7 @@ import com.ebnbin.eb.util.toast
 import com.ebnbin.eb.util.windowManager
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraView
-import com.ebnbin.windowcamera.event.WindowCameraServiceIsRunningEvent
+import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
 
 /**
  * 前台服务.
@@ -29,7 +29,7 @@ class WindowCameraService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        eventBus.post(WindowCameraServiceIsRunningEvent(true))
+        eventBus.post(WindowCameraServiceEvent(true))
 
         startForeground()
 
@@ -67,7 +67,7 @@ class WindowCameraService : Service() {
 
         stopForeground(true)
 
-        eventBus.post(WindowCameraServiceIsRunningEvent(false))
+        eventBus.post(WindowCameraServiceEvent(false))
         super.onDestroy()
     }
 

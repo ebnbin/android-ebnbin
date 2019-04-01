@@ -3,11 +3,16 @@ package com.ebnbin.windowcamera.profile
 import android.os.Bundle
 import androidx.preference.SwitchPreferenceCompat
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.event.CameraProfileEvent
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class CameraProfileFragment : BaseProfileFragment() {
+    private lateinit var isFrontPreference: SwitchPreferenceCompat
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-        val isFrontPreference: SwitchPreferenceCompat = SwitchPreferenceCompat(requireContext()).apply {
+        isFrontPreference = SwitchPreferenceCompat(requireContext()).apply {
             fun invalidateIcon(value: Boolean) {
                 setIcon(if (value) R.drawable.profile_is_front_on else R.drawable.profile_is_front_off)
             }
@@ -25,5 +30,22 @@ class CameraProfileFragment : BaseProfileFragment() {
             invalidateIcon(isChecked)
         }
         preferenceScreen.addPreference(isFrontPreference)
+
+        invalidateCameraProfile(ProfileHelper.isCameraProfileInvalidating)
+    }
+
+    override val isEventBusEnabled: Boolean = true
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: CameraProfileEvent) {
+        invalidateCameraProfile(event.isInvalidating)
+    }
+
+    private fun invalidateCameraProfile(isInvalidating: Boolean) {
+        if (isInvalidating) {
+            isFrontPreference.isEnabled = false
+        } else {
+            isFrontPreference.isEnabled = true
+        }
     }
 }
