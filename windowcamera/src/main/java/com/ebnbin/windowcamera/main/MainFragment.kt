@@ -12,6 +12,7 @@ import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.util.getColorAttr
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
+import com.ebnbin.windowcamera.menu.MenuDialogFragment
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -33,6 +34,9 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
         view_pager.addOnPageChangeListener(this)
         tab_layout.setupWithViewPager(view_pager)
+        bottom_app_bar.setNavigationOnClickListener {
+            MenuDialogFragment.start(childFragmentManager)
+        }
         val list = listOf(
             getString(R.string.profile_default),
             getString(R.string.profile_custom_1),
