@@ -14,6 +14,7 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.menu.MenuDialogFragment
 import com.ebnbin.windowcamera.service.WindowCameraService
+import com.ebnbin.windowcamera.sharedpreferences.SpHelper
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -44,6 +45,10 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         )
         spinner.adapter = MainSpinnerAdapter(bottom_app_bar.context, list)
         invalidateFloatingActionButton()
+
+        if (savedInstanceState == null) {
+            view_pager.setCurrentItem(SpHelper.main_page, false)
+        }
     }
 
     override fun onDestroyView() {
@@ -71,6 +76,8 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
             app_bar_layout.setExpanded(true, true)
             bottom_app_bar.slideUp()
         }
+
+        SpHelper.main_page = position
     }
 
     override fun onPageScrollStateChanged(state: Int) {
