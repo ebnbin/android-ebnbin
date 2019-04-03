@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.camera
+package com.ebnbin.windowcamera.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,26 +6,20 @@ import android.content.SharedPreferences
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
-import android.util.AttributeSet
 import android.view.Surface
 import android.view.TextureView
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.toast
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 
 /**
  * 相机 TextureView.
  */
-class CameraView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : TextureView(context, attrs, defStyleAttr, defStyleRes),
-    TextureView.SurfaceTextureListener,
+class CameraView(context: Context) : TextureView(context), TextureView.SurfaceTextureListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
     init {
         surfaceTextureListener = this

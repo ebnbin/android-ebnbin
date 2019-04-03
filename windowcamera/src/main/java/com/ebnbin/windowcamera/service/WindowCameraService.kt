@@ -18,14 +18,14 @@ import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb.util.toast
 import com.ebnbin.eb.util.windowManager
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.camera.CameraView
 import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
+import com.ebnbin.windowcamera.widget.WindowCameraView
 
 /**
  * 前台服务.
  */
 class WindowCameraService : Service() {
-    private var cameraView: CameraView? = null
+    private var windowCameraView: WindowCameraView? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -33,7 +33,7 @@ class WindowCameraService : Service() {
 
         startForeground()
 
-        cameraView = CameraView(this)
+        windowCameraView = WindowCameraView(this)
         val params = WindowManager.LayoutParams()
         params.width = 160f.dpToPxRound
         params.height = 160f.dpToPxRound
@@ -44,7 +44,7 @@ class WindowCameraService : Service() {
             WindowManager.LayoutParams.TYPE_PHONE
         }
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-        windowManager.addView(cameraView, params)
+        windowManager.addView(windowCameraView, params)
     }
 
     private fun startForeground() {
@@ -60,9 +60,9 @@ class WindowCameraService : Service() {
     }
 
     override fun onDestroy() {
-        cameraView?.run {
-            windowManager.removeView(cameraView)
-            cameraView = null
+        windowCameraView?.run {
+            windowManager.removeView(windowCameraView)
+            windowCameraView = null
         }
 
         stopForeground(true)
