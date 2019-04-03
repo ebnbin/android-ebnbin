@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.Point
 import android.hardware.camera2.CameraManager
 import android.view.WindowManager
 import android.widget.Toast
@@ -90,4 +91,24 @@ fun getColorAttr(context: Context, @AttrRes attrId: Int): Int {
     val color = typedArray.getColorOrThrow(index)
     typedArray.recycle()
     return color
+}
+
+//*********************************************************************************************************************
+
+val displayRealSize: RotationSize
+    get() {
+        val defaultDisplay = windowManager.defaultDisplay
+        val outSize = Point()
+        defaultDisplay.getRealSize(outSize)
+        return RotationSize(outSize.x, outSize.y, defaultDisplay.rotation)
+    }
+
+//*********************************************************************************************************************
+
+/**
+ * 最大公约数.
+ */
+tailrec infix fun Int.gcd(other: Int): Int {
+    if (this <= 0 || other <= 0) throw RuntimeException()
+    return if (this % other == 0) other else other gcd this % other
 }
