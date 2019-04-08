@@ -1,6 +1,7 @@
 package com.ebnbin.eb.util
 
 import android.view.Surface
+import kotlin.math.roundToInt
 
 open class RotationSize(val width: Int, val height: Int, val rotation: Int): Comparable<RotationSize> {
     init {
@@ -48,16 +49,36 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
 
     private val gcd: Int = width0 gcd height0
 
-    private val ratioWidth0: Int = width0 / gcd
-
-    private val ratioHeight0: Int = height0 / gcd
-
-    fun isRatioEquals(other: RotationSize): Boolean {
-        return ratioWidth0 == other.ratioWidth0 && ratioHeight0 == other.ratioHeight0
-    }
+    /**
+     * 宽高比以 rotation 为 0 时的宽高为准.
+     */
+    val ratio: Ratio = Ratio(width0 / gcd, height0 / gcd)
 
     fun isWidthHeightGreaterOrEquals(other: RotationSize): Boolean {
         return width0 >= other.width0 && height0 >= other.height0
+    }
+
+    fun crop(ratio: Ratio, percent: Int = 100): RotationSize {
+        if (percent <= 0 || percent > 100) throw RuntimeException()
+        val newWidth0: Int
+        val newHeight0: Int
+        if (this.ratio < ratio) {
+            newWidth0 = (width0 * percent / 100f).roundToInt()
+            newHeight0 = (newWidth0 / ratio.ratio).roundToInt()
+        } else {
+            newHeight0 = (height0 * percent / 100f).roundToInt()
+            newWidth0 = (newHeight0 * ratio.ratio).roundToInt()
+        }
+        val newWidth: Int
+        val newHeight: Int
+        if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
+            newWidth = newWidth0
+            newHeight = newHeight0
+        } else {
+            newWidth = newHeight0
+            newHeight = newWidth0
+        }
+        return RotationSize(newWidth, newHeight, rotation)
     }
 
     //*****************************************************************************************************************

@@ -84,7 +84,7 @@ object CameraHelper {
             result.sortedDescending()
         }
 
-        private val maxResolution: Resolution = photoResolutions.first()
+        val maxResolution: Resolution = photoResolutions.first()
 
         val previewResolutions: List<Resolution> = kotlin.run {
             val displayRealSize = displayRealSize
@@ -92,7 +92,7 @@ object CameraHelper {
             surfaceTextureSizes
                 ?.filter { it.width > 0 && it.height > 0 }
                 ?.map { Resolution(it.width, it.height, sensorOrientation) }
-                ?.filter { it.isRatioEquals(maxResolution) }
+                ?.filter { it.ratio == maxResolution.ratio }
                 ?.sorted()
                 ?.run outer@{
                     forEach {

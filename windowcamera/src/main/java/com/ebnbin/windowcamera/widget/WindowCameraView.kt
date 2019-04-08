@@ -12,6 +12,7 @@ import android.view.TextureView
 import android.view.WindowManager
 import android.widget.FrameLayout
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
+import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.displayRealSize
 import com.ebnbin.eb.util.toast
@@ -20,7 +21,6 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
-import kotlin.math.roundToInt
 
 /**
  * 用于 WindowCameraService 添加到 WindowManager 上的 view.
@@ -77,6 +77,9 @@ class WindowCameraView(context: Context) : FrameLayout(context), TextureView.Sur
             ProfileHelper.KEY_SIZE -> {
                 invalidateSize()
             }
+            ProfileHelper.KEY_RATIO -> {
+                invalidateSize()
+            }
             ProfileHelper.KEY_IS_FRONT -> {
                 closeCamera()
                 invalidateCamera()
@@ -96,11 +99,21 @@ class WindowCameraView(context: Context) : FrameLayout(context), TextureView.Sur
     private fun invalidateSize() {
         updateLayoutParams {
             val displayRealSize = displayRealSize
-            val size = ProfileHelper.size
-            val newWidth = (displayRealSize.width * size / 100f).roundToInt()
-            val newHeight = (displayRealSize.height * size / 100f).roundToInt()
-            width = newWidth
-            height = newHeight
+            val sizeSp = ProfileHelper.size
+            val ratioSp = ProfileHelper.ratio
+            val ratio = when (ratioSp) {
+                "capture" -> {
+                    // TODO
+                    ProfileHelper.device().maxResolution.ratio
+                }
+                "raw" -> ProfileHelper.device().maxResolution.ratio
+                "screen" -> displayRealSize.ratio
+                "square" -> Ratio.SQUARE
+                else -> throw RuntimeException()
+            }
+            val rotationSize = displayRealSize.crop(ratio, sizeSp)
+            width = rotationSize.width
+            height = rotationSize.height
         }
     }
 
