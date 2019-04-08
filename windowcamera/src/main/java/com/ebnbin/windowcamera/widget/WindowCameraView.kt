@@ -9,14 +9,18 @@ import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.view.Surface
 import android.view.TextureView
+import android.view.WindowManager
 import android.widget.FrameLayout
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.util.cameraManager
+import com.ebnbin.eb.util.displayRealSize
 import com.ebnbin.eb.util.toast
+import com.ebnbin.eb.util.windowManager
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
+import kotlin.math.roundToInt
 
 /**
  * 用于 WindowCameraService 添加到 WindowManager 上的 view.
@@ -40,7 +44,8 @@ class WindowCameraView(context: Context) : FrameLayout(context), TextureView.Sur
         super.onAttachedToWindow()
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
 
-        invalidateProfile()
+        invalidateSize()
+        invalidateCamera()
     }
 
     override fun onDetachedFromWindow() {
@@ -69,9 +74,12 @@ class WindowCameraView(context: Context) : FrameLayout(context), TextureView.Sur
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
+            ProfileHelper.KEY_SIZE -> {
+                invalidateSize()
+            }
             ProfileHelper.KEY_IS_FRONT -> {
                 closeCamera()
-                invalidateProfile()
+                invalidateCamera()
                 openCamera()
             }
         }
@@ -79,9 +87,28 @@ class WindowCameraView(context: Context) : FrameLayout(context), TextureView.Sur
 
     //*****************************************************************************************************************
 
+    private fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
+        val params = layoutParams as WindowManager.LayoutParams
+        block(params)
+        windowManager.updateViewLayout(this, params)
+    }
+
+    private fun invalidateSize() {
+        updateLayoutParams {
+            val displayRealSize = displayRealSize
+            val size = ProfileHelper.size
+            val newWidth = (displayRealSize.width * size / 100f).roundToInt()
+            val newHeight = (displayRealSize.height * size / 100f).roundToInt()
+            width = newWidth
+            height = newHeight
+        }
+    }
+
+    //*****************************************************************************************************************
+
     private lateinit var device: CameraHelper.Device
 
-    private fun invalidateProfile() {
+    private fun invalidateCamera() {
         device = if (ProfileHelper.isFront) CameraHelper.frontDevice else CameraHelper.backDevice
     }
 

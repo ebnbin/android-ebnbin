@@ -5,9 +5,12 @@ import com.ebnbin.eb.sharedpreferences.delegate.SharedPreferencesDelegate
 import com.ebnbin.windowcamera.event.CameraProfileEvent
 
 object ProfileHelper {
+    const val KEY_SIZE: String = "size"
+    const val DEF_VALUE_SIZE: Int = 50
+    var size: Int by SharedPreferencesDelegate(KEY_SIZE, DEF_VALUE_SIZE)
+
     const val KEY_IS_FRONT: String = "is_front"
     const val DEF_VALUE_IS_FRONT: Boolean = false
-
     var isFront: Boolean by SharedPreferencesDelegate(KEY_IS_FRONT, DEF_VALUE_IS_FRONT)
 
     var isCameraProfileInvalidating: Boolean = false

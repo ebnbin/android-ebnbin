@@ -11,7 +11,6 @@ import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.ebnbin.eb.library.eventBus
 import com.ebnbin.eb.permission.PermissionHelper
-import com.ebnbin.eb.util.dpToPxRound
 import com.ebnbin.eb.util.isServiceRunning
 import com.ebnbin.eb.util.notificationManager
 import com.ebnbin.eb.util.sdk26O
@@ -35,8 +34,6 @@ class WindowCameraService : Service() {
 
         windowCameraView = WindowCameraView(this)
         val params = WindowManager.LayoutParams()
-        params.width = 160f.dpToPxRound
-        params.height = 160f.dpToPxRound
         params.type = if (sdk26O()) {
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         } else {
