@@ -74,6 +74,21 @@ class WindowCameraView(context: Context) : FrameLayout(context), TextureView.Sur
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
+            ProfileHelper.KEY_IS_OUT_ENABLED -> {
+                // TODO
+            }
+            ProfileHelper.KEY_IN_X -> {
+                // TODO
+            }
+            ProfileHelper.KEY_IN_Y -> {
+                // TODO
+            }
+            ProfileHelper.KEY_OUT_X -> {
+                // TODO
+            }
+            ProfileHelper.KEY_OUT_Y -> {
+                // TODO
+            }
             ProfileHelper.KEY_SIZE -> {
                 invalidateSize()
             }

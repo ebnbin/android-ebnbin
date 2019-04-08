@@ -4,11 +4,26 @@
     <string name="profile_size_summary">窗口大小</string>
 
     <string name="profile_ratio">窗口宽高比</string>
-    <string name="profile_ratio_summary">窗口宽高比</string>
     <string name="profile_ratio_summary_capture">拍摄</string>
     <string name="profile_ratio_summary_raw">原始</string>
     <string name="profile_ratio_summary_screen">屏幕</string>
     <string name="profile_ratio_summary_square">方形</string>
+
+    <string name="profile_is_out_enable">允许窗口移出屏幕</string>
+    <string name="profile_is_out_enable_summary_off">允许窗口移出屏幕</string>
+    <string name="profile_is_out_enable_summary_on">不允许窗口移出屏幕</string>
+
+    <string name="profile_in_x">窗口水平方向位置</string>
+    <string name="profile_in_x_summary">窗口水平方向位置</string>
+
+    <string name="profile_in_y">窗口垂直方向位置</string>
+    <string name="profile_in_y_summary">窗口垂直方向位置</string>
+
+    <string name="profile_out_x">窗口水平方向位置</string>
+    <string name="profile_out_x_summary">窗口水平方向位置</string>
+
+    <string name="profile_out_y">窗口垂直方向位置</string>
+    <string name="profile_out_y_summary">窗口垂直方向位置</string>
 
     <string name="profile_is_front">摄像头</string>
     <string name="profile_is_front_summary_off">后置摄像头</string>
