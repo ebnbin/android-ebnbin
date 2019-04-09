@@ -7,6 +7,8 @@ import android.graphics.Canvas
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
+import android.os.Handler
+import android.os.HandlerThread
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.Surface
@@ -60,14 +62,32 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
         RotationDetector.register(this)
 
+        startBackgroundThread()
+
         invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
         invalidateCamera()
     }
 
     override fun onDetachedFromWindow() {
+        stopBackgroundThread()
+
         RotationDetector.unregister(this)
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
+    }
+
+    //*****************************************************************************************************************
+
+    private lateinit var backgroundHandler: Handler
+
+    private fun startBackgroundThread() {
+        val handlerThread = HandlerThread("window_camera_view_background")
+        handlerThread.start()
+        backgroundHandler = Handler(handlerThread.looper)
+    }
+
+    private fun stopBackgroundThread() {
+        backgroundHandler.looper.quitSafely()
     }
 
     //*****************************************************************************************************************
