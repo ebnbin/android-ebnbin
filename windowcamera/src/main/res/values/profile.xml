@@ -30,4 +30,12 @@
     <string name="profile_is_front">摄像头</string>
     <string name="profile_is_front_summary_off">后置摄像头</string>
     <string name="profile_is_front_summary_on">前置摄像头</string>
+
+    <string name="profile_is_preview_only">仅预览</string>
+    <string name="profile_is_preview_summary_off">拍摄</string>
+    <string name="profile_is_preview_summary_on">预览</string>
+
+    <string name="profile_is_video">照片/视频</string>
+    <string name="profile_is_video_summary_off">照片</string>
+    <string name="profile_is_video_summary_on">视频</string>
 </resources>
