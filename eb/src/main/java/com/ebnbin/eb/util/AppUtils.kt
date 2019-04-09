@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Point
 import android.hardware.camera2.CameraManager
+import android.view.Display
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.AttrRes
@@ -95,15 +96,26 @@ fun getColorAttr(context: Context, @AttrRes attrId: Int): Int {
 
 //*********************************************************************************************************************
 
+private val display: Display
+    get() = windowManager.defaultDisplay
+
 val displayRotation: Int
-    get() = windowManager.defaultDisplay.rotation
+    get() = display.rotation
+
+val displaySize: RotationSize
+    get() {
+        val display = display
+        val outSize = Point()
+        display.getSize(outSize)
+        return RotationSize(outSize.x, outSize.y, display.rotation)
+    }
 
 val displayRealSize: RotationSize
     get() {
-        val defaultDisplay = windowManager.defaultDisplay
+        val display = display
         val outSize = Point()
-        defaultDisplay.getRealSize(outSize)
-        return RotationSize(outSize.x, outSize.y, defaultDisplay.rotation)
+        display.getRealSize(outSize)
+        return RotationSize(outSize.x, outSize.y, display.rotation)
     }
 
 //*********************************************************************************************************************
