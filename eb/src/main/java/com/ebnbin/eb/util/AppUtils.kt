@@ -1,5 +1,6 @@
 package com.ebnbin.eb.util
 
+import android.Manifest
 import android.app.ActivityManager
 import android.app.NotificationManager
 import android.app.Service
@@ -7,11 +8,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Point
 import android.hardware.camera2.CameraManager
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.Display
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.RequiresPermission
 import androidx.core.content.getSystemService
 import androidx.core.content.res.getColorOrThrow
 import com.ebnbin.eb.app.EBApplication
@@ -70,6 +74,9 @@ val cameraManager: CameraManager
 val notificationManager: NotificationManager
     get() = ebApp.getSystemService() ?: throw RuntimeException()
 
+val vibrator: Vibrator
+    get() = ebApp.getSystemService() ?: throw RuntimeException()
+
 val windowManager: WindowManager
     get() = ebApp.getSystemService() ?: throw RuntimeException()
 
@@ -126,4 +133,16 @@ val displayRealSize: RotationSize
 tailrec infix fun Int.gcd(other: Int): Int {
     if (this <= 0 || other <= 0) throw RuntimeException()
     return if (this % other == 0) other else other gcd this % other
+}
+
+//*********************************************************************************************************************
+
+@RequiresPermission(Manifest.permission.VIBRATE)
+fun vibrate(milliseconds: Long) {
+    if (sdk26O()) {
+        vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
+    } else {
+        @Suppress("DEPRECATION")
+        vibrator.vibrate(milliseconds)
+    }
 }

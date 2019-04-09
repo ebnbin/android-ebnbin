@@ -22,6 +22,7 @@ import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.displayRealSize
 import com.ebnbin.eb.util.displaySize
 import com.ebnbin.eb.util.toast
+import com.ebnbin.eb.util.vibrate
 import com.ebnbin.eb.util.windowManager
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
@@ -228,13 +229,19 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     private var downRawX: Float = 0f
     private var downRawY: Float = 0f
 
+    private var longPressed: Boolean = false
+
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return super.onTouchEvent(event)
 
         if (gestureDetector.onTouchEvent(event)) return true
 
         if (event.actionMasked == MotionEvent.ACTION_UP) {
-            putPosition(event)
+            if (longPressed) {
+                longPressed = false
+            } else {
+                putPosition(event)
+            }
         }
 
         return super.onTouchEvent(event)
@@ -336,6 +343,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onLongPress(e: MotionEvent?) {
+        longPressed = true
+        vibrate(100L)
+        WindowCameraService.stop(context)
     }
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
@@ -445,8 +455,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     private fun onCameraError() {
-        WindowCameraService.stop(context)
         toast(context, R.string.camera_error)
+        WindowCameraService.stop(context)
     }
 
     //*****************************************************************************************************************
