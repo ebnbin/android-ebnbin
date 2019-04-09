@@ -4,11 +4,14 @@ import android.os.Bundle
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.SeekBarPreference
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.preference.EmptyPreferenceGroup
+import com.ebnbin.windowcamera.profile.preference.EmptyPreferenceGroup
+import com.ebnbin.windowcamera.profile.preference.FooterPreference
 
 class WindowProfileFragment : BaseProfileFragment() {
+    private lateinit var layoutPreference: PreferenceCategory
     private lateinit var sizePreference: SeekBarPreference
     private lateinit var ratioPreference: ListPreference
     private lateinit var isOutEnabledPreference: CheckBoxPreference
@@ -18,9 +21,16 @@ class WindowProfileFragment : BaseProfileFragment() {
     private lateinit var isOutEnabledOnPreferenceGroup: EmptyPreferenceGroup
     private lateinit var outXPreference: SeekBarPreference
     private lateinit var outYPreference: SeekBarPreference
+    private lateinit var footerPreference: FooterPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
+        layoutPreference = PreferenceCategory(requireContext()).apply {
+            key = ProfileHelper.KEY_LAYOUT
+            setTitle(R.string.profile_layout)
+            preferenceScreen.addPreference(this)
+        }
+
         sizePreference = SeekBarPreference(requireContext()).apply {
             key = ProfileHelper.KEY_SIZE
             setDefaultValue(ProfileHelper.DEF_VALUE_SIZE)
@@ -28,8 +38,6 @@ class WindowProfileFragment : BaseProfileFragment() {
             setSummary(R.string.profile_size_summary)
             min = 1
             max = 100
-            updatesContinuously = true
-            showSeekBarValue = true
             preferenceScreen.addPreference(this)
         }
 
@@ -90,8 +98,6 @@ class WindowProfileFragment : BaseProfileFragment() {
             setSummary(R.string.profile_in_x_summary)
             min = 0
             max = 100
-            updatesContinuously = true
-            showSeekBarValue = true
             isOutEnabledOffPreferenceGroup.addPreference(this)
         }
 
@@ -102,8 +108,6 @@ class WindowProfileFragment : BaseProfileFragment() {
             setSummary(R.string.profile_in_y_summary)
             min = 0
             max = 100
-            updatesContinuously = true
-            showSeekBarValue = true
             isOutEnabledOffPreferenceGroup.addPreference(this)
         }
 
@@ -118,10 +122,8 @@ class WindowProfileFragment : BaseProfileFragment() {
             setDefaultValue(ProfileHelper.DEF_VALUE_OUT_X)
             setTitle(R.string.profile_out_x)
             setSummary(R.string.profile_out_x_summary)
-            min = 0
-            max = 100
-            updatesContinuously = true
-            showSeekBarValue = true
+            min = -99
+            max = 199
             isOutEnabledOnPreferenceGroup.addPreference(this)
         }
 
@@ -130,11 +132,13 @@ class WindowProfileFragment : BaseProfileFragment() {
             setDefaultValue(ProfileHelper.DEF_VALUE_OUT_Y)
             setTitle(R.string.profile_out_y)
             setSummary(R.string.profile_out_y_summary)
-            min = 0
-            max = 100
-            updatesContinuously = true
-            showSeekBarValue = true
+            min = -99
+            max = 199
             isOutEnabledOnPreferenceGroup.addPreference(this)
+        }
+
+        footerPreference = FooterPreference(requireContext()).apply {
+            preferenceScreen.addPreference(this)
         }
     }
 }

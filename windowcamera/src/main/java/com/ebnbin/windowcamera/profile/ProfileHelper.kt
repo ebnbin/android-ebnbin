@@ -6,6 +6,8 @@ import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.event.CameraProfileEvent
 
 object ProfileHelper {
+    const val KEY_LAYOUT: String = "layout"
+
     const val KEY_SIZE: String = "size"
     const val DEF_VALUE_SIZE: Int = 50
     var size: Int by SharedPreferencesDelegate(KEY_SIZE, DEF_VALUE_SIZE)

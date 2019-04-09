@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.preference.SwitchPreferenceCompat
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.event.CameraProfileEvent
+import com.ebnbin.windowcamera.profile.preference.FooterPreference
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class CameraProfileFragment : BaseProfileFragment() {
     private lateinit var isFrontPreference: SwitchPreferenceCompat
+    private lateinit var footerPreference: FooterPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
@@ -30,6 +32,10 @@ class CameraProfileFragment : BaseProfileFragment() {
             invalidateIcon(isChecked)
         }
         preferenceScreen.addPreference(isFrontPreference)
+
+        footerPreference = FooterPreference(requireContext()).apply {
+            preferenceScreen.addPreference(this)
+        }
 
         invalidateCameraProfile(ProfileHelper.isCameraProfileInvalidating)
     }

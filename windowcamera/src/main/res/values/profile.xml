@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="profile_layout">布局</string>
+
     <string name="profile_size">窗口大小</string>
     <string name="profile_size_summary">窗口大小</string>
 
