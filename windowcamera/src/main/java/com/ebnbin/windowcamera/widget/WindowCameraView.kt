@@ -26,6 +26,7 @@ import com.ebnbin.eb.util.vibrate
 import com.ebnbin.eb.util.windowManager
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
+import com.ebnbin.windowcamera.main.MainActivity
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import kotlin.math.max
@@ -41,7 +42,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     TextureView.SurfaceTextureListener,
     SharedPreferences.OnSharedPreferenceChangeListener,
     RotationDetector.Listener,
-    GestureDetector.OnGestureListener {
+    GestureDetector.OnGestureListener,
+    GestureDetector.OnDoubleTapListener {
     private val textureView: TextureView = TextureView(this.context)
 
     init {
@@ -240,7 +242,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             if (longPressed) {
                 longPressed = false
             } else {
-                putPosition(event)
+//                putPosition(event)
             }
         }
 
@@ -349,6 +351,20 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        return false
+    }
+
+    override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+        return false
+    }
+
+    override fun onDoubleTap(e: MotionEvent?): Boolean {
+        vibrate(50L)
+        MainActivity.start(context)
+        return false
+    }
+
+    override fun onDoubleTapEvent(e: MotionEvent?): Boolean {
         return false
     }
 
