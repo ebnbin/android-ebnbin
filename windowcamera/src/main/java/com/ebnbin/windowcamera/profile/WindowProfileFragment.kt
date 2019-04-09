@@ -1,16 +1,28 @@
 package com.ebnbin.windowcamera.profile
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.SeekBarPreference
+import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.preference.EmptyPreferenceGroup
 import com.ebnbin.windowcamera.profile.preference.FooterPreference
 
-class WindowProfileFragment : BaseProfileFragment() {
+class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onDestroy() {
+        preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        super.onDestroy()
+    }
+
     private lateinit var layoutPreference: PreferenceCategory
     private lateinit var sizePreference: SeekBarPreference
     private lateinit var ratioPreference: ListPreference
@@ -139,6 +151,40 @@ class WindowProfileFragment : BaseProfileFragment() {
 
         footerPreference = FooterPreference(requireContext()).apply {
             preferenceScreen.addPreference(this)
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        sharedPreferences ?: return
+        when (key) {
+            ProfileHelper.KEY_OUT_X -> {
+                val oldValue = outXPreference.value
+                val newValue = sharedPreferences.get(ProfileHelper.KEY_OUT_X, ProfileHelper.DEF_VALUE_OUT_X)
+                if (oldValue != newValue) {
+                    outXPreference.value = newValue
+                }
+            }
+            ProfileHelper.KEY_OUT_Y -> {
+                val oldValue = outYPreference.value
+                val newValue = sharedPreferences.get(ProfileHelper.KEY_OUT_Y, ProfileHelper.DEF_VALUE_OUT_Y)
+                if (oldValue != newValue) {
+                    outYPreference.value = newValue
+                }
+            }
+            ProfileHelper.KEY_IN_X -> {
+                val oldValue = inXPreference.value
+                val newValue = sharedPreferences.get(ProfileHelper.KEY_IN_X, ProfileHelper.DEF_VALUE_IN_X)
+                if (oldValue != newValue) {
+                    inXPreference.value = newValue
+                }
+            }
+            ProfileHelper.KEY_IN_Y -> {
+                val oldValue = inYPreference.value
+                val newValue = sharedPreferences.get(ProfileHelper.KEY_IN_Y, ProfileHelper.DEF_VALUE_IN_Y)
+                if (oldValue != newValue) {
+                    inYPreference.value = newValue
+                }
+            }
         }
     }
 }

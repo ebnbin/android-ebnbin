@@ -7,10 +7,13 @@ import android.graphics.Canvas
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.Surface
 import android.view.TextureView
 import android.view.WindowManager
 import android.widget.FrameLayout
+import androidx.core.view.GestureDetectorCompat
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationDetector
@@ -24,6 +27,8 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 /**
@@ -34,7 +39,8 @@ import kotlin.math.roundToInt
 class WindowCameraView(context: Context) : FrameLayout(context),
     TextureView.SurfaceTextureListener,
     SharedPreferences.OnSharedPreferenceChangeListener,
-    RotationDetector.Listener {
+    RotationDetector.Listener,
+    GestureDetector.OnGestureListener {
     private val textureView: TextureView = TextureView(this.context)
 
     init {
@@ -139,7 +145,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 flags = if (isOutEnabled) {
                     flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 } else {
-                    flags xor WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+                    flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS xor
+                            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 }
             }
             val displaySize = if (isOutEnabled) displayRealSize else displaySize
@@ -210,6 +217,129 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             }
             y = calcPosition(yRange, yPercent, yOffset)
         }
+    }
+
+    //*****************************************************************************************************************
+
+    private val gestureDetector: GestureDetectorCompat = GestureDetectorCompat(context, this)
+
+    private var downX: Int = 0
+    private var downY: Int = 0
+    private var downRawX: Float = 0f
+    private var downRawY: Float = 0f
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        event ?: return super.onTouchEvent(event)
+
+        if (gestureDetector.onTouchEvent(event)) return true
+
+        if (event.actionMasked == MotionEvent.ACTION_UP) {
+            putPosition(event)
+        }
+
+        return super.onTouchEvent(event)
+    }
+
+    private fun putPosition(motionEvent: MotionEvent) {
+        fun calcPositionPercent(position: Float, range: Int, percentOffset: Int, isOutEnabled: Boolean): Int {
+            var positionPercent = (position / range * 100).toInt() + percentOffset
+            positionPercent = min(positionPercent, if (isOutEnabled) 199 else 100)
+            positionPercent = max(positionPercent, if (isOutEnabled) -99 else 0)
+            return positionPercent
+        }
+
+        val x = downX + motionEvent.rawX - downRawX
+        val y = downY + motionEvent.rawY - downRawY
+
+        val isOutEnabled = ProfileHelper.isOutEnabled
+        val displaySize = if (isOutEnabled) displayRealSize else displaySize
+
+        val xMin = 0
+        val xMax = displaySize.width - layoutParams.width
+        val xPosition: Float
+        val xRange: Int
+        val xPercentOffset: Int
+        when {
+            x in xMin.toFloat()..xMax.toFloat() -> {
+                xPosition = x
+                xRange = xMax - xMin
+                xPercentOffset = 0
+            }
+            x < xMin -> {
+                xPosition = x + layoutParams.width
+                xRange = layoutParams.width
+                xPercentOffset = -100
+            }
+            else -> {
+                xPosition = x + layoutParams.width - displaySize.width
+                xRange = layoutParams.width
+                xPercentOffset = 100
+            }
+        }
+        val xPercent = calcPositionPercent(xPosition, xRange, xPercentOffset, isOutEnabled)
+
+        val yMin = 0
+        val yMax = displaySize.height - layoutParams.height
+        val yPosition: Float
+        val yRange: Int
+        val yPercentOffset: Int
+        when {
+            y in yMin.toFloat()..yMax.toFloat() -> {
+                yPosition = y
+                yRange = yMax - yMin
+                yPercentOffset = 0
+            }
+            y < yMin -> {
+                yPosition = y + layoutParams.height
+                yRange = layoutParams.height
+                yPercentOffset = -100
+            }
+            else -> {
+                yPosition = y + layoutParams.height - displaySize.height
+                yRange = layoutParams.height
+                yPercentOffset = 100
+            }
+        }
+        val yPercent = calcPositionPercent(yPosition, yRange, yPercentOffset, isOutEnabled)
+
+        val xSp = ProfileHelper.x(isOutEnabled)
+        val ySp = ProfileHelper.y(isOutEnabled)
+        if (xPercent == xSp && yPercent == ySp) {
+            invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+        } else {
+            ProfileHelper.putXY(xPercent, yPercent, isOutEnabled)
+        }
+    }
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        e ?: return false
+
+        val params = layoutParams as WindowManager.LayoutParams
+        downX = params.x
+        downY = params.y
+        downRawX = e.rawX
+        downRawY = e.rawY
+        return false
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+    }
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        return false
+    }
+
+    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+        e2 ?: return false
+        putPosition(e2)
+        return false
+    }
+
+    override fun onLongPress(e: MotionEvent?) {
+    }
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        return false
     }
 
     //*****************************************************************************************************************

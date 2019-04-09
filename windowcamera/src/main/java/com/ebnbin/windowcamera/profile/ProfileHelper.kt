@@ -40,12 +40,22 @@ object ProfileHelper {
     const val DEF_VALUE_OUT_Y: Int = 50
     var outY: Int by SharedPreferencesDelegate(KEY_OUT_Y, DEF_VALUE_OUT_Y)
 
-    fun x(isOutEnabled: Boolean = this.isOutEnabled): Int {
+    fun x(isOutEnabled: Boolean): Int {
         return if (isOutEnabled) outX else inX
     }
 
-    fun y(isOutEnabled: Boolean = this.isOutEnabled): Int {
+    fun y(isOutEnabled: Boolean): Int {
         return if (isOutEnabled) outY else inY
+    }
+
+    fun putXY(x: Int, y: Int, isOutEnabled: Boolean) {
+        if (isOutEnabled) {
+            outX = x
+            outY = y
+        } else {
+            inX = x
+            inY = y
+        }
     }
 
     const val KEY_IS_FRONT: String = "is_front"
