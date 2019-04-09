@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.util.Ratio
+import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.displayRealSize
 import com.ebnbin.eb.util.toast
@@ -27,8 +28,10 @@ import com.ebnbin.windowcamera.service.WindowCameraService
  *
  * TextureView 不支持 onDraw 或 onDrawForeground, 使用 FrameLayout 包装, 在 onDrawForeground 绘制自定义内容.
  */
-class WindowCameraView(context: Context) : FrameLayout(context), TextureView.SurfaceTextureListener,
-    SharedPreferences.OnSharedPreferenceChangeListener {
+class WindowCameraView(context: Context) : FrameLayout(context),
+    TextureView.SurfaceTextureListener,
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    RotationDetector.Listener {
     private val textureView: TextureView = TextureView(this.context)
 
     init {
@@ -43,12 +46,14 @@ class WindowCameraView(context: Context) : FrameLayout(context), TextureView.Sur
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        RotationDetector.register(this)
 
         invalidateSize()
         invalidateCamera()
     }
 
     override fun onDetachedFromWindow() {
+        RotationDetector.unregister(this)
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
     }
@@ -101,6 +106,12 @@ class WindowCameraView(context: Context) : FrameLayout(context), TextureView.Sur
                 openCamera()
             }
         }
+    }
+
+    //*****************************************************************************************************************
+
+    override fun onRotationChanged(oldRotation: Int, newRotation: Int) {
+        invalidateSize()
     }
 
     //*****************************************************************************************************************

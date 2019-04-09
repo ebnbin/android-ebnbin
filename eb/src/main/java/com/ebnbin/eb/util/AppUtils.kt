@@ -95,6 +95,9 @@ fun getColorAttr(context: Context, @AttrRes attrId: Int): Int {
 
 //*********************************************************************************************************************
 
+val displayRotation: Int
+    get() = windowManager.defaultDisplay.rotation
+
 val displayRealSize: RotationSize
     get() {
         val defaultDisplay = windowManager.defaultDisplay
