@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Canvas
+import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
+import android.media.ImageReader
 import android.os.Handler
 import android.os.HandlerThread
 import android.view.GestureDetector
@@ -31,6 +33,8 @@ import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.main.MainActivity
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -45,7 +49,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     SharedPreferences.OnSharedPreferenceChangeListener,
     RotationDetector.Listener,
     GestureDetector.OnGestureListener,
-    GestureDetector.OnDoubleTapListener {
+    GestureDetector.OnDoubleTapListener,
+    ImageReader.OnImageAvailableListener {
     private val textureView: TextureView = TextureView(this.context)
 
     init {
@@ -385,6 +390,13 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+        if (isPreviewOnly) {
+        } else {
+            if (isVideo) {
+            } else {
+                photoCapture()
+            }
+        }
         return false
     }
 
@@ -490,13 +502,21 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
+    private var imageReader: ImageReader? = null
+
     private var photoCameraCaptureSession: CameraCaptureSession? = null
 
     private fun startPhotoPreview() {
         val cameraDevice = cameraDevice ?: return
 
+        val photoResolution = device.photoResolutions.first()
+        val imageReader = ImageReader.newInstance(photoResolution.width, photoResolution.height, ImageFormat.JPEG, 2)
+        imageReader.setOnImageAvailableListener(this, null)
+        this.imageReader = imageReader
+
         val surfaceTextureSurface = Surface(textureView.surfaceTexture)
-        val outputs = listOf(surfaceTextureSurface)
+        val imageReaderSurface = imageReader.surface
+        val outputs = listOf(surfaceTextureSurface, imageReaderSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
                 photoCameraCaptureSession = session
@@ -526,6 +546,37 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             }
             close()
         }
+
+        imageReader?.run {
+            imageReader = null
+            close()
+        }
+    }
+
+    private fun photoCapture() {
+        val photoCameraCaptureSession = photoCameraCaptureSession ?: return
+        val cameraDevice = cameraDevice ?: return
+        val imageReader = imageReader ?: return
+
+        val imageReaderSurface = imageReader.surface
+        val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
+        captureRequestBuilder.addTarget(imageReaderSurface)
+        val request = captureRequestBuilder.build()
+        photoCameraCaptureSession.capture(request, null, null)
+    }
+
+    override fun onImageAvailable(reader: ImageReader?) {
+        reader ?: return
+        val image = reader.acquireNextImage() ?: return
+
+        val byteBuffer = image.planes[0].buffer
+        val byteArray = ByteArray(byteBuffer.remaining())
+        byteBuffer.get(byteArray)
+        val file = File(context.getExternalFilesDir(null), "windowcamera.jpg")
+        val fos = FileOutputStream(file)
+        fos.write(byteArray)
+        fos.close()
+        image.close()
     }
 
     //*****************************************************************************************************************
