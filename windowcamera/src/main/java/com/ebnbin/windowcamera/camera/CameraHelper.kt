@@ -5,6 +5,7 @@ import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraMetadata
 import android.hardware.camera2.params.StreamConfigurationMap
+import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.util.Size
 import com.ebnbin.eb.util.RotationSize
@@ -15,6 +16,18 @@ import com.ebnbin.eb.util.displayRealSize
  * 相机帮助类.
  */
 object CameraHelper {
+    private val CAMCORDER_PROFILE_QUALITIES = listOf(
+        CamcorderProfile.QUALITY_2160P,
+        CamcorderProfile.QUALITY_1080P,
+        CamcorderProfile.QUALITY_720P,
+        CamcorderProfile.QUALITY_480P,
+        CamcorderProfile.QUALITY_CIF,
+        CamcorderProfile.QUALITY_QVGA,
+        CamcorderProfile.QUALITY_QCIF,
+        CamcorderProfile.QUALITY_HIGH,
+        CamcorderProfile.QUALITY_LOW
+    )
+
     private val ids: List<String> = cameraManager.cameraIdList.toList()
 
     /**
@@ -75,33 +88,48 @@ object CameraHelper {
             MediaRecorder::class.java)
 
         val photoResolutions: List<Resolution> = kotlin.run {
-            val result = ArrayList<Resolution>()
-            jpegSizes
-                ?.filter { it.width > 0 && it.height > 0 }
-                ?.map { Resolution(it.width, it.height, sensorOrientation) }
-                ?.forEach { result.add(it) }
-            if (result.isEmpty()) throw RuntimeException("没有有效的照片分辨率.")
-            result.sortedDescending()
+            (jpegSizes ?: emptyArray())
+                .filter { it.width > 0 && it.height > 0 }
+                .ifEmpty { throw RuntimeException("没有有效的照片分辨率.") }
+                .map { Resolution(it.width, it.height, sensorOrientation) }
+                .toSet()
+                .toList()
+                .sortedDescending()
         }
 
         val maxResolution: Resolution = photoResolutions.first()
 
         val previewResolutions: List<Resolution> = kotlin.run {
             val displayRealSize = displayRealSize
-            val result = ArrayList<Resolution>()
-            surfaceTextureSizes
-                ?.filter { it.width > 0 && it.height > 0 }
-                ?.map { Resolution(it.width, it.height, sensorOrientation) }
-                ?.filter { it.ratio == maxResolution.ratio }
-                ?.sorted()
-                ?.run outer@{
+            val linkedHashSet = LinkedHashSet<Resolution>()
+            (surfaceTextureSizes ?: emptyArray())
+                .filter { it.width > 0 && it.height > 0 }
+                .map { Resolution(it.width, it.height, sensorOrientation) }
+                .filter { it.ratio == maxResolution.ratio }
+                .sorted()
+                .run outer@{
                     forEach {
-                        result.add(it)
+                        linkedHashSet.add(it)
                         if (it.isWidthHeightGreaterOrEquals(displayRealSize)) return@outer
                     }
                 }
-            if (result.isEmpty()) throw RuntimeException("没有有效的预览分辨率.")
-            result.sortedDescending()
+            linkedHashSet
+                .ifEmpty { throw RuntimeException("没有有效的预览分辨率.") }
+                .sortedDescending()
+                .toList()
+        }
+
+        val videoProfiles: List<VideoProfile> = kotlin.run {
+            CAMCORDER_PROFILE_QUALITIES
+                .asSequence()
+                .filter { CamcorderProfile.hasProfile(oldId, it) }
+                .map { CamcorderProfile.get(oldId, it) }
+                .filter { mediaRecorderSizes?.contains(Size(it.videoFrameWidth, it.videoFrameHeight)) == true }
+                .ifEmpty { throw RuntimeException("没有有效的视频配置.") }
+                .map { VideoProfile(it, sensorOrientation) }
+                .toSet()
+                .toList()
+                .sortedDescending()
         }
 
         open class Resolution(width: Int, height: Int, sensorOrientation: Int) :
@@ -110,5 +138,8 @@ object CameraHelper {
                 return "${width}x$height"
             }
         }
+
+        open class VideoProfile(camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
+            Resolution(camcorderProfile.videoFrameWidth, camcorderProfile.videoFrameHeight, sensorOrientation)
     }
 }
