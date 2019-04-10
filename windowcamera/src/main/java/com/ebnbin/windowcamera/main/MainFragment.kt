@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.core.view.updateLayoutParams
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.app.EBFragment
@@ -13,6 +14,7 @@ import com.ebnbin.eb.util.getColorAttr
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.menu.MenuDialogFragment
+import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.sharedpreferences.SpHelper
 import com.google.android.material.appbar.AppBarLayout
@@ -21,18 +23,25 @@ import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFragment.Callback {
+class MainFragment : EBFragment(),
+    ViewPager.OnPageChangeListener,
+    AdapterView.OnItemSelectedListener,
+    PermissionFragment.Callback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
+    private lateinit var mainSpinnerAdapter: MainSpinnerAdapter
     private lateinit var mainPagerAdapter: MainPagerAdapter
+
+    private val profiles: List<String> = listOf(
+        "default",
+        "custom_1",
+        "custom_2"
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainPagerAdapter = MainPagerAdapter(requireContext(), childFragmentManager)
-        view_pager.adapter = mainPagerAdapter
-        view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
         view_pager.addOnPageChangeListener(this)
         tab_layout.setupWithViewPager(view_pager)
         bottom_app_bar.setNavigationOnClickListener {
@@ -43,11 +52,14 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
             getString(R.string.profile_custom_1),
             getString(R.string.profile_custom_2)
         )
-        spinner.adapter = MainSpinnerAdapter(bottom_app_bar.context, list)
-        invalidateFloatingActionButton()
+        mainSpinnerAdapter = MainSpinnerAdapter(bottom_app_bar.context, list)
+        spinner.adapter = mainSpinnerAdapter
+        spinner.onItemSelectedListener = this
+
+        invalidateWindowCameraServiceEvent()
 
         if (savedInstanceState == null) {
-            view_pager.setCurrentItem(SpHelper.main_page, false)
+            spinner.setSelection(profiles.indexOf(SpHelper.profile), false)
         }
     }
 
@@ -77,10 +89,22 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
             bottom_app_bar.slideUp()
         }
 
-        SpHelper.main_page = position
+        ProfileHelper.page = position
     }
 
     override fun onPageScrollStateChanged(state: Int) {
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        SpHelper.profile = profiles[position]
+
+        mainPagerAdapter = MainPagerAdapter(requireContext(), childFragmentManager)
+        view_pager.adapter = mainPagerAdapter
+        view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
+        view_pager.setCurrentItem(ProfileHelper.page, false)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
     override fun onPermissionsResult(
@@ -99,10 +123,10 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: WindowCameraServiceEvent) {
-        invalidateFloatingActionButton(event.isRunning)
+        invalidateWindowCameraServiceEvent(event.isRunning)
     }
 
-    private fun invalidateFloatingActionButton(
+    private fun invalidateWindowCameraServiceEvent(
         isWindowCameraServiceRunning: Boolean = WindowCameraService.isRunning()) {
         val imageDrawableId: Int
         val backgroundTintAttrId: Int
@@ -125,6 +149,8 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         val backgroundTint = getColorAttr(requireContext(), backgroundTintAttrId)
         floating_action_button.backgroundTintList = ColorStateList.valueOf(backgroundTint)
         floating_action_button.setOnClickListener(onClickListener)
+
+        spinner.isEnabled = !isWindowCameraServiceRunning
     }
 
     companion object {

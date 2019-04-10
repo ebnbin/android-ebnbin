@@ -10,6 +10,8 @@ object ProfileHelper {
     val sharedPreferencesName: String
         get() = "${defaultSharedPreferencesName}_profile_${SpHelper.profile}"
 
+    var page: Int by ProfileSharedPreferencesDelegate("page", 1)
+
     const val KEY_LAYOUT: String = "layout"
 
     const val KEY_SIZE: String = "size"

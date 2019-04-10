@@ -8,6 +8,7 @@ import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraProfileFragment
 import com.ebnbin.windowcamera.profile.WindowProfileFragment
+import com.ebnbin.windowcamera.sharedpreferences.SpHelper
 
 class MainPagerAdapter(private val context: Context, private val fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private val pages: List<Triple<Class<out Fragment>, CharSequence, Boolean>> =
@@ -28,6 +29,12 @@ class MainPagerAdapter(private val context: Context, private val fm: FragmentMan
 
     override fun getPageTitle(position: Int): CharSequence? {
         return pages[position].second
+    }
+
+    override fun getItemId(position: Int): Long {
+        var result = SpHelper.profile.hashCode()
+        result = 31 * result + position
+        return result.toLong()
     }
 
     /**
