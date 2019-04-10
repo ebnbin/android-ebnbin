@@ -1,44 +1,48 @@
 package com.ebnbin.windowcamera.profile
 
 import com.ebnbin.eb.library.eventBus
-import com.ebnbin.eb.sharedpreferences.delegate.SharedPreferencesDelegate
+import com.ebnbin.eb.sharedpreferences.defaultSharedPreferencesName
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.event.CameraProfileEvent
+import com.ebnbin.windowcamera.sharedpreferences.SpHelper
 
 object ProfileHelper {
+    val sharedPreferencesName: String
+        get() = "${defaultSharedPreferencesName}_profile_${SpHelper.profile}"
+
     const val KEY_LAYOUT: String = "layout"
 
     const val KEY_SIZE: String = "size"
     const val DEF_VALUE_SIZE: Int = 50
-    var size: Int by SharedPreferencesDelegate(KEY_SIZE, DEF_VALUE_SIZE)
+    var size: Int by ProfileSharedPreferencesDelegate(KEY_SIZE, DEF_VALUE_SIZE)
 
     const val KEY_RATIO: String = "ratio"
     const val DEF_VALUE_RATIO: String = "capture"
-    var ratio: String by SharedPreferencesDelegate(KEY_RATIO, DEF_VALUE_RATIO)
+    var ratio: String by ProfileSharedPreferencesDelegate(KEY_RATIO, DEF_VALUE_RATIO)
 
     const val KEY_IS_OUT_ENABLED: String = "is_out_enabled"
     const val DEF_VALUE_IS_OUT_ENABLED: Boolean = false
-    var isOutEnabled: Boolean by SharedPreferencesDelegate(KEY_IS_OUT_ENABLED, DEF_VALUE_IS_OUT_ENABLED)
+    var isOutEnabled: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_OUT_ENABLED, DEF_VALUE_IS_OUT_ENABLED)
 
     const val KEY_IS_OUT_ENABLED_OFF: String = "is_out_enabled_off"
 
     const val KEY_IN_X: String = "in_x"
     const val DEF_VALUE_IN_X: Int = 50
-    var inX: Int by SharedPreferencesDelegate(KEY_IN_X, DEF_VALUE_IN_X)
+    var inX: Int by ProfileSharedPreferencesDelegate(KEY_IN_X, DEF_VALUE_IN_X)
 
     const val KEY_IN_Y: String = "in_y"
     const val DEF_VALUE_IN_Y: Int = 50
-    var inY: Int by SharedPreferencesDelegate(KEY_IN_Y, DEF_VALUE_IN_Y)
+    var inY: Int by ProfileSharedPreferencesDelegate(KEY_IN_Y, DEF_VALUE_IN_Y)
 
     const val KEY_IS_OUT_ENABLED_ON: String = "is_out_enabled_on"
 
     const val KEY_OUT_X: String = "out_x"
     const val DEF_VALUE_OUT_X: Int = 50
-    var outX: Int by SharedPreferencesDelegate(KEY_OUT_X, DEF_VALUE_OUT_X)
+    var outX: Int by ProfileSharedPreferencesDelegate(KEY_OUT_X, DEF_VALUE_OUT_X)
 
     const val KEY_OUT_Y: String = "out_y"
     const val DEF_VALUE_OUT_Y: Int = 50
-    var outY: Int by SharedPreferencesDelegate(KEY_OUT_Y, DEF_VALUE_OUT_Y)
+    var outY: Int by ProfileSharedPreferencesDelegate(KEY_OUT_Y, DEF_VALUE_OUT_Y)
 
     fun x(isOutEnabled: Boolean): Int {
         return if (isOutEnabled) outX else inX
@@ -60,15 +64,15 @@ object ProfileHelper {
 
     const val KEY_IS_FRONT: String = "is_front"
     const val DEF_VALUE_IS_FRONT: Boolean = false
-    var isFront: Boolean by SharedPreferencesDelegate(KEY_IS_FRONT, DEF_VALUE_IS_FRONT)
+    var isFront: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_FRONT, DEF_VALUE_IS_FRONT)
 
     const val KEY_IS_PREVIEW_ONLY: String = "is_preview_only"
     const val DEF_VALUE_IS_PREVIEW_ONLY: Boolean = false
-    var isPreviewOnly: Boolean by SharedPreferencesDelegate(KEY_IS_PREVIEW_ONLY, DEF_VALUE_IS_PREVIEW_ONLY)
+    var isPreviewOnly: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_PREVIEW_ONLY, DEF_VALUE_IS_PREVIEW_ONLY)
 
     const val KEY_IS_VIDEO: String = "is_video"
     const val DEF_VALUE_IS_VIDEO: Boolean = false
-    var isVideo: Boolean by SharedPreferencesDelegate(KEY_IS_VIDEO, DEF_VALUE_IS_VIDEO)
+    var isVideo: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_VIDEO, DEF_VALUE_IS_VIDEO)
 
     const val KEY_BACK_PHOTO: String = "back_photo"
 

@@ -65,7 +65,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        getSharedPreferences(ProfileHelper.sharedPreferencesName).registerOnSharedPreferenceChangeListener(this)
         RotationDetector.register(this)
 
         startBackgroundThread()
@@ -78,7 +78,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         stopBackgroundThread()
 
         RotationDetector.unregister(this)
-        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+        getSharedPreferences(ProfileHelper.sharedPreferencesName).unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
     }
 

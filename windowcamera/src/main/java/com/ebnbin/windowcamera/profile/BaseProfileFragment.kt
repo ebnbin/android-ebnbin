@@ -6,6 +6,8 @@ import com.ebnbin.windowcamera.R
 
 abstract class BaseProfileFragment : EBPreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        preferenceManager.sharedPreferencesName = ProfileHelper.sharedPreferencesName
+
         setPreferencesFromResource(R.xml.base_profile_fragment, rootKey)
     }
 }
