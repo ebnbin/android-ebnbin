@@ -9,6 +9,7 @@ import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.media.ImageReader
+import android.media.MediaRecorder
 import android.os.Handler
 import android.os.HandlerThread
 import android.view.GestureDetector
@@ -393,6 +394,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         if (isPreviewOnly) {
         } else {
             if (isVideo) {
+                videoCapture()
             } else {
                 photoCapture()
             }
@@ -493,6 +495,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             stopPreviewOnly()
         } else {
             if (isVideo) {
+                stopVideoCapture(false)
                 stopVideoPreview()
             } else {
                 stopPhotoPreview()
@@ -572,16 +575,24 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val byteBuffer = image.planes[0].buffer
         val byteArray = ByteArray(byteBuffer.remaining())
         byteBuffer.get(byteArray)
-        val file = File(context.getExternalFilesDir(null), "windowcamera.jpg")
+        val file = File(context.getExternalFilesDir(null), "${System.currentTimeMillis()}.jpg")
         val fos = FileOutputStream(file)
         fos.write(byteArray)
         fos.close()
         image.close()
+
+        toast(context, file)
     }
 
     //*****************************************************************************************************************
 
     private var videoCameraCaptureSession: CameraCaptureSession? = null
+
+    private var videoFile: File? = null
+
+    private var mediaRecorder: MediaRecorder? = null
+
+    private var isVideoRecording: Boolean = false
 
     private fun startVideoPreview() {
         val cameraDevice = cameraDevice ?: return
@@ -616,6 +627,85 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 // stopRepeating 对应 setRepeatingRequest, 但有可能出现 videoCameraCaptureSession 已经 closed 的情况.
             }
             close()
+        }
+    }
+
+    private fun startVideoCapture() {
+        stopVideoPreview()
+
+        val cameraDevice = cameraDevice ?: return
+
+        val videoProfile = ProfileHelper.device().videoProfiles.first()
+        val videoFile = File(context.getExternalFilesDir(null), "${System.currentTimeMillis()}.mp4")
+        val mediaRecorder = MediaRecorder()
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
+        mediaRecorder.setProfile(videoProfile.camcorderProfile)
+        mediaRecorder.setOutputFile(videoFile.absolutePath)
+        mediaRecorder.prepare()
+        this.videoFile = videoFile
+        this.mediaRecorder = mediaRecorder
+
+        val surfaceTextureSurface = Surface(textureView.surfaceTexture)
+        val mediaRecorderSurface = mediaRecorder.surface
+        val outputs = listOf(surfaceTextureSurface, mediaRecorderSurface)
+        val callback = object : CameraCaptureSession.StateCallback() {
+            override fun onConfigured(session: CameraCaptureSession) {
+                videoCameraCaptureSession = session
+
+                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
+                captureRequestBuilder.addTarget(surfaceTextureSurface)
+                captureRequestBuilder.addTarget(mediaRecorderSurface)
+                val request = captureRequestBuilder.build()
+                session.setRepeatingRequest(request, null, null)
+                mediaRecorder.start()
+                isVideoRecording = true
+
+                ProfileHelper.isCameraProfileInvalidating = false
+            }
+
+            override fun onConfigureFailed(session: CameraCaptureSession) {
+                onCameraError()
+            }
+        }
+        cameraDevice.createCaptureSession(outputs, callback, null)
+    }
+
+    private fun stopVideoCapture(resumePreview: Boolean) {
+        if (!isVideoRecording) return
+        isVideoRecording = false
+
+        mediaRecorder?.run {
+            mediaRecorder = null
+            stop()
+            release()
+        }
+
+        videoFile?.run {
+            videoFile = null
+            toast(context, this)
+        }
+
+        videoCameraCaptureSession?.run {
+            videoCameraCaptureSession = null
+            try {
+                stopRepeating()
+            } catch (e: IllegalStateException) {
+                // stopRepeating 对应 setRepeatingRequest, 但有可能出现 videoCameraCaptureSession 已经 closed 的情况.
+            }
+            close()
+        }
+
+        if (resumePreview) {
+            startVideoPreview()
+        }
+    }
+
+    private fun videoCapture() {
+        if (isVideoRecording) {
+            stopVideoCapture(true)
+        } else {
+            startVideoCapture()
         }
     }
 

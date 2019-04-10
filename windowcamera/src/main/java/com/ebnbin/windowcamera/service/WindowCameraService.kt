@@ -87,7 +87,8 @@ class WindowCameraService : Service() {
             Manifest.permission.SYSTEM_ALERT_WINDOW,
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO)
 
         fun start(context: Context) {
             if (isRunning()) return

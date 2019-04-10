@@ -139,7 +139,7 @@ object CameraHelper {
             }
         }
 
-        open class VideoProfile(camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
+        open class VideoProfile(val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
             Resolution(camcorderProfile.videoFrameWidth, camcorderProfile.videoFrameHeight, sensorOrientation)
     }
 }
