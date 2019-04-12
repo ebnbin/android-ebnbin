@@ -10,12 +10,11 @@ import com.ebnbin.windowcamera.profile.CameraProfileFragment
 import com.ebnbin.windowcamera.profile.WindowProfileFragment
 
 class MainPagerAdapter(private val context: Context, private val fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-    private val pages: List<Triple<Class<out Fragment>, CharSequence, Boolean>> =
-        ArrayList<Triple<Class<out Fragment>, CharSequence, Boolean>>().apply {
-            add(Triple(WindowProfileFragment::class.java, context.getString(R.string.window), false))
-            add(Triple(CameraProfileFragment::class.java, context.getString(R.string.camera), false))
-            add(Triple(PlaceholderFragment::class.java, context.getString(R.string.others), false))
-            add(Triple(PlaceholderFragment::class.java, context.getString(R.string.album), true))
+    private val pages: List<Pair<Class<out Fragment>, CharSequence>> =
+        ArrayList<Pair<Class<out Fragment>, CharSequence>>().apply {
+            add(Pair(WindowProfileFragment::class.java, context.getString(R.string.window)))
+            add(Pair(CameraProfileFragment::class.java, context.getString(R.string.camera)))
+            add(Pair(PlaceholderFragment::class.java, context.getString(R.string.others)))
         }
 
     override fun getCount(): Int {
@@ -28,12 +27,5 @@ class MainPagerAdapter(private val context: Context, private val fm: FragmentMan
 
     override fun getPageTitle(position: Int): CharSequence? {
         return pages[position].second
-    }
-
-    /**
-     * 是否在滚动时隐藏 AppBarLayout 和 BottomAppBar.
-     */
-    fun hideOnScroll(position: Int): Boolean {
-        return pages[position].third
     }
 }

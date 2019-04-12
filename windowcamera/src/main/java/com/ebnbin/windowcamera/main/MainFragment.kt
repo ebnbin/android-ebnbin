@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.core.view.updateLayoutParams
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
@@ -17,7 +16,6 @@ import com.ebnbin.windowcamera.menu.MenuDialogFragment
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.sharedpreferences.SpHelper
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
@@ -72,23 +70,6 @@ class MainFragment : EBFragment(),
     }
 
     override fun onPageSelected(position: Int) {
-        if (mainPagerAdapter.hideOnScroll(position)) {
-            tab_layout.updateLayoutParams<AppBarLayout.LayoutParams> {
-                scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
-            }
-            bottom_app_bar.hideOnScroll = true
-        } else {
-            tab_layout.updateLayoutParams<AppBarLayout.LayoutParams> {
-                scrollFlags = 0
-            }
-            bottom_app_bar.hideOnScroll = false
-
-            app_bar_layout.setExpanded(true, true)
-            bottom_app_bar.slideUp()
-        }
-
         ProfileHelper.page = position
     }
 
