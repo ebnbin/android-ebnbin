@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraProfileFragment
+import com.ebnbin.windowcamera.profile.OtherProfileFragment
 import com.ebnbin.windowcamera.profile.WindowProfileFragment
 
 class MainPagerAdapter(private val context: Context, private val fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
@@ -14,7 +15,7 @@ class MainPagerAdapter(private val context: Context, private val fm: FragmentMan
         ArrayList<Pair<Class<out Fragment>, CharSequence>>().apply {
             add(Pair(WindowProfileFragment::class.java, context.getString(R.string.window)))
             add(Pair(CameraProfileFragment::class.java, context.getString(R.string.camera)))
-            add(Pair(PlaceholderFragment::class.java, context.getString(R.string.others)))
+            add(Pair(OtherProfileFragment::class.java, context.getString(R.string.other)))
         }
 
     override fun getCount(): Int {
