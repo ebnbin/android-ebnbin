@@ -19,7 +19,12 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:backgroundTint="?android:attr/windowBackground"
+            app:tabBackground="?android:attr/windowBackground"
+            app:tabTextColor="?android:attr/textColorSecondary"
+            app:tabSelectedTextColor="?attr/colorPrimary"
+            app:tabIndicatorColor="?attr/colorPrimary"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,7 +35,8 @@
         android:layout_gravity="bottom"
         app:fabAlignmentMode="end"
         app:fabCradleMargin="8dp"
-        app:navigationIcon="@drawable/eb_menu">
+        app:navigationIcon="@drawable/eb_menu"
+        app:backgroundTint="?android:attr/windowBackground">
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner"
