@@ -67,10 +67,6 @@ object ProfileHelper {
     const val DEF_VALUE_IS_FRONT: Boolean = false
     var isFront: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_FRONT, DEF_VALUE_IS_FRONT)
 
-    const val KEY_IS_PREVIEW_ONLY: String = "is_preview_only"
-    const val DEF_VALUE_IS_PREVIEW_ONLY: Boolean = false
-    var isPreviewOnly: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_PREVIEW_ONLY, DEF_VALUE_IS_PREVIEW_ONLY)
-
     const val KEY_IS_VIDEO: String = "is_video"
     const val DEF_VALUE_IS_VIDEO: Boolean = false
     var isVideo: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_VIDEO, DEF_VALUE_IS_VIDEO)
@@ -79,13 +75,9 @@ object ProfileHelper {
 
     const val KEY_BACK_VIDEO: String = "back_video"
 
-    const val KEY_BACK_PREVIEW: String = "back_preview"
-
     const val KEY_FRONT_PHOTO: String = "front_photo"
 
     const val KEY_FRONT_VIDEO: String = "front_video"
-
-    const val KEY_FRONT_PREVIEW: String = "front_preview"
 
     fun device(): CameraHelper.Device {
         return if (isFront) CameraHelper.frontDevice else CameraHelper.backDevice

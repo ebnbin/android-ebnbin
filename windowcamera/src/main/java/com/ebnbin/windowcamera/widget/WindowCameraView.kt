@@ -143,11 +143,6 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 invalidateCamera()
                 openCamera()
             }
-            ProfileHelper.KEY_IS_PREVIEW_ONLY -> {
-                closeCamera()
-                invalidateCamera()
-                openCamera()
-            }
             ProfileHelper.KEY_IS_VIDEO -> {
                 closeCamera()
                 invalidateCamera()
@@ -391,13 +386,10 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-        if (isPreviewOnly) {
+        if (isVideo) {
+            videoCapture()
         } else {
-            if (isVideo) {
-                videoCapture()
-            } else {
-                photoCapture()
-            }
+            photoCapture()
         }
         return false
     }
@@ -415,12 +407,10 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     private lateinit var device: CameraHelper.Device
-    private var isPreviewOnly: Boolean = false
     private var isVideo: Boolean = false
 
     private fun invalidateCamera() {
         device = if (ProfileHelper.isFront) CameraHelper.frontDevice else CameraHelper.backDevice
-        isPreviewOnly = ProfileHelper.isPreviewOnly
         isVideo = ProfileHelper.isVideo
     }
 
@@ -479,27 +469,19 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     private fun startPreview() {
-        if (isPreviewOnly) {
-            startPreviewOnly()
+        if (isVideo) {
+            startVideoPreview()
         } else {
-            if (isVideo) {
-                startVideoPreview()
-            } else {
-                startPhotoPreview()
-            }
+            startPhotoPreview()
         }
     }
 
     private fun stopPreview() {
-        if (isPreviewOnly) {
-            stopPreviewOnly()
+        if (isVideo) {
+            stopVideoCapture(false)
+            stopVideoPreview()
         } else {
-            if (isVideo) {
-                stopVideoCapture(false)
-                stopVideoPreview()
-            } else {
-                stopPhotoPreview()
-            }
+            stopPhotoPreview()
         }
     }
 
@@ -706,46 +688,6 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             stopVideoCapture(true)
         } else {
             startVideoCapture()
-        }
-    }
-
-    //*****************************************************************************************************************
-
-    private var previewCameraCaptureSession: CameraCaptureSession? = null
-
-    private fun startPreviewOnly() {
-        val cameraDevice = cameraDevice ?: return
-
-        val surfaceTextureSurface = Surface(textureView.surfaceTexture)
-        val outputs = listOf(surfaceTextureSurface)
-        val callback = object : CameraCaptureSession.StateCallback() {
-            override fun onConfigured(session: CameraCaptureSession) {
-                previewCameraCaptureSession = session
-
-                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-                captureRequestBuilder.addTarget(surfaceTextureSurface)
-                val request = captureRequestBuilder.build()
-                session.setRepeatingRequest(request, null, null)
-
-                ProfileHelper.isCameraProfileInvalidating = false
-            }
-
-            override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError()
-            }
-        }
-        cameraDevice.createCaptureSession(outputs, callback, null)
-    }
-
-    private fun stopPreviewOnly() {
-        previewCameraCaptureSession?.run {
-            previewCameraCaptureSession = null
-            try {
-                stopRepeating()
-            } catch (e: IllegalStateException) {
-                // stopRepeating 对应 setRepeatingRequest, 但有可能出现 previewCameraCaptureSession 已经 closed 的情况.
-            }
-            close()
         }
     }
 

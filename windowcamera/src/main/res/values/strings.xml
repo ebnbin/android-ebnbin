@@ -5,9 +5,5 @@
     <string name="window">窗口</string>
     <string name="camera">相机</string>
     <string name="other">其它</string>
-    <string name="album">相册</string>
-    <string name="profile_default">默认</string>
-    <string name="profile_custom_1">自定义 1</string>
-    <string name="profile_custom_2">自定义 2</string>
     <string name="camera_error">相机异常。</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.ebnbin.windowcamera.profile
 
 import android.os.Bundle
-import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.SwitchPreferenceCompat
 import com.ebnbin.windowcamera.R
@@ -13,14 +12,11 @@ import org.greenrobot.eventbus.ThreadMode
 
 class CameraProfileFragment : BaseProfileFragment() {
     private lateinit var isFrontPreference: SwitchPreferenceCompat
-    private lateinit var isPreviewOnlyPreference: CheckBoxPreference
     private lateinit var isVideoPreference: SwitchPreferenceCompat
     private lateinit var backPhotoPreferenceGroup: EmptyPreferenceGroup
     private lateinit var backVideoPreferenceGroup: EmptyPreferenceGroup
-    private lateinit var backPreviewPreferenceGroup: EmptyPreferenceGroup
     private lateinit var frontPhotoPreferenceGroup: EmptyPreferenceGroup
     private lateinit var frontVideoPreferenceGroup: EmptyPreferenceGroup
-    private lateinit var frontPreviewPreferenceGroup: EmptyPreferenceGroup
     private lateinit var footerPreference: FooterPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -38,55 +34,13 @@ class CameraProfileFragment : BaseProfileFragment() {
             setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
                 invalidateIcon(newValue)
-                backPhotoPreferenceGroup.isVisible = !newValue &&
-                        !isPreviewOnlyPreference.isChecked &&
-                        !isVideoPreference.isChecked
-                backVideoPreferenceGroup.isVisible = !newValue &&
-                        !isPreviewOnlyPreference.isChecked &&
-                        isVideoPreference.isChecked
-                backPreviewPreferenceGroup.isVisible = !newValue &&
-                        isPreviewOnlyPreference.isChecked
-                frontPhotoPreferenceGroup.isVisible = newValue &&
-                        !isPreviewOnlyPreference.isChecked &&
-                        !isVideoPreference.isChecked
-                frontVideoPreferenceGroup.isVisible = newValue &&
-                        !isPreviewOnlyPreference.isChecked &&
-                        isVideoPreference.isChecked
-                frontPreviewPreferenceGroup.isVisible = newValue &&
-                        isPreviewOnlyPreference.isChecked
+                backPhotoPreferenceGroup.isVisible = !newValue && !isVideoPreference.isChecked
+                backVideoPreferenceGroup.isVisible = !newValue && isVideoPreference.isChecked
+                frontPhotoPreferenceGroup.isVisible = newValue && !isVideoPreference.isChecked
+                frontVideoPreferenceGroup.isVisible = newValue && isVideoPreference.isChecked
                 true
             }
             invalidateIcon(isChecked)
-            preferenceScreen.addPreference(this)
-        }
-
-        isPreviewOnlyPreference = CheckBoxPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_PREVIEW_ONLY
-            setDefaultValue(ProfileHelper.DEF_VALUE_IS_PREVIEW_ONLY)
-            setTitle(R.string.profile_is_preview_only)
-            setSummaryOff(R.string.profile_is_preview_summary_off)
-            setSummaryOn(R.string.profile_is_preview_summary_on)
-            setOnPreferenceChangeListener { _, newValue ->
-                newValue as Boolean
-                isVideoPreference.isVisible = !newValue
-                backPhotoPreferenceGroup.isVisible = !isFrontPreference.isChecked &&
-                        !newValue &&
-                        !isVideoPreference.isChecked
-                backVideoPreferenceGroup.isVisible = !isFrontPreference.isChecked &&
-                        !newValue &&
-                        isVideoPreference.isChecked
-                backPreviewPreferenceGroup.isVisible = !isFrontPreference.isChecked &&
-                        newValue
-                frontPhotoPreferenceGroup.isVisible = isFrontPreference.isChecked &&
-                        !newValue &&
-                        !isVideoPreference.isChecked
-                frontVideoPreferenceGroup.isVisible = isFrontPreference.isChecked &&
-                        !newValue &&
-                        isVideoPreference.isChecked
-                frontPreviewPreferenceGroup.isVisible = isFrontPreference.isChecked &&
-                        newValue
-                true
-            }
             preferenceScreen.addPreference(this)
         }
 
@@ -98,28 +52,15 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileHelper.KEY_IS_VIDEO
             setDefaultValue(ProfileHelper.DEF_VALUE_IS_VIDEO)
             setTitle(R.string.profile_is_video)
-            isVisible = !isPreviewOnlyPreference.isChecked
             setSummaryOff(R.string.profile_is_video_summary_off)
             setSummaryOn(R.string.profile_is_video_summary_on)
             setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
                 invalidateIcon(newValue)
-                backPhotoPreferenceGroup.isVisible = !isFrontPreference.isChecked &&
-                        !isPreviewOnlyPreference.isChecked &&
-                        !newValue
-                backVideoPreferenceGroup.isVisible = !isFrontPreference.isChecked &&
-                        !isPreviewOnlyPreference.isChecked &&
-                        newValue
-                backPreviewPreferenceGroup.isVisible = !isFrontPreference.isChecked &&
-                        isPreviewOnlyPreference.isChecked
-                frontPhotoPreferenceGroup.isVisible = isFrontPreference.isChecked &&
-                        !isPreviewOnlyPreference.isChecked &&
-                        !newValue
-                frontVideoPreferenceGroup.isVisible = isFrontPreference.isChecked &&
-                        !isPreviewOnlyPreference.isChecked &&
-                        newValue
-                frontPreviewPreferenceGroup.isVisible = isFrontPreference.isChecked &&
-                        isPreviewOnlyPreference.isChecked
+                backPhotoPreferenceGroup.isVisible = !isFrontPreference.isChecked && !newValue
+                backVideoPreferenceGroup.isVisible = !isFrontPreference.isChecked && newValue
+                frontPhotoPreferenceGroup.isVisible = isFrontPreference.isChecked && !newValue
+                frontVideoPreferenceGroup.isVisible = isFrontPreference.isChecked && newValue
                 true
             }
             invalidateIcon(isChecked)
@@ -128,9 +69,7 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         backPhotoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_BACK_PHOTO
-            isVisible = !isFrontPreference.isChecked &&
-                    !isPreviewOnlyPreference.isChecked &&
-                    !isVideoPreference.isChecked
+            isVisible = !isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
             addPreference(Preference(requireContext()).apply {
                 title = "Back Photo"
@@ -139,30 +78,16 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         backVideoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_BACK_VIDEO
-            isVisible = !isFrontPreference.isChecked &&
-                    !isPreviewOnlyPreference.isChecked &&
-                    isVideoPreference.isChecked
+            isVisible = !isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
             addPreference(Preference(requireContext()).apply {
                 title = "Back Video"
             })
         }
 
-        backPreviewPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_BACK_PREVIEW
-            isVisible = !isFrontPreference.isChecked &&
-                    isPreviewOnlyPreference.isChecked
-            preferenceScreen.addPreference(this)
-            addPreference(Preference(requireContext()).apply {
-                title = "Back Preview"
-            })
-        }
-
         frontPhotoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_FRONT_PHOTO
-            isVisible = isFrontPreference.isChecked &&
-                    !isPreviewOnlyPreference.isChecked &&
-                    !isVideoPreference.isChecked
+            isVisible = isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
             addPreference(Preference(requireContext()).apply {
                 title = "Front Photo"
@@ -171,22 +96,10 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         frontVideoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_FRONT_VIDEO
-            isVisible = isFrontPreference.isChecked &&
-                    !isPreviewOnlyPreference.isChecked &&
-                    isVideoPreference.isChecked
+            isVisible = isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
             addPreference(Preference(requireContext()).apply {
                 title = "Front Video"
-            })
-        }
-
-        frontPreviewPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_FRONT_PREVIEW
-            isVisible = isFrontPreference.isChecked &&
-                    isPreviewOnlyPreference.isChecked
-            preferenceScreen.addPreference(this)
-            addPreference(Preference(requireContext()).apply {
-                title = "Front Preview"
             })
         }
 
@@ -207,25 +120,19 @@ class CameraProfileFragment : BaseProfileFragment() {
     private fun invalidateCameraProfile(isInvalidating: Boolean) {
         if (isInvalidating) {
             isFrontPreference.isEnabled = false
-            isPreviewOnlyPreference.isEnabled = false
             isVideoPreference.isEnabled = false
             backPhotoPreferenceGroup.isEnabled = false
             backVideoPreferenceGroup.isEnabled = false
-            backPreviewPreferenceGroup.isEnabled = false
             frontPhotoPreferenceGroup.isEnabled = false
             frontVideoPreferenceGroup.isEnabled = false
-            frontPreviewPreferenceGroup.isEnabled = false
 
         } else {
             isFrontPreference.isEnabled = true
-            isPreviewOnlyPreference.isEnabled = true
             isVideoPreference.isEnabled = true
             backPhotoPreferenceGroup.isEnabled = true
             backVideoPreferenceGroup.isEnabled = true
-            backPreviewPreferenceGroup.isEnabled = true
             frontPhotoPreferenceGroup.isEnabled = true
             frontVideoPreferenceGroup.isEnabled = true
-            frontPreviewPreferenceGroup.isEnabled = true
         }
     }
 }
