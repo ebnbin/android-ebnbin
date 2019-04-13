@@ -14,6 +14,8 @@
     <application
         android:name=".AppApplication"
         android:label="@string/app_label"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
         tools:replace="android:name">
         <activity
             android:name=".main.MainActivity"
