@@ -4,11 +4,10 @@ import com.ebnbin.eb.library.eventBus
 import com.ebnbin.eb.sharedpreferences.defaultSharedPreferencesName
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.event.CameraProfileEvent
-import com.ebnbin.windowcamera.sharedpreferences.SpHelper
 
 object ProfileHelper {
     val sharedPreferencesName: String
-        get() = "${defaultSharedPreferencesName}_profile_${SpHelper.profile}"
+        get() = "${defaultSharedPreferencesName}_profile_default"
 
     var page: Int by ProfileSharedPreferencesDelegate("page", 1)
 

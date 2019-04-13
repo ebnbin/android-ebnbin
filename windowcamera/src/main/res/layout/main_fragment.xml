@@ -33,21 +33,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:fabAlignmentMode="end"
+        app:fabAlignmentMode="center"
         app:fabCradleMargin="8dp"
         app:navigationIcon="@drawable/eb_menu"
-        app:backgroundTint="?android:attr/windowBackground">
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="96dp"
-            android:background="@drawable/main_spinner_background"
-            android:gravity="end"/>
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
+        app:backgroundTint="?android:attr/windowBackground"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button"
