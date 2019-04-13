@@ -21,47 +21,17 @@ object ProfileHelper {
     const val DEF_VALUE_RATIO: String = "capture"
     var ratio: String by ProfileSharedPreferencesDelegate(KEY_RATIO, DEF_VALUE_RATIO)
 
+    const val KEY_X: String = "x"
+    const val DEF_VALUE_X: Int = 50
+    var x: Int by ProfileSharedPreferencesDelegate(KEY_X, DEF_VALUE_X)
+
+    const val KEY_Y: String = "y"
+    const val DEF_VALUE_Y: Int = 50
+    var y: Int by ProfileSharedPreferencesDelegate(KEY_Y, DEF_VALUE_Y)
+
     const val KEY_IS_OUT_ENABLED: String = "is_out_enabled"
     const val DEF_VALUE_IS_OUT_ENABLED: Boolean = false
     var isOutEnabled: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_OUT_ENABLED, DEF_VALUE_IS_OUT_ENABLED)
-
-    const val KEY_IS_OUT_ENABLED_OFF: String = "is_out_enabled_off"
-
-    const val KEY_IN_X: String = "in_x"
-    const val DEF_VALUE_IN_X: Int = 50
-    var inX: Int by ProfileSharedPreferencesDelegate(KEY_IN_X, DEF_VALUE_IN_X)
-
-    const val KEY_IN_Y: String = "in_y"
-    const val DEF_VALUE_IN_Y: Int = 50
-    var inY: Int by ProfileSharedPreferencesDelegate(KEY_IN_Y, DEF_VALUE_IN_Y)
-
-    const val KEY_IS_OUT_ENABLED_ON: String = "is_out_enabled_on"
-
-    const val KEY_OUT_X: String = "out_x"
-    const val DEF_VALUE_OUT_X: Int = 50
-    var outX: Int by ProfileSharedPreferencesDelegate(KEY_OUT_X, DEF_VALUE_OUT_X)
-
-    const val KEY_OUT_Y: String = "out_y"
-    const val DEF_VALUE_OUT_Y: Int = 50
-    var outY: Int by ProfileSharedPreferencesDelegate(KEY_OUT_Y, DEF_VALUE_OUT_Y)
-
-    fun x(isOutEnabled: Boolean): Int {
-        return if (isOutEnabled) outX else inX
-    }
-
-    fun y(isOutEnabled: Boolean): Int {
-        return if (isOutEnabled) outY else inY
-    }
-
-    fun putXY(x: Int, y: Int, isOutEnabled: Boolean) {
-        if (isOutEnabled) {
-            outX = x
-            outY = y
-        } else {
-            inX = x
-            inY = y
-        }
-    }
 
     const val KEY_IS_FRONT: String = "is_front"
     const val DEF_VALUE_IS_FRONT: Boolean = false

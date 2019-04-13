@@ -9,7 +9,6 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.SeekBarPreference
 import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.profile.preference.EmptyPreferenceGroup
 import com.ebnbin.windowcamera.profile.preference.FooterPreference
 
 class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -26,13 +25,9 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
     private lateinit var layoutPreference: PreferenceCategory
     private lateinit var sizePreference: SeekBarPreference
     private lateinit var ratioPreference: ListPreference
+    private lateinit var xPreference: SeekBarPreference
+    private lateinit var yPreference: SeekBarPreference
     private lateinit var isOutEnabledPreference: CheckBoxPreference
-    private lateinit var isOutEnabledOffPreferenceGroup: EmptyPreferenceGroup
-    private lateinit var inXPreference: SeekBarPreference
-    private lateinit var inYPreference: SeekBarPreference
-    private lateinit var isOutEnabledOnPreferenceGroup: EmptyPreferenceGroup
-    private lateinit var outXPreference: SeekBarPreference
-    private lateinit var outYPreference: SeekBarPreference
     private lateinit var footerPreference: FooterPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -82,71 +77,33 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             preferenceScreen.addPreference(this)
         }
 
+        xPreference = SeekBarPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_X
+            setDefaultValue(ProfileHelper.DEF_VALUE_X)
+            setTitle(R.string.profile_x)
+            setSummary(R.string.profile_x_summary)
+            min = -99
+            max = 199
+            preferenceScreen.addPreference(this)
+        }
+
+        yPreference = SeekBarPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_Y
+            setDefaultValue(ProfileHelper.DEF_VALUE_Y)
+            setTitle(R.string.profile_y)
+            setSummary(R.string.profile_y_summary)
+            min = -99
+            max = 199
+            preferenceScreen.addPreference(this)
+        }
+
         isOutEnabledPreference = CheckBoxPreference(requireContext()).apply {
             key = ProfileHelper.KEY_IS_OUT_ENABLED
             setDefaultValue(ProfileHelper.DEF_VALUE_IS_OUT_ENABLED)
             setTitle(R.string.profile_is_out_enable)
             setSummaryOff(R.string.profile_is_out_enable_summary_off)
             setSummaryOn(R.string.profile_is_out_enable_summary_on)
-            setOnPreferenceChangeListener { _, newValue ->
-                newValue as Boolean
-                isOutEnabledOffPreferenceGroup.isVisible = !newValue
-                isOutEnabledOnPreferenceGroup.isVisible = newValue
-                true
-            }
             preferenceScreen.addPreference(this)
-        }
-
-        isOutEnabledOffPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_OUT_ENABLED_OFF
-            isVisible = !isOutEnabledPreference.isChecked
-            preferenceScreen.addPreference(this)
-        }
-
-        inXPreference = SeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IN_X
-            setDefaultValue(ProfileHelper.DEF_VALUE_IN_X)
-            setTitle(R.string.profile_in_x)
-            setSummary(R.string.profile_in_x_summary)
-            min = 0
-            max = 100
-            isOutEnabledOffPreferenceGroup.addPreference(this)
-        }
-
-        inYPreference = SeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IN_Y
-            setDefaultValue(ProfileHelper.DEF_VALUE_IN_Y)
-            setTitle(R.string.profile_in_y)
-            setSummary(R.string.profile_in_y_summary)
-            min = 0
-            max = 100
-            isOutEnabledOffPreferenceGroup.addPreference(this)
-        }
-
-        isOutEnabledOnPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_OUT_ENABLED_ON
-            isVisible = isOutEnabledPreference.isChecked
-            preferenceScreen.addPreference(this)
-        }
-
-        outXPreference = SeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_OUT_X
-            setDefaultValue(ProfileHelper.DEF_VALUE_OUT_X)
-            setTitle(R.string.profile_out_x)
-            setSummary(R.string.profile_out_x_summary)
-            min = -99
-            max = 199
-            isOutEnabledOnPreferenceGroup.addPreference(this)
-        }
-
-        outYPreference = SeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_OUT_Y
-            setDefaultValue(ProfileHelper.DEF_VALUE_OUT_Y)
-            setTitle(R.string.profile_out_y)
-            setSummary(R.string.profile_out_y_summary)
-            min = -99
-            max = 199
-            isOutEnabledOnPreferenceGroup.addPreference(this)
         }
 
         footerPreference = FooterPreference(requireContext()).apply {
@@ -157,32 +114,18 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         sharedPreferences ?: return
         when (key) {
-            ProfileHelper.KEY_OUT_X -> {
-                val oldValue = outXPreference.value
-                val newValue = sharedPreferences.get(ProfileHelper.KEY_OUT_X, ProfileHelper.DEF_VALUE_OUT_X)
+            ProfileHelper.KEY_X -> {
+                val oldValue = xPreference.value
+                val newValue = sharedPreferences.get(ProfileHelper.KEY_X, ProfileHelper.DEF_VALUE_X)
                 if (oldValue != newValue) {
-                    outXPreference.value = newValue
+                    xPreference.value = newValue
                 }
             }
-            ProfileHelper.KEY_OUT_Y -> {
-                val oldValue = outYPreference.value
-                val newValue = sharedPreferences.get(ProfileHelper.KEY_OUT_Y, ProfileHelper.DEF_VALUE_OUT_Y)
+            ProfileHelper.KEY_Y -> {
+                val oldValue = yPreference.value
+                val newValue = sharedPreferences.get(ProfileHelper.KEY_Y, ProfileHelper.DEF_VALUE_Y)
                 if (oldValue != newValue) {
-                    outYPreference.value = newValue
-                }
-            }
-            ProfileHelper.KEY_IN_X -> {
-                val oldValue = inXPreference.value
-                val newValue = sharedPreferences.get(ProfileHelper.KEY_IN_X, ProfileHelper.DEF_VALUE_IN_X)
-                if (oldValue != newValue) {
-                    inXPreference.value = newValue
-                }
-            }
-            ProfileHelper.KEY_IN_Y -> {
-                val oldValue = inYPreference.value
-                val newValue = sharedPreferences.get(ProfileHelper.KEY_IN_Y, ProfileHelper.DEF_VALUE_IN_Y)
-                if (oldValue != newValue) {
-                    inYPreference.value = newValue
+                    yPreference.value = newValue
                 }
             }
         }

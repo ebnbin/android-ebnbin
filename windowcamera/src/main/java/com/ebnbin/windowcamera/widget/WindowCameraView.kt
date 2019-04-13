@@ -117,26 +117,20 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ProfileHelper.KEY_IS_OUT_ENABLED -> {
-                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-            }
-            ProfileHelper.KEY_IN_X -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
-            }
-            ProfileHelper.KEY_IN_Y -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
-            }
-            ProfileHelper.KEY_OUT_X -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
-            }
-            ProfileHelper.KEY_OUT_Y -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
-            }
             ProfileHelper.KEY_SIZE -> {
                 invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
             }
             ProfileHelper.KEY_RATIO -> {
                 invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+            }
+            ProfileHelper.KEY_X -> {
+                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+            }
+            ProfileHelper.KEY_Y -> {
+                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+            }
+            ProfileHelper.KEY_IS_OUT_ENABLED -> {
+                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
             }
             ProfileHelper.KEY_IS_FRONT -> {
                 closeCamera()
@@ -204,7 +198,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             } else {
                 rotationSize = RotationSize(width, height, displaySize.rotation)
             }
-            val xSp = ProfileHelper.x(isOutEnabled)
+            val xSp = ProfileHelper.x
             val xRange: Int
             val xPercent: Int
             val xOffset: Int
@@ -227,7 +221,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 else -> throw RuntimeException()
             }
             x = calcPosition(xRange, xPercent, xOffset)
-            val ySp = ProfileHelper.y(isOutEnabled)
+            val ySp = ProfileHelper.y
             val yRange: Int
             val yPercent: Int
             val yOffset: Int
@@ -342,12 +336,13 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         }
         val yPercent = calcPositionPercent(yPosition, yRange, yPercentOffset, isOutEnabled)
 
-        val xSp = ProfileHelper.x(isOutEnabled)
-        val ySp = ProfileHelper.y(isOutEnabled)
+        val xSp = ProfileHelper.x
+        val ySp = ProfileHelper.y
         if (xPercent == xSp && yPercent == ySp) {
             invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
         } else {
-            ProfileHelper.putXY(xPercent, yPercent, isOutEnabled)
+            ProfileHelper.x = xPercent
+            ProfileHelper.y = yPercent
         }
     }
 
