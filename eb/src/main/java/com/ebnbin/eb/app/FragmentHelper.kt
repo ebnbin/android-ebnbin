@@ -9,13 +9,8 @@ import com.ebnbin.eb.util.ebApp
  * Fragment 帮助类.
  */
 object FragmentHelper {
-    fun <T : Fragment> instantiate(
-        fm: FragmentManager,
-        fragmentClass: Class<T>,
-        fillArguments: (Bundle.() -> Unit)? = null
-    ): T {
-        val arguments = if (fillArguments == null) null else Bundle().also { fillArguments(it) }
-        val fragment = fm.fragmentFactory.instantiate(ebApp.classLoader, fragmentClass.name, arguments)
+    fun <T : Fragment> instantiate(fm: FragmentManager, fragmentClass: Class<T>): T {
+        val fragment = fm.fragmentFactory.instantiate(ebApp.classLoader, fragmentClass.name)
         return fragmentClass.cast(fragment) as T
     }
 
@@ -26,7 +21,9 @@ object FragmentHelper {
         tag: String = fragmentClass.name,
         fillArguments: (Bundle.() -> Unit)? = null
     ): T {
-        val fragment = instantiate(fm, fragmentClass, fillArguments)
+        val arguments = if (fillArguments == null) null else Bundle().also { fillArguments(it) }
+        val fragment = instantiate(fm, fragmentClass)
+        fragment.arguments = arguments
         fm.beginTransaction().add(containerViewId, fragment, tag).commit()
         return fragment
     }
