@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="eb_black">#000</color>
+    <color name="eb_white">#fff</color>
 
     <color name="eb_material_red_900">#b71c1c</color>
     <color name="eb_material_pink_a100">#ff80ab</color>

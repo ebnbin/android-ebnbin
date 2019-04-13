@@ -5,6 +5,7 @@
 
     <bool name="eb_is_not_night">true</bool>
 
+    <color name="eb_status_bar">@color/eb_white</color>
     <color name="eb_window_background">@color/eb_material_gray_50</color>
     <color name="eb_primary">@color/eb_material_light_blue_500</color>
     <color name="eb_secondary">@color/eb_material_pink_a200</color>
@@ -12,7 +13,7 @@
     <style name="EBBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/eb_window_background</item>
         <item name="android:windowLightStatusBar">@bool/eb_is_not_night</item>
-        <item name="android:statusBarColor">@color/eb_window_background</item>
+        <item name="android:statusBarColor">@color/eb_status_bar</item>
         <item name="colorPrimary">@color/eb_primary</item>
         <item name="colorPrimaryDark">@color/eb_primary</item>
         <item name="colorAccent">@color/eb_primary</item>

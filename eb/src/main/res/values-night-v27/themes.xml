@@ -2,6 +2,7 @@
 <resources>
     <bool name="eb_is_not_night">false</bool>
 
+    <color name="eb_status_bar">@color/eb_black</color>
     <color name="eb_window_background">@color/eb_material_gray_900</color>
     <color name="eb_primary">@color/eb_material_light_blue_200</color>
     <color name="eb_secondary">@color/eb_material_pink_a100</color>
@@ -9,7 +10,7 @@
     <!-- Base theme. -->
     <style name="EBTheme" parent="EBBaseTheme">
         <item name="android:windowLightNavigationBar">@bool/eb_is_not_night</item>
-        <item name="android:navigationBarColor">@color/eb_window_background</item>
+        <item name="android:navigationBarColor">@color/eb_status_bar</item>
         <item name="ebThemeOverlay">@style/ThemeOverlay.MaterialComponents.Dark</item>
         <item name="ebThemeOverlayInverse">@style/ThemeOverlay.MaterialComponents.Light</item>
     </style>

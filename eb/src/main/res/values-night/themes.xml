@@ -2,6 +2,7 @@
 <resources>
     <bool name="eb_is_not_night">false</bool>
 
+    <color name="eb_status_bar">@color/eb_black</color>
     <color name="eb_window_background">@color/eb_material_gray_900</color>
     <color name="eb_primary">@color/eb_material_light_blue_200</color>
     <color name="eb_secondary">@color/eb_material_pink_a100</color>
