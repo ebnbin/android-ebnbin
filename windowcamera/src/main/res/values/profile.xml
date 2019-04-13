@@ -21,6 +21,11 @@
     <string name="profile_is_out_enable_summary_off">允许窗口移出屏幕</string>
     <string name="profile_is_out_enable_summary_on">不允许窗口移出屏幕</string>
 
+    <string name="profile_display">显示</string>
+
+    <string name="profile_alpha">窗口不透明度</string>
+    <string name="profile_alpha_summary">窗口不透明度</string>
+
     <string name="profile_is_front">摄像头</string>
     <string name="profile_is_front_summary_off">后置摄像头</string>
     <string name="profile_is_front_summary_on">前置摄像头</string>

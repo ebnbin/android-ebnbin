@@ -71,6 +71,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         startBackgroundThread()
 
         invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+        invalidateAlpha()
         invalidateCamera()
     }
 
@@ -131,6 +132,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             }
             ProfileHelper.KEY_IS_OUT_ENABLED -> {
                 invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+            }
+            ProfileHelper.KEY_ALPHA -> {
+                invalidateAlpha()
             }
             ProfileHelper.KEY_IS_FRONT -> {
                 closeCamera()
@@ -244,6 +248,12 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 else -> throw RuntimeException()
             }
             y = calcPosition(yRange, yPercent, yOffset)
+        }
+    }
+
+    private fun invalidateAlpha() {
+        updateLayoutParams {
+            alpha = ProfileHelper.alpha / 100f
         }
     }
 

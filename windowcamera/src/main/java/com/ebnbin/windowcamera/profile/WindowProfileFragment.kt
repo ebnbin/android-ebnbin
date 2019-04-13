@@ -28,6 +28,8 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
     private lateinit var xPreference: SeekBarPreference
     private lateinit var yPreference: SeekBarPreference
     private lateinit var isOutEnabledPreference: CheckBoxPreference
+    private lateinit var displayPreference: PreferenceCategory
+    private lateinit var alphaPreference: SeekBarPreference
     private lateinit var footerPreference: FooterPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -103,6 +105,22 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             setTitle(R.string.profile_is_out_enable)
             setSummaryOff(R.string.profile_is_out_enable_summary_off)
             setSummaryOn(R.string.profile_is_out_enable_summary_on)
+            preferenceScreen.addPreference(this)
+        }
+
+        displayPreference = PreferenceCategory(requireContext()).apply {
+            key = ProfileHelper.KEY_DISPLAY
+            setTitle(R.string.profile_display)
+            preferenceScreen.addPreference(this)
+        }
+
+        alphaPreference = SeekBarPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_ALPHA
+            setDefaultValue(ProfileHelper.DEF_VALUE_ALPHA)
+            setTitle(R.string.profile_alpha)
+            setSummary(R.string.profile_alpha_summary)
+            min = 1
+            max = 100
             preferenceScreen.addPreference(this)
         }
 

@@ -30,8 +30,14 @@ object ProfileHelper {
     var y: Int by ProfileSharedPreferencesDelegate(KEY_Y, DEF_VALUE_Y)
 
     const val KEY_IS_OUT_ENABLED: String = "is_out_enabled"
-    const val DEF_VALUE_IS_OUT_ENABLED: Boolean = false
+    const val DEF_VALUE_IS_OUT_ENABLED: Boolean = true
     var isOutEnabled: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_OUT_ENABLED, DEF_VALUE_IS_OUT_ENABLED)
+
+    const val KEY_DISPLAY: String = "display"
+
+    const val KEY_ALPHA: String = "alpha"
+    const val DEF_VALUE_ALPHA: Int = 100
+    var alpha: Int by ProfileSharedPreferencesDelegate(KEY_ALPHA, DEF_VALUE_ALPHA)
 
     const val KEY_IS_FRONT: String = "is_front"
     const val DEF_VALUE_IS_FRONT: Boolean = false
