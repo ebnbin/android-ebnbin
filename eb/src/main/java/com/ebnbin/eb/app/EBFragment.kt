@@ -4,6 +4,13 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.library.eventBus
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Base Fragment.
@@ -54,5 +61,40 @@ abstract class EBFragment : Fragment() {
 
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
+    }
+
+    //*****************************************************************************************************************
+
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    override fun onDestroyView() {
+        compositeDisposable.clear()
+        super.onDestroyView()
+    }
+
+    protected fun <T> asyncRequest(
+        observable: Observable<T>,
+        onNext: Consumer<in T>? = null,
+        onError: Consumer<in Throwable>? = null,
+        onComplete: Action? = null,
+        onSubscribe: Consumer<in Disposable>? = null
+    ): Disposable {
+        return observable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    onNext?.accept(it)
+                },
+                {
+                    onError?.accept(it)
+                },
+                {
+                    onComplete?.run()
+                },
+                {
+                    compositeDisposable.add(it)
+                    onSubscribe?.accept(it)
+                })
     }
 }

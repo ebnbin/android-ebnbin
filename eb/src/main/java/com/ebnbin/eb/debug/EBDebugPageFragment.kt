@@ -3,8 +3,11 @@ package com.ebnbin.eb.debug
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import com.ebnbin.eb.net.NetHelper
 import com.ebnbin.eb.sharedpreferences.EBSp
 import com.ebnbin.eb.util.restartMainActivity
+import com.ebnbin.eb.util.toast
+import io.reactivex.functions.Consumer
 
 /**
  * Debug EB 页面.
@@ -22,6 +25,14 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Calling Activity", activity?.callingActivity?.className.toString())
 
         addDebugItem("Calling Fragment", callingFragmentClassName.toString())
+
+        addDebugItem("Net") {
+            asyncRequest(
+                NetHelper.service.ebnbin(),
+                Consumer { toast(requireContext(), it.name) },
+                Consumer { toast(requireContext(), it) }
+            )
+        }
 
         addDebugItem("夜间模式", "关闭") {
             EBSp.eb.night_mode = AppCompatDelegate.MODE_NIGHT_NO
