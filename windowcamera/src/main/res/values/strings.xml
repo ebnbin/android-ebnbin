@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_label">Window Camera</string>
+    <string name="app_label">窗口相机</string>
 
     <string name="window">窗口</string>
     <string name="camera">相机</string>
