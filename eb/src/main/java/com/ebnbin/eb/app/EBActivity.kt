@@ -17,6 +17,11 @@ import com.ebnbin.eb.library.eventBus
 open class EBActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (intent?.getBooleanExtra("finish", false) == true) {
+            finish()
+            return
+        }
+
         if (isEventBusEnabled && !eventBus.isRegistered(this)) {
             eventBus.register(this)
         }

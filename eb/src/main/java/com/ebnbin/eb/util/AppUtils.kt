@@ -38,6 +38,13 @@ fun restartMainActivity() {
     ebApp.startActivity(intent)
 }
 
+fun closeApp() {
+    val intent = ebApp.packageManager.getLaunchIntentForPackage(ebApp.packageName) ?: return
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+    intent.putExtra("finish", true)
+    ebApp.startActivity(intent)
+}
+
 //*********************************************************************************************************************
 
 val Float.dpToPx: Float
@@ -146,3 +153,8 @@ fun vibrate(milliseconds: Long) {
         vibrator.vibrate(milliseconds)
     }
 }
+
+//*********************************************************************************************************************
+
+val versionCode: Int
+    get() = ebApp.packageManager.getPackageInfo(ebApp.packageName, 0).longVersionCode.toInt()

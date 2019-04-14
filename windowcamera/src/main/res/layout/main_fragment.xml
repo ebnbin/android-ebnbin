@@ -20,7 +20,7 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?android:attr/windowBackground"
+            android:backgroundTint="?attr/colorSurface"
             app:tabBackground="?attr/colorSurface"
             app:tabTextColor="?android:attr/textColorSecondary"
             app:tabSelectedTextColor="?attr/colorPrimary"

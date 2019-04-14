@@ -26,10 +26,10 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
 
         addDebugItem("Calling Fragment", callingFragmentClassName.toString())
 
-        addDebugItem("Net") {
+        addDebugItem("Update") {
             asyncRequest(
-                NetHelper.service.ebnbin(),
-                Consumer { toast(requireContext(), it.name) },
+                NetHelper.ebService.update(),
+                Consumer { toast(requireContext(), "${it.version}") },
                 Consumer { toast(requireContext(), it) }
             )
         }
