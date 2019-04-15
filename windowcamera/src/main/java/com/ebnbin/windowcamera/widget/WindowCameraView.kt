@@ -10,6 +10,7 @@ import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.media.ImageReader
 import android.media.MediaRecorder
+import android.os.Environment
 import android.os.Handler
 import android.os.HandlerThread
 import android.view.GestureDetector
@@ -606,7 +607,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val byteBuffer = image.planes[0].buffer
         val byteArray = ByteArray(byteBuffer.remaining())
         byteBuffer.get(byteArray)
-        val file = File(context.getExternalFilesDir(null), "${System.currentTimeMillis()}.jpg")
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM), "${System.currentTimeMillis()}.jpg")
         val fos = FileOutputStream(file)
         fos.write(byteArray)
         fos.close()
@@ -666,7 +667,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         val cameraDevice = cameraDevice ?: return
 
-        val videoFile = File(context.getExternalFilesDir(null), "${System.currentTimeMillis()}.mp4")
+        val videoFile = File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM),
+            "${System.currentTimeMillis()}.mp4")
         val mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
