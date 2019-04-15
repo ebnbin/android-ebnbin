@@ -146,6 +146,26 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 invalidateCamera()
                 openCamera()
             }
+            ProfileHelper.KEY_BACK_PHOTO_RESOLUTION -> {
+                closeCamera()
+                invalidateCamera()
+                openCamera()
+            }
+            ProfileHelper.KEY_BACK_VIDEO_PROFILE -> {
+                closeCamera()
+                invalidateCamera()
+                openCamera()
+            }
+            ProfileHelper.KEY_FRONT_PHOTO_RESOLUTION -> {
+                closeCamera()
+                invalidateCamera()
+                openCamera()
+            }
+            ProfileHelper.KEY_FRONT_VIDEO_PROFILE -> {
+                closeCamera()
+                invalidateCamera()
+                openCamera()
+            }
         }
     }
 
@@ -413,10 +433,20 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     private lateinit var device: CameraHelper.Device
     private var isVideo: Boolean = false
+    private lateinit var photoResolution: CameraHelper.Device.Resolution
+    private lateinit var videoProfile: CameraHelper.Device.VideoProfile
 
     private fun invalidateCamera() {
-        device = if (ProfileHelper.isFront) CameraHelper.frontDevice else CameraHelper.backDevice
+        device = ProfileHelper.device()
         isVideo = ProfileHelper.isVideo
+        val photoResolution = ProfileHelper.photoResolution()
+        if (photoResolution != null) {
+            this.photoResolution = photoResolution
+        }
+        val videoProfile = ProfileHelper.videoProfile()
+        if (videoProfile != null) {
+            this.videoProfile = videoProfile
+        }
     }
 
     //*****************************************************************************************************************
@@ -499,7 +529,6 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     private fun startPhotoPreview() {
         val cameraDevice = cameraDevice ?: return
 
-        val photoResolution = device.photoResolutions.first()
         val imageReader = ImageReader.newInstance(photoResolution.width, photoResolution.height, ImageFormat.JPEG, 2)
         imageReader.setOnImageAvailableListener(this, null)
         this.imageReader = imageReader
@@ -622,7 +651,6 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         val cameraDevice = cameraDevice ?: return
 
-        val videoProfile = ProfileHelper.device().videoProfiles.first()
         val videoFile = File(context.getExternalFilesDir(null), "${System.currentTimeMillis()}.mp4")
         val mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)

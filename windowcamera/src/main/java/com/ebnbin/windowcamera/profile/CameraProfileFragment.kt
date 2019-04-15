@@ -1,9 +1,11 @@
 package com.ebnbin.windowcamera.profile
 
 import android.os.Bundle
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.SwitchPreferenceCompat
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.event.CameraProfileEvent
 import com.ebnbin.windowcamera.profile.preference.EmptyPreferenceGroup
 import com.ebnbin.windowcamera.profile.preference.FooterPreference
@@ -14,9 +16,13 @@ class CameraProfileFragment : BaseProfileFragment() {
     private lateinit var isFrontPreference: SwitchPreferenceCompat
     private lateinit var isVideoPreference: SwitchPreferenceCompat
     private lateinit var backPhotoPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var backPhotoResolutionPreference: ListPreference
     private lateinit var backVideoPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var backVideoProfilePreference: ListPreference
     private lateinit var frontPhotoPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var frontPhotoResolutionPreference: ListPreference
     private lateinit var frontVideoPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var frontVideoProfilePreference: ListPreference
     private lateinit var footerPreference: FooterPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -71,36 +77,112 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileHelper.KEY_BACK_PHOTO
             isVisible = !isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
-            addPreference(Preference(requireContext()).apply {
-                title = "Back Photo"
-            })
+        }
+
+        backPhotoResolutionPreference = ListPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_BACK_PHOTO_RESOLUTION
+            setDefaultValue(ProfileHelper.DEF_VALUE_BACK_PHOTO_RESOLUTION)
+            setTitle(R.string.profile_back_photo_resolution)
+            summaryProvider = Preference.SummaryProvider<ListPreference> {
+                val resolution = CameraHelper.backDevice.getPhotoResolutionOrElse(it.value) {
+                    val result = CameraHelper.backDevice.photoResolutions.first()
+                    value = result.toString()
+                    result
+                }
+                resolution.toString()
+            }
+            entries = CameraHelper.backDevice.photoResolutions
+                .map { it.toString() }
+                .toTypedArray()
+            entryValues = CameraHelper.backDevice.photoResolutions
+                .map { it.toString() }
+                .toTypedArray()
+            setDialogTitle(R.string.profile_back_photo_resolution)
+            backPhotoPreferenceGroup.addPreference(this)
         }
 
         backVideoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_BACK_VIDEO
             isVisible = !isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
-            addPreference(Preference(requireContext()).apply {
-                title = "Back Video"
-            })
+        }
+
+        backVideoProfilePreference = ListPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_BACK_VIDEO_PROFILE
+            setDefaultValue(ProfileHelper.DEF_VALUE_BACK_VIDEO_PROFILE)
+            setTitle(R.string.profile_back_video_profile)
+            summaryProvider = Preference.SummaryProvider<ListPreference> {
+                val videoProfile = CameraHelper.backDevice.getVideoProfileOrElse(it.value) {
+                    val result = CameraHelper.backDevice.videoProfiles.first()
+                    value = result.toString()
+                    result
+                }
+                videoProfile.toString()
+            }
+            entries = CameraHelper.backDevice.videoProfiles
+                .map { it.toString() }
+                .toTypedArray()
+            entryValues = CameraHelper.backDevice.videoProfiles
+                .map { it.toString() }
+                .toTypedArray()
+            setDialogTitle(R.string.profile_back_video_profile)
+            backVideoPreferenceGroup.addPreference(this)
         }
 
         frontPhotoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_FRONT_PHOTO
             isVisible = isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
-            addPreference(Preference(requireContext()).apply {
-                title = "Front Photo"
-            })
+        }
+
+        frontPhotoResolutionPreference = ListPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_FRONT_PHOTO_RESOLUTION
+            setDefaultValue(ProfileHelper.DEF_VALUE_FRONT_PHOTO_RESOLUTION)
+            setTitle(R.string.profile_front_photo_resolution)
+            summaryProvider = Preference.SummaryProvider<ListPreference> {
+                val resolution = CameraHelper.frontDevice.getPhotoResolutionOrElse(it.value) {
+                    val result = CameraHelper.frontDevice.photoResolutions.first()
+                    value = result.toString()
+                    result
+                }
+                resolution.toString()
+            }
+            entries = CameraHelper.frontDevice.photoResolutions
+                .map { it.toString() }
+                .toTypedArray()
+            entryValues = CameraHelper.frontDevice.photoResolutions
+                .map { it.toString() }
+                .toTypedArray()
+            setDialogTitle(R.string.profile_front_photo_resolution)
+            frontPhotoPreferenceGroup.addPreference(this)
         }
 
         frontVideoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_FRONT_VIDEO
             isVisible = isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
-            addPreference(Preference(requireContext()).apply {
-                title = "Front Video"
-            })
+        }
+
+        frontVideoProfilePreference = ListPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_FRONT_VIDEO_PROFILE
+            setDefaultValue(ProfileHelper.DEF_VALUE_FRONT_VIDEO_PROFILE)
+            setTitle(R.string.profile_front_video_profile)
+            summaryProvider = Preference.SummaryProvider<ListPreference> {
+                val videoProfile = CameraHelper.frontDevice.getVideoProfileOrElse(it.value) {
+                    val result = CameraHelper.frontDevice.videoProfiles.first()
+                    value = result.toString()
+                    result
+                }
+                videoProfile.toString()
+            }
+            entries = CameraHelper.frontDevice.videoProfiles
+                .map { it.toString() }
+                .toTypedArray()
+            entryValues = CameraHelper.frontDevice.videoProfiles
+                .map { it.toString() }
+                .toTypedArray()
+            setDialogTitle(R.string.profile_front_video_profile)
+            frontVideoPreferenceGroup.addPreference(this)
         }
 
         footerPreference = FooterPreference(requireContext()).apply {

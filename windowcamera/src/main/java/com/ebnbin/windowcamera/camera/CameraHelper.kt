@@ -14,6 +14,7 @@ import com.ebnbin.eb.util.displayRealSize
 
 /**
  * 相机帮助类.
+ * TODO 初始化检查.
  */
 object CameraHelper {
     private val CAMCORDER_PROFILE_QUALITIES = listOf(
@@ -97,6 +98,17 @@ object CameraHelper {
                 .sortedDescending()
         }
 
+        fun getPhotoResolutionOrNull(key: String?): Resolution? {
+            return photoResolutions.firstOrNull { it.toString() == key }
+        }
+
+        fun getPhotoResolutionOrElse(
+            key: String?,
+            defaultValue: () -> Resolution = { photoResolutions.first() }
+        ): Resolution {
+            return getPhotoResolutionOrNull(key) ?: defaultValue()
+        }
+
         val maxResolution: Resolution = photoResolutions.first()
 
         val previewResolutions: List<Resolution> = kotlin.run {
@@ -130,6 +142,17 @@ object CameraHelper {
                 .toSet()
                 .toList()
                 .sortedDescending()
+        }
+
+        fun getVideoProfileOrNull(key: String?): VideoProfile? {
+            return videoProfiles.firstOrNull { it.toString() == key }
+        }
+
+        fun getVideoProfileOrElse(
+            key: String?,
+            defaultValue: () -> VideoProfile = { videoProfiles.first() }
+        ): VideoProfile {
+            return getVideoProfileOrNull(key) ?: defaultValue()
         }
 
         open class Resolution(width: Int, height: Int, sensorOrientation: Int) :

@@ -33,4 +33,12 @@
     <string name="profile_is_video">照片/视频</string>
     <string name="profile_is_video_summary_off">照片</string>
     <string name="profile_is_video_summary_on">视频</string>
+
+    <string name="profile_back_photo_resolution">后置摄像头照片分辨率</string>
+
+    <string name="profile_back_video_profile">后置摄像头视频配置</string>
+
+    <string name="profile_front_photo_resolution">前置摄像头照片分辨率</string>
+
+    <string name="profile_front_video_profile">前置摄像头视频配置</string>
 </resources>
