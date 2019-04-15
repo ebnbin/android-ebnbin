@@ -30,6 +30,8 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
     private lateinit var isOutEnabledPreference: CheckBoxPreference
     private lateinit var displayPreference: PreferenceCategory
     private lateinit var alphaPreference: SeekBarPreference
+    private lateinit var controlPreference: PreferenceCategory
+    private lateinit var isTouchablePreference: CheckBoxPreference
     private lateinit var footerPreference: FooterPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -121,6 +123,21 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             setSummary(R.string.profile_alpha_summary)
             min = 1
             max = 100
+            preferenceScreen.addPreference(this)
+        }
+
+        controlPreference = PreferenceCategory(requireContext()).apply {
+            key = ProfileHelper.KEY_CONTROL
+            setTitle(R.string.profile_control)
+            preferenceScreen.addPreference(this)
+        }
+
+        isTouchablePreference = CheckBoxPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_IS_TOUCHABLE
+            setDefaultValue(ProfileHelper.DEF_VALUE_IS_TOUCHABLE)
+            setTitle(R.string.profile_is_touchable)
+            setSummaryOff(R.string.profile_is_touchable_summary_off)
+            setSummaryOn(R.string.profile_is_touchable_summary_on)
             preferenceScreen.addPreference(this)
         }
 

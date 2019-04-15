@@ -39,6 +39,12 @@ object ProfileHelper {
     const val DEF_VALUE_ALPHA: Int = 100
     var alpha: Int by ProfileSharedPreferencesDelegate(KEY_ALPHA, DEF_VALUE_ALPHA)
 
+    const val KEY_CONTROL: String = "control"
+
+    const val KEY_IS_TOUCHABLE: String = "is_touchable"
+    const val DEF_VALUE_IS_TOUCHABLE: Boolean = true
+    var isTouchable: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_TOUCHABLE, DEF_VALUE_IS_TOUCHABLE)
+
     const val KEY_IS_FRONT: String = "is_front"
     const val DEF_VALUE_IS_FRONT: Boolean = false
     var isFront: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_FRONT, DEF_VALUE_IS_FRONT)
