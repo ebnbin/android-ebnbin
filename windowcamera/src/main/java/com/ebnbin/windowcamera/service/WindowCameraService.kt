@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.PixelFormat
 import android.os.IBinder
 import android.view.Gravity
 import android.view.WindowManager
@@ -44,6 +45,7 @@ class WindowCameraService : Service() {
         params.gravity = Gravity.START or Gravity.TOP
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+        params.format = PixelFormat.TRANSLUCENT
         windowManager.addView(windowCameraView, params)
     }
 

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.ImageFormat
+import android.graphics.Paint
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
@@ -27,6 +29,7 @@ import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.displayRealSize
 import com.ebnbin.eb.util.displaySize
+import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.eb.util.restartMainActivity
 import com.ebnbin.eb.util.toast
 import com.ebnbin.eb.util.vibrate
@@ -750,7 +753,15 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
+    private val paint: Paint = Paint().apply {
+        style = Paint.Style.STROKE
+        strokeWidth = 1.6f.dpToPx
+        color = Color.RED
+    }
+
     override fun onDrawForeground(canvas: Canvas?) {
         super.onDrawForeground(canvas)
+        canvas ?: return
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
     }
 }
