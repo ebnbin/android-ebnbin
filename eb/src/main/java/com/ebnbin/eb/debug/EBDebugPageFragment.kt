@@ -7,7 +7,6 @@ import com.ebnbin.eb.net.NetHelper
 import com.ebnbin.eb.sharedpreferences.EBSp
 import com.ebnbin.eb.util.restartMainActivity
 import com.ebnbin.eb.util.toast
-import io.reactivex.functions.Consumer
 
 /**
  * Debug EB 页面.
@@ -29,8 +28,8 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Update") {
             asyncRequest(
                 NetHelper.ebService.update(),
-                Consumer { toast(requireContext(), "${it.version}") },
-                Consumer { toast(requireContext(), it) }
+                { toast(requireContext(), "${it.version}") },
+                { toast(requireContext(), it) }
             )
         }
 

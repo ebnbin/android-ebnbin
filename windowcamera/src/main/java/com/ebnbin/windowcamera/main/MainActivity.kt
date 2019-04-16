@@ -2,7 +2,6 @@ package com.ebnbin.windowcamera.main
 
 import android.os.Bundle
 import com.ebnbin.eb.app.EBActivity
-import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.eb.update.UpdateFragment
 
 class MainActivity : EBActivity() {
@@ -15,7 +14,7 @@ class MainActivity : EBActivity() {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            FragmentHelper.add(supportFragmentManager, UpdateFragment::class.java)
+            UpdateFragment.start(supportFragmentManager, true)
         }
     }
 }

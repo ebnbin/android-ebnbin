@@ -15,7 +15,7 @@ object EBSp {
         /**
          * 设置夜间模式. 发送 NightModeEvent 事件.
          */
-        var night_mode by EBSharedPreferencesDelegate(
+        var night_mode: Int by EBSharedPreferencesDelegate(
             "night_mode",
             AppCompatDelegate.MODE_NIGHT_NO
         ) { oldValue, newValue ->
@@ -24,6 +24,11 @@ object EBSp {
             eventBus.post(NightModeEvent(oldValue, newValue))
             false
         }
+
+        /**
+         * 上次请求 update 接口时间.
+         */
+        var request_update_timestamp: Long by EBSharedPreferencesDelegate("request_update_timestamp", 0L)
     }
 
     object eb_debug {

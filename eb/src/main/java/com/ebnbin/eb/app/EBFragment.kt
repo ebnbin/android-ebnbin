@@ -8,8 +8,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -74,27 +72,27 @@ abstract class EBFragment : Fragment() {
 
     protected fun <T> asyncRequest(
         observable: Observable<T>,
-        onNext: Consumer<in T>? = null,
-        onError: Consumer<in Throwable>? = null,
-        onComplete: Action? = null,
-        onSubscribe: Consumer<in Disposable>? = null
+        onNext: ((T) -> Unit)? = null,
+        onError: ((Throwable) -> Unit)? = null,
+        onComplete: (() -> Unit)? = null,
+        onSubscribe: ((Disposable) -> Unit)? = null
     ): Disposable {
         return observable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    onNext?.accept(it)
+                    onNext?.invoke(it)
                 },
                 {
-                    onError?.accept(it)
+                    onError?.invoke(it)
                 },
                 {
-                    onComplete?.run()
+                    onComplete?.invoke()
                 },
                 {
                     compositeDisposable.add(it)
-                    onSubscribe?.accept(it)
+                    onSubscribe?.invoke(it)
                 })
     }
 }

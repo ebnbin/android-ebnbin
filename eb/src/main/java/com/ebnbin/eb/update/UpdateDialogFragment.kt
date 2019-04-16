@@ -10,7 +10,7 @@ import com.ebnbin.eb.app.EBDialogFragment
 import com.ebnbin.eb.net.model.eb.Update
 import com.ebnbin.eb.util.closeApp
 
-class UpdateDialogFragment : EBDialogFragment() {
+internal class UpdateDialogFragment : EBDialogFragment() {
     private lateinit var update: Update
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
