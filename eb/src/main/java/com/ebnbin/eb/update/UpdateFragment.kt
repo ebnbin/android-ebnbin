@@ -19,9 +19,8 @@ class UpdateFragment : EBFragment() {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            asyncRequest(
-                NetHelper.ebService.update(),
-                {
+            asyncRequest(NetHelper.ebService.update(),
+                onNext = {
                     if (it.hasUpdate()) {
                         UpdateDialogFragment.start(childFragmentManager, it)
                     }

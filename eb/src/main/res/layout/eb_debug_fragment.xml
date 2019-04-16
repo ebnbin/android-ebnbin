@@ -14,7 +14,7 @@
             android:id="@+id/eb_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground"
+            android:background="?attr/colorSurface"
             app:navigationIcon="@drawable/eb_close"/>
 
     </com.google.android.material.appbar.AppBarLayout>

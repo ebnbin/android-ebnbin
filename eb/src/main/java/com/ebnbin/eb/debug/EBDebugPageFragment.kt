@@ -3,6 +3,7 @@ package com.ebnbin.eb.debug
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import com.ebnbin.eb.loading.Loading
 import com.ebnbin.eb.net.NetHelper
 import com.ebnbin.eb.sharedpreferences.EBSp
 import com.ebnbin.eb.util.restartMainActivity
@@ -26,11 +27,29 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Calling Fragment", callingFragmentClassName.toString())
 
         addDebugItem("Update") {
-            asyncRequest(
-                NetHelper.ebService.update(),
-                { toast(requireContext(), "${it.version}") },
-                { toast(requireContext(), it) }
+            asyncRequest(NetHelper.ebService.update(),
+                Loading.DIALOG,
+                onNext = { toast(requireContext(), "${it.version}") },
+                onError = { toast(requireContext(), it) }
             )
+        }
+
+        addDebugItem("Loading Dialog", "（可取消）") {
+            showLoadingDialog(true)
+        }
+
+        addDebugItem("Loading Dialog", "（不可取消，3 秒后自动关闭）") {
+            showLoadingDialog(false)
+            asyncTask(
+                {
+                    Thread.sleep(3000L)
+                },
+                onNext = {
+                    hideLoadingDialog()
+                },
+                onError = {
+                    hideLoadingDialog()
+                })
         }
 
         addDebugItem("夜间模式", "关闭") {

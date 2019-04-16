@@ -15,6 +15,24 @@ abstract class EBDialogFragment : AppCompatDialogFragment() {
 
     //*****************************************************************************************************************
 
+    /**
+     * 将父 Fragment 或 Activity 强转为 [callbackClass].
+     */
+    protected fun <T> attachCallback(callbackClass: Class<T>): T? {
+        arrayOf(parentFragment, activity).forEach {
+            if (callbackClass.isInstance(it)) {
+                return callbackClass.cast(it)
+            }
+        }
+        return null
+    }
+
+    protected fun <T> attachCallbackNotNull(callbackClass: Class<T>): T {
+        return attachCallback(callbackClass) ?: throw RuntimeException()
+    }
+
+    //*****************************************************************************************************************
+
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
     }
