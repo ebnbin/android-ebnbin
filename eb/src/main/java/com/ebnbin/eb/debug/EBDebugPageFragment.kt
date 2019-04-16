@@ -3,11 +3,9 @@ package com.ebnbin.eb.debug
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import com.ebnbin.eb.loading.Loading
-import com.ebnbin.eb.net.NetHelper
 import com.ebnbin.eb.sharedpreferences.EBSp
+import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.restartMainActivity
-import com.ebnbin.eb.util.toast
 
 /**
  * Debug EB 页面.
@@ -26,12 +24,12 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
 
         addDebugItem("Calling Fragment", callingFragmentClassName.toString())
 
-        addDebugItem("Update") {
-            asyncRequest(NetHelper.ebService.update(),
-                Loading.DIALOG,
-                onNext = { toast(requireContext(), "${it.version}") },
-                onError = { toast(requireContext(), it) }
-            )
+        addDebugItem("Update", "silent = true") {
+            UpdateFragment.start(childFragmentManager, true)
+        }
+
+        addDebugItem("Update", "silent = false") {
+            UpdateFragment.start(childFragmentManager, false)
         }
 
         addDebugItem("Loading Dialog", "（可取消）") {
