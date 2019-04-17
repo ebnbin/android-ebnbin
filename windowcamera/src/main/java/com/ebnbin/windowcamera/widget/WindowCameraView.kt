@@ -188,6 +188,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             ProfileHelper.KEY_IS_TOUCHABLE -> {
                 invalidateIsTouchable()
             }
+            ProfileHelper.KEY_IS_MOVE_ENABLED -> {
+                isMoveEnabled = ProfileHelper.isMoveEnabled
+            }
             ProfileHelper.KEY_IS_FRONT -> {
                 closeCamera()
                 invalidateCamera()
@@ -343,6 +346,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
+    private var isMoveEnabled: Boolean = ProfileHelper.isMoveEnabled
+
     private val gestureDetector: GestureDetectorCompat = GestureDetectorCompat(context, this)
 
     private var downX: Int = 0
@@ -460,7 +465,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
         e2 ?: return false
-        putPosition(e2)
+        if (isMoveEnabled) {
+            putPosition(e2)
+        }
         return false
     }
 

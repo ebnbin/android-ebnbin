@@ -46,7 +46,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 frontVideoPreferenceGroup.isVisible = newValue && isVideoPreference.isChecked
                 true
             }
-            invalidateIcon(isChecked)
+            invalidateIcon(ProfileHelper.isFront)
             preferenceScreen.addPreference(this)
         }
 
@@ -69,7 +69,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 frontVideoPreferenceGroup.isVisible = isFrontPreference.isChecked && newValue
                 true
             }
-            invalidateIcon(isChecked)
+            invalidateIcon(ProfileHelper.isVideo)
             preferenceScreen.addPreference(this)
         }
 

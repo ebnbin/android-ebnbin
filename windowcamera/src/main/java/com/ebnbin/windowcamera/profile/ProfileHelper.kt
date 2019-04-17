@@ -47,6 +47,10 @@ object ProfileHelper {
 
     const val KEY_GESTURE: String = "gesture"
 
+    const val KEY_IS_MOVE_ENABLED: String = "is_move_enabled"
+    const val DEF_VALUE_IS_MOVE_ENABLED: Boolean = true
+    var isMoveEnabled: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_MOVE_ENABLED, DEF_VALUE_IS_MOVE_ENABLED)
+
     const val KEY_IS_FRONT: String = "is_front"
     const val DEF_VALUE_IS_FRONT: Boolean = false
     var isFront: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_FRONT, DEF_VALUE_IS_FRONT)

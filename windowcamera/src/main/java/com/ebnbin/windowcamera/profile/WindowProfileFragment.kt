@@ -33,6 +33,7 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
     private lateinit var controlPreference: PreferenceCategory
     private lateinit var isTouchablePreference: CheckBoxPreference
     private lateinit var gesturePreference: PreferenceCategory
+    private lateinit var isMoveEnabled: CheckBoxPreference
     private lateinit var footerPreference: FooterPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -145,6 +146,15 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
         gesturePreference = PreferenceCategory(requireContext()).apply {
             key = ProfileHelper.KEY_GESTURE
             setTitle(R.string.profile_gesture)
+            preferenceScreen.addPreference(this)
+        }
+
+        isMoveEnabled = CheckBoxPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_IS_MOVE_ENABLED
+            setDefaultValue(ProfileHelper.DEF_VALUE_IS_MOVE_ENABLED)
+            setTitle(R.string.profile_is_move_enabled)
+            setSummaryOff(R.string.profile_is_move_enabled_summary_off)
+            setSummaryOn(R.string.profile_is_move_enabled_summary_on)
             preferenceScreen.addPreference(this)
         }
 

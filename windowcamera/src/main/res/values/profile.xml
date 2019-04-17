@@ -18,8 +18,8 @@
     <string name="profile_y_summary">窗口垂直方向位置</string>
 
     <string name="profile_is_out_enable">允许窗口移出屏幕</string>
-    <string name="profile_is_out_enable_summary_off">允许窗口移出屏幕</string>
-    <string name="profile_is_out_enable_summary_on">不允许窗口移出屏幕</string>
+    <string name="profile_is_out_enable_summary_off">不允许窗口移出屏幕</string>
+    <string name="profile_is_out_enable_summary_on">允许窗口移出屏幕</string>
 
     <string name="profile_display">显示</string>
 
@@ -33,6 +33,10 @@
     <string name="profile_is_touchable_summary_on">允许接收点击事件</string>
 
     <string name="profile_gesture">手势</string>
+
+    <string name="profile_is_move_enabled">通过手势移动窗口</string>
+    <string name="profile_is_move_enabled_summary_off">不允许通过手势移动窗口</string>
+    <string name="profile_is_move_enabled_summary_on">允许通过手势移动窗口</string>
 
     <string name="profile_is_front">摄像头</string>
     <string name="profile_is_front_summary_off">后置摄像头</string>
