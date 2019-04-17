@@ -30,7 +30,6 @@ import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.displayRealSize
-import com.ebnbin.eb.util.displayRotation
 import com.ebnbin.eb.util.displaySize
 import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.eb.util.restartMainActivity
@@ -58,7 +57,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     RotationDetector.Listener,
     GestureDetector.OnGestureListener,
     GestureDetector.OnDoubleTapListener,
-    ImageReader.OnImageAvailableListener {
+    ImageReader.OnImageAvailableListener
+{
     private val textureView: TextureView = TextureView(this.context)
 
     init {
@@ -76,6 +76,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         RotationDetector.register(this)
 
         startBackgroundThread()
+
+        displayRotation = com.ebnbin.eb.util.displayRotation
 
         invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
         invalidateAlpha()
@@ -150,8 +152,6 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         matrix.setRectToRect(viewRectF, bufferRectF, Matrix.ScaleToFit.FILL)
 
-        val displayRotation = displayRotation
-
         val scaleX = viewWidth / previewResolution.width(displayRotation)
         val scaleY = viewHeight / previewResolution.height(displayRotation)
         val scale = max(scaleX, scaleY)
@@ -223,7 +223,10 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
+    private var displayRotation: Int = 0
+
     override fun onRotationChanged(oldRotation: Int, newRotation: Int) {
+        displayRotation = newRotation
         invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
         invalidateTransform()
     }
