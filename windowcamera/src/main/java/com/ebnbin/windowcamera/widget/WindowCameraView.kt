@@ -263,11 +263,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 val sizeSp = ProfileHelper.size
                 val ratioSp = ProfileHelper.ratio
                 val ratio = when (ratioSp) {
-                    "capture" -> {
-                        // TODO
-                        ProfileHelper.device().maxResolution.ratio
-                    }
-                    "raw" -> ProfileHelper.device().maxResolution.ratio
+                    "capture" -> (if (isVideo) videoProfile else photoResolution).ratio
+                    "raw" -> device.maxResolution.ratio
                     "screen" -> displaySize.ratio
                     "square" -> Ratio.SQUARE
                     else -> throw RuntimeException()
