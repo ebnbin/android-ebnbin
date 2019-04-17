@@ -32,6 +32,8 @@
     <string name="profile_is_touchable_summary_off">不允许接收点击事件</string>
     <string name="profile_is_touchable_summary_on">允许接收点击事件</string>
 
+    <string name="profile_gesture">手势</string>
+
     <string name="profile_is_front">摄像头</string>
     <string name="profile_is_front_summary_off">后置摄像头</string>
     <string name="profile_is_front_summary_on">前置摄像头</string>

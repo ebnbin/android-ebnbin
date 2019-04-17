@@ -45,6 +45,8 @@ object ProfileHelper {
     const val DEF_VALUE_IS_TOUCHABLE: Boolean = true
     var isTouchable: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_TOUCHABLE, DEF_VALUE_IS_TOUCHABLE)
 
+    const val KEY_GESTURE: String = "gesture"
+
     const val KEY_IS_FRONT: String = "is_front"
     const val DEF_VALUE_IS_FRONT: Boolean = false
     var isFront: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_FRONT, DEF_VALUE_IS_FRONT)
