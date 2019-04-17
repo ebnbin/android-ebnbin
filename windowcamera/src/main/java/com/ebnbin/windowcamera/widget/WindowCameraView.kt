@@ -6,7 +6,9 @@ import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ImageFormat
+import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.RectF
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
@@ -28,6 +30,7 @@ import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.cameraManager
 import com.ebnbin.eb.util.displayRealSize
+import com.ebnbin.eb.util.displayRotation
 import com.ebnbin.eb.util.displaySize
 import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.eb.util.restartMainActivity
@@ -105,10 +108,12 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
+        invalidateTransform()
         openCamera()
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
+        invalidateTransform()
     }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
@@ -117,6 +122,45 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
+    }
+
+    //*****************************************************************************************************************
+
+    private fun invalidateTransform() {
+        textureView.surfaceTexture?.setDefaultBufferSize(previewResolution.width, previewResolution.height)
+
+        val viewWidth = textureView.width.toFloat()
+        val viewHeight = textureView.height.toFloat()
+
+        val viewCenterX = 0.5f * viewWidth
+        val viewCenterY = 0.5f * viewHeight
+
+        val bufferWidth = previewResolution.width0.toFloat()
+        val bufferHeight = previewResolution.height0.toFloat()
+
+        val viewRectF = RectF(0f, 0f, viewWidth, viewHeight)
+
+        val bufferLeft = 0.5f * (viewWidth - bufferWidth)
+        val bufferTop = 0.5f * (viewHeight - bufferHeight)
+        val bufferRight = bufferLeft + bufferWidth
+        val bufferBottom = bufferTop + bufferHeight
+        val bufferRectF = RectF(bufferLeft, bufferTop, bufferRight, bufferBottom)
+
+        val matrix = Matrix()
+
+        matrix.setRectToRect(viewRectF, bufferRectF, Matrix.ScaleToFit.FILL)
+
+        val displayRotation = displayRotation
+
+        val scaleX = viewWidth / previewResolution.width(displayRotation)
+        val scaleY = viewHeight / previewResolution.height(displayRotation)
+        val scale = max(scaleX, scaleY)
+        matrix.postScale(scale, scale, viewCenterX, viewCenterY)
+
+        val rotate = 360f - 90f * displayRotation
+        matrix.postRotate(rotate, viewCenterX, viewCenterY)
+
+        textureView.setTransform(matrix)
     }
 
     //*****************************************************************************************************************
@@ -181,6 +225,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onRotationChanged(oldRotation: Int, newRotation: Int) {
         invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+        invalidateTransform()
     }
 
     //*****************************************************************************************************************
@@ -454,6 +499,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     private var isVideo: Boolean = false
     private lateinit var photoResolution: CameraHelper.Device.Resolution
     private lateinit var videoProfile: CameraHelper.Device.VideoProfile
+    private lateinit var previewResolution: CameraHelper.Device.Resolution
 
     private fun invalidateCamera() {
         device = ProfileHelper.device()
@@ -466,6 +512,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         if (videoProfile != null) {
             this.videoProfile = videoProfile
         }
+        previewResolution = device.previewResolutions.first()
+
+        invalidateTransform()
     }
 
     //*****************************************************************************************************************
