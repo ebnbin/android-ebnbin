@@ -39,6 +39,11 @@ object ProfileHelper {
     const val DEF_VALUE_ALPHA: Int = 100
     var alpha: Int by ProfileSharedPreferencesDelegate(KEY_ALPHA, DEF_VALUE_ALPHA)
 
+    const val KEY_IS_KEEP_SCREEN_ON_ENABLED: String = "is_keep_screen_on"
+    const val DEF_VALUE_IS_KEEP_SCREEN_ON_ENABLED: Boolean = true
+    var isKeepScreenOnEnabled: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_KEEP_SCREEN_ON_ENABLED,
+        DEF_VALUE_IS_KEEP_SCREEN_ON_ENABLED)
+
     const val KEY_CONTROL: String = "control"
 
     const val KEY_IS_TOUCHABLE: String = "is_touchable"

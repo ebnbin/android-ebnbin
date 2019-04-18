@@ -85,6 +85,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         invalidateCamera()
         invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
         invalidateAlpha()
+        invalidateIsKeepScreenOnEnabled()
         invalidateIsTouchable()
     }
 
@@ -187,6 +188,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             }
             ProfileHelper.KEY_ALPHA -> {
                 invalidateAlpha()
+            }
+            ProfileHelper.KEY_IS_KEEP_SCREEN_ON_ENABLED -> {
+                invalidateIsKeepScreenOnEnabled()
             }
             ProfileHelper.KEY_IS_TOUCHABLE -> {
                 invalidateIsTouchable()
@@ -337,6 +341,17 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     private fun invalidateAlpha() {
         updateLayoutParams {
             alpha = ProfileHelper.alpha / 100f
+        }
+    }
+
+    private fun invalidateIsKeepScreenOnEnabled() {
+        updateLayoutParams {
+            flags = if (ProfileHelper.isKeepScreenOnEnabled) {
+                flags or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            } else {
+                flags or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON xor
+                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            }
         }
     }
 

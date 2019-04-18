@@ -30,6 +30,7 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
     private lateinit var isOutEnabledPreference: CheckBoxPreference
     private lateinit var displayPreference: PreferenceCategory
     private lateinit var alphaPreference: SeekBarPreference
+    private lateinit var isKeepScreenOnEnabledPreference: CheckBoxPreference
     private lateinit var controlPreference: PreferenceCategory
     private lateinit var isTouchablePreference: CheckBoxPreference
     private lateinit var gesturePreference: PreferenceCategory
@@ -125,6 +126,15 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             setSummary(R.string.profile_alpha_summary)
             min = 1
             max = 100
+            preferenceScreen.addPreference(this)
+        }
+
+        isKeepScreenOnEnabledPreference = CheckBoxPreference(requireContext()).apply {
+            key = ProfileHelper.KEY_IS_KEEP_SCREEN_ON_ENABLED
+            setDefaultValue(ProfileHelper.DEF_VALUE_IS_KEEP_SCREEN_ON_ENABLED)
+            setTitle(R.string.profile_is_keep_screen_on_enabled)
+            setSummaryOff(R.string.profile_is_keep_screen_on_enabled_summary_off)
+            setSummaryOn(R.string.profile_is_keep_screen_on_enabled_summary_on)
             preferenceScreen.addPreference(this)
         }
 
