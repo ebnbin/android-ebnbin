@@ -79,10 +79,10 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         displayRotation = com.ebnbin.eb.util.displayRotation
 
+        invalidateCamera()
         invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
         invalidateAlpha()
         invalidateIsTouchable()
-        invalidateCamera()
     }
 
     override fun onDetachedFromWindow() {
@@ -204,21 +204,25 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             ProfileHelper.KEY_BACK_PHOTO_RESOLUTION -> {
                 closeCamera()
                 invalidateCamera()
+                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
                 openCamera()
             }
             ProfileHelper.KEY_BACK_VIDEO_PROFILE -> {
                 closeCamera()
                 invalidateCamera()
+                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
                 openCamera()
             }
             ProfileHelper.KEY_FRONT_PHOTO_RESOLUTION -> {
                 closeCamera()
                 invalidateCamera()
+                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
                 openCamera()
             }
             ProfileHelper.KEY_FRONT_VIDEO_PROFILE -> {
                 closeCamera()
                 invalidateCamera()
+                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
                 openCamera()
             }
         }
