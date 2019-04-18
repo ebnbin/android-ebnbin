@@ -77,6 +77,10 @@ object CameraHelper {
 
         private val sensorOrientation: Int = cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION) as Int
 
+        fun getOrientation(rotation: Int): Int {
+            return (sensorOrientation + (if (isFront) 1 else -1) * 90 * rotation + 360) % 360
+        }
+
         private val scalerStreamConfigurationMap: StreamConfigurationMap = cameraCharacteristics.get(
             CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) as StreamConfigurationMap
 

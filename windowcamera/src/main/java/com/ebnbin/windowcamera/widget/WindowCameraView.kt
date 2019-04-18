@@ -12,6 +12,7 @@ import android.graphics.RectF
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
+import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.media.MediaRecorder
 import android.os.Environment
@@ -677,6 +678,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val imageReaderSurface = imageReader.surface
         val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         captureRequestBuilder.addTarget(imageReaderSurface)
+        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, device.getOrientation(displayRotation))
         val request = captureRequestBuilder.build()
         photoCameraCaptureSession.capture(request, null, null)
     }
@@ -755,6 +757,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
         mediaRecorder.setProfile(videoProfile.camcorderProfile)
         mediaRecorder.setOutputFile(videoFile.absolutePath)
+        mediaRecorder.setOrientationHint(device.getOrientation(displayRotation))
         mediaRecorder.prepare()
         this.videoFile = videoFile
         this.mediaRecorder = mediaRecorder
