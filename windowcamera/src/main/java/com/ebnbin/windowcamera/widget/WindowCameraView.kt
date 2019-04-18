@@ -42,6 +42,9 @@ import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -670,7 +673,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val byteBuffer = image.planes[0].buffer
         val byteArray = ByteArray(byteBuffer.remaining())
         byteBuffer.get(byteArray)
-        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM), "${System.currentTimeMillis()}.jpg")
+        val file = nextFile(".jpg")
         val fos = FileOutputStream(file)
         fos.write(byteArray)
         fos.close()
@@ -730,8 +733,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         val cameraDevice = cameraDevice ?: return
 
-        val videoFile = File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM),
-            "${System.currentTimeMillis()}.mp4")
+        // TODO: 3gp
+        val videoFile = nextFile(".mp4")
         val mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
@@ -802,6 +805,21 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         } else {
             startVideoCapture()
         }
+    }
+
+    //*****************************************************************************************************************
+
+    private fun nextFile(extension: String): File {
+        val dir = context.getExternalFilesDir(Environment.DIRECTORY_DCIM)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        val timestamp = System.currentTimeMillis()
+        val date = Date(timestamp)
+        val simpleDateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS", Locale.getDefault())
+        val timestampString = simpleDateFormat.format(date)
+        val fileName = "$timestampString$extension"
+        return File(dir, fileName)
     }
 
     //*****************************************************************************************************************
