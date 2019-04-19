@@ -29,14 +29,12 @@ import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
-import com.ebnbin.eb.util.cameraManager
-import com.ebnbin.eb.util.displayRealSize
-import com.ebnbin.eb.util.displaySize
+import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.eb.util.restartMainActivity
 import com.ebnbin.eb.util.toast
 import com.ebnbin.eb.util.vibrate
-import com.ebnbin.eb.util.windowManager
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -81,7 +79,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         startBackgroundThread()
 
-        displayRotation = com.ebnbin.eb.util.displayRotation
+        displayRotation = WindowHelper.displayRotation
 
         invalidateCamera()
         invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
@@ -251,7 +249,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     private fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
         val params = layoutParams as WindowManager.LayoutParams
         block(params)
-        windowManager.updateViewLayout(this, params)
+        SystemServices.windowManager.updateViewLayout(this, params)
     }
 
     private fun invalidateLayout(invalidateIsOutEnabled: Boolean, invalidateSize: Boolean) {
@@ -272,7 +270,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 }
             }
-            val displaySize = if (isOutEnabled) displayRealSize else displaySize
+            val displaySize = if (isOutEnabled) WindowHelper.displayRealSize else WindowHelper.displaySize
             val rotationSize: RotationSize
             if (invalidateIsOutEnabled || invalidateSize) {
                 val sizeSp = ProfileHelper.size
@@ -284,7 +282,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                     "square" -> Ratio.SQUARE
                     else -> throw RuntimeException()
                 }
-                rotationSize = displaySize.crop(ratio, sizeSp)
+                rotationSize = displaySize.crop(ratio, sizeSp / 100f)
                 width = rotationSize.width
                 height = rotationSize.height
             } else {
@@ -408,7 +406,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val y = downY + motionEvent.rawY - downRawY
 
         val isOutEnabled = ProfileHelper.isOutEnabled
-        val displaySize = if (isOutEnabled) displayRealSize else displaySize
+        val displaySize = if (isOutEnabled) WindowHelper.displayRealSize else WindowHelper.displaySize
 
         val xMin = 0
         val xMax = displaySize.width - layoutParams.width
@@ -583,7 +581,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 onCameraError()
             }
         }
-        cameraManager.openCamera(device.id, callback, null)
+        SystemServices.cameraManager.openCamera(device.id, callback, null)
     }
 
     private fun closeCamera() {

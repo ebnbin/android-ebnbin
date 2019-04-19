@@ -1,9 +1,13 @@
 package com.ebnbin.eb.util
 
 /**
- * 宽高比.
+ * 宽高比. 需要自行确保宽高最大公约数为 1.
+ *
+ * @param width 必须大于 0.
+ *
+ * @param height 必须大于 0.
  */
-class Ratio(val width: Int, val height: Int) : Comparable<Ratio> {
+open class Ratio(val width: Int, val height: Int) : Comparable<Ratio> {
     init {
         if (width <= 0 || height <= 0) throw RuntimeException()
     }
@@ -27,7 +31,14 @@ class Ratio(val width: Int, val height: Int) : Comparable<Ratio> {
         return compareValues(ratio, other.ratio)
     }
 
+    override fun toString(): String {
+        return "$width:$height"
+    }
+
     companion object {
+        /**
+         * 1:1.
+         */
         val SQUARE: Ratio = Ratio(1, 1)
     }
 }

@@ -1,22 +1,14 @@
 package com.ebnbin.eb.util
 
 import android.Manifest
-import android.app.ActivityManager
-import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.graphics.Point
-import android.hardware.camera2.CameraManager
 import android.os.VibrationEffect
-import android.os.Vibrator
-import android.view.Display
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresPermission
-import androidx.core.content.getSystemService
 import androidx.core.content.res.getColorOrThrow
 import com.ebnbin.eb.app.EBApplication
 import kotlin.math.roundToInt
@@ -72,26 +64,9 @@ fun toast(context: Context, any: Any?, long: Boolean = false) {
 
 //*********************************************************************************************************************
 
-val activityManager: ActivityManager
-    get() = ebApp.getSystemService() ?: throw RuntimeException()
-
-val cameraManager: CameraManager
-    get() = ebApp.getSystemService() ?: throw RuntimeException()
-
-val notificationManager: NotificationManager
-    get() = ebApp.getSystemService() ?: throw RuntimeException()
-
-val vibrator: Vibrator
-    get() = ebApp.getSystemService() ?: throw RuntimeException()
-
-val windowManager: WindowManager
-    get() = ebApp.getSystemService() ?: throw RuntimeException()
-
-//*********************************************************************************************************************
-
 fun isServiceRunning(serviceClass: Class<out Service>): Boolean {
     @Suppress("DEPRECATION")
-    return activityManager.getRunningServices(Int.MAX_VALUE).any {
+    return SystemServices.activityManager.getRunningServices(Int.MAX_VALUE).any {
         it.service.className == serviceClass.name
     }
 }
@@ -110,30 +85,6 @@ fun getColorAttr(context: Context, @AttrRes attrId: Int): Int {
 
 //*********************************************************************************************************************
 
-private val display: Display
-    get() = windowManager.defaultDisplay
-
-val displayRotation: Int
-    get() = display.rotation
-
-val displaySize: RotationSize
-    get() {
-        val display = display
-        val outSize = Point()
-        display.getSize(outSize)
-        return RotationSize(outSize.x, outSize.y, display.rotation)
-    }
-
-val displayRealSize: RotationSize
-    get() {
-        val display = display
-        val outSize = Point()
-        display.getRealSize(outSize)
-        return RotationSize(outSize.x, outSize.y, display.rotation)
-    }
-
-//*********************************************************************************************************************
-
 /**
  * 最大公约数.
  */
@@ -147,10 +98,10 @@ tailrec infix fun Int.gcd(other: Int): Int {
 @RequiresPermission(Manifest.permission.VIBRATE)
 fun vibrate(milliseconds: Long) {
     if (sdk26O()) {
-        vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
+        SystemServices.vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
     } else {
         @Suppress("DEPRECATION")
-        vibrator.vibrate(milliseconds)
+        SystemServices.vibrator.vibrate(milliseconds)
     }
 }
 

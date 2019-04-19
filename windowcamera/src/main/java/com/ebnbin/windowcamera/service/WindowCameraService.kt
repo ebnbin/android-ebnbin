@@ -13,11 +13,10 @@ import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.ebnbin.eb.library.eventBus
 import com.ebnbin.eb.permission.PermissionHelper
+import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.isServiceRunning
-import com.ebnbin.eb.util.notificationManager
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb.util.toast
-import com.ebnbin.eb.util.windowManager
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.widget.WindowCameraView
@@ -46,14 +45,14 @@ class WindowCameraService : Service() {
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         params.format = PixelFormat.TRANSLUCENT
-        windowManager.addView(windowCameraView, params)
+        SystemServices.windowManager.addView(windowCameraView, params)
     }
 
     private fun startForeground() {
-        if (sdk26O() && notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
+        if (sdk26O() && SystemServices.notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
             val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "WindowCameraService",
                 NotificationManager.IMPORTANCE_HIGH)
-            notificationManager.createNotificationChannel(notificationChannel)
+            SystemServices.notificationManager.createNotificationChannel(notificationChannel)
         }
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(android.R.mipmap.sym_def_app_icon)
@@ -63,7 +62,7 @@ class WindowCameraService : Service() {
 
     override fun onDestroy() {
         windowCameraView?.run {
-            windowManager.removeView(windowCameraView)
+            SystemServices.windowManager.removeView(windowCameraView)
             windowCameraView = null
         }
 

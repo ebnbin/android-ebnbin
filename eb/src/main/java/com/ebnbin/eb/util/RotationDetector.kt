@@ -13,7 +13,7 @@ object RotationDetector {
         override fun onOrientationChanged(orientation: Int) {
             if (orientation == OrientationEventListener.ORIENTATION_UNKNOWN) return
             val oldRotation = rotation
-            rotation = displayRotation
+            rotation = WindowHelper.displayRotation
             if (oldRotation == rotation) return
             listeners.forEach {
                 it.onRotationChanged(oldRotation, rotation)

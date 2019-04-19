@@ -9,8 +9,8 @@ import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.util.Size
 import com.ebnbin.eb.util.RotationSize
-import com.ebnbin.eb.util.cameraManager
-import com.ebnbin.eb.util.displayRealSize
+import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.eb.util.WindowHelper
 
 /**
  * 相机帮助类.
@@ -29,7 +29,7 @@ object CameraHelper {
         CamcorderProfile.QUALITY_LOW
     )
 
-    private val ids: List<String> = cameraManager.cameraIdList.toList()
+    private val ids: List<String> = SystemServices.cameraManager.cameraIdList.toList()
 
     /**
      * 对所有摄像头进行检测, 但只使用第一个后置摄像头和第一个前置摄像头, 且后置摄像头和前置摄像头必须存在.
@@ -63,7 +63,8 @@ object CameraHelper {
     }
 
     class Device(val id: String, oldId: Int) {
-        private val cameraCharacteristics: CameraCharacteristics = cameraManager.getCameraCharacteristics(id)
+        private val cameraCharacteristics: CameraCharacteristics =
+            SystemServices.cameraManager.getCameraCharacteristics(id)
 
         private val lensFacing: Int = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) as Int
 
@@ -116,7 +117,7 @@ object CameraHelper {
         val maxResolution: Resolution = photoResolutions.first()
 
         val previewResolutions: List<Resolution> = kotlin.run {
-            val displayRealSize = displayRealSize
+            val displayRealSize = WindowHelper.displayRealSize
             val linkedHashSet = LinkedHashSet<Resolution>()
             (surfaceTextureSizes ?: emptyArray())
                 .filter { it.width > 0 && it.height > 0 }
