@@ -3,6 +3,7 @@ package com.ebnbin.windowcamera.debug
 import android.os.Bundle
 import android.view.View
 import com.ebnbin.eb.debug.BaseDebugPageFragment
+import com.ebnbin.eb.debug.log
 import com.ebnbin.windowcamera.camera.CameraHelper
 
 /**
@@ -13,7 +14,7 @@ class DebugPageFragment : BaseDebugPageFragment() {
         super.onViewCreated(view, savedInstanceState)
         addDebugItem("CameraHelper") {
             try {
-                CameraHelper
+                log(CameraHelper)
             } catch (throwable: Throwable) {
                 // 需要 catch Throwable 避免 ExceptionInInitializerError.
             }

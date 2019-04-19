@@ -140,8 +140,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val viewCenterX = 0.5f * viewWidth
         val viewCenterY = 0.5f * viewHeight
 
-        val bufferWidth = previewResolution.width0.toFloat()
-        val bufferHeight = previewResolution.height0.toFloat()
+        val bufferWidth = previewResolution.widths.getValue(Surface.ROTATION_0).toFloat()
+        val bufferHeight = previewResolution.heights.getValue(Surface.ROTATION_0).toFloat()
 
         val viewRectF = RectF(0f, 0f, viewWidth, viewHeight)
 
@@ -155,8 +155,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         matrix.setRectToRect(viewRectF, bufferRectF, Matrix.ScaleToFit.FILL)
 
-        val scaleX = viewWidth / previewResolution.width(displayRotation)
-        val scaleY = viewHeight / previewResolution.height(displayRotation)
+        val scaleX = viewWidth / previewResolution.widths.getValue(displayRotation)
+        val scaleY = viewHeight / previewResolution.heights.getValue(displayRotation)
         val scale = max(scaleX, scaleY)
         matrix.postScale(scale, scale, viewCenterX, viewCenterY)
 
@@ -676,7 +676,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val imageReaderSurface = imageReader.surface
         val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         captureRequestBuilder.addTarget(imageReaderSurface)
-        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, device.getOrientation(displayRotation))
+        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, device.sensorOrientations.getValue(displayRotation))
         val request = captureRequestBuilder.build()
         photoCameraCaptureSession.capture(request, null, null)
     }
@@ -748,14 +748,13 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         val cameraDevice = cameraDevice ?: return
 
-        // TODO: 3gp
-        val videoFile = nextFile(".mp4")
+        val videoFile = nextFile(videoProfile.extension)
         val mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
         mediaRecorder.setProfile(videoProfile.camcorderProfile)
         mediaRecorder.setOutputFile(videoFile.absolutePath)
-        mediaRecorder.setOrientationHint(device.getOrientation(displayRotation))
+        mediaRecorder.setOrientationHint(device.sensorOrientations.getValue(displayRotation))
         mediaRecorder.prepare()
         this.videoFile = videoFile
         this.mediaRecorder = mediaRecorder
