@@ -67,28 +67,28 @@ object ProfileHelper {
     const val KEY_BACK_PHOTO: String = "back_photo"
 
     const val KEY_BACK_PHOTO_RESOLUTION: String = "back_photo_resolution"
-    val DEF_VALUE_BACK_PHOTO_RESOLUTION: String = CameraHelper.backDevice.photoResolutions.first().toString()
+    val DEF_VALUE_BACK_PHOTO_RESOLUTION: String = CameraHelper.backDevice.photoResolutions.first().key
     var backPhotoResolution: String by ProfileSharedPreferencesDelegate(KEY_BACK_PHOTO_RESOLUTION,
         DEF_VALUE_BACK_PHOTO_RESOLUTION)
 
     const val KEY_BACK_VIDEO: String = "back_video"
 
     const val KEY_BACK_VIDEO_PROFILE: String = "back_video_profile"
-    val DEF_VALUE_BACK_VIDEO_PROFILE: String = CameraHelper.backDevice.videoProfiles.first().toString()
+    val DEF_VALUE_BACK_VIDEO_PROFILE: String = CameraHelper.backDevice.videoProfiles.first().key
     var backVideoProfile: String by ProfileSharedPreferencesDelegate(KEY_BACK_VIDEO_PROFILE,
         DEF_VALUE_BACK_VIDEO_PROFILE)
 
     const val KEY_FRONT_PHOTO: String = "front_photo"
 
     const val KEY_FRONT_PHOTO_RESOLUTION: String = "front_photo_resolution"
-    val DEF_VALUE_FRONT_PHOTO_RESOLUTION: String = CameraHelper.frontDevice.photoResolutions.first().toString()
+    val DEF_VALUE_FRONT_PHOTO_RESOLUTION: String = CameraHelper.frontDevice.photoResolutions.first().key
     var frontPhotoResolution: String by ProfileSharedPreferencesDelegate(KEY_FRONT_PHOTO_RESOLUTION,
         DEF_VALUE_FRONT_PHOTO_RESOLUTION)
 
     const val KEY_FRONT_VIDEO: String = "front_video"
 
     const val KEY_FRONT_VIDEO_PROFILE: String = "front_video_profile"
-    val DEF_VALUE_FRONT_VIDEO_PROFILE: String = CameraHelper.frontDevice.videoProfiles.first().toString()
+    val DEF_VALUE_FRONT_VIDEO_PROFILE: String = CameraHelper.frontDevice.videoProfiles.first().key
     var frontVideoProfile: String by ProfileSharedPreferencesDelegate(KEY_FRONT_VIDEO_PROFILE,
         DEF_VALUE_FRONT_VIDEO_PROFILE)
 

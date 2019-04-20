@@ -208,7 +208,7 @@ object CameraHelper {
          */
         open class Resolution(width: Int, height: Int, sensorOrientation: Int) :
             RotationSize(width, height, sensorOrientation / 90) {
-            val key: String = "${width}x$height"
+            val key: String = "${width}_$height"
 
             override fun toString(): String {
                 return "{${width}x$height,ratio=$ratio}"

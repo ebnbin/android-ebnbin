@@ -86,7 +86,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val resolution = CameraHelper.backDevice.getPhotoResolutionOrElse(it.value) {
                     val result = CameraHelper.backDevice.photoResolutions.first()
-                    value = result.toString()
+                    value = result.key
                     result
                 }
                 resolution.toString()
@@ -95,7 +95,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.toString() }
                 .toTypedArray()
             entryValues = CameraHelper.backDevice.photoResolutions
-                .map { it.toString() }
+                .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_back_photo_resolution)
             backPhotoPreferenceGroup.addPreference(this)
@@ -114,7 +114,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val videoProfile = CameraHelper.backDevice.getVideoProfileOrElse(it.value) {
                     val result = CameraHelper.backDevice.videoProfiles.first()
-                    value = result.toString()
+                    value = result.key
                     result
                 }
                 videoProfile.toString()
@@ -123,7 +123,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.toString() }
                 .toTypedArray()
             entryValues = CameraHelper.backDevice.videoProfiles
-                .map { it.toString() }
+                .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_back_video_profile)
             backVideoPreferenceGroup.addPreference(this)
@@ -142,7 +142,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val resolution = CameraHelper.frontDevice.getPhotoResolutionOrElse(it.value) {
                     val result = CameraHelper.frontDevice.photoResolutions.first()
-                    value = result.toString()
+                    value = result.key
                     result
                 }
                 resolution.toString()
@@ -151,7 +151,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.toString() }
                 .toTypedArray()
             entryValues = CameraHelper.frontDevice.photoResolutions
-                .map { it.toString() }
+                .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_front_photo_resolution)
             frontPhotoPreferenceGroup.addPreference(this)
@@ -170,7 +170,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val videoProfile = CameraHelper.frontDevice.getVideoProfileOrElse(it.value) {
                     val result = CameraHelper.frontDevice.videoProfiles.first()
-                    value = result.toString()
+                    value = result.key
                     result
                 }
                 videoProfile.toString()
@@ -179,7 +179,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.toString() }
                 .toTypedArray()
             entryValues = CameraHelper.frontDevice.videoProfiles
-                .map { it.toString() }
+                .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_front_video_profile)
             frontVideoPreferenceGroup.addPreference(this)
