@@ -14,6 +14,7 @@ class MainActivity : EBActivity() {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
+            // TODO: 检测时机.
             UpdateFragment.start(supportFragmentManager, true)
         }
     }

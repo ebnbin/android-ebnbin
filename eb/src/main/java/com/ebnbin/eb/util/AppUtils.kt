@@ -108,4 +108,12 @@ fun vibrate(milliseconds: Long) {
 //*********************************************************************************************************************
 
 val versionCode: Int
-    get() = ebApp.packageManager.getPackageInfo(ebApp.packageName, 0).longVersionCode.toInt()
+    get() {
+        val packageInfo = ebApp.packageManager.getPackageInfo(ebApp.packageName, 0)
+        return if (sdk28P()) {
+            packageInfo.longVersionCode.toInt()
+        } else {
+            @Suppress("DEPRECATION")
+            packageInfo.versionCode
+        }
+    }

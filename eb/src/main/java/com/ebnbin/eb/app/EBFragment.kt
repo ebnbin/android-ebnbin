@@ -125,10 +125,15 @@ abstract class EBFragment : Fragment(), LoadingDialogFragment.Callback {
         return async(
             Observable.create<T> {
                 try {
-                    it.onNext(task.invoke())
-                    it.onComplete()
+                    val result = task.invoke()
+                    if (!it.isDisposed) {
+                        it.onNext(result)
+                        it.onComplete()
+                    }
                 } catch (throwable: Throwable) {
-                    it.onError(throwable)
+                    if (!it.isDisposed) {
+                        it.onError(throwable)
+                    }
                 }
             },
             loading, onNext, onError, onComplete, onSubscribe

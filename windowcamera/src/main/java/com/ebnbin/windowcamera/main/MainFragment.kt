@@ -1,15 +1,23 @@
 package com.ebnbin.windowcamera.main
 
+import android.Manifest
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.util.ebApp
 import com.ebnbin.eb.util.getColorAttr
+import com.ebnbin.eb.util.toast
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.menu.MenuDialogFragment
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -28,19 +36,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainPagerAdapter = MainPagerAdapter(requireContext(), childFragmentManager)
-        view_pager.adapter = mainPagerAdapter
-        view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
-        view_pager.addOnPageChangeListener(this)
-        tab_layout.setupWithViewPager(view_pager)
-        bottom_app_bar.setNavigationOnClickListener {
-            MenuDialogFragment.start(childFragmentManager)
-        }
-        invalidateWindowCameraServiceEvent()
-
-        if (savedInstanceState == null) {
-            view_pager.setCurrentItem(ProfileHelper.page, false)
-        }
+        PermissionFragment.start(childFragmentManager, "CameraHelper", listOf(Manifest.permission.CAMERA))
     }
 
     override fun onDestroyView() {
@@ -64,9 +60,57 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         granted: Boolean,
         extraData: Map<String, Any?>
     ) {
-        if (!granted) return
         when (callingId) {
-            "WindowCameraService" -> WindowCameraService.start(requireContext())
+            "CameraHelper" -> {
+                if (granted) {
+                    asyncTask(
+                        {
+                            if (!CameraHelper.isValid()) throw RuntimeException()
+                        },
+                        onNext = {
+                            progress_bar.visibility = View.GONE
+                            coordinator_layout.visibility = View.VISIBLE
+
+                            mainPagerAdapter = MainPagerAdapter(requireContext(), childFragmentManager)
+                            view_pager.adapter = mainPagerAdapter
+                            view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
+                            view_pager.addOnPageChangeListener(this)
+                            tab_layout.setupWithViewPager(view_pager)
+                            bottom_app_bar.setNavigationOnClickListener {
+                                MenuDialogFragment.start(childFragmentManager)
+                            }
+                            invalidateWindowCameraServiceEvent()
+
+                            view_pager.setCurrentItem(ProfileHelper.page, false)
+                        },
+                        onError = {
+                            when (it) {
+                                is NoClassDefFoundError -> {
+                                    // 在初始化 CameraHelper 时 task 中断导致.
+                                    try {
+                                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                            .setData(Uri.parse("package:${ebApp.packageName}"))
+                                        startActivity(intent)
+                                    } catch (e: ActivityNotFoundException) {
+                                    }
+                                    toast(requireContext(), R.string.camera_error_no_class_def_found_error)
+                                    activity?.finish()
+                                }
+                                else -> {
+                                    toast(requireContext(), R.string.camera_error)
+                                    activity?.finish()
+                                }
+                            }
+                        })
+                } else {
+                    activity?.finish()
+                }
+            }
+            "WindowCameraService" -> {
+                if (granted) {
+                    WindowCameraService.start(requireContext())
+                }
+            }
         }
     }
 
