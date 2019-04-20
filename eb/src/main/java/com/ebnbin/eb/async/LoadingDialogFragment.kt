@@ -1,4 +1,4 @@
-package com.ebnbin.eb.loading
+package com.ebnbin.eb.async
 
 import android.app.Dialog
 import android.content.Context

@@ -63,11 +63,11 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         when (callingId) {
             "CameraHelper" -> {
                 if (granted) {
-                    asyncTask(
+                    asyncHelper.task(
                         {
                             if (!CameraHelper.isValid()) throw RuntimeException()
                         },
-                        onNext = {
+                        onSuccess = {
                             progress_bar.visibility = View.GONE
                             coordinator_layout.visibility = View.VISIBLE
 
@@ -83,7 +83,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
 
                             view_pager.setCurrentItem(ProfileHelper.page, false)
                         },
-                        onError = {
+                        onFailure = {
                             when (it) {
                                 is NoClassDefFoundError -> {
                                     // 在初始化 CameraHelper 时 task 中断导致.

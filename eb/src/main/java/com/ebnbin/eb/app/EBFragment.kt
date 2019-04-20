@@ -3,19 +3,16 @@ package com.ebnbin.eb.app
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
+import com.ebnbin.eb.async.AsyncHelper
+import com.ebnbin.eb.async.Loading
+import com.ebnbin.eb.async.LoadingDialogFragment
 import com.ebnbin.eb.library.eventBus
-import com.ebnbin.eb.loading.Loading
-import com.ebnbin.eb.loading.LoadingDialogFragment
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Base Fragment.
  */
-abstract class EBFragment : Fragment(), LoadingDialogFragment.Callback {
+abstract class EBFragment : Fragment(), AsyncHelper.Delegate, LoadingDialogFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isEventBusEnabled && !eventBus.isRegistered(this)) {
@@ -65,92 +62,29 @@ abstract class EBFragment : Fragment(), LoadingDialogFragment.Callback {
 
     //*****************************************************************************************************************
 
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    @Suppress("LeakingThis")
+    protected val asyncHelper: AsyncHelper = AsyncHelper(this)
 
     override fun onDestroyView() {
-        compositeDisposable.clear()
+        asyncHelper.onDestroy()
         super.onDestroyView()
     }
 
-    private fun <T> async(
-        observable: Observable<T>,
-        loading: Loading = Loading.NONE,
-        onNext: ((T) -> Unit)? = null,
-        onError: ((Throwable) -> Unit)? = null,
-        onComplete: (() -> Unit)? = null,
-        onSubscribe: ((Disposable) -> Unit)? = null
-    ): Disposable {
-        return observable
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    // TODO 理论上应该在 onComplete 中调用 stopLoading.
-                    stopLoading(loading)
-                    onNext?.invoke(it)
-                },
-                {
-                    stopLoading(loading)
-                    onError?.invoke(it)
-                },
-                {
-                    onComplete?.invoke()
-                },
-                {
-                    compositeDisposable.add(it)
-                    startLoading(loading)
-                    onSubscribe?.invoke(it)
-                })
-    }
-
-    protected fun <T> asyncRequest(
-        observable: Observable<T>,
-        loading: Loading = Loading.NONE,
-        onNext: ((T) -> Unit)? = null,
-        onError: ((Throwable) -> Unit)? = null,
-        onComplete: (() -> Unit)? = null,
-        onSubscribe: ((Disposable) -> Unit)? = null
-    ): Disposable {
-        return async(observable, loading, onNext, onError, onComplete, onSubscribe)
-    }
-
-    protected fun <T> asyncTask(
-        task: () -> T,
-        loading: Loading = Loading.NONE,
-        onNext: ((T) -> Unit)? = null,
-        onError: ((Throwable) -> Unit)? = null,
-        onComplete: (() -> Unit)? = null,
-        onSubscribe: ((Disposable) -> Unit)? = null
-    ): Disposable {
-        return async(
-            Observable.create<T> {
-                try {
-                    val result = task.invoke()
-                    if (!it.isDisposed) {
-                        it.onNext(result)
-                        it.onComplete()
-                    }
-                } catch (throwable: Throwable) {
-                    if (!it.isDisposed) {
-                        it.onError(throwable)
-                    }
-                }
-            },
-            loading, onNext, onError, onComplete, onSubscribe
-        )
-    }
-
-    private fun startLoading(loading: Loading) {
+    override fun startLoading(loading: Loading, disposable: Disposable) {
         when (loading) {
             Loading.NONE -> Unit
-            Loading.DIALOG -> showLoadingDialog(false)
+            Loading.DIALOG -> {
+                showLoadingDialog(false)
+            }
         }
     }
 
-    private fun stopLoading(loading: Loading) {
+    override fun stopLoading(loading: Loading, error: Boolean, throwable: Throwable?, onRetry: (() -> Unit)?) {
         when (loading) {
             Loading.NONE -> Unit
-            Loading.DIALOG -> hideLoadingDialog()
+            Loading.DIALOG -> {
+                hideLoadingDialog()
+            }
         }
     }
 

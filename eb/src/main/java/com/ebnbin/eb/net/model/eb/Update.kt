@@ -1,9 +1,9 @@
 package com.ebnbin.eb.net.model.eb
 
-import com.ebnbin.eb.net.model.EBModel
+import com.ebnbin.eb.net.model.EBResponse
 import com.ebnbin.eb.util.versionCode
 
-class Update : EBModel() {
+class Update : EBResponse() {
     var version: Int = 0
     var minVersion: Int = 0
     lateinit var url: String

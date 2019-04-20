@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.app.FragmentHelper
-import com.ebnbin.eb.loading.Loading
+import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.net.NetHelper
 import com.ebnbin.eb.sharedpreferences.EBSp
 import com.ebnbin.eb.util.toast
@@ -23,8 +23,8 @@ class UpdateFragment : EBFragment() {
         if (savedInstanceState == null) {
             if (silent) {
                 if (System.currentTimeMillis() - EBSp.eb.request_update_timestamp >= UPDATE_INTERVAL) {
-                    asyncRequest(NetHelper.ebService.update(),
-                        onNext = {
+                    asyncHelper.request(NetHelper.ebService.update(),
+                        onSuccess = {
                             EBSp.eb.request_update_timestamp = System.currentTimeMillis()
                             if (it.hasUpdate()) {
                                 UpdateDialogFragment.start(childFragmentManager, it)
@@ -33,9 +33,9 @@ class UpdateFragment : EBFragment() {
                     )
                 }
             } else {
-                asyncRequest(NetHelper.ebService.update(),
+                asyncHelper.request(NetHelper.ebService.update(),
                     Loading.DIALOG,
-                    onNext = {
+                    onSuccess = {
                         EBSp.eb.request_update_timestamp = System.currentTimeMillis()
                         if (it.hasUpdate()) {
                             UpdateDialogFragment.start(childFragmentManager, it)
@@ -43,7 +43,7 @@ class UpdateFragment : EBFragment() {
                             toast(requireContext(), "已是最新版本。")
                         }
                     },
-                    onError = {
+                    onFailure = {
                         toast(requireContext(), "检测更新失败。")
                     })
             }

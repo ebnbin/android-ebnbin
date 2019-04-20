@@ -38,14 +38,14 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
 
         addDebugItem("Loading Dialog", "（不可取消，3 秒后自动关闭）") {
             showLoadingDialog(false)
-            asyncTask(
+            asyncHelper.task(
                 {
                     Thread.sleep(3000L)
                 },
-                onNext = {
+                onSuccess = {
                     hideLoadingDialog()
                 },
-                onError = {
+                onFailure = {
                     hideLoadingDialog()
                 })
         }
