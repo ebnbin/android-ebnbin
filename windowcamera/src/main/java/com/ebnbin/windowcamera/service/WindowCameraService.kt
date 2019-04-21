@@ -84,10 +84,11 @@ class WindowCameraService : Service() {
         /**
          * 所需权限.
          */
-        val permissions: List<String> = listOf(
+        val permissions: ArrayList<String> = arrayListOf(
             Manifest.permission.SYSTEM_ALERT_WINDOW,
             Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO)
+            Manifest.permission.RECORD_AUDIO
+        )
 
         fun start(context: Context) {
             if (isRunning()) return

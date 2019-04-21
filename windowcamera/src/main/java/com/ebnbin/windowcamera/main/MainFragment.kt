@@ -10,9 +10,11 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.ebApp
 import com.ebnbin.eb.util.getColorAttr
 import com.ebnbin.eb.util.toast
@@ -36,7 +38,9 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PermissionFragment.start(childFragmentManager, "CameraHelper", listOf(Manifest.permission.CAMERA))
+        PermissionFragment.start(childFragmentManager, arrayListOf(Manifest.permission.CAMERA), bundleOf(
+            Consts.CALLING_ID to "CameraHelper"
+        ))
     }
 
     override fun onDestroyView() {
@@ -54,13 +58,8 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
     override fun onPageScrollStateChanged(state: Int) {
     }
 
-    override fun onPermissionsResult(
-        callingId: String,
-        permissions: List<String>,
-        granted: Boolean,
-        extraData: Map<String, Any?>
-    ) {
-        when (callingId) {
+    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
+        when (extraData.getString(Consts.CALLING_ID)) {
             "CameraHelper" -> {
                 if (granted) {
                     asyncHelper.task(
@@ -136,7 +135,9 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
             imageDrawableId = R.drawable.main_camera
             backgroundTintAttrId = R.attr.colorPrimary
             onClickListener = View.OnClickListener {
-                PermissionFragment.start(childFragmentManager, "WindowCameraService", WindowCameraService.permissions)
+                PermissionFragment.start(childFragmentManager, WindowCameraService.permissions, bundleOf(
+                    Consts.CALLING_ID to "WindowCameraService"
+                ))
             }
         }
         floating_action_button.isEnabled = true

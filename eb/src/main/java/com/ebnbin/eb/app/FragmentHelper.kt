@@ -19,9 +19,8 @@ object FragmentHelper {
         fragmentClass: Class<T>,
         containerViewId: Int = 0,
         tag: String = fragmentClass.name,
-        fillArguments: (Bundle.() -> Unit)? = null
+        arguments: Bundle? = null
     ): T {
-        val arguments = if (fillArguments == null) null else Bundle().also { fillArguments(it) }
         val fragment = instantiate(fm, fragmentClass)
         fragment.arguments = arguments
         fm.beginTransaction().add(containerViewId, fragment, tag).commit()

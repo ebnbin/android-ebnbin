@@ -1,6 +1,7 @@
 package com.ebnbin.eb.update
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.app.FragmentHelper
@@ -54,9 +55,9 @@ class UpdateFragment : EBFragment() {
         private const val UPDATE_INTERVAL: Long = 24 * 60 * 60 * 1000L
 
         fun start(fm: FragmentManager, silent: Boolean) {
-            FragmentHelper.add(fm, UpdateFragment::class.java) {
-                putBoolean("silent", silent)
-            }
+            FragmentHelper.add(fm, UpdateFragment::class.java, arguments = bundleOf(
+                "silent" to silent
+            ))
         }
     }
 }

@@ -7,11 +7,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.eb.app.removeSelf
+import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.ebApp
 import com.ebnbin.eb.util.toast
 
@@ -30,33 +32,26 @@ class PermissionFragment : EBFragment() {
      * 权限结果回调.
      */
     interface Callback {
-        fun onPermissionsResult(
-            callingId: String,
-            permissions: List<String>,
-            granted: Boolean,
-            extraData: Map<String, Any?>
-        )
+        fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle)
     }
 
     //*****************************************************************************************************************
 
-    private lateinit var callingId: String
-    private lateinit var permissions: List<String>
-    private lateinit var extraData: Map<String, Any?>
+    private lateinit var permissions: ArrayList<String>
+    private lateinit var extraData: Bundle
 
     private var hasSystemAlertWindowPermission: Boolean = false
     private lateinit var runtimePermissions: List<String>
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        callingId = arguments.getString(KEY_CALLING_ID) ?: throw RuntimeException()
         permissions = arguments.getStringArrayList(KEY_PERMISSIONS) ?: throw RuntimeException()
-        @Suppress("UNCHECKED_CAST")
-        extraData = arguments.getSerializable(KEY_EXTRA_DATA) as Map<String, Any?>
+        extraData = arguments.getBundle(Consts.EXTRA_DATA) ?: throw RuntimeException()
 
-        val runtimePermissions = ArrayList(permissions)
-        hasSystemAlertWindowPermission = runtimePermissions.remove(Manifest.permission.SYSTEM_ALERT_WINDOW)
-        this.runtimePermissions = runtimePermissions
+        // 没有重复的权限.
+        val validPermissions = LinkedHashSet(permissions)
+        hasSystemAlertWindowPermission = validPermissions.remove(Manifest.permission.SYSTEM_ALERT_WINDOW)
+        this.runtimePermissions = ArrayList(validPermissions)
     }
 
     //*****************************************************************************************************************
@@ -183,34 +178,24 @@ class PermissionFragment : EBFragment() {
 
     private fun onPermissionsResult(granted: Boolean) {
         if (!granted) toast(requireContext(), R.string.eb_permission_denied)
-        callback.onPermissionsResult(callingId, permissions, granted, extraData)
+        callback.onPermissionsResult(permissions, granted, extraData)
         removeSelf()
     }
 
     //*****************************************************************************************************************
 
     companion object {
-        private const val KEY_CALLING_ID = "calling_id"
         private const val KEY_PERMISSIONS = "permissions"
-        private const val KEY_EXTRA_DATA = "extra_data"
 
         private const val REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION = 0x1
         private const val REQUEST_CODE_RUNTIME_PERMISSIONS = 0x2
         private const val REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER = 0x3
 
-        fun start(
-            fm: FragmentManager,
-            callingId: String,
-            permissions: List<String>,
-            fillExtraData: (Map<String, Any?>.() -> Unit)? = null
-        ) {
-            val extraData = LinkedHashMap<String, Any?>()
-            fillExtraData?.invoke(extraData)
-            FragmentHelper.add(fm, PermissionFragment::class.java) {
-                putString(KEY_CALLING_ID, callingId)
-                putStringArrayList(KEY_PERMISSIONS, ArrayList(LinkedHashSet(permissions)))
-                putSerializable(KEY_EXTRA_DATA, extraData)
-            }
+        fun start(fm: FragmentManager, permissions: ArrayList<String>, extraData: Bundle = Bundle.EMPTY) {
+            FragmentHelper.add(fm, PermissionFragment::class.java, arguments = bundleOf(
+                KEY_PERMISSIONS to permissions,
+                Consts.EXTRA_DATA to extraData
+            ))
         }
     }
 }
