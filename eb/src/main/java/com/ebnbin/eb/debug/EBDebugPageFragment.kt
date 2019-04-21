@@ -3,6 +3,7 @@ package com.ebnbin.eb.debug
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.sharedpreferences.EBSp
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.restartMainActivity
@@ -32,12 +33,16 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
             UpdateFragment.start(childFragmentManager, false)
         }
 
-        addDebugItem("Loading Dialog", "（可取消）") {
-            showLoadingDialog(true)
+        addDebugItem("LoadingDialogFragment", "CANCELABLE") {
+            showLoadingDialog(Cancel.CANCELABLE)
         }
 
-        addDebugItem("Loading Dialog", "（不可取消，3 秒后自动关闭）") {
-            showLoadingDialog(false)
+        addDebugItem("LoadingDialogFragment", "NOT_CANCELED_ON_TOUCH_OUTSIDE") {
+            showLoadingDialog(Cancel.NOT_CANCELED_ON_TOUCH_OUTSIDE)
+        }
+
+        addDebugItem("LoadingDialogFragment", "NOT_CANCELABLE（3 秒后自动关闭）") {
+            showLoadingDialog(Cancel.NOT_CANCELABLE)
             asyncHelper.task(
                 {
                     Thread.sleep(3000L)

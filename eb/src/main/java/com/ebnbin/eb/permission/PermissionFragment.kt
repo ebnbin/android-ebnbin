@@ -45,7 +45,7 @@ class PermissionFragment : EBFragment() {
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        permissions = arguments.getStringArrayList(KEY_PERMISSIONS) ?: throw RuntimeException()
+        permissions = arguments.getStringArrayList("permissions") ?: throw RuntimeException()
         extraData = arguments.getBundle(Consts.EXTRA_DATA) ?: throw RuntimeException()
 
         // 没有重复的权限.
@@ -185,15 +185,17 @@ class PermissionFragment : EBFragment() {
     //*****************************************************************************************************************
 
     companion object {
-        private const val KEY_PERMISSIONS = "permissions"
-
         private const val REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION = 0x1
         private const val REQUEST_CODE_RUNTIME_PERMISSIONS = 0x2
         private const val REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER = 0x3
 
-        fun start(fm: FragmentManager, permissions: ArrayList<String>, extraData: Bundle = Bundle.EMPTY) {
-            FragmentHelper.add(fm, PermissionFragment::class.java, arguments = bundleOf(
-                KEY_PERMISSIONS to permissions,
+        fun start(
+            fm: FragmentManager,
+            permissions: ArrayList<String>,
+            extraData: Bundle = Bundle.EMPTY
+        ): PermissionFragment {
+            return FragmentHelper.add(fm, PermissionFragment::class.java, arguments = bundleOf(
+                "permissions" to permissions,
                 Consts.EXTRA_DATA to extraData
             ))
         }

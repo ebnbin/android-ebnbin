@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.ebnbin.eb.async.AsyncHelper
 import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.async.LoadingDialogFragment
+import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.library.eventBus
 import io.reactivex.disposables.Disposable
 
@@ -74,7 +75,7 @@ abstract class EBFragment : Fragment(), AsyncHelper.Delegate, LoadingDialogFragm
         when (loading) {
             Loading.NONE -> Unit
             Loading.DIALOG -> {
-                showLoadingDialog(false)
+                showLoadingDialog(Cancel.NOT_CANCELABLE)
             }
         }
     }
@@ -90,9 +91,9 @@ abstract class EBFragment : Fragment(), AsyncHelper.Delegate, LoadingDialogFragm
 
     private var loadingDialogFragment: LoadingDialogFragment? = null
 
-    protected fun showLoadingDialog(isCancelable: Boolean) {
+    protected fun showLoadingDialog(cancel: Cancel, extraData: Bundle = Bundle.EMPTY) {
         hideLoadingDialog()
-        loadingDialogFragment = LoadingDialogFragment.start(childFragmentManager, isCancelable)
+        loadingDialogFragment = LoadingDialogFragment.start(childFragmentManager, cancel, extraData)
     }
 
     protected fun hideLoadingDialog() {
@@ -102,7 +103,7 @@ abstract class EBFragment : Fragment(), AsyncHelper.Delegate, LoadingDialogFragm
         }
     }
 
-    override fun onLoadingDialogDismiss() {
+    override fun onLoadingDialogDismiss(cancel: Cancel, extraData: Bundle) {
         loadingDialogFragment = null
     }
 }
