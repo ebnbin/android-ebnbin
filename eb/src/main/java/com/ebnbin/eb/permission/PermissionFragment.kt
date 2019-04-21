@@ -32,13 +32,13 @@ class PermissionFragment : EBFragment() {
      * 权限结果回调.
      */
     interface Callback {
-        fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle)
+        fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: HashMap<*, *>)
     }
 
     //*****************************************************************************************************************
 
     private lateinit var permissions: ArrayList<String>
-    private lateinit var extraData: Bundle
+    private lateinit var extraData: HashMap<*, *>
 
     private var hasSystemAlertWindowPermission: Boolean = false
     private lateinit var runtimePermissions: List<String>
@@ -46,7 +46,7 @@ class PermissionFragment : EBFragment() {
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
         permissions = arguments.getStringArrayList("permissions") ?: throw RuntimeException()
-        extraData = arguments.getBundle(Consts.EXTRA_DATA) ?: throw RuntimeException()
+        extraData = arguments.getSerializable(Consts.EXTRA_DATA) as HashMap<*, *>
 
         // 没有重复的权限.
         val validPermissions = LinkedHashSet(permissions)
@@ -192,7 +192,7 @@ class PermissionFragment : EBFragment() {
         fun start(
             fm: FragmentManager,
             permissions: ArrayList<String>,
-            extraData: Bundle = Bundle.EMPTY
+            extraData: HashMap<*, *> = hashMapOf<Any?, Any?>()
         ): PermissionFragment {
             return FragmentHelper.add(fm, PermissionFragment::class.java, arguments = bundleOf(
                 "permissions" to permissions,

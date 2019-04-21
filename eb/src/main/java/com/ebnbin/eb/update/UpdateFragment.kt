@@ -35,7 +35,7 @@ class UpdateFragment : EBFragment() {
                 }
             } else {
                 asyncHelper.request(NetHelper.ebService.update(),
-                    Loading.DIALOG,
+                    Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE,
                     onSuccess = {
                         EBSp.eb.request_update_timestamp = System.currentTimeMillis()
                         if (it.hasUpdate()) {

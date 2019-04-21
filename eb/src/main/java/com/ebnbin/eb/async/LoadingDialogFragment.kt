@@ -24,19 +24,19 @@ class LoadingDialogFragment : EBDialogFragment() {
     }
 
     private lateinit var cancel: Cancel
-    private lateinit var extraData: Bundle
+    private lateinit var extraData: HashMap<*, *>
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
         cancel = arguments.getSerializable("cancel") as Cancel
-        extraData = arguments.getBundle(Consts.EXTRA_DATA) ?: throw RuntimeException()
+        extraData = arguments.getSerializable(Consts.EXTRA_DATA) as HashMap<*, *>
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         isCancelable = cancel != Cancel.NOT_CANCELABLE
         val dialog = AppCompatDialog(requireContext())
-        dialog.setContentView(R.layout.eb_loading_dialog_fragment)
         dialog.setCanceledOnTouchOutside(cancel == Cancel.CANCELABLE)
+        dialog.setContentView(R.layout.eb_loading_dialog_fragment)
         return dialog
     }
 
@@ -46,17 +46,23 @@ class LoadingDialogFragment : EBDialogFragment() {
     }
 
     interface Callback {
-        fun onLoadingDialogDismiss(cancel: Cancel, extraData: Bundle)
+        fun onLoadingDialogDismiss(cancel: Cancel, extraData: HashMap<*, *>)
     }
 
     companion object {
-        fun start(fm: FragmentManager, cancel: Cancel, extraData: Bundle = Bundle.EMPTY): LoadingDialogFragment {
+        fun start(
+            fm: FragmentManager,
+            cancel: Cancel,
+            tag: String? = null,
+            extraData: HashMap<*, *> = hashMapOf<Any?, Any?>()
+        ): LoadingDialogFragment {
             val fragment = LoadingDialogFragment()
             fragment.arguments = bundleOf(
                 "cancel" to cancel,
                 Consts.EXTRA_DATA to extraData
             )
-            fragment.show(fm, LoadingDialogFragment::class.java.name)
+            val validTag = tag ?: fragment.hashCode().toString()
+            fragment.show(fm, validTag)
             return fragment
         }
     }

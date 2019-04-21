@@ -10,7 +10,6 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
@@ -38,7 +37,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PermissionFragment.start(childFragmentManager, arrayListOf(Manifest.permission.CAMERA), bundleOf(
+        PermissionFragment.start(childFragmentManager, arrayListOf(Manifest.permission.CAMERA), hashMapOf(
             Consts.CALLING_ID to "CameraHelper"
         ))
     }
@@ -58,8 +57,8 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
     override fun onPageScrollStateChanged(state: Int) {
     }
 
-    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
-        when (extraData.getString(Consts.CALLING_ID)) {
+    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: HashMap<*, *>) {
+        when (extraData[Consts.CALLING_ID]) {
             "CameraHelper" -> {
                 if (granted) {
                     asyncHelper.task(
@@ -135,7 +134,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
             imageDrawableId = R.drawable.main_camera
             backgroundTintAttrId = R.attr.colorPrimary
             onClickListener = View.OnClickListener {
-                PermissionFragment.start(childFragmentManager, WindowCameraService.permissions, bundleOf(
+                PermissionFragment.start(childFragmentManager, WindowCameraService.permissions, hashMapOf(
                     Consts.CALLING_ID to "WindowCameraService"
                 ))
             }

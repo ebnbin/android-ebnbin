@@ -3,10 +3,11 @@ package com.ebnbin.eb.debug
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import com.ebnbin.eb.dialog.Cancel
+import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.sharedpreferences.EBSp
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.restartMainActivity
+import com.ebnbin.eb.util.toast
 
 /**
  * Debug EB 页面.
@@ -25,34 +26,72 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
 
         addDebugItem("Calling Fragment", callingFragmentClassName.toString())
 
+        addDebugItem("Async", "5 秒后完成，可按返回键或点击空白处取消") {
+            asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_CANCELABLE,
+                onSuccess = {
+                    toast(requireContext(), "onSuccess")
+                },
+                onFailure = {
+                    toast(requireContext(), "onFailure")
+                }
+            )
+        }
+
+        addDebugItem("Async", "5 秒后完成，可按返回键取消") {
+            asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE,
+                onSuccess = {
+                    toast(requireContext(), "onSuccess")
+                },
+                onFailure = {
+                    toast(requireContext(), "onFailure")
+                }
+            )
+        }
+
+        addDebugItem("Async", "3 秒后完成，不可取消") {
+            asyncHelper.task({ Thread.sleep(3000L) }, Loading.DIALOG_NOT_CANCELABLE,
+                onSuccess = {
+                    toast(requireContext(), "onSuccess")
+                },
+                onFailure = {
+                    toast(requireContext(), "onFailure")
+                }
+            )
+        }
+
+        addDebugItem("Async", "3 个任务，分别 4 秒、5 秒、3 秒后完成，都可按返回键或点击空白处取消") {
+            asyncHelper.task({ Thread.sleep(4000L) }, Loading.DIALOG_CANCELABLE,
+                onSuccess = {
+                    toast(requireContext(), "onSuccess 4")
+                },
+                onFailure = {
+                    toast(requireContext(), "onFailure 4")
+                }
+            )
+            asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_CANCELABLE,
+                onSuccess = {
+                    toast(requireContext(), "onSuccess 5")
+                },
+                onFailure = {
+                    toast(requireContext(), "onFailure 5")
+                }
+            )
+            asyncHelper.task({ Thread.sleep(3000L) }, Loading.DIALOG_CANCELABLE,
+                onSuccess = {
+                    toast(requireContext(), "onSuccess 3")
+                },
+                onFailure = {
+                    toast(requireContext(), "onFailure 3")
+                }
+            )
+        }
+
         addDebugItem("Update", "silent = true") {
             UpdateFragment.start(childFragmentManager, true)
         }
 
         addDebugItem("Update", "silent = false") {
             UpdateFragment.start(childFragmentManager, false)
-        }
-
-        addDebugItem("LoadingDialogFragment", "CANCELABLE") {
-            showLoadingDialog(Cancel.CANCELABLE)
-        }
-
-        addDebugItem("LoadingDialogFragment", "NOT_CANCELED_ON_TOUCH_OUTSIDE") {
-            showLoadingDialog(Cancel.NOT_CANCELED_ON_TOUCH_OUTSIDE)
-        }
-
-        addDebugItem("LoadingDialogFragment", "NOT_CANCELABLE（3 秒后自动关闭）") {
-            showLoadingDialog(Cancel.NOT_CANCELABLE)
-            asyncHelper.task(
-                {
-                    Thread.sleep(3000L)
-                },
-                onSuccess = {
-                    hideLoadingDialog()
-                },
-                onFailure = {
-                    hideLoadingDialog()
-                })
         }
 
         addDebugItem("夜间模式", "关闭") {

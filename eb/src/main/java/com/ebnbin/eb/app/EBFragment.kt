@@ -3,12 +3,11 @@ package com.ebnbin.eb.app
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.async.AsyncHelper
-import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.async.LoadingDialogFragment
 import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.library.eventBus
-import io.reactivex.disposables.Disposable
 
 /**
  * Base Fragment.
@@ -66,44 +65,16 @@ abstract class EBFragment : Fragment(), AsyncHelper.Delegate, LoadingDialogFragm
     @Suppress("LeakingThis")
     protected val asyncHelper: AsyncHelper = AsyncHelper(this)
 
+    override fun provideFragmentManager(): FragmentManager? {
+        return childFragmentManager
+    }
+
     override fun onDestroyView() {
         asyncHelper.onDestroy()
         super.onDestroyView()
     }
 
-    override fun startLoading(loading: Loading, disposable: Disposable) {
-        when (loading) {
-            Loading.NONE -> Unit
-            Loading.DIALOG -> {
-                showLoadingDialog(Cancel.NOT_CANCELABLE)
-            }
-        }
-    }
-
-    override fun stopLoading(loading: Loading, error: Boolean, throwable: Throwable?, onRetry: (() -> Unit)?) {
-        when (loading) {
-            Loading.NONE -> Unit
-            Loading.DIALOG -> {
-                hideLoadingDialog()
-            }
-        }
-    }
-
-    private var loadingDialogFragment: LoadingDialogFragment? = null
-
-    protected fun showLoadingDialog(cancel: Cancel, extraData: Bundle = Bundle.EMPTY) {
-        hideLoadingDialog()
-        loadingDialogFragment = LoadingDialogFragment.start(childFragmentManager, cancel, extraData)
-    }
-
-    protected fun hideLoadingDialog() {
-        loadingDialogFragment?.run {
-            loadingDialogFragment = null
-            dismiss()
-        }
-    }
-
-    override fun onLoadingDialogDismiss(cancel: Cancel, extraData: Bundle) {
-        loadingDialogFragment = null
+    override fun onLoadingDialogDismiss(cancel: Cancel, extraData: HashMap<*, *>) {
+        asyncHelper.onLoadingDialogDismiss(cancel, extraData)
     }
 }
