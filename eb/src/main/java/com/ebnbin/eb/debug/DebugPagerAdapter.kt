@@ -9,7 +9,7 @@ import com.ebnbin.eb.util.ebApp
 internal class DebugPagerAdapter(private val fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private val pages: List<Pair<Class<out BaseDebugPageFragment>, CharSequence>> =
         ArrayList<Pair<Class<out BaseDebugPageFragment>, CharSequence>>().apply {
-            ebApp.config.debugPageFragmentClass?.let {
+            ebApp.debugPageFragmentClass?.let {
                 add(Pair(it, "Debug"))
             }
             add(Pair(EBDebugPageFragment::class.java, "Debug EB"))
