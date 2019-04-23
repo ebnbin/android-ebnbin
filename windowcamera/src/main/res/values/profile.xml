@@ -11,15 +11,21 @@
     <string name="profile_ratio_summary_screen">屏幕</string>
     <string name="profile_ratio_summary_square">方形</string>
 
-    <string name="profile_x">窗口水平方向位置</string>
-    <string name="profile_x_summary">窗口水平方向位置</string>
-
-    <string name="profile_y">窗口垂直方向位置</string>
-    <string name="profile_y_summary">窗口垂直方向位置</string>
-
     <string name="profile_is_out_enable">允许窗口移出屏幕</string>
     <string name="profile_is_out_enable_summary_off">不允许窗口移出屏幕</string>
     <string name="profile_is_out_enable_summary_on">允许窗口移出屏幕</string>
+
+    <string name="profile_in_x">窗口水平方向位置</string>
+    <string name="profile_in_x_summary">窗口水平方向位置</string>
+
+    <string name="profile_in_y">窗口垂直方向位置</string>
+    <string name="profile_in_y_summary">窗口垂直方向位置</string>
+
+    <string name="profile_out_x">窗口水平方向位置</string>
+    <string name="profile_out_x_summary">窗口水平方向位置</string>
+
+    <string name="profile_out_y">窗口垂直方向位置</string>
+    <string name="profile_out_y_summary">窗口垂直方向位置</string>
 
     <string name="profile_display">显示</string>
 
