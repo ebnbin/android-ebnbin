@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.app.FragmentHelper
-import com.ebnbin.eb.app.removeSelf
 import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.ebApp
 import com.ebnbin.eb.util.toast
