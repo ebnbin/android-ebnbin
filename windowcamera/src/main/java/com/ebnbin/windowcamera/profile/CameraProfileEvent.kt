@@ -1,3 +1,3 @@
-package com.ebnbin.windowcamera.event
+package com.ebnbin.windowcamera.profile
 
 class CameraProfileEvent(val isInvalidating: Boolean)

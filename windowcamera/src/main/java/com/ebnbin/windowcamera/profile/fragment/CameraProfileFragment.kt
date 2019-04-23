@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.profile
+package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import androidx.preference.ListPreference
@@ -6,9 +6,10 @@ import androidx.preference.Preference
 import androidx.preference.SwitchPreferenceCompat
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
-import com.ebnbin.windowcamera.event.CameraProfileEvent
 import com.ebnbin.windowcamera.preference.FooterPreference
 import com.ebnbin.windowcamera.preference.SimplePreferenceGroup
+import com.ebnbin.windowcamera.profile.CameraProfileEvent
+import com.ebnbin.windowcamera.profile.ProfileHelper
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 

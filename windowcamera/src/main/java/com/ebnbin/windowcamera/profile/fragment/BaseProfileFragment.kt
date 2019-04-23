@@ -1,8 +1,9 @@
-package com.ebnbin.windowcamera.profile
+package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import com.ebnbin.eb.app.EBPreferenceFragment
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.ProfileHelper
 
 abstract class BaseProfileFragment : EBPreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

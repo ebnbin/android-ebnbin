@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.profile.CameraProfileFragment
-import com.ebnbin.windowcamera.profile.OtherProfileFragment
-import com.ebnbin.windowcamera.profile.WindowProfileFragment
+import com.ebnbin.windowcamera.profile.fragment.CameraProfileFragment
+import com.ebnbin.windowcamera.profile.fragment.OtherProfileFragment
+import com.ebnbin.windowcamera.profile.fragment.WindowProfileFragment
 
 class MainPagerAdapter(private val context: Context, private val fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     private val pages: List<Pair<Class<out Fragment>, CharSequence>> =

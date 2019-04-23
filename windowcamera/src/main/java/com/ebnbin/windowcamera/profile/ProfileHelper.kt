@@ -3,7 +3,6 @@ package com.ebnbin.windowcamera.profile
 import com.ebnbin.eb.library.eventBus
 import com.ebnbin.eb.sharedpreferences.defaultSharedPreferencesName
 import com.ebnbin.windowcamera.camera.CameraHelper
-import com.ebnbin.windowcamera.event.CameraProfileEvent
 
 object ProfileHelper {
     val sharedPreferencesName: String

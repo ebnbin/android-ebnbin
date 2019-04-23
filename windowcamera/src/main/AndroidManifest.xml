@@ -25,6 +25,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.WindowCameraService"/>
+        <service android:name=".app.WindowCameraService"/>
     </application>
 </manifest>

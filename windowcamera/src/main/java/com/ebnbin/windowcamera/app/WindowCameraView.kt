@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.widget
+package com.ebnbin.windowcamera.app
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -38,7 +38,6 @@ import com.ebnbin.eb.util.vibrate
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
-import com.ebnbin.windowcamera.service.WindowCameraService
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat

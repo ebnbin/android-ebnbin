@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.service
+package com.ebnbin.windowcamera.app
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -18,8 +18,6 @@ import com.ebnbin.eb.util.isServiceRunning
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb.util.toast
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
-import com.ebnbin.windowcamera.widget.WindowCameraView
 
 /**
  * 前台服务.

@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.profile
+package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import androidx.preference.CheckBoxPreference
@@ -10,6 +10,7 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.preference.FooterPreference
 import com.ebnbin.windowcamera.preference.SimplePreferenceGroup
 import com.ebnbin.windowcamera.preference.SimpleSeekBarPreference
+import com.ebnbin.windowcamera.profile.ProfileHelper
 
 class WindowProfileFragment : BaseProfileFragment() {
     private lateinit var layoutPreference: PreferenceCategory
