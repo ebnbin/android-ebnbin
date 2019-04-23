@@ -1,7 +1,8 @@
 package com.ebnbin.eb.async
 
-import androidx.fragment.app.FragmentManager
+import android.content.Context
 import com.ebnbin.eb.dialog.Cancel
+import com.ebnbin.eb.dialog.LoadingDialog
 import com.ebnbin.eb.net.model.EBResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 /**
  * 异步任务帮助类.
  */
-class AsyncHelper(private val delegate: Delegate) {
+class AsyncHelper(private val getContext: (() -> Context?)? = null) {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun onDestroy() {
@@ -102,8 +103,8 @@ class AsyncHelper(private val delegate: Delegate) {
         when (loading) {
             Loading.NONE -> Unit
             Loading.DIALOG_CANCELABLE, Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE, Loading.DIALOG_NOT_CANCELABLE -> {
-                val fm = delegate.provideFragmentManager() ?: return
-                showLoadingDialog(observable, fm, loading, disposable)
+                val context = getContext?.invoke() ?: return
+                showLoadingDialog(observable, context, loading, disposable)
             }
         }
     }
@@ -125,11 +126,11 @@ class AsyncHelper(private val delegate: Delegate) {
 
     //*****************************************************************************************************************
 
-    private val loadingDialogFragments = HashMap<Observable<*>, LoadingDialogFragment>()
+    private val loadingDialogs: LinkedHashMap<Observable<*>, LoadingDialog> = LinkedHashMap()
 
     private fun showLoadingDialog(
         observable: Observable<*>,
-        fm: FragmentManager,
+        context: Context,
         loading: Loading,
         disposable: Disposable
     ) {
@@ -139,33 +140,17 @@ class AsyncHelper(private val delegate: Delegate) {
             Loading.DIALOG_NOT_CANCELABLE -> Cancel.NOT_CANCELABLE
             else -> throw RuntimeException()
         }
-        val loadingDialogFragment = LoadingDialogFragment.start(fm, cancel, extraData = hashMapOf(
-            "observable" to observable,
-            "disposable" to disposable
-        ))
-        loadingDialogFragments[observable] = loadingDialogFragment
+        val loadingDialog = LoadingDialog(context, cancel) {
+            loadingDialogs.remove(observable)
+            if (!disposable.isDisposed) {
+                disposable.dispose()
+            }
+        }
+        loadingDialog.show()
+        loadingDialogs[observable] = loadingDialog
     }
 
     private fun hideLoadingDialog(observable: Observable<*>) {
-        loadingDialogFragments[observable]?.dismiss()
-    }
-
-    fun onLoadingDialogDismiss(cancel: Cancel, extraData: HashMap<*, *>) {
-        val observable = extraData["observable"] as Observable<*>?
-        val disposable = extraData["disposable"] as Disposable?
-
-        if (observable != null) {
-            loadingDialogFragments.remove(observable)
-        }
-        if (disposable?.isDisposed == false) {
-            disposable.dispose()
-        }
-    }
-
-    interface Delegate {
-        /**
-         * 用于添加 LoadingDialogFragment.
-         */
-        fun provideFragmentManager(): FragmentManager?
+        loadingDialogs[observable]?.dismiss()
     }
 }

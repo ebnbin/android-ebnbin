@@ -3,16 +3,13 @@ package com.ebnbin.eb.app
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.async.AsyncHelper
-import com.ebnbin.eb.async.LoadingDialogFragment
-import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.library.eventBus
 
 /**
  * Base Fragment.
  */
-abstract class EBFragment : Fragment(), AsyncHelper.Delegate, LoadingDialogFragment.Callback {
+abstract class EBFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isEventBusEnabled && !eventBus.isRegistered(this)) {
@@ -62,19 +59,10 @@ abstract class EBFragment : Fragment(), AsyncHelper.Delegate, LoadingDialogFragm
 
     //*****************************************************************************************************************
 
-    @Suppress("LeakingThis")
-    protected val asyncHelper: AsyncHelper = AsyncHelper(this)
-
-    override fun provideFragmentManager(): FragmentManager? {
-        return childFragmentManager
-    }
+    protected val asyncHelper: AsyncHelper = AsyncHelper { context }
 
     override fun onDestroyView() {
         asyncHelper.onDestroy()
         super.onDestroyView()
-    }
-
-    override fun onLoadingDialogDismiss(cancel: Cancel, extraData: HashMap<*, *>) {
-        asyncHelper.onLoadingDialogDismiss(cancel, extraData)
     }
 }
