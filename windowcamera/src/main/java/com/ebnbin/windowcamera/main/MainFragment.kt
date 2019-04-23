@@ -23,7 +23,6 @@ import com.ebnbin.windowcamera.event.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.menu.MenuDialogFragment
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
-import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -144,11 +143,5 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         val backgroundTint = getColorAttr(requireContext(), backgroundTintAttrId)
         floating_action_button.backgroundTintList = ColorStateList.valueOf(backgroundTint)
         floating_action_button.setOnClickListener(onClickListener)
-    }
-
-    companion object {
-        private fun BottomAppBar.slideUp() {
-            (behavior as BottomAppBar.Behavior).slideUp(this)
-        }
     }
 }

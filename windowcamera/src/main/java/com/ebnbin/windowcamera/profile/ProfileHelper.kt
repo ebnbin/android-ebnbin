@@ -50,7 +50,15 @@ object ProfileHelper {
     const val DEF_VALUE_IS_TOUCHABLE: Boolean = true
     var isTouchable: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_TOUCHABLE, DEF_VALUE_IS_TOUCHABLE)
 
+    const val KEY_IS_TOUCHABLE_ON: String = "is_touchable_on"
+
     const val KEY_GESTURE: String = "gesture"
+
+    const val KEY_SINGLE_TAP: String = "single_tap"
+
+    const val KEY_DOUBLE_TAP: String = "double_tap"
+
+    const val KEY_LONG_PRESS: String = "long_press"
 
     const val KEY_IS_MOVE_ENABLED: String = "is_move_enabled"
     const val DEF_VALUE_IS_MOVE_ENABLED: Boolean = true
@@ -91,6 +99,8 @@ object ProfileHelper {
     val DEF_VALUE_FRONT_VIDEO_PROFILE: String = CameraHelper.frontDevice.videoProfiles.first().key
     var frontVideoProfile: String by ProfileSharedPreferencesDelegate(KEY_FRONT_VIDEO_PROFILE,
         DEF_VALUE_FRONT_VIDEO_PROFILE)
+
+    const val KEY_PATH: String = "path"
 
     fun device(): CameraHelper.Device {
         return if (isFront) CameraHelper.frontDevice else CameraHelper.backDevice

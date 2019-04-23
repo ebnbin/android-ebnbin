@@ -9,6 +9,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.SeekBarPreference
 import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.preference.EmptyPreferenceGroup
 import com.ebnbin.windowcamera.profile.preference.FooterPreference
 
 class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -33,7 +34,11 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
     private lateinit var isKeepScreenOnEnabledPreference: CheckBoxPreference
     private lateinit var controlPreference: PreferenceCategory
     private lateinit var isTouchablePreference: CheckBoxPreference
+    private lateinit var isTouchableOnPreferenceGroup: EmptyPreferenceGroup
     private lateinit var gesturePreference: PreferenceCategory
+    private lateinit var singleTapPreference: Preference
+    private lateinit var doubleTapPreference: Preference
+    private lateinit var longPressPreference: Preference
     private lateinit var isMoveEnabled: CheckBoxPreference
     private lateinit var footerPreference: FooterPreference
 
@@ -150,13 +155,45 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             setTitle(R.string.profile_is_touchable)
             setSummaryOff(R.string.profile_is_touchable_summary_off)
             setSummaryOn(R.string.profile_is_touchable_summary_on)
+            setOnPreferenceChangeListener { preference, newValue ->
+                newValue as Boolean
+                isTouchableOnPreferenceGroup.isVisible = newValue
+                true
+            }
+            preferenceScreen.addPreference(this)
+        }
+
+        isTouchableOnPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
+            key = ProfileHelper.KEY_IS_TOUCHABLE_ON
+            isVisible = isTouchablePreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         gesturePreference = PreferenceCategory(requireContext()).apply {
             key = ProfileHelper.KEY_GESTURE
             setTitle(R.string.profile_gesture)
-            preferenceScreen.addPreference(this)
+            isTouchableOnPreferenceGroup.addPreference(this)
+        }
+
+        singleTapPreference = Preference(requireContext()).apply {
+            key = ProfileHelper.KEY_SINGLE_TAP
+            setTitle(R.string.profile_single_tap)
+            setSummary(R.string.profile_single_tap_summary)
+            isTouchableOnPreferenceGroup.addPreference(this)
+        }
+
+        doubleTapPreference = Preference(requireContext()).apply {
+            key = ProfileHelper.KEY_DOUBLE_TAP
+            setTitle(R.string.profile_double_tap)
+            setSummary(R.string.profile_double_tap_summary)
+            isTouchableOnPreferenceGroup.addPreference(this)
+        }
+
+        longPressPreference = Preference(requireContext()).apply {
+            key = ProfileHelper.KEY_LONG_PRESS
+            setTitle(R.string.profile_long_press)
+            setSummary(R.string.profile_long_press_summary)
+            isTouchableOnPreferenceGroup.addPreference(this)
         }
 
         isMoveEnabled = CheckBoxPreference(requireContext()).apply {
@@ -165,7 +202,7 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             setTitle(R.string.profile_is_move_enabled)
             setSummaryOff(R.string.profile_is_move_enabled_summary_off)
             setSummaryOn(R.string.profile_is_move_enabled_summary_on)
-            preferenceScreen.addPreference(this)
+            isTouchableOnPreferenceGroup.addPreference(this)
         }
 
         footerPreference = FooterPreference(requireContext()).apply {

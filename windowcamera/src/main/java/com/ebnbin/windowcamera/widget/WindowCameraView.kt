@@ -848,7 +848,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     private val paint: Paint = Paint().apply {
         style = Paint.Style.STROKE
-        strokeWidth = 1.6f.dpToPx
+        strokeWidth = 2f.dpToPx
         color = Color.RED
     }
 
