@@ -1,44 +1,33 @@
 package com.ebnbin.windowcamera.profile
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.SeekBarPreference
-import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.profile.preference.EmptyPreferenceGroup
-import com.ebnbin.windowcamera.profile.preference.FooterPreference
+import com.ebnbin.windowcamera.preference.FooterPreference
+import com.ebnbin.windowcamera.preference.SimplePreferenceGroup
+import com.ebnbin.windowcamera.preference.SimpleSeekBarPreference
 
-class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onDestroy() {
-        preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-        super.onDestroy()
-    }
-
+class WindowProfileFragment : BaseProfileFragment() {
     private lateinit var layoutPreference: PreferenceCategory
     private lateinit var sizePreference: SeekBarPreference
     private lateinit var ratioPreference: ListPreference
     private lateinit var isOutEnabledPreference: CheckBoxPreference
-    private lateinit var isOutEnabledOffPreferenceGroup: EmptyPreferenceGroup
-    private lateinit var inXPreference: SeekBarPreference
-    private lateinit var inYPreference: SeekBarPreference
-    private lateinit var isOutEnabledOnPreferenceGroup: EmptyPreferenceGroup
-    private lateinit var outXPreference: SeekBarPreference
-    private lateinit var outYPreference: SeekBarPreference
+    private lateinit var isOutEnabledOffPreferenceGroup: SimplePreferenceGroup
+    private lateinit var inXPreference: SimpleSeekBarPreference
+    private lateinit var inYPreference: SimpleSeekBarPreference
+    private lateinit var isOutEnabledOnPreferenceGroup: SimplePreferenceGroup
+    private lateinit var outXPreference: SimpleSeekBarPreference
+    private lateinit var outYPreference: SimpleSeekBarPreference
     private lateinit var displayPreference: PreferenceCategory
     private lateinit var alphaPreference: SeekBarPreference
     private lateinit var isKeepScreenOnEnabledPreference: CheckBoxPreference
     private lateinit var controlPreference: PreferenceCategory
     private lateinit var isTouchablePreference: CheckBoxPreference
-    private lateinit var isTouchableOnPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var isTouchableOnPreferenceGroup: SimplePreferenceGroup
     private lateinit var gesturePreference: PreferenceCategory
     private lateinit var singleTapPreference: Preference
     private lateinit var doubleTapPreference: Preference
@@ -108,13 +97,13 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             preferenceScreen.addPreference(this)
         }
 
-        isOutEnabledOffPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
+        isOutEnabledOffPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_IS_OUT_ENABLED_OFF
             isVisible = !isOutEnabledPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
-        inXPreference = SeekBarPreference(requireContext()).apply {
+        inXPreference = SimpleSeekBarPreference(requireContext()).apply {
             key = ProfileHelper.KEY_IN_X
             setDefaultValue(ProfileHelper.DEF_VALUE_IN_X)
             setTitle(R.string.profile_in_x)
@@ -124,7 +113,7 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             isOutEnabledOffPreferenceGroup.addPreference(this)
         }
 
-        inYPreference = SeekBarPreference(requireContext()).apply {
+        inYPreference = SimpleSeekBarPreference(requireContext()).apply {
             key = ProfileHelper.KEY_IN_Y
             setDefaultValue(ProfileHelper.DEF_VALUE_IN_Y)
             setTitle(R.string.profile_in_y)
@@ -134,13 +123,13 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             isOutEnabledOffPreferenceGroup.addPreference(this)
         }
 
-        isOutEnabledOnPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
+        isOutEnabledOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_IS_OUT_ENABLED_ON
             isVisible = isOutEnabledPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
-        outXPreference = SeekBarPreference(requireContext()).apply {
+        outXPreference = SimpleSeekBarPreference(requireContext()).apply {
             key = ProfileHelper.KEY_OUT_X
             setDefaultValue(ProfileHelper.DEF_VALUE_OUT_X)
             setTitle(R.string.profile_out_x)
@@ -150,7 +139,7 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             isOutEnabledOnPreferenceGroup.addPreference(this)
         }
 
-        outYPreference = SeekBarPreference(requireContext()).apply {
+        outYPreference = SimpleSeekBarPreference(requireContext()).apply {
             key = ProfileHelper.KEY_OUT_Y
             setDefaultValue(ProfileHelper.DEF_VALUE_OUT_Y)
             setTitle(R.string.profile_out_y)
@@ -205,7 +194,7 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
             preferenceScreen.addPreference(this)
         }
 
-        isTouchableOnPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
+        isTouchableOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_IS_TOUCHABLE_ON
             isVisible = isTouchablePreference.isChecked
             preferenceScreen.addPreference(this)
@@ -249,40 +238,6 @@ class WindowProfileFragment : BaseProfileFragment(), SharedPreferences.OnSharedP
 
         footerPreference = FooterPreference(requireContext()).apply {
             preferenceScreen.addPreference(this)
-        }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        sharedPreferences ?: return
-        when (key) {
-            ProfileHelper.KEY_OUT_X -> {
-                val oldValue = outXPreference.value
-                val newValue = sharedPreferences.get(ProfileHelper.KEY_OUT_X, ProfileHelper.DEF_VALUE_OUT_X)
-                if (oldValue != newValue) {
-                    outXPreference.value = newValue
-                }
-            }
-            ProfileHelper.KEY_OUT_Y -> {
-                val oldValue = outYPreference.value
-                val newValue = sharedPreferences.get(ProfileHelper.KEY_OUT_Y, ProfileHelper.DEF_VALUE_OUT_Y)
-                if (oldValue != newValue) {
-                    outYPreference.value = newValue
-                }
-            }
-            ProfileHelper.KEY_IN_X -> {
-                val oldValue = inXPreference.value
-                val newValue = sharedPreferences.get(ProfileHelper.KEY_IN_X, ProfileHelper.DEF_VALUE_IN_X)
-                if (oldValue != newValue) {
-                    inXPreference.value = newValue
-                }
-            }
-            ProfileHelper.KEY_IN_Y -> {
-                val oldValue = inYPreference.value
-                val newValue = sharedPreferences.get(ProfileHelper.KEY_IN_Y, ProfileHelper.DEF_VALUE_IN_Y)
-                if (oldValue != newValue) {
-                    inYPreference.value = newValue
-                }
-            }
         }
     }
 }

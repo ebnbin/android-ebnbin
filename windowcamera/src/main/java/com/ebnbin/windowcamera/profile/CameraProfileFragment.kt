@@ -7,21 +7,21 @@ import androidx.preference.SwitchPreferenceCompat
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.event.CameraProfileEvent
-import com.ebnbin.windowcamera.profile.preference.EmptyPreferenceGroup
-import com.ebnbin.windowcamera.profile.preference.FooterPreference
+import com.ebnbin.windowcamera.preference.FooterPreference
+import com.ebnbin.windowcamera.preference.SimplePreferenceGroup
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class CameraProfileFragment : BaseProfileFragment() {
     private lateinit var isFrontPreference: SwitchPreferenceCompat
     private lateinit var isVideoPreference: SwitchPreferenceCompat
-    private lateinit var backPhotoPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var backPhotoPreferenceGroup: SimplePreferenceGroup
     private lateinit var backPhotoResolutionPreference: ListPreference
-    private lateinit var backVideoPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var backVideoPreferenceGroup: SimplePreferenceGroup
     private lateinit var backVideoProfilePreference: ListPreference
-    private lateinit var frontPhotoPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var frontPhotoPreferenceGroup: SimplePreferenceGroup
     private lateinit var frontPhotoResolutionPreference: ListPreference
-    private lateinit var frontVideoPreferenceGroup: EmptyPreferenceGroup
+    private lateinit var frontVideoPreferenceGroup: SimplePreferenceGroup
     private lateinit var frontVideoProfilePreference: ListPreference
     private lateinit var footerPreference: FooterPreference
 
@@ -73,7 +73,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             preferenceScreen.addPreference(this)
         }
 
-        backPhotoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
+        backPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_BACK_PHOTO
             isVisible = !isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
@@ -101,7 +101,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             backPhotoPreferenceGroup.addPreference(this)
         }
 
-        backVideoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
+        backVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_BACK_VIDEO
             isVisible = !isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
@@ -129,7 +129,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             backVideoPreferenceGroup.addPreference(this)
         }
 
-        frontPhotoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
+        frontPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_FRONT_PHOTO
             isVisible = isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
@@ -157,7 +157,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             frontPhotoPreferenceGroup.addPreference(this)
         }
 
-        frontVideoPreferenceGroup = EmptyPreferenceGroup(requireContext()).apply {
+        frontVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileHelper.KEY_FRONT_VIDEO
             isVisible = isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
