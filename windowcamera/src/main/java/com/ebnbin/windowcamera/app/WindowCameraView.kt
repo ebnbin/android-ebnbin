@@ -25,7 +25,7 @@ import android.view.TextureView
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.view.GestureDetectorCompat
-import com.ebnbin.eb.sharedpreferences.SpHelper
+import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
@@ -38,6 +38,7 @@ import com.ebnbin.eb.util.vibrate
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.ProfileSpManager
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -73,7 +74,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        SpHelper.getSharedPreferences(ProfileHelper.sharedPreferencesName)
+        SharedPreferencesHelper.getSharedPreferences(ProfileHelper.sharedPreferencesNamePostfix)
             .registerOnSharedPreferenceChangeListener(this)
         RotationDetector.register(this)
 
@@ -92,7 +93,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         stopBackgroundThread()
 
         RotationDetector.unregister(this)
-        SpHelper.getSharedPreferences(ProfileHelper.sharedPreferencesName)
+        SharedPreferencesHelper.getSharedPreferences(ProfileHelper.sharedPreferencesNamePostfix)
             .unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
     }
@@ -171,68 +172,68 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ProfileHelper.size.key -> {
+            ProfileSpManager.size.key -> {
                 invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
             }
-            ProfileHelper.ratio.key -> {
+            ProfileSpManager.ratio.key -> {
                 invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
             }
-            ProfileHelper.is_out_enabled.key -> {
+            ProfileSpManager.is_out_enabled.key -> {
                 invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
             }
-            ProfileHelper.in_x.key -> {
+            ProfileSpManager.in_x.key -> {
                 invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
-            ProfileHelper.in_y.key -> {
+            ProfileSpManager.in_y.key -> {
                 invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
-            ProfileHelper.out_x.key -> {
+            ProfileSpManager.out_x.key -> {
                 invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
-            ProfileHelper.out_y.key -> {
+            ProfileSpManager.out_y.key -> {
                 invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
-            ProfileHelper.alpha.key -> {
+            ProfileSpManager.alpha.key -> {
                 invalidateAlpha()
             }
-            ProfileHelper.is_keep_screen_on_enabled.key -> {
+            ProfileSpManager.is_keep_screen_on_enabled.key -> {
                 invalidateIsKeepScreenOnEnabled()
             }
-            ProfileHelper.is_touchable.key -> {
+            ProfileSpManager.is_touchable.key -> {
                 invalidateIsTouchable()
             }
-            ProfileHelper.is_move_enabled.key -> {
-                isMoveEnabled = ProfileHelper.is_move_enabled.value
+            ProfileSpManager.is_move_enabled.key -> {
+                isMoveEnabled = ProfileSpManager.is_move_enabled.value
             }
-            ProfileHelper.is_front.key -> {
+            ProfileSpManager.is_front.key -> {
                 closeCamera()
                 invalidateCamera()
                 openCamera()
             }
-            ProfileHelper.is_video.key -> {
+            ProfileSpManager.is_video.key -> {
                 closeCamera()
                 invalidateCamera()
                 openCamera()
             }
-            ProfileHelper.back_photo_resolution.key -> {
-                closeCamera()
-                invalidateCamera()
-                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-                openCamera()
-            }
-            ProfileHelper.back_video_profile.key -> {
+            ProfileSpManager.back_photo_resolution.key -> {
                 closeCamera()
                 invalidateCamera()
                 invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
                 openCamera()
             }
-            ProfileHelper.front_photo_resolution.key -> {
+            ProfileSpManager.back_video_profile.key -> {
                 closeCamera()
                 invalidateCamera()
                 invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
                 openCamera()
             }
-            ProfileHelper.front_video_profile.key -> {
+            ProfileSpManager.front_photo_resolution.key -> {
+                closeCamera()
+                invalidateCamera()
+                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+                openCamera()
+            }
+            ProfileSpManager.front_video_profile.key -> {
                 closeCamera()
                 invalidateCamera()
                 invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
@@ -268,7 +269,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 return (range * percent / 100f + offset).roundToInt()
             }
 
-            val isOutEnabled = ProfileHelper.is_out_enabled.value
+            val isOutEnabled = ProfileSpManager.is_out_enabled.value
             if (invalidateIsOutEnabled) {
                 flags = if (isOutEnabled) {
                     flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
@@ -280,8 +281,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             val displaySize = if (isOutEnabled) WindowHelper.displayRealSize else WindowHelper.displaySize
             val rotationSize: RotationSize
             if (invalidateIsOutEnabled || invalidateSize) {
-                val sizeSp = ProfileHelper.size.value
-                val ratioSp = ProfileHelper.ratio.value
+                val sizeSp = ProfileSpManager.size.value
+                val ratioSp = ProfileSpManager.ratio.value
                 val ratio = when (ratioSp) {
                     "capture" -> (if (isVideo) videoProfile else photoResolution).ratio
                     "raw" -> device.maxResolution.ratio
@@ -295,7 +296,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
             } else {
                 rotationSize = RotationSize(width, height, displaySize.rotation)
             }
-            val xSp = ProfileHelper.x(isOutEnabled)
+            val xSp = ProfileSpManager.x().value
             val xRange: Int
             val xPercent: Int
             val xOffset: Int
@@ -318,7 +319,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 else -> throw RuntimeException()
             }
             x = calcPosition(xRange, xPercent, xOffset)
-            val ySp = ProfileHelper.y(isOutEnabled)
+            val ySp = ProfileSpManager.y().value
             val yRange: Int
             val yPercent: Int
             val yOffset: Int
@@ -346,13 +347,13 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     private fun invalidateAlpha() {
         updateLayoutParams {
-            alpha = ProfileHelper.alpha.value / 100f
+            alpha = ProfileSpManager.alpha.value / 100f
         }
     }
 
     private fun invalidateIsKeepScreenOnEnabled() {
         updateLayoutParams {
-            flags = if (ProfileHelper.is_keep_screen_on_enabled.value) {
+            flags = if (ProfileSpManager.is_keep_screen_on_enabled.value) {
                 flags or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
             } else {
                 flags or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON xor
@@ -363,7 +364,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     private fun invalidateIsTouchable() {
         updateLayoutParams {
-            flags = if (ProfileHelper.is_touchable.value) {
+            flags = if (ProfileSpManager.is_touchable.value) {
                 flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE xor
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
             } else {
@@ -374,7 +375,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    private var isMoveEnabled: Boolean = ProfileHelper.is_move_enabled.value
+    private var isMoveEnabled: Boolean = ProfileSpManager.is_move_enabled.value
 
     private val gestureDetector: GestureDetectorCompat = GestureDetectorCompat(context, this)
 
@@ -412,7 +413,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val x = downX + motionEvent.rawX - downRawX
         val y = downY + motionEvent.rawY - downRawY
 
-        val isOutEnabled = ProfileHelper.is_out_enabled.value
+        val isOutEnabled = ProfileSpManager.is_out_enabled.value
         val displaySize = if (isOutEnabled) WindowHelper.displayRealSize else WindowHelper.displaySize
 
         val xMin = 0
@@ -463,12 +464,12 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         }
         val yPercent = calcPositionPercent(yPosition, yRange, yPercentOffset, isOutEnabled)
 
-        val xSp = ProfileHelper.x(isOutEnabled)
-        val ySp = ProfileHelper.y(isOutEnabled)
+        val xSp = ProfileSpManager.x().value
+        val ySp = ProfileSpManager.y().value
         if (xPercent == xSp && yPercent == ySp) {
             invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
         } else {
-            ProfileHelper.putXY(xPercent, yPercent, isOutEnabled)
+            ProfileSpManager.putXY(xPercent, yPercent)
         }
     }
 
@@ -536,13 +537,13 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     private lateinit var previewResolution: CameraHelper.Device.Resolution
 
     private fun invalidateCamera() {
-        device = ProfileHelper.device()
-        isVideo = ProfileHelper.is_video.value
-        val photoResolution = ProfileHelper.photoResolution()
+        device = ProfileSpManager.device()
+        isVideo = ProfileSpManager.is_video.value
+        val photoResolution = ProfileSpManager.photoResolution()
         if (photoResolution != null) {
             this.photoResolution = photoResolution
         }
-        val videoProfile = ProfileHelper.videoProfile()
+        val videoProfile = ProfileSpManager.videoProfile()
         if (videoProfile != null) {
             this.videoProfile = videoProfile
         }

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.ebnbin.eb.crash.CrashActivity
 import com.ebnbin.eb.debug.BaseDebugPageFragment
-import com.ebnbin.eb.sharedpreferences.EBSp
+import com.ebnbin.eb.sharedpreferences.EBSpManager
 
 /**
  * Base Application.
@@ -18,7 +18,7 @@ open class EBApplication : Application() {
             .errorActivity(CrashActivity::class.java)
             .trackActivities(true)
             .apply()
-        AppCompatDelegate.setDefaultNightMode(EBSp.eb.night_mode.value)
+        AppCompatDelegate.setDefaultNightMode(EBSpManager.eb.night_mode.value)
     }
 
     /**

@@ -10,6 +10,7 @@ import com.ebnbin.windowcamera.preference.FooterPreference
 import com.ebnbin.windowcamera.preference.SimplePreferenceGroup
 import com.ebnbin.windowcamera.profile.CameraProfileEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.ProfileSpManager
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -33,8 +34,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 setIcon(if (value) R.drawable.profile_is_front_on else R.drawable.profile_is_front_off)
             }
 
-            key = ProfileHelper.is_front.key
-            setDefaultValue(ProfileHelper.is_front.getDefaultValue())
+            key = ProfileSpManager.is_front.key
+            setDefaultValue(ProfileSpManager.is_front.getDefaultValue())
             setTitle(R.string.profile_is_front)
             setSummaryOff(R.string.profile_is_front_summary_off)
             setSummaryOn(R.string.profile_is_front_summary_on)
@@ -47,7 +48,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 frontVideoPreferenceGroup.isVisible = newValue && isVideoPreference.isChecked
                 true
             }
-            invalidateIcon(ProfileHelper.is_front.value)
+            invalidateIcon(ProfileSpManager.is_front.value)
             preferenceScreen.addPreference(this)
         }
 
@@ -56,8 +57,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 setIcon(if (value) R.drawable.profile_is_video_on else R.drawable.profile_is_video_off)
             }
 
-            key = ProfileHelper.is_video.key
-            setDefaultValue(ProfileHelper.is_video.getDefaultValue())
+            key = ProfileSpManager.is_video.key
+            setDefaultValue(ProfileSpManager.is_video.getDefaultValue())
             setTitle(R.string.profile_is_video)
             setSummaryOff(R.string.profile_is_video_summary_off)
             setSummaryOn(R.string.profile_is_video_summary_on)
@@ -70,19 +71,19 @@ class CameraProfileFragment : BaseProfileFragment() {
                 frontVideoPreferenceGroup.isVisible = isFrontPreference.isChecked && newValue
                 true
             }
-            invalidateIcon(ProfileHelper.is_video.value)
+            invalidateIcon(ProfileSpManager.is_video.value)
             preferenceScreen.addPreference(this)
         }
 
         backPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.back_photo.key
+            key = ProfileSpManager.back_photo.key
             isVisible = !isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         backPhotoResolutionPreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.back_photo_resolution.key
-            setDefaultValue(ProfileHelper.back_photo_resolution.getDefaultValue())
+            key = ProfileSpManager.back_photo_resolution.key
+            setDefaultValue(ProfileSpManager.back_photo_resolution.getDefaultValue())
             setTitle(R.string.profile_back_photo_resolution)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val resolution = CameraHelper.backDevice.getPhotoResolutionOrElse(it.value) {
@@ -103,14 +104,14 @@ class CameraProfileFragment : BaseProfileFragment() {
         }
 
         backVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.back_video.key
+            key = ProfileSpManager.back_video.key
             isVisible = !isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         backVideoProfilePreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.back_video_profile.key
-            setDefaultValue(ProfileHelper.back_video_profile.getDefaultValue())
+            key = ProfileSpManager.back_video_profile.key
+            setDefaultValue(ProfileSpManager.back_video_profile.getDefaultValue())
             setTitle(R.string.profile_back_video_profile)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val videoProfile = CameraHelper.backDevice.getVideoProfileOrElse(it.value) {
@@ -131,14 +132,14 @@ class CameraProfileFragment : BaseProfileFragment() {
         }
 
         frontPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.front_photo.key
+            key = ProfileSpManager.front_photo.key
             isVisible = isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         frontPhotoResolutionPreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.front_photo_resolution.key
-            setDefaultValue(ProfileHelper.front_photo_resolution.getDefaultValue())
+            key = ProfileSpManager.front_photo_resolution.key
+            setDefaultValue(ProfileSpManager.front_photo_resolution.getDefaultValue())
             setTitle(R.string.profile_front_photo_resolution)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val resolution = CameraHelper.frontDevice.getPhotoResolutionOrElse(it.value) {
@@ -159,14 +160,14 @@ class CameraProfileFragment : BaseProfileFragment() {
         }
 
         frontVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.front_video.key
+            key = ProfileSpManager.front_video.key
             isVisible = isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         frontVideoProfilePreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.front_video_profile.key
-            setDefaultValue(ProfileHelper.front_video_profile.getDefaultValue())
+            key = ProfileSpManager.front_video_profile.key
+            setDefaultValue(ProfileSpManager.front_video_profile.getDefaultValue())
             setTitle(R.string.profile_front_video_profile)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val videoProfile = CameraHelper.frontDevice.getVideoProfileOrElse(it.value) {

@@ -22,7 +22,7 @@ import com.ebnbin.windowcamera.app.WindowCameraService
 import com.ebnbin.windowcamera.app.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.menu.MenuDialogFragment
-import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.ProfileSpManager
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -50,7 +50,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
     }
 
     override fun onPageSelected(position: Int) {
-        ProfileHelper.page.value = position
+        ProfileSpManager.page.value = position
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -78,7 +78,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
                             }
                             invalidateWindowCameraServiceEvent()
 
-                            view_pager.setCurrentItem(ProfileHelper.page.value, false)
+                            view_pager.setCurrentItem(ProfileSpManager.page.value, false)
                         },
                         onFailure = {
                             when (it) {
