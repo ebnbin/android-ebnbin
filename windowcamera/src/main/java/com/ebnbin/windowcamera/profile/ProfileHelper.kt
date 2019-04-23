@@ -1,155 +1,94 @@
 package com.ebnbin.windowcamera.profile
 
 import com.ebnbin.eb.library.eventBus
-import com.ebnbin.eb.sharedpreferences.defaultSharedPreferencesName
+import com.ebnbin.eb.sharedpreferences.SpHelper
+import com.ebnbin.eb.sharedpreferences.SpItem
 import com.ebnbin.windowcamera.camera.CameraHelper
 
 object ProfileHelper {
+    val page: SpItem<Int> = ProfileSpItem("page", 1)
+
+    val layout: SpItem<Unit> = ProfileSpItem("layout", Unit)
+    val size: SpItem<Int> = ProfileSpItem("size", 50)
+    val ratio: SpItem<String> = ProfileSpItem("ratio", "capture")
+    val is_out_enabled: SpItem<Boolean> = ProfileSpItem("is_out_enabled", false)
+    val is_out_enabled_off: SpItem<Unit> = ProfileSpItem("is_out_enabled_off", Unit)
+    val in_x: SpItem<Int> = ProfileSpItem("in_x", 50)
+    val in_y: SpItem<Int> = ProfileSpItem("in_y", 50)
+    val is_out_enabled_on: SpItem<Unit> = ProfileSpItem("is_out_enabled_on", Unit)
+    val out_x: SpItem<Int> = ProfileSpItem("out_x", 50)
+    val out_y: SpItem<Int> = ProfileSpItem("out_y", 50)
+    val display: SpItem<Unit> = ProfileSpItem("display", Unit)
+    val alpha: SpItem<Int> = ProfileSpItem("alpha", 100)
+    val is_keep_screen_on_enabled: SpItem<Boolean> = ProfileSpItem("is_keep_screen_on_enabled", true)
+    val control: SpItem<Unit> = ProfileSpItem("control", Unit)
+    val is_touchable: SpItem<Boolean> = ProfileSpItem("is_touchable", true)
+    val is_touchable_on: SpItem<Unit> = ProfileSpItem("is_touchable_on", Unit)
+    val gesture: SpItem<Unit> = ProfileSpItem("gesture", Unit)
+    val single_tap: SpItem<Unit> = ProfileSpItem("single_tap", Unit)
+    val double_tap: SpItem<Unit> = ProfileSpItem("double_tap", Unit)
+    val long_press: SpItem<Unit> = ProfileSpItem("long_press", Unit)
+    val is_move_enabled: SpItem<Boolean> = ProfileSpItem("is_move_enabled", true)
+
+    val is_front: SpItem<Boolean> = ProfileSpItem("is_front", false)
+    val is_video: SpItem<Boolean> = ProfileSpItem("is_video", false)
+    val back_photo: SpItem<Unit> = ProfileSpItem("back_photo", Unit)
+    val back_photo_resolution: SpItem<String> = ProfileSpItem("back_photo_resolution",
+        CameraHelper.backDevice.photoResolutions.first().key)
+    val back_video: SpItem<Unit> = ProfileSpItem("back_video", Unit)
+    val back_video_profile: SpItem<String> = ProfileSpItem("back_video_profile",
+        CameraHelper.backDevice.videoProfiles.first().key)
+    val front_photo: SpItem<Unit> = ProfileSpItem("front_photo", Unit)
+    val front_photo_resolution: SpItem<String> = ProfileSpItem("front_photo_resolution",
+        CameraHelper.frontDevice.photoResolutions.first().key)
+    val front_video: SpItem<Unit> = ProfileSpItem("front_video", Unit)
+    val front_video_profile: SpItem<String> = ProfileSpItem("front_video_profile",
+        CameraHelper.frontDevice.videoProfiles.first().key)
+
+    val path: SpItem<Unit> = ProfileSpItem("path", Unit)
+
+    //*****************************************************************************************************************
+
     val sharedPreferencesName: String
-        get() = "${defaultSharedPreferencesName}_profile_default"
-
-    var page: Int by ProfileSharedPreferencesDelegate("page", 1)
-
-    const val KEY_LAYOUT: String = "layout"
-
-    const val KEY_SIZE: String = "size"
-    const val DEF_VALUE_SIZE: Int = 50
-    var size: Int by ProfileSharedPreferencesDelegate(KEY_SIZE, DEF_VALUE_SIZE)
-
-    const val KEY_RATIO: String = "ratio"
-    const val DEF_VALUE_RATIO: String = "capture"
-    var ratio: String by ProfileSharedPreferencesDelegate(KEY_RATIO, DEF_VALUE_RATIO)
-
-    const val KEY_IS_OUT_ENABLED: String = "is_out_enabled"
-    const val DEF_VALUE_IS_OUT_ENABLED: Boolean = true
-    var isOutEnabled: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_OUT_ENABLED, DEF_VALUE_IS_OUT_ENABLED)
-
-    const val KEY_IS_OUT_ENABLED_OFF: String = "is_out_enabled_off"
-
-    const val KEY_IN_X: String = "in_x"
-    const val DEF_VALUE_IN_X: Int = 50
-    var inX: Int by ProfileSharedPreferencesDelegate(KEY_IN_X, DEF_VALUE_IN_X)
-
-    const val KEY_IN_Y: String = "in_y"
-    const val DEF_VALUE_IN_Y: Int = 50
-    var inY: Int by ProfileSharedPreferencesDelegate(KEY_IN_Y, DEF_VALUE_IN_Y)
-
-    const val KEY_IS_OUT_ENABLED_ON: String = "is_out_enabled_on"
-
-    const val KEY_OUT_X: String = "out_x"
-    const val DEF_VALUE_OUT_X: Int = 50
-    var outX: Int by ProfileSharedPreferencesDelegate(KEY_OUT_X, DEF_VALUE_OUT_X)
-
-    const val KEY_OUT_Y: String = "out_y"
-    const val DEF_VALUE_OUT_Y: Int = 50
-    var outY: Int by ProfileSharedPreferencesDelegate(KEY_OUT_Y, DEF_VALUE_OUT_Y)
-
-    const val KEY_DISPLAY: String = "display"
-
-    const val KEY_ALPHA: String = "alpha"
-    const val DEF_VALUE_ALPHA: Int = 100
-    var alpha: Int by ProfileSharedPreferencesDelegate(KEY_ALPHA, DEF_VALUE_ALPHA)
-
-    const val KEY_IS_KEEP_SCREEN_ON_ENABLED: String = "is_keep_screen_on"
-    const val DEF_VALUE_IS_KEEP_SCREEN_ON_ENABLED: Boolean = true
-    var isKeepScreenOnEnabled: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_KEEP_SCREEN_ON_ENABLED,
-        DEF_VALUE_IS_KEEP_SCREEN_ON_ENABLED)
-
-    const val KEY_CONTROL: String = "control"
-
-    const val KEY_IS_TOUCHABLE: String = "is_touchable"
-    const val DEF_VALUE_IS_TOUCHABLE: Boolean = true
-    var isTouchable: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_TOUCHABLE, DEF_VALUE_IS_TOUCHABLE)
-
-    const val KEY_IS_TOUCHABLE_ON: String = "is_touchable_on"
-
-    const val KEY_GESTURE: String = "gesture"
-
-    const val KEY_SINGLE_TAP: String = "single_tap"
-
-    const val KEY_DOUBLE_TAP: String = "double_tap"
-
-    const val KEY_LONG_PRESS: String = "long_press"
-
-    const val KEY_IS_MOVE_ENABLED: String = "is_move_enabled"
-    const val DEF_VALUE_IS_MOVE_ENABLED: Boolean = true
-    var isMoveEnabled: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_MOVE_ENABLED, DEF_VALUE_IS_MOVE_ENABLED)
-
-    const val KEY_IS_FRONT: String = "is_front"
-    const val DEF_VALUE_IS_FRONT: Boolean = false
-    var isFront: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_FRONT, DEF_VALUE_IS_FRONT)
-
-    const val KEY_IS_VIDEO: String = "is_video"
-    const val DEF_VALUE_IS_VIDEO: Boolean = false
-    var isVideo: Boolean by ProfileSharedPreferencesDelegate(KEY_IS_VIDEO, DEF_VALUE_IS_VIDEO)
-
-    const val KEY_BACK_PHOTO: String = "back_photo"
-
-    const val KEY_BACK_PHOTO_RESOLUTION: String = "back_photo_resolution"
-    val DEF_VALUE_BACK_PHOTO_RESOLUTION: String = CameraHelper.backDevice.photoResolutions.first().key
-    var backPhotoResolution: String by ProfileSharedPreferencesDelegate(KEY_BACK_PHOTO_RESOLUTION,
-        DEF_VALUE_BACK_PHOTO_RESOLUTION)
-
-    const val KEY_BACK_VIDEO: String = "back_video"
-
-    const val KEY_BACK_VIDEO_PROFILE: String = "back_video_profile"
-    val DEF_VALUE_BACK_VIDEO_PROFILE: String = CameraHelper.backDevice.videoProfiles.first().key
-    var backVideoProfile: String by ProfileSharedPreferencesDelegate(KEY_BACK_VIDEO_PROFILE,
-        DEF_VALUE_BACK_VIDEO_PROFILE)
-
-    const val KEY_FRONT_PHOTO: String = "front_photo"
-
-    const val KEY_FRONT_PHOTO_RESOLUTION: String = "front_photo_resolution"
-    val DEF_VALUE_FRONT_PHOTO_RESOLUTION: String = CameraHelper.frontDevice.photoResolutions.first().key
-    var frontPhotoResolution: String by ProfileSharedPreferencesDelegate(KEY_FRONT_PHOTO_RESOLUTION,
-        DEF_VALUE_FRONT_PHOTO_RESOLUTION)
-
-    const val KEY_FRONT_VIDEO: String = "front_video"
-
-    const val KEY_FRONT_VIDEO_PROFILE: String = "front_video_profile"
-    val DEF_VALUE_FRONT_VIDEO_PROFILE: String = CameraHelper.frontDevice.videoProfiles.first().key
-    var frontVideoProfile: String by ProfileSharedPreferencesDelegate(KEY_FRONT_VIDEO_PROFILE,
-        DEF_VALUE_FRONT_VIDEO_PROFILE)
-
-    const val KEY_PATH: String = "path"
+        get() = "${SpHelper.defaultSharedPreferencesName}_profile_default"
 
     fun x(isOutEnabled: Boolean): Int {
-        return if (isOutEnabled) outX else inX
+        return if (isOutEnabled) out_x.value else in_x.value
     }
 
     fun y(isOutEnabled: Boolean): Int {
-        return if (isOutEnabled) outY else inY
+        return if (isOutEnabled) out_y.value else in_y.value
     }
 
     fun putXY(x: Int, y: Int, isOutEnabled: Boolean) {
         if (isOutEnabled) {
-            outX = x
-            outY = y
+            out_x.value = x
+            out_y.value = y
         } else {
-            inX = x
-            inY = y
+            in_x.value = x
+            in_y.value = y
         }
     }
 
     fun device(): CameraHelper.Device {
-        return if (isFront) CameraHelper.frontDevice else CameraHelper.backDevice
+        return if (is_front.value) CameraHelper.frontDevice else CameraHelper.backDevice
     }
 
     fun photoResolution(): CameraHelper.Device.Resolution? {
-        if (isVideo) return null
-        return if (isFront) {
-            CameraHelper.frontDevice.getPhotoResolutionOrNull(frontPhotoResolution)
+        if (is_video.value) return null
+        return if (is_front.value) {
+            CameraHelper.frontDevice.getPhotoResolutionOrNull(front_photo_resolution.value)
         } else {
-            CameraHelper.backDevice.getPhotoResolutionOrNull(backPhotoResolution)
+            CameraHelper.backDevice.getPhotoResolutionOrNull(back_photo_resolution.value)
         }
     }
 
     fun videoProfile(): CameraHelper.Device.VideoProfile? {
-        if (!isVideo) return null
-        return if (isFront) {
-            CameraHelper.frontDevice.getVideoProfileOrNull(frontVideoProfile)
+        if (!is_video.value) return null
+        return if (is_front.value) {
+            CameraHelper.frontDevice.getVideoProfileOrNull(front_video_profile.value)
         } else {
-            CameraHelper.backDevice.getVideoProfileOrNull(backVideoProfile)
+            CameraHelper.backDevice.getVideoProfileOrNull(back_video_profile.value)
         }
     }
 

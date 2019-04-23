@@ -95,12 +95,12 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("夜间模式", "关闭") {
-            EBSp.eb.night_mode = AppCompatDelegate.MODE_NIGHT_NO
+            EBSp.eb.night_mode.value = AppCompatDelegate.MODE_NIGHT_NO
             restartMainActivity()
         }
 
         addDebugItem("夜间模式", "开启") {
-            EBSp.eb.night_mode = AppCompatDelegate.MODE_NIGHT_YES
+            EBSp.eb.night_mode.value = AppCompatDelegate.MODE_NIGHT_YES
             restartMainActivity()
         }
 

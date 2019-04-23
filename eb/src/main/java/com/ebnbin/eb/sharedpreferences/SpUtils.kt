@@ -1,26 +1,7 @@
 package com.ebnbin.eb.sharedpreferences
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.ebnbin.eb.util.ebApp
-
-/**
- * 默认偏好文件名.
- */
-val defaultSharedPreferencesName: String = "${ebApp.packageName}_preferences"
-
-/**
- * 默认偏好模式.
- */
-val defaultSharedPreferencesMode: Int = Context.MODE_PRIVATE
-
-fun getSharedPreferences(
-    name: String = defaultSharedPreferencesName,
-    mode: Int = defaultSharedPreferencesMode
-): SharedPreferences {
-    return ebApp.getSharedPreferences(name, mode)
-}
 
 /**
  * 读偏好.

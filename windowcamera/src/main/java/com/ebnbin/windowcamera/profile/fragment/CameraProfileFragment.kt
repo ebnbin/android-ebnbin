@@ -33,8 +33,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 setIcon(if (value) R.drawable.profile_is_front_on else R.drawable.profile_is_front_off)
             }
 
-            key = ProfileHelper.KEY_IS_FRONT
-            setDefaultValue(ProfileHelper.DEF_VALUE_IS_FRONT)
+            key = ProfileHelper.is_front.key
+            setDefaultValue(ProfileHelper.is_front.getDefaultValue())
             setTitle(R.string.profile_is_front)
             setSummaryOff(R.string.profile_is_front_summary_off)
             setSummaryOn(R.string.profile_is_front_summary_on)
@@ -47,7 +47,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 frontVideoPreferenceGroup.isVisible = newValue && isVideoPreference.isChecked
                 true
             }
-            invalidateIcon(ProfileHelper.isFront)
+            invalidateIcon(ProfileHelper.is_front.value)
             preferenceScreen.addPreference(this)
         }
 
@@ -56,8 +56,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 setIcon(if (value) R.drawable.profile_is_video_on else R.drawable.profile_is_video_off)
             }
 
-            key = ProfileHelper.KEY_IS_VIDEO
-            setDefaultValue(ProfileHelper.DEF_VALUE_IS_VIDEO)
+            key = ProfileHelper.is_video.key
+            setDefaultValue(ProfileHelper.is_video.getDefaultValue())
             setTitle(R.string.profile_is_video)
             setSummaryOff(R.string.profile_is_video_summary_off)
             setSummaryOn(R.string.profile_is_video_summary_on)
@@ -70,19 +70,19 @@ class CameraProfileFragment : BaseProfileFragment() {
                 frontVideoPreferenceGroup.isVisible = isFrontPreference.isChecked && newValue
                 true
             }
-            invalidateIcon(ProfileHelper.isVideo)
+            invalidateIcon(ProfileHelper.is_video.value)
             preferenceScreen.addPreference(this)
         }
 
         backPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_BACK_PHOTO
+            key = ProfileHelper.back_photo.key
             isVisible = !isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         backPhotoResolutionPreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_BACK_PHOTO_RESOLUTION
-            setDefaultValue(ProfileHelper.DEF_VALUE_BACK_PHOTO_RESOLUTION)
+            key = ProfileHelper.back_photo_resolution.key
+            setDefaultValue(ProfileHelper.back_photo_resolution.getDefaultValue())
             setTitle(R.string.profile_back_photo_resolution)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val resolution = CameraHelper.backDevice.getPhotoResolutionOrElse(it.value) {
@@ -103,14 +103,14 @@ class CameraProfileFragment : BaseProfileFragment() {
         }
 
         backVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_BACK_VIDEO
+            key = ProfileHelper.back_video.key
             isVisible = !isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         backVideoProfilePreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_BACK_VIDEO_PROFILE
-            setDefaultValue(ProfileHelper.DEF_VALUE_BACK_VIDEO_PROFILE)
+            key = ProfileHelper.back_video_profile.key
+            setDefaultValue(ProfileHelper.back_video_profile.getDefaultValue())
             setTitle(R.string.profile_back_video_profile)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val videoProfile = CameraHelper.backDevice.getVideoProfileOrElse(it.value) {
@@ -131,14 +131,14 @@ class CameraProfileFragment : BaseProfileFragment() {
         }
 
         frontPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_FRONT_PHOTO
+            key = ProfileHelper.front_photo.key
             isVisible = isFrontPreference.isChecked && !isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         frontPhotoResolutionPreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_FRONT_PHOTO_RESOLUTION
-            setDefaultValue(ProfileHelper.DEF_VALUE_FRONT_PHOTO_RESOLUTION)
+            key = ProfileHelper.front_photo_resolution.key
+            setDefaultValue(ProfileHelper.front_photo_resolution.getDefaultValue())
             setTitle(R.string.profile_front_photo_resolution)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val resolution = CameraHelper.frontDevice.getPhotoResolutionOrElse(it.value) {
@@ -159,14 +159,14 @@ class CameraProfileFragment : BaseProfileFragment() {
         }
 
         frontVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_FRONT_VIDEO
+            key = ProfileHelper.front_video.key
             isVisible = isFrontPreference.isChecked && isVideoPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         frontVideoProfilePreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_FRONT_VIDEO_PROFILE
-            setDefaultValue(ProfileHelper.DEF_VALUE_FRONT_VIDEO_PROFILE)
+            key = ProfileHelper.front_video_profile.key
+            setDefaultValue(ProfileHelper.front_video_profile.getDefaultValue())
             setTitle(R.string.profile_front_video_profile)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 val videoProfile = CameraHelper.frontDevice.getVideoProfileOrElse(it.value) {

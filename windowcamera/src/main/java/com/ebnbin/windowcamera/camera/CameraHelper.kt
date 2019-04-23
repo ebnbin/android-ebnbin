@@ -23,7 +23,7 @@ import com.ebnbin.windowcamera.camera.CameraHelper.isValid
  *
  * 需要 try catch Throwable 避免 ExceptionInInitializerError.
  *
- * 在使用前必须调用 [isValid] 检测有效性.
+ * TODO: 在使用前必须调用 [isValid] 检测有效性.
  */
 object CameraHelper {
     private fun StringBuilder.append(key: String, value: Any?): StringBuilder {

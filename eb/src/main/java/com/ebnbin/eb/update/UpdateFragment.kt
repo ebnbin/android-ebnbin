@@ -23,10 +23,10 @@ class UpdateFragment : EBFragment() {
 
         if (savedInstanceState == null) {
             if (silent) {
-                if (System.currentTimeMillis() - EBSp.eb.request_update_timestamp >= UPDATE_INTERVAL) {
+                if (System.currentTimeMillis() - EBSp.eb.request_update_timestamp.value >= UPDATE_INTERVAL) {
                     asyncHelper.request(NetHelper.ebService.update(),
                         onSuccess = {
-                            EBSp.eb.request_update_timestamp = System.currentTimeMillis()
+                            EBSp.eb.request_update_timestamp.value = System.currentTimeMillis()
                             if (it.hasUpdate()) {
                                 UpdateDialogFragment.start(childFragmentManager, it)
                             }
@@ -37,7 +37,7 @@ class UpdateFragment : EBFragment() {
                 asyncHelper.request(NetHelper.ebService.update(),
                     Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE,
                     onSuccess = {
-                        EBSp.eb.request_update_timestamp = System.currentTimeMillis()
+                        EBSp.eb.request_update_timestamp.value = System.currentTimeMillis()
                         if (it.hasUpdate()) {
                             UpdateDialogFragment.start(childFragmentManager, it)
                         } else {

@@ -18,7 +18,7 @@ open class EBApplication : Application() {
             .errorActivity(CrashActivity::class.java)
             .trackActivities(true)
             .apply()
-        AppCompatDelegate.setDefaultNightMode(EBSp.eb.night_mode)
+        AppCompatDelegate.setDefaultNightMode(EBSp.eb.night_mode.value)
     }
 
     /**

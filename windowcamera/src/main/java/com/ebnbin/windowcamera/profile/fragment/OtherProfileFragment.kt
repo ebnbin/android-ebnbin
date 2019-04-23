@@ -14,7 +14,7 @@ class OtherProfileFragment : BaseProfileFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
         pathPreference = Preference(requireContext()).apply {
-            key = ProfileHelper.KEY_PATH
+            key = ProfileHelper.path.key
             setTitle(R.string.profile_path)
             setSummary(R.string.profile_path_summary)
             preferenceScreen.addPreference(this)

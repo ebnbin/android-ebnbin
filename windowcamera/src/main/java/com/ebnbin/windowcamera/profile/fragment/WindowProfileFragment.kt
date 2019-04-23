@@ -39,14 +39,14 @@ class WindowProfileFragment : BaseProfileFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
         layoutPreference = PreferenceCategory(requireContext()).apply {
-            key = ProfileHelper.KEY_LAYOUT
+            key = ProfileHelper.layout.key
             setTitle(R.string.profile_layout)
             preferenceScreen.addPreference(this)
         }
 
         sizePreference = SeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_SIZE
-            setDefaultValue(ProfileHelper.DEF_VALUE_SIZE)
+            key = ProfileHelper.size.key
+            setDefaultValue(ProfileHelper.size.getDefaultValue())
             setTitle(R.string.profile_size)
             setSummary(R.string.profile_size_summary)
             min = 1
@@ -55,8 +55,8 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         ratioPreference = ListPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_RATIO
-            setDefaultValue(ProfileHelper.DEF_VALUE_RATIO)
+            key = ProfileHelper.ratio.key
+            setDefaultValue(ProfileHelper.ratio.getDefaultValue())
             setTitle(R.string.profile_ratio)
             summaryProvider = Preference.SummaryProvider<ListPreference> {
                 when(it.value) {
@@ -84,8 +84,8 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         isOutEnabledPreference = CheckBoxPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_OUT_ENABLED
-            setDefaultValue(ProfileHelper.DEF_VALUE_IS_OUT_ENABLED)
+            key = ProfileHelper.is_out_enabled.key
+            setDefaultValue(ProfileHelper.is_out_enabled.getDefaultValue())
             setTitle(R.string.profile_is_out_enable)
             setSummaryOff(R.string.profile_is_out_enable_summary_off)
             setSummaryOn(R.string.profile_is_out_enable_summary_on)
@@ -99,14 +99,14 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         isOutEnabledOffPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_OUT_ENABLED_OFF
+            key = ProfileHelper.is_out_enabled_off.key
             isVisible = !isOutEnabledPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         inXPreference = SimpleSeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IN_X
-            setDefaultValue(ProfileHelper.DEF_VALUE_IN_X)
+            key = ProfileHelper.in_x.key
+            setDefaultValue(ProfileHelper.in_x.getDefaultValue())
             setTitle(R.string.profile_in_x)
             setSummary(R.string.profile_in_x_summary)
             min = 0
@@ -115,8 +115,8 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         inYPreference = SimpleSeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IN_Y
-            setDefaultValue(ProfileHelper.DEF_VALUE_IN_Y)
+            key = ProfileHelper.in_y.key
+            setDefaultValue(ProfileHelper.in_y.getDefaultValue())
             setTitle(R.string.profile_in_y)
             setSummary(R.string.profile_in_y_summary)
             min = 0
@@ -125,14 +125,14 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         isOutEnabledOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_OUT_ENABLED_ON
+            key = ProfileHelper.is_out_enabled_on.key
             isVisible = isOutEnabledPreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         outXPreference = SimpleSeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_OUT_X
-            setDefaultValue(ProfileHelper.DEF_VALUE_OUT_X)
+            key = ProfileHelper.out_x.key
+            setDefaultValue(ProfileHelper.out_x.getDefaultValue())
             setTitle(R.string.profile_out_x)
             setSummary(R.string.profile_out_x_summary)
             min = -99
@@ -141,8 +141,8 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         outYPreference = SimpleSeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_OUT_Y
-            setDefaultValue(ProfileHelper.DEF_VALUE_OUT_Y)
+            key = ProfileHelper.out_y.key
+            setDefaultValue(ProfileHelper.out_y.getDefaultValue())
             setTitle(R.string.profile_out_y)
             setSummary(R.string.profile_out_y_summary)
             min = -99
@@ -151,14 +151,14 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         displayPreference = PreferenceCategory(requireContext()).apply {
-            key = ProfileHelper.KEY_DISPLAY
+            key = ProfileHelper.display.key
             setTitle(R.string.profile_display)
             preferenceScreen.addPreference(this)
         }
 
         alphaPreference = SeekBarPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_ALPHA
-            setDefaultValue(ProfileHelper.DEF_VALUE_ALPHA)
+            key = ProfileHelper.alpha.key
+            setDefaultValue(ProfileHelper.alpha.getDefaultValue())
             setTitle(R.string.profile_alpha)
             setSummary(R.string.profile_alpha_summary)
             min = 1
@@ -167,8 +167,8 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         isKeepScreenOnEnabledPreference = CheckBoxPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_KEEP_SCREEN_ON_ENABLED
-            setDefaultValue(ProfileHelper.DEF_VALUE_IS_KEEP_SCREEN_ON_ENABLED)
+            key = ProfileHelper.is_keep_screen_on_enabled.key
+            setDefaultValue(ProfileHelper.is_keep_screen_on_enabled.getDefaultValue())
             setTitle(R.string.profile_is_keep_screen_on_enabled)
             setSummaryOff(R.string.profile_is_keep_screen_on_enabled_summary_off)
             setSummaryOn(R.string.profile_is_keep_screen_on_enabled_summary_on)
@@ -176,18 +176,18 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         controlPreference = PreferenceCategory(requireContext()).apply {
-            key = ProfileHelper.KEY_CONTROL
+            key = ProfileHelper.control.key
             setTitle(R.string.profile_control)
             preferenceScreen.addPreference(this)
         }
 
         isTouchablePreference = CheckBoxPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_TOUCHABLE
-            setDefaultValue(ProfileHelper.DEF_VALUE_IS_TOUCHABLE)
+            key = ProfileHelper.is_touchable.key
+            setDefaultValue(ProfileHelper.is_touchable.getDefaultValue())
             setTitle(R.string.profile_is_touchable)
             setSummaryOff(R.string.profile_is_touchable_summary_off)
             setSummaryOn(R.string.profile_is_touchable_summary_on)
-            setOnPreferenceChangeListener { preference, newValue ->
+            setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
                 isTouchableOnPreferenceGroup.isVisible = newValue
                 true
@@ -196,41 +196,41 @@ class WindowProfileFragment : BaseProfileFragment() {
         }
 
         isTouchableOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_TOUCHABLE_ON
+            key = ProfileHelper.is_touchable_on.key
             isVisible = isTouchablePreference.isChecked
             preferenceScreen.addPreference(this)
         }
 
         gesturePreference = PreferenceCategory(requireContext()).apply {
-            key = ProfileHelper.KEY_GESTURE
+            key = ProfileHelper.gesture.key
             setTitle(R.string.profile_gesture)
             isTouchableOnPreferenceGroup.addPreference(this)
         }
 
         singleTapPreference = Preference(requireContext()).apply {
-            key = ProfileHelper.KEY_SINGLE_TAP
+            key = ProfileHelper.single_tap.key
             setTitle(R.string.profile_single_tap)
             setSummary(R.string.profile_single_tap_summary)
             isTouchableOnPreferenceGroup.addPreference(this)
         }
 
         doubleTapPreference = Preference(requireContext()).apply {
-            key = ProfileHelper.KEY_DOUBLE_TAP
+            key = ProfileHelper.double_tap.key
             setTitle(R.string.profile_double_tap)
             setSummary(R.string.profile_double_tap_summary)
             isTouchableOnPreferenceGroup.addPreference(this)
         }
 
         longPressPreference = Preference(requireContext()).apply {
-            key = ProfileHelper.KEY_LONG_PRESS
+            key = ProfileHelper.long_press.key
             setTitle(R.string.profile_long_press)
             setSummary(R.string.profile_long_press_summary)
             isTouchableOnPreferenceGroup.addPreference(this)
         }
 
         isMoveEnabled = CheckBoxPreference(requireContext()).apply {
-            key = ProfileHelper.KEY_IS_MOVE_ENABLED
-            setDefaultValue(ProfileHelper.DEF_VALUE_IS_MOVE_ENABLED)
+            key = ProfileHelper.is_move_enabled.key
+            setDefaultValue(ProfileHelper.is_move_enabled.getDefaultValue())
             setTitle(R.string.profile_is_move_enabled)
             setSummaryOff(R.string.profile_is_move_enabled_summary_off)
             setSummaryOn(R.string.profile_is_move_enabled_summary_on)
