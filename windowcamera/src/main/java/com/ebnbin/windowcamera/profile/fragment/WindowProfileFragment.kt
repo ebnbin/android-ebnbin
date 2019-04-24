@@ -19,14 +19,14 @@ class WindowProfileFragment : BaseProfileFragment() {
         PreferenceCategory(preferenceScreen.context).run {
             key = ProfileSpManager.layout.key
             preferenceScreen.addPreference(this)
-            setTitle(R.string.profile_layout)
+            setTitle(R.string.profile_layout_title)
         }
 
         SeekBarPreference(preferenceScreen.context).run {
             key = ProfileSpManager.size.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.size.getDefaultValue())
-            setTitle(R.string.profile_size)
+            setTitle(R.string.profile_size_title)
             setSummary(R.string.profile_size_summary)
             min = 1
             max = 100
@@ -37,7 +37,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.ratio.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.ratio.getDefaultValue())
-            setTitle(R.string.profile_ratio)
+            setTitle(R.string.profile_ratio_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             setIcon(R.drawable.profile_ratio)
             setDialogIcon(R.drawable.profile_ratio)
@@ -53,14 +53,14 @@ class WindowProfileFragment : BaseProfileFragment() {
                 "screen",
                 "square"
             )
-            setDialogTitle(R.string.profile_ratio)
+            setDialogTitle(R.string.profile_ratio_title)
         }
 
         CheckBoxPreference(preferenceScreen.context).run {
             key = ProfileSpManager.is_out_enabled.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_out_enabled.getDefaultValue())
-            setTitle(R.string.profile_is_out_enabled)
+            setTitle(R.string.profile_is_out_enabled_title)
             setSummaryOff(R.string.profile_is_out_enabled_summary_off)
             setSummaryOn(R.string.profile_is_out_enabled_summary_on)
             setIcon(R.drawable.profile_is_out_enabled)
@@ -76,7 +76,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.in_x.key
             findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_off.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.in_x.getDefaultValue())
-            setTitle(R.string.profile_in_x)
+            setTitle(R.string.profile_in_x_title)
             setSummary(R.string.profile_in_x_summary)
             min = 0
             max = 100
@@ -87,7 +87,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.in_y.key
             findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_off.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.in_y.getDefaultValue())
-            setTitle(R.string.profile_in_y)
+            setTitle(R.string.profile_in_y_title)
             setSummary(R.string.profile_in_y_summary)
             min = 0
             max = 100
@@ -104,7 +104,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.out_x.key
             findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_on.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.out_x.getDefaultValue())
-            setTitle(R.string.profile_out_x)
+            setTitle(R.string.profile_out_x_title)
             setSummary(R.string.profile_out_x_summary)
             min = -99
             max = 199
@@ -115,7 +115,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.out_y.key
             findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_on.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.out_y.getDefaultValue())
-            setTitle(R.string.profile_out_y)
+            setTitle(R.string.profile_out_y_title)
             setSummary(R.string.profile_out_y_summary)
             min = -99
             max = 199
@@ -125,14 +125,14 @@ class WindowProfileFragment : BaseProfileFragment() {
         PreferenceCategory(preferenceScreen.context).run {
             key = ProfileSpManager.display.key
             preferenceScreen.addPreference(this)
-            setTitle(R.string.profile_display)
+            setTitle(R.string.profile_display_title)
         }
 
         SeekBarPreference(preferenceScreen.context).run {
             key = ProfileSpManager.alpha.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.alpha.getDefaultValue())
-            setTitle(R.string.profile_alpha)
+            setTitle(R.string.profile_alpha_title)
             min = 1
             max = 100
             setIcon(R.drawable.profile_alpha)
@@ -142,7 +142,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.is_keep_screen_on_enabled.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_keep_screen_on_enabled.getDefaultValue())
-            setTitle(R.string.profile_is_keep_screen_on_enabled)
+            setTitle(R.string.profile_is_keep_screen_on_enabled_title)
             setSummaryOff(R.string.profile_is_keep_screen_on_enabled_summary_off)
             setSummaryOn(R.string.profile_is_keep_screen_on_enabled_summary_on)
             setIcon(R.drawable.profile_is_keep_screen_on_enabled)
@@ -151,14 +151,14 @@ class WindowProfileFragment : BaseProfileFragment() {
         PreferenceCategory(preferenceScreen.context).run {
             key = ProfileSpManager.control.key
             preferenceScreen.addPreference(this)
-            setTitle(R.string.profile_control)
+            setTitle(R.string.profile_control_title)
         }
 
         CheckBoxPreference(preferenceScreen.context).run {
             key = ProfileSpManager.is_touchable.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_touchable.getDefaultValue())
-            setTitle(R.string.profile_is_touchable)
+            setTitle(R.string.profile_is_touchable_title)
             setSummaryOff(R.string.profile_is_touchable_summary_off)
             setSummaryOn(R.string.profile_is_touchable_summary_on)
             setIcon(R.drawable.profile_is_touchable)
@@ -173,7 +173,7 @@ class WindowProfileFragment : BaseProfileFragment() {
         Preference(preferenceScreen.context).run {
             key = ProfileSpManager.single_tap.key
             findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
-            setTitle(R.string.profile_single_tap)
+            setTitle(R.string.profile_single_tap_title)
             setSummary(R.string.profile_single_tap_summary)
             setIcon(R.drawable.profile_single_tap)
         }
@@ -181,7 +181,7 @@ class WindowProfileFragment : BaseProfileFragment() {
         Preference(preferenceScreen.context).run {
             key = ProfileSpManager.double_tap.key
             findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
-            setTitle(R.string.profile_double_tap)
+            setTitle(R.string.profile_double_tap_title)
             setSummary(R.string.profile_double_tap_summary)
             setIcon(R.drawable.profile_double_tap)
         }
@@ -189,7 +189,7 @@ class WindowProfileFragment : BaseProfileFragment() {
         Preference(preferenceScreen.context).run {
             key = ProfileSpManager.long_press.key
             findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
-            setTitle(R.string.profile_long_press)
+            setTitle(R.string.profile_long_press_title)
             setSummary(R.string.profile_long_press_summary)
             setIcon(R.drawable.profile_long_press)
         }
@@ -198,7 +198,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.is_move_enabled.key
             findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.is_move_enabled.getDefaultValue())
-            setTitle(R.string.profile_is_move_enabled)
+            setTitle(R.string.profile_is_move_enabled_title)
             setSummaryOff(R.string.profile_is_move_enabled_summary_off)
             setSummaryOn(R.string.profile_is_move_enabled_summary_on)
             setIcon(R.drawable.profile_is_move_enabled)

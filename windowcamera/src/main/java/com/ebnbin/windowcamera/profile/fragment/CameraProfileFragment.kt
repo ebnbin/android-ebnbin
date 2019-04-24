@@ -22,7 +22,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.is_front.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_front.getDefaultValue())
-            setTitle(R.string.profile_is_front)
+            setTitle(R.string.profile_is_front_title)
             setSummaryOff(R.string.profile_is_front_summary_off)
             setSummaryOn(R.string.profile_is_front_summary_on)
             iconOff = R.drawable.profile_is_front_off
@@ -33,7 +33,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.is_video.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_video.getDefaultValue())
-            setTitle(R.string.profile_is_video)
+            setTitle(R.string.profile_is_video_title)
             setSummaryOff(R.string.profile_is_video_summary_off)
             setSummaryOn(R.string.profile_is_video_summary_on)
             iconOff = R.drawable.profile_is_video_off
@@ -50,16 +50,16 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.back_photo_resolution.key
             findPreference<PreferenceGroup>(ProfileSpManager.back_photo.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.back_photo_resolution.getDefaultValue())
-            setTitle(R.string.profile_back_photo_resolution)
+            setTitle(R.string.profile_back_photo_resolution_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entries = CameraHelper.backDevice.photoResolutions
-                .map { getString(R.string.profile_back_photo_resolution_summary, it.width, it.height, it.ratioWidth,
+                .map { getString(R.string.profile_photo_resolution_summary, it.width, it.height, it.ratioWidth,
                     it.ratioHeight, it.megapixel) }
                 .toTypedArray()
             entryValues = CameraHelper.backDevice.photoResolutions
                 .map { it.key }
                 .toTypedArray()
-            setDialogTitle(R.string.profile_back_photo_resolution)
+            setDialogTitle(R.string.profile_back_photo_resolution_title)
             setIcon(R.drawable.profile_resolution)
             setDialogIcon(R.drawable.profile_resolution)
         }
@@ -75,17 +75,17 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.back_video_profile.key
             findPreference<PreferenceGroup>(ProfileSpManager.back_video.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.back_video_profile.getDefaultValue())
-            setTitle(R.string.profile_back_video_profile)
+            setTitle(R.string.profile_back_video_profile_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entries = CameraHelper.backDevice.videoProfiles
                 .map {
-                    getString(R.string.profile_back_video_resolution_summary, it.width, it.height, it.ratioWidth,
+                    getString(R.string.profile_video_resolution_summary, it.width, it.height, it.ratioWidth,
                         it.ratioHeight, it.megapixel, it.qualityString) }
                 .toTypedArray()
             entryValues = CameraHelper.backDevice.videoProfiles
                 .map { it.key }
                 .toTypedArray()
-            setDialogTitle(R.string.profile_back_video_profile)
+            setDialogTitle(R.string.profile_back_video_profile_title)
             setIcon(R.drawable.profile_video_profile)
             setDialogIcon(R.drawable.profile_video_profile)
         }
@@ -101,16 +101,16 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.front_photo_resolution.key
             findPreference<PreferenceGroup>(ProfileSpManager.front_photo.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.front_photo_resolution.getDefaultValue())
-            setTitle(R.string.profile_front_photo_resolution)
+            setTitle(R.string.profile_front_photo_resolution_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entries = CameraHelper.frontDevice.photoResolutions
-                .map { getString(R.string.profile_front_photo_resolution_summary, it.width, it.height, it.ratioWidth,
+                .map { getString(R.string.profile_photo_resolution_summary, it.width, it.height, it.ratioWidth,
                     it.ratioHeight, it.megapixel) }
                 .toTypedArray()
             entryValues = CameraHelper.frontDevice.photoResolutions
                 .map { it.key }
                 .toTypedArray()
-            setDialogTitle(R.string.profile_front_photo_resolution)
+            setDialogTitle(R.string.profile_front_photo_resolution_title)
             setIcon(R.drawable.profile_resolution)
             setDialogIcon(R.drawable.profile_resolution)
         }
@@ -125,17 +125,17 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.front_video_profile.key
             findPreference<PreferenceGroup>(ProfileSpManager.front_video.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.front_video_profile.getDefaultValue())
-            setTitle(R.string.profile_front_video_profile)
+            setTitle(R.string.profile_front_video_profile_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entries = CameraHelper.frontDevice.videoProfiles
                 .map {
-                    getString(R.string.profile_front_video_resolution_summary, it.width, it.height, it.ratioWidth,
+                    getString(R.string.profile_video_resolution_summary, it.width, it.height, it.ratioWidth,
                         it.ratioHeight, it.megapixel, it.qualityString) }
                 .toTypedArray()
             entryValues = CameraHelper.frontDevice.videoProfiles
                 .map { it.key }
                 .toTypedArray()
-            setDialogTitle(R.string.profile_front_video_profile)
+            setDialogTitle(R.string.profile_front_video_profile_title)
             setIcon(R.drawable.profile_video_profile)
             setDialogIcon(R.drawable.profile_video_profile)
         }
