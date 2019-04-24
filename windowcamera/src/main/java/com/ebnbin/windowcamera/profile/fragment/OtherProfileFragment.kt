@@ -8,20 +8,17 @@ import com.ebnbin.windowcamera.preference.FooterPreference
 import com.ebnbin.windowcamera.profile.ProfileSpManager
 
 class OtherProfileFragment : BaseProfileFragment() {
-    private lateinit var pathPreference: Preference
-    private lateinit var footerPreference: FooterPreference
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
-        pathPreference = Preference(requireContext()).apply {
+        Preference(preferenceScreen.context).run {
+            preferenceScreen.addPreference(this)
             key = ProfileSpManager.path.key
             setTitle(R.string.profile_path)
             summary = getString(R.string.profile_path_summary, context.getExternalFilesDir(Environment.DIRECTORY_DCIM))
-            preferenceScreen.addPreference(this)
         }
 
-        footerPreference = FooterPreference(requireContext()).apply {
+        FooterPreference(preferenceScreen.context).run {
             preferenceScreen.addPreference(this)
         }
     }

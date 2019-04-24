@@ -3,6 +3,7 @@ package com.ebnbin.windowcamera.profile.fragment
 import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceGroup
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.preference.FooterPreference
@@ -15,21 +16,9 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class CameraProfileFragment : BaseProfileFragment() {
-    private lateinit var isFrontPreference: SimpleSwitchPreference
-    private lateinit var isVideoPreference: SimpleSwitchPreference
-    private lateinit var backPhotoPreferenceGroup: SimplePreferenceGroup
-    private lateinit var backPhotoResolutionPreference: ListPreference
-    private lateinit var backVideoPreferenceGroup: SimplePreferenceGroup
-    private lateinit var backVideoProfilePreference: ListPreference
-    private lateinit var frontPhotoPreferenceGroup: SimplePreferenceGroup
-    private lateinit var frontPhotoResolutionPreference: ListPreference
-    private lateinit var frontVideoPreferenceGroup: SimplePreferenceGroup
-    private lateinit var frontVideoProfilePreference: ListPreference
-    private lateinit var footerPreference: FooterPreference
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-        isFrontPreference = SimpleSwitchPreference(requireContext()).apply {
+        SimpleSwitchPreference(preferenceScreen.context).run {
             key = ProfileSpManager.is_front.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_front.getDefaultValue())
@@ -39,7 +28,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             icons = Pair(R.drawable.profile_is_front_off, R.drawable.profile_is_front_on)
         }
 
-        isVideoPreference = SimpleSwitchPreference(requireContext()).apply {
+        SimpleSwitchPreference(preferenceScreen.context).run {
             key = ProfileSpManager.is_video.key
             preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_video.getDefaultValue())
@@ -49,14 +38,15 @@ class CameraProfileFragment : BaseProfileFragment() {
             icons = Pair(R.drawable.profile_is_video_off, R.drawable.profile_is_video_on)
         }
 
-        backPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
+        SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.back_photo.key
             preferenceScreen.addPreference(this)
             visibleKeys = Pair(setOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key), null)
         }
 
-        backPhotoResolutionPreference = ListPreference(requireContext()).apply {
+        ListPreference(preferenceScreen.context).run {
             key = ProfileSpManager.back_photo_resolution.key
+            findPreference<PreferenceGroup>(ProfileSpManager.back_photo.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.back_photo_resolution.getDefaultValue())
             setTitle(R.string.profile_back_photo_resolution)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
@@ -68,17 +58,17 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_back_photo_resolution)
-            backPhotoPreferenceGroup.addPreference(this)
         }
 
-        backVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
+        SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.back_video.key
             preferenceScreen.addPreference(this)
             visibleKeys = Pair(setOf(ProfileSpManager.is_front.key), setOf(ProfileSpManager.is_video.key))
         }
 
-        backVideoProfilePreference = ListPreference(requireContext()).apply {
+        ListPreference(preferenceScreen.context).run {
             key = ProfileSpManager.back_video_profile.key
+            findPreference<PreferenceGroup>(ProfileSpManager.back_video.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.back_video_profile.getDefaultValue())
             setTitle(R.string.profile_back_video_profile)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
@@ -91,17 +81,17 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_back_video_profile)
-            backVideoPreferenceGroup.addPreference(this)
         }
 
-        frontPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
+        SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.front_photo.key
             preferenceScreen.addPreference(this)
             visibleKeys = Pair(setOf(ProfileSpManager.is_video.key), setOf(ProfileSpManager.is_front.key))
         }
 
-        frontPhotoResolutionPreference = ListPreference(requireContext()).apply {
+        ListPreference(preferenceScreen.context).run {
             key = ProfileSpManager.front_photo_resolution.key
+            findPreference<PreferenceGroup>(ProfileSpManager.front_photo.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.front_photo_resolution.getDefaultValue())
             setTitle(R.string.profile_front_photo_resolution)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
@@ -113,17 +103,17 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_front_photo_resolution)
-            frontPhotoPreferenceGroup.addPreference(this)
         }
 
-        frontVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
+        SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.front_video.key
-            visibleKeys = Pair(null, setOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key))
             preferenceScreen.addPreference(this)
+            visibleKeys = Pair(null, setOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key))
         }
 
-        frontVideoProfilePreference = ListPreference(requireContext()).apply {
+        ListPreference(preferenceScreen.context).run {
             key = ProfileSpManager.front_video_profile.key
+            findPreference<PreferenceGroup>(ProfileSpManager.front_video.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.front_video_profile.getDefaultValue())
             setTitle(R.string.profile_front_video_profile)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
@@ -136,10 +126,9 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_front_video_profile)
-            frontVideoPreferenceGroup.addPreference(this)
         }
 
-        footerPreference = FooterPreference(requireContext()).apply {
+        FooterPreference(preferenceScreen.context).run {
             preferenceScreen.addPreference(this)
         }
 
@@ -154,21 +143,6 @@ class CameraProfileFragment : BaseProfileFragment() {
     }
 
     private fun invalidateCameraProfile(isInvalidating: Boolean) {
-        if (isInvalidating) {
-            isFrontPreference.isEnabled = false
-            isVideoPreference.isEnabled = false
-            backPhotoPreferenceGroup.isEnabled = false
-            backVideoPreferenceGroup.isEnabled = false
-            frontPhotoPreferenceGroup.isEnabled = false
-            frontVideoPreferenceGroup.isEnabled = false
-
-        } else {
-            isFrontPreference.isEnabled = true
-            isVideoPreference.isEnabled = true
-            backPhotoPreferenceGroup.isEnabled = true
-            backVideoPreferenceGroup.isEnabled = true
-            frontPhotoPreferenceGroup.isEnabled = true
-            frontVideoPreferenceGroup.isEnabled = true
-        }
+        preferenceScreen.isEnabled = !isInvalidating
     }
 }

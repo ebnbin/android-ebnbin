@@ -5,6 +5,7 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceGroup
 import androidx.preference.SeekBarPreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.preference.FooterPreference
@@ -13,48 +14,27 @@ import com.ebnbin.windowcamera.preference.SimpleSeekBarPreference
 import com.ebnbin.windowcamera.profile.ProfileSpManager
 
 class WindowProfileFragment : BaseProfileFragment() {
-    private lateinit var layoutPreference: PreferenceCategory
-    private lateinit var sizePreference: SeekBarPreference
-    private lateinit var ratioPreference: ListPreference
-    private lateinit var isOutEnabledPreference: CheckBoxPreference
-    private lateinit var isOutEnabledOffPreferenceGroup: SimplePreferenceGroup
-    private lateinit var inXPreference: SimpleSeekBarPreference
-    private lateinit var inYPreference: SimpleSeekBarPreference
-    private lateinit var isOutEnabledOnPreferenceGroup: SimplePreferenceGroup
-    private lateinit var outXPreference: SimpleSeekBarPreference
-    private lateinit var outYPreference: SimpleSeekBarPreference
-    private lateinit var displayPreference: PreferenceCategory
-    private lateinit var alphaPreference: SeekBarPreference
-    private lateinit var isKeepScreenOnEnabledPreference: CheckBoxPreference
-    private lateinit var controlPreference: PreferenceCategory
-    private lateinit var isTouchablePreference: CheckBoxPreference
-    private lateinit var isTouchableOnPreferenceGroup: SimplePreferenceGroup
-    private lateinit var singleTapPreference: Preference
-    private lateinit var doubleTapPreference: Preference
-    private lateinit var longPressPreference: Preference
-    private lateinit var isMoveEnabled: CheckBoxPreference
-    private lateinit var footerPreference: FooterPreference
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-        layoutPreference = PreferenceCategory(requireContext()).apply {
+        PreferenceCategory(preferenceScreen.context).run {
             key = ProfileSpManager.layout.key
-            setTitle(R.string.profile_layout)
             preferenceScreen.addPreference(this)
+            setTitle(R.string.profile_layout)
         }
 
-        sizePreference = SeekBarPreference(requireContext()).apply {
+        SeekBarPreference(preferenceScreen.context).run {
             key = ProfileSpManager.size.key
+            preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.size.getDefaultValue())
             setTitle(R.string.profile_size)
             setSummary(R.string.profile_size_summary)
             min = 1
             max = 100
-            preferenceScreen.addPreference(this)
         }
 
-        ratioPreference = ListPreference(requireContext()).apply {
+        ListPreference(preferenceScreen.context).run {
             key = ProfileSpManager.ratio.key
+            preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.ratio.getDefaultValue())
             setTitle(R.string.profile_ratio)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
@@ -73,146 +53,145 @@ class WindowProfileFragment : BaseProfileFragment() {
                 "square"
             )
             setDialogTitle(R.string.profile_ratio)
-            preferenceScreen.addPreference(this)
         }
 
-        isOutEnabledPreference = CheckBoxPreference(requireContext()).apply {
+        CheckBoxPreference(preferenceScreen.context).run {
             key = ProfileSpManager.is_out_enabled.key
+            preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_out_enabled.getDefaultValue())
             setTitle(R.string.profile_is_out_enabled)
             setSummaryOff(R.string.profile_is_out_enabled_summary_off)
             setSummaryOn(R.string.profile_is_out_enabled_summary_on)
-            preferenceScreen.addPreference(this)
         }
 
-        isOutEnabledOffPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
+        SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.is_out_enabled_off.key
             preferenceScreen.addPreference(this)
             visibleKeys = Pair(setOf(ProfileSpManager.is_out_enabled.key), null)
         }
 
-        inXPreference = SimpleSeekBarPreference(requireContext()).apply {
+        SimpleSeekBarPreference(preferenceScreen.context).run {
             key = ProfileSpManager.in_x.key
+            findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_off.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.in_x.getDefaultValue())
             setTitle(R.string.profile_in_x)
             setSummary(R.string.profile_in_x_summary)
             min = 0
             max = 100
-            isOutEnabledOffPreferenceGroup.addPreference(this)
         }
 
-        inYPreference = SimpleSeekBarPreference(requireContext()).apply {
+        SimpleSeekBarPreference(preferenceScreen.context).run {
             key = ProfileSpManager.in_y.key
+            findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_off.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.in_y.getDefaultValue())
             setTitle(R.string.profile_in_y)
             setSummary(R.string.profile_in_y_summary)
             min = 0
             max = 100
-            isOutEnabledOffPreferenceGroup.addPreference(this)
         }
 
-        isOutEnabledOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
+        SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.is_out_enabled_on.key
             preferenceScreen.addPreference(this)
             visibleKeys = Pair(null, setOf(ProfileSpManager.is_out_enabled.key))
         }
 
-        outXPreference = SimpleSeekBarPreference(requireContext()).apply {
+        SimpleSeekBarPreference(preferenceScreen.context).run {
             key = ProfileSpManager.out_x.key
+            findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_on.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.out_x.getDefaultValue())
             setTitle(R.string.profile_out_x)
             setSummary(R.string.profile_out_x_summary)
             min = -99
             max = 199
-            isOutEnabledOnPreferenceGroup.addPreference(this)
         }
 
-        outYPreference = SimpleSeekBarPreference(requireContext()).apply {
+        SimpleSeekBarPreference(preferenceScreen.context).run {
             key = ProfileSpManager.out_y.key
+            findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_on.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.out_y.getDefaultValue())
             setTitle(R.string.profile_out_y)
             setSummary(R.string.profile_out_y_summary)
             min = -99
             max = 199
-            isOutEnabledOnPreferenceGroup.addPreference(this)
         }
 
-        displayPreference = PreferenceCategory(requireContext()).apply {
+        PreferenceCategory(preferenceScreen.context).run {
             key = ProfileSpManager.display.key
-            setTitle(R.string.profile_display)
             preferenceScreen.addPreference(this)
+            setTitle(R.string.profile_display)
         }
 
-        alphaPreference = SeekBarPreference(requireContext()).apply {
+        SeekBarPreference(preferenceScreen.context).run {
             key = ProfileSpManager.alpha.key
+            preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.alpha.getDefaultValue())
             setTitle(R.string.profile_alpha)
             min = 1
             max = 100
-            preferenceScreen.addPreference(this)
         }
 
-        isKeepScreenOnEnabledPreference = CheckBoxPreference(requireContext()).apply {
+        CheckBoxPreference(preferenceScreen.context).run {
             key = ProfileSpManager.is_keep_screen_on_enabled.key
+            preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_keep_screen_on_enabled.getDefaultValue())
             setTitle(R.string.profile_is_keep_screen_on_enabled)
             setSummaryOff(R.string.profile_is_keep_screen_on_enabled_summary_off)
             setSummaryOn(R.string.profile_is_keep_screen_on_enabled_summary_on)
-            preferenceScreen.addPreference(this)
         }
 
-        controlPreference = PreferenceCategory(requireContext()).apply {
+        PreferenceCategory(preferenceScreen.context).run {
             key = ProfileSpManager.control.key
-            setTitle(R.string.profile_control)
             preferenceScreen.addPreference(this)
+            setTitle(R.string.profile_control)
         }
 
-        isTouchablePreference = CheckBoxPreference(requireContext()).apply {
+        CheckBoxPreference(preferenceScreen.context).run {
             key = ProfileSpManager.is_touchable.key
+            preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_touchable.getDefaultValue())
             setTitle(R.string.profile_is_touchable)
             setSummaryOff(R.string.profile_is_touchable_summary_off)
             setSummaryOn(R.string.profile_is_touchable_summary_on)
-            preferenceScreen.addPreference(this)
         }
 
-        isTouchableOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
+        SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.is_touchable_on.key
             preferenceScreen.addPreference(this)
             visibleKeys = Pair(null, setOf(ProfileSpManager.is_touchable.key))
         }
 
-        singleTapPreference = Preference(requireContext()).apply {
+        Preference(preferenceScreen.context).run {
             key = ProfileSpManager.single_tap.key
+            findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
             setTitle(R.string.profile_single_tap)
             setSummary(R.string.profile_single_tap_summary)
-            isTouchableOnPreferenceGroup.addPreference(this)
         }
 
-        doubleTapPreference = Preference(requireContext()).apply {
+        Preference(preferenceScreen.context).run {
             key = ProfileSpManager.double_tap.key
+            findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
             setTitle(R.string.profile_double_tap)
             setSummary(R.string.profile_double_tap_summary)
-            isTouchableOnPreferenceGroup.addPreference(this)
         }
 
-        longPressPreference = Preference(requireContext()).apply {
+        Preference(preferenceScreen.context).run {
             key = ProfileSpManager.long_press.key
+            findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
             setTitle(R.string.profile_long_press)
             setSummary(R.string.profile_long_press_summary)
-            isTouchableOnPreferenceGroup.addPreference(this)
         }
 
-        isMoveEnabled = CheckBoxPreference(requireContext()).apply {
+        CheckBoxPreference(preferenceScreen.context).run {
             key = ProfileSpManager.is_move_enabled.key
+            findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
             setDefaultValue(ProfileSpManager.is_move_enabled.getDefaultValue())
             setTitle(R.string.profile_is_move_enabled)
             setSummaryOff(R.string.profile_is_move_enabled_summary_off)
             setSummaryOn(R.string.profile_is_move_enabled_summary_on)
-            isTouchableOnPreferenceGroup.addPreference(this)
         }
 
-        footerPreference = FooterPreference(requireContext()).apply {
+        FooterPreference(preferenceScreen.context).run {
             preferenceScreen.addPreference(this)
         }
     }
