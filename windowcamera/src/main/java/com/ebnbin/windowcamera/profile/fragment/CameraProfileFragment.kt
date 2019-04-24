@@ -31,28 +31,28 @@ class CameraProfileFragment : BaseProfileFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
         isFrontPreference = SimpleSwitchPreference(requireContext()).apply {
             key = ProfileSpManager.is_front.key
+            preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_front.getDefaultValue())
             setTitle(R.string.profile_is_front)
             setSummaryOff(R.string.profile_is_front_summary_off)
             setSummaryOn(R.string.profile_is_front_summary_on)
             icons = Pair(R.drawable.profile_is_front_off, R.drawable.profile_is_front_on)
-            preferenceScreen.addPreference(this)
         }
 
         isVideoPreference = SimpleSwitchPreference(requireContext()).apply {
             key = ProfileSpManager.is_video.key
+            preferenceScreen.addPreference(this)
             setDefaultValue(ProfileSpManager.is_video.getDefaultValue())
             setTitle(R.string.profile_is_video)
             setSummaryOff(R.string.profile_is_video_summary_off)
             setSummaryOn(R.string.profile_is_video_summary_on)
             icons = Pair(R.drawable.profile_is_video_off, R.drawable.profile_is_video_on)
-            preferenceScreen.addPreference(this)
         }
 
         backPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.back_photo.key
-            visibleTwoStatePreferences = Pair(setOf(isFrontPreference, isVideoPreference), null)
             preferenceScreen.addPreference(this)
+            visibleKeys = Pair(setOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key), null)
         }
 
         backPhotoResolutionPreference = ListPreference(requireContext()).apply {
@@ -73,8 +73,8 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         backVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.back_video.key
-            visibleTwoStatePreferences = Pair(setOf(isFrontPreference), setOf(isVideoPreference))
             preferenceScreen.addPreference(this)
+            visibleKeys = Pair(setOf(ProfileSpManager.is_front.key), setOf(ProfileSpManager.is_video.key))
         }
 
         backVideoProfilePreference = ListPreference(requireContext()).apply {
@@ -96,8 +96,8 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         frontPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.front_photo.key
-            visibleTwoStatePreferences = Pair(setOf(isVideoPreference), setOf(isFrontPreference))
             preferenceScreen.addPreference(this)
+            visibleKeys = Pair(setOf(ProfileSpManager.is_video.key), setOf(ProfileSpManager.is_front.key))
         }
 
         frontPhotoResolutionPreference = ListPreference(requireContext()).apply {
@@ -118,7 +118,7 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         frontVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.front_video.key
-            visibleTwoStatePreferences = Pair(null, setOf(isFrontPreference, isVideoPreference))
+            visibleKeys = Pair(null, setOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key))
             preferenceScreen.addPreference(this)
         }
 

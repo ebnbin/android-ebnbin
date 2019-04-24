@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.AttributeSet
 import androidx.preference.PreferenceGroup
-import androidx.preference.TwoStatePreference
+import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.windowcamera.R
 
 /**
@@ -21,10 +21,10 @@ open class SimplePreferenceGroup @JvmOverloads constructor(
     }
 
     /**
-     * 当 first set 中的所有 TwoStatePreference 都为 !isChecked 且 second set 中的所有 TwoStatePreference 都为 isChecked 时
-     * 当前 Preference 才可见.
+     * 当 first set 中的所有 key 对应 value 都为 false 且 second set 中的所有 key 对应 value 都为 true 时 Preference 才可见.
+     * 需要在被添加到 PreferenceScreen 之后调用.
      */
-    var visibleTwoStatePreferences: Pair<Set<TwoStatePreference>?, Set<TwoStatePreference>?>? = null
+    var visibleKeys: Pair<Set<String>?, Set<String>?>? = null
         set(value) {
             if (field == value) return
             field = value
@@ -32,14 +32,13 @@ open class SimplePreferenceGroup @JvmOverloads constructor(
         }
 
     private fun invalidateVisible() {
-        isVisible = visibleTwoStatePreferences?.first?.all { !it.isChecked } != false &&
-                visibleTwoStatePreferences?.second?.all { it.isChecked } != false
+        isVisible = visibleKeys?.first?.all { sharedPreferences?.get(it, false) != true } != false &&
+                visibleKeys?.second?.all { sharedPreferences?.get(it, true) != false } != false
     }
 
     override fun onAttached() {
         super.onAttached()
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        invalidateVisible()
     }
 
     override fun onDetached() {
@@ -49,8 +48,7 @@ open class SimplePreferenceGroup @JvmOverloads constructor(
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         key ?: return
-        if (visibleTwoStatePreferences?.first?.any { it.key == key } == true ||
-            visibleTwoStatePreferences?.second?.any { it.key == key } == true) {
+        if (visibleKeys?.first?.contains(key) == true || visibleKeys?.second?.contains(key) == true) {
             invalidateVisible()
         }
     }

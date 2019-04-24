@@ -17,6 +17,9 @@ open class SimpleSwitchPreference @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : SwitchPreferenceCompat(context, attrs, defStyleAttr, defStyleRes),
     SharedPreferences.OnSharedPreferenceChangeListener {
+    /**
+     * 需要在被添加到 PreferenceScreen 之后调用.
+     */
     var icons: Pair<Int, Int>? = null
         set(value) {
             if (field == value) return
@@ -46,7 +49,6 @@ open class SimpleSwitchPreference @JvmOverloads constructor(
     override fun onAttached() {
         super.onAttached()
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        invalidateIcons()
     }
 
     override fun onDetached() {

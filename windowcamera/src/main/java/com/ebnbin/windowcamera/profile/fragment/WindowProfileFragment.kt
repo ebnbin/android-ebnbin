@@ -87,8 +87,8 @@ class WindowProfileFragment : BaseProfileFragment() {
 
         isOutEnabledOffPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.is_out_enabled_off.key
-            visibleTwoStatePreferences = Pair(setOf(isOutEnabledPreference), null)
             preferenceScreen.addPreference(this)
+            visibleKeys = Pair(setOf(ProfileSpManager.is_out_enabled.key), null)
         }
 
         inXPreference = SimpleSeekBarPreference(requireContext()).apply {
@@ -113,8 +113,8 @@ class WindowProfileFragment : BaseProfileFragment() {
 
         isOutEnabledOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.is_out_enabled_on.key
-            visibleTwoStatePreferences = Pair(null, setOf(isOutEnabledPreference))
             preferenceScreen.addPreference(this)
+            visibleKeys = Pair(null, setOf(ProfileSpManager.is_out_enabled.key))
         }
 
         outXPreference = SimpleSeekBarPreference(requireContext()).apply {
@@ -178,8 +178,8 @@ class WindowProfileFragment : BaseProfileFragment() {
 
         isTouchableOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.is_touchable_on.key
-            visibleTwoStatePreferences = Pair(null, setOf(isTouchablePreference))
             preferenceScreen.addPreference(this)
+            visibleKeys = Pair(null, setOf(ProfileSpManager.is_touchable.key))
         }
 
         singleTapPreference = Preference(requireContext()).apply {
