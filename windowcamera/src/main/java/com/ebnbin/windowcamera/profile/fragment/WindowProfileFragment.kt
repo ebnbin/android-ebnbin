@@ -69,7 +69,7 @@ class WindowProfileFragment : BaseProfileFragment() {
         SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.is_out_enabled_off.key
             preferenceScreen.addPreference(this)
-            visibleKeys = Pair(setOf(ProfileSpManager.is_out_enabled.key), null)
+            visibleKeysOff = arrayOf(ProfileSpManager.is_out_enabled.key)
         }
 
         SimpleSeekBarPreference(preferenceScreen.context).run {
@@ -97,7 +97,7 @@ class WindowProfileFragment : BaseProfileFragment() {
         SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.is_out_enabled_on.key
             preferenceScreen.addPreference(this)
-            visibleKeys = Pair(null, setOf(ProfileSpManager.is_out_enabled.key))
+            visibleKeysOn = arrayOf(ProfileSpManager.is_out_enabled.key)
         }
 
         SimpleSeekBarPreference(preferenceScreen.context).run {
@@ -167,7 +167,7 @@ class WindowProfileFragment : BaseProfileFragment() {
         SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.is_touchable_on.key
             preferenceScreen.addPreference(this)
-            visibleKeys = Pair(null, setOf(ProfileSpManager.is_touchable.key))
+            visibleKeysOn = arrayOf(ProfileSpManager.is_touchable.key)
         }
 
         Preference(preferenceScreen.context).run {

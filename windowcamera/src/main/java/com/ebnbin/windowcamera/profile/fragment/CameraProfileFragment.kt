@@ -43,7 +43,7 @@ class CameraProfileFragment : BaseProfileFragment() {
         SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.back_photo.key
             preferenceScreen.addPreference(this)
-            visibleKeys = Pair(setOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key), null)
+            visibleKeysOff = arrayOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key)
         }
 
         ListPreference(preferenceScreen.context).run {
@@ -67,7 +67,8 @@ class CameraProfileFragment : BaseProfileFragment() {
         SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.back_video.key
             preferenceScreen.addPreference(this)
-            visibleKeys = Pair(setOf(ProfileSpManager.is_front.key), setOf(ProfileSpManager.is_video.key))
+            visibleKeysOff = arrayOf(ProfileSpManager.is_front.key)
+            visibleKeysOn = arrayOf(ProfileSpManager.is_video.key)
         }
 
         ListPreference(preferenceScreen.context).run {
@@ -92,7 +93,8 @@ class CameraProfileFragment : BaseProfileFragment() {
         SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.front_photo.key
             preferenceScreen.addPreference(this)
-            visibleKeys = Pair(setOf(ProfileSpManager.is_video.key), setOf(ProfileSpManager.is_front.key))
+            visibleKeysOff = arrayOf(ProfileSpManager.is_video.key)
+            visibleKeysOn = arrayOf(ProfileSpManager.is_front.key)
         }
 
         ListPreference(preferenceScreen.context).run {
@@ -116,7 +118,7 @@ class CameraProfileFragment : BaseProfileFragment() {
         SimplePreferenceGroup(preferenceScreen.context).run {
             key = ProfileSpManager.front_video.key
             preferenceScreen.addPreference(this)
-            visibleKeys = Pair(null, setOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key))
+            visibleKeysOn = arrayOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key)
         }
 
         ListPreference(preferenceScreen.context).run {

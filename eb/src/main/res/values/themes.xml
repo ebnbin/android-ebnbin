@@ -6,6 +6,11 @@
     <attr name="ebSimplePreferenceGroupStyle" format="reference"/>
     <attr name="ebFooterPreferenceStyle" format="reference"/>
 
+    <declare-styleable name="EBSimplePreferenceGroup">
+        <attr name="ebVisibleKeysOff" format="reference"/>
+        <attr name="ebVisibleKeysOn" format="reference"/>
+    </declare-styleable>
+
     <declare-styleable name="EBSimpleSwitchPreference">
         <attr name="ebIconOff" format="reference"/>
         <attr name="ebIconOn" format="reference"/>
