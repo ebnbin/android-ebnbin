@@ -3,8 +3,8 @@ package com.ebnbin.windowcamera.profile.fragment
 import android.os.Bundle
 import android.os.Environment
 import androidx.preference.Preference
+import com.ebnbin.eb.preference.FooterPreference
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.preference.FooterPreference
 import com.ebnbin.windowcamera.profile.ProfileSpManager
 
 class OtherProfileFragment : BaseProfileFragment() {

@@ -31,7 +31,7 @@
 
     <string name="profile_alpha">窗口不透明度</string>
 
-    <string name="profile_is_keep_screen_on_enabled">保持屏幕常量</string>
+    <string name="profile_is_keep_screen_on_enabled">窗口显示时保持屏幕常量</string>
     <string name="profile_is_keep_screen_on_enabled_summary_off">禁用</string>
     <string name="profile_is_keep_screen_on_enabled_summary_on">启用</string>
 

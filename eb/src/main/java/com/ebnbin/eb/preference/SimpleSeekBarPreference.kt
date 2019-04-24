@@ -1,10 +1,10 @@
-package com.ebnbin.windowcamera.preference
+package com.ebnbin.eb.preference
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.AttributeSet
-import androidx.preference.R
 import androidx.preference.SeekBarPreference
+import com.ebnbin.eb.R
 import com.ebnbin.eb.sharedpreferences.get
 
 /**

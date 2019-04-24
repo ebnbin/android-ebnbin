@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
+import com.ebnbin.eb.preference.FooterPreference
+import com.ebnbin.eb.preference.SimplePreferenceGroup
+import com.ebnbin.eb.preference.SimpleSwitchPreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
-import com.ebnbin.windowcamera.preference.FooterPreference
-import com.ebnbin.windowcamera.preference.SimplePreferenceGroup
-import com.ebnbin.windowcamera.preference.SimpleSwitchPreference
 import com.ebnbin.windowcamera.profile.CameraProfileEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSpManager
@@ -25,7 +25,8 @@ class CameraProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_front)
             setSummaryOff(R.string.profile_is_front_summary_off)
             setSummaryOn(R.string.profile_is_front_summary_on)
-            icons = Pair(R.drawable.profile_is_front_off, R.drawable.profile_is_front_on)
+            iconOff = R.drawable.profile_is_front_off
+            iconOn = R.drawable.profile_is_front_on
         }
 
         SimpleSwitchPreference(preferenceScreen.context).run {
@@ -35,7 +36,8 @@ class CameraProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_video)
             setSummaryOff(R.string.profile_is_video_summary_off)
             setSummaryOn(R.string.profile_is_video_summary_on)
-            icons = Pair(R.drawable.profile_is_video_off, R.drawable.profile_is_video_on)
+            iconOff = R.drawable.profile_is_video_off
+            iconOn = R.drawable.profile_is_video_on
         }
 
         SimplePreferenceGroup(preferenceScreen.context).run {

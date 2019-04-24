@@ -1,11 +1,11 @@
-package com.ebnbin.windowcamera.preference
+package com.ebnbin.eb.preference
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.AttributeSet
 import androidx.preference.PreferenceGroup
+import com.ebnbin.eb.R
 import com.ebnbin.eb.sharedpreferences.get
-import com.ebnbin.windowcamera.R
 
 /**
  * 空 PreferenceGroup. 用于添加并管理其他 Preference.
@@ -13,13 +13,9 @@ import com.ebnbin.windowcamera.R
 open class SimplePreferenceGroup @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
+    defStyleAttr: Int = R.attr.ebSimplePreferenceGroupStyle,
     defStyleRes: Int = 0
 ) : PreferenceGroup(context, attrs, defStyleAttr, defStyleRes), SharedPreferences.OnSharedPreferenceChangeListener {
-    init {
-        layoutResource = R.layout.simple_preference_group
-    }
-
     /**
      * 当 first set 中的所有 key 对应 value 都为 false 且 second set 中的所有 key 对应 value 都为 true 时 Preference 才可见.
      * 需要在被添加到 PreferenceScreen 之后调用.

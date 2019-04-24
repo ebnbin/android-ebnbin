@@ -1,11 +1,11 @@
-package com.ebnbin.windowcamera.preference
+package com.ebnbin.eb.preference
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.preference.SwitchPreferenceCompat
-import com.ebnbin.windowcamera.R
+import com.ebnbin.eb.R
 
 /**
  * 拥有 off/on 图标的 SwitchPreference.
@@ -17,15 +17,27 @@ open class SimpleSwitchPreference @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : SwitchPreferenceCompat(context, attrs, defStyleAttr, defStyleRes),
     SharedPreferences.OnSharedPreferenceChangeListener {
-    /**
-     * 需要在被添加到 PreferenceScreen 之后调用.
-     */
-    var icons: Pair<Int, Int>? = null
+    var iconOff: Int = 0
         set(value) {
             if (field == value) return
             field = value
             invalidateIcons()
         }
+
+    var iconOn: Int = 0
+        set(value) {
+            if (field == value) return
+            field = value
+            invalidateIcons()
+        }
+
+    init {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.EBSimpleSwitchPreference, defStyleAttr,
+            defStyleRes)
+        iconOff = typedArray.getResourceId(R.styleable.EBSimpleSwitchPreference_ebIconOff, 0)
+        iconOn = typedArray.getResourceId(R.styleable.EBSimpleSwitchPreference_ebIconOn, 0)
+        typedArray.recycle()
+    }
 
     @Deprecated("使用 icons 代替.", ReplaceWith(""))
     override fun setIcon(icon: Drawable?) {
@@ -38,11 +50,18 @@ open class SimpleSwitchPreference @JvmOverloads constructor(
     }
 
     private fun invalidateIcons() {
-        val icons = icons
-        if (icons == null) {
-            super.setIcon(null)
+        if (isChecked) {
+            if (iconOn == 0) {
+                super.setIcon(null)
+            } else {
+                super.setIcon(iconOn)
+            }
         } else {
-            super.setIcon(if (isChecked) icons.second else icons.first)
+            if (iconOff == 0) {
+                super.setIcon(null)
+            } else {
+                super.setIcon(iconOff)
+            }
         }
     }
 

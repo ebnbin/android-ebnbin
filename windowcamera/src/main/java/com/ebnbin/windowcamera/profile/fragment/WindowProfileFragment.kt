@@ -7,10 +7,10 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceGroup
 import androidx.preference.SeekBarPreference
+import com.ebnbin.eb.preference.FooterPreference
+import com.ebnbin.eb.preference.SimplePreferenceGroup
+import com.ebnbin.eb.preference.SimpleSeekBarPreference
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.preference.FooterPreference
-import com.ebnbin.windowcamera.preference.SimplePreferenceGroup
-import com.ebnbin.windowcamera.preference.SimpleSeekBarPreference
 import com.ebnbin.windowcamera.profile.ProfileSpManager
 
 class WindowProfileFragment : BaseProfileFragment() {
@@ -201,6 +201,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_move_enabled)
             setSummaryOff(R.string.profile_is_move_enabled_summary_off)
             setSummaryOn(R.string.profile_is_move_enabled_summary_on)
+            setIcon(R.drawable.profile_is_move_enabled)
         }
 
         FooterPreference(preferenceScreen.context).run {
