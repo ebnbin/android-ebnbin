@@ -30,6 +30,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setSummary(R.string.profile_size_summary)
             min = 1
             max = 100
+            setIcon(R.drawable.profile_size)
         }
 
         ListPreference(preferenceScreen.context).run {
@@ -62,6 +63,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_out_enabled)
             setSummaryOff(R.string.profile_is_out_enabled_summary_off)
             setSummaryOn(R.string.profile_is_out_enabled_summary_on)
+            setIcon(R.drawable.profile_is_out_enabled)
         }
 
         SimplePreferenceGroup(preferenceScreen.context).run {
@@ -78,6 +80,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setSummary(R.string.profile_in_x_summary)
             min = 0
             max = 100
+            setIcon(R.drawable.profile_x)
         }
 
         SimpleSeekBarPreference(preferenceScreen.context).run {
@@ -88,6 +91,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setSummary(R.string.profile_in_y_summary)
             min = 0
             max = 100
+            setIcon(R.drawable.profile_y)
         }
 
         SimplePreferenceGroup(preferenceScreen.context).run {
@@ -104,6 +108,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setSummary(R.string.profile_out_x_summary)
             min = -99
             max = 199
+            setIcon(R.drawable.profile_x)
         }
 
         SimpleSeekBarPreference(preferenceScreen.context).run {
@@ -114,6 +119,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setSummary(R.string.profile_out_y_summary)
             min = -99
             max = 199
+            setIcon(R.drawable.profile_y)
         }
 
         PreferenceCategory(preferenceScreen.context).run {
@@ -129,6 +135,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_alpha)
             min = 1
             max = 100
+            setIcon(R.drawable.profile_alpha)
         }
 
         CheckBoxPreference(preferenceScreen.context).run {
@@ -138,6 +145,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_keep_screen_on_enabled)
             setSummaryOff(R.string.profile_is_keep_screen_on_enabled_summary_off)
             setSummaryOn(R.string.profile_is_keep_screen_on_enabled_summary_on)
+            setIcon(R.drawable.profile_is_keep_screen_on_enabled)
         }
 
         PreferenceCategory(preferenceScreen.context).run {
@@ -153,6 +161,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_touchable)
             setSummaryOff(R.string.profile_is_touchable_summary_off)
             setSummaryOn(R.string.profile_is_touchable_summary_on)
+            setIcon(R.drawable.profile_is_touchable)
         }
 
         SimplePreferenceGroup(preferenceScreen.context).run {
@@ -166,6 +175,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
             setTitle(R.string.profile_single_tap)
             setSummary(R.string.profile_single_tap_summary)
+            setIcon(R.drawable.profile_single_tap)
         }
 
         Preference(preferenceScreen.context).run {
@@ -173,6 +183,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
             setTitle(R.string.profile_double_tap)
             setSummary(R.string.profile_double_tap_summary)
+            setIcon(R.drawable.profile_double_tap)
         }
 
         Preference(preferenceScreen.context).run {
@@ -180,6 +191,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             findPreference<PreferenceGroup>(ProfileSpManager.is_touchable_on.key)?.addPreference(this)
             setTitle(R.string.profile_long_press)
             setSummary(R.string.profile_long_press_summary)
+            setIcon(R.drawable.profile_long_press)
         }
 
         CheckBoxPreference(preferenceScreen.context).run {

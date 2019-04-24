@@ -16,6 +16,7 @@ class OtherProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.path.key
             setTitle(R.string.profile_path)
             summary = getString(R.string.profile_path_summary, context.getExternalFilesDir(Environment.DIRECTORY_DCIM))
+            setIcon(R.drawable.profile_path)
         }
 
         FooterPreference(preferenceScreen.context).run {

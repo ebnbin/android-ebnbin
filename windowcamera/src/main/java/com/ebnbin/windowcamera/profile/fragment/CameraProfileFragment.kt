@@ -58,6 +58,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_back_photo_resolution)
+            setIcon(R.drawable.profile_resolution)
+            setDialogIcon(R.drawable.profile_resolution)
         }
 
         SimplePreferenceGroup(preferenceScreen.context).run {
@@ -81,6 +83,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_back_video_profile)
+            setIcon(R.drawable.profile_video_profile)
+            setDialogIcon(R.drawable.profile_video_profile)
         }
 
         SimplePreferenceGroup(preferenceScreen.context).run {
@@ -103,6 +107,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_front_photo_resolution)
+            setIcon(R.drawable.profile_resolution)
+            setDialogIcon(R.drawable.profile_resolution)
         }
 
         SimplePreferenceGroup(preferenceScreen.context).run {
@@ -126,6 +132,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             setDialogTitle(R.string.profile_front_video_profile)
+            setIcon(R.drawable.profile_video_profile)
+            setDialogIcon(R.drawable.profile_video_profile)
         }
 
         FooterPreference(preferenceScreen.context).run {
