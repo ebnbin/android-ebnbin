@@ -4,17 +4,30 @@
     <string name="profile_layout_title">布局</string>
 
     <string name="profile_size" translatable="false">size</string>
+    <integer name="profile_size_default_value">50</integer>
     <string name="profile_size_title">窗口大小</string>
     <string name="profile_size_summary">窗口占屏幕大小的百分比</string>
+    <integer name="profile_size_min">1</integer>
+    <integer name="profile_size_max">100</integer>
 
     <string name="profile_ratio" translatable="false">ratio</string>
+    <string name="profile_ratio_default_value" translatable="false">capture</string>
     <string name="profile_ratio_title">窗口宽高比</string>
-    <string name="profile_ratio_summary_capture">与拍摄比例相同，所见即所得</string>
-    <string name="profile_ratio_summary_raw">与最大照片分辨率比例相同，原始拍摄比例</string>
-    <string name="profile_ratio_summary_screen">与屏幕比例相同</string>
-    <string name="profile_ratio_summary_square">正方形</string>
+    <string-array name="profile_ratio_entry_values" translatable="false">
+        <item>capture</item>
+        <item>raw</item>
+        <item>screen</item>
+        <item>square</item>
+    </string-array>
+    <string-array name="profile_ratio_entries">
+        <item>与拍摄比例相同，所见即所得</item>
+        <item>与最大照片分辨率比例相同，原始拍摄比例</item>
+        <item>与屏幕比例相同</item>
+        <item>正方形</item>
+    </string-array>
 
     <string name="profile_is_out_enabled" translatable="false">is_out_enabled</string>
+    <bool name="profile_is_out_enabled_default_value">false</bool>
     <string name="profile_is_out_enabled_title">是否允许窗口移出屏幕</string>
     <string name="profile_is_out_enabled_summary_off">不允许</string>
     <string name="profile_is_out_enabled_summary_on">允许</string>
@@ -22,33 +35,43 @@
     <string name="profile_is_out_enabled_off" translatable="false">is_out_enabled_off</string>
 
     <string name="profile_in_x" translatable="false">in_x</string>
+    <integer name="profile_in_x_default_value">50</integer>
     <string name="profile_in_x_title">窗口水平位置</string>
     <string name="profile_in_x_summary">窗口在屏幕水平方向位置的百分比</string>
+    <integer name="profile_in_x_min">0</integer>
+    <integer name="profile_in_x_max">100</integer>
 
     <string name="profile_in_y" translatable="false">in_y</string>
+    <integer name="profile_in_y_default_value">50</integer>
     <string name="profile_in_y_title">窗口垂直位置</string>
     <string name="profile_in_y_summary">窗口在屏幕垂直方向位置的百分比</string>
+    <integer name="profile_in_y_min">0</integer>
+    <integer name="profile_in_y_max">100</integer>
 
     <string name="profile_is_out_enabled_on" translatable="false">is_out_enabled_on</string>
 
     <string name="profile_out_x" translatable="false">out_x</string>
     <string name="profile_out_x_title">窗口水平位置</string>
     <string name="profile_out_x_summary">窗口在屏幕水平方向位置的百分比。值为 0 时窗口贴边屏幕左侧，值为 100 时窗口贴边屏幕右侧</string>
+    <integer name="profile_out_x_default_value">50</integer>
 
     <string name="profile_out_y" translatable="false">out_y</string>
     <string name="profile_out_y_title">窗口垂直位置</string>
     <string name="profile_out_y_summary">窗口在屏幕垂直方向位置的百分比。值为 0 时窗口贴边屏幕顶部，值为 100 时窗口贴边屏幕底部</string>
+    <integer name="profile_out_y_default_value">50</integer>
 
     <string name="profile_display" translatable="false">display</string>
     <string name="profile_display_title">显示</string>
 
     <string name="profile_alpha" translatable="false">alpha</string>
     <string name="profile_alpha_title">窗口不透明度</string>
+    <integer name="profile_alpha_default_value">100</integer>
 
     <string name="profile_is_keep_screen_on_enabled" translatable="false">is_keep_screen_on_enabled</string>
     <string name="profile_is_keep_screen_on_enabled_title">窗口显示时保持屏幕常量</string>
     <string name="profile_is_keep_screen_on_enabled_summary_off">禁用</string>
     <string name="profile_is_keep_screen_on_enabled_summary_on">启用</string>
+    <bool name="profile_is_keep_screen_on_enabled_summary_default_value">true</bool>
 
     <string name="profile_control" translatable="false">control</string>
     <string name="profile_control_title">控制</string>
@@ -57,6 +80,7 @@
     <string name="profile_is_touchable_title">是否接收触摸事件。如果禁用，触摸屏幕会直接操控窗口下层的其他应用</string>
     <string name="profile_is_touchable_summary_off">不接收</string>
     <string name="profile_is_touchable_summary_on">接收</string>
+    <bool name="profile_is_touchable_default_value">true</bool>
 
     <string name="profile_is_touchable_on" translatable="false">is_touchable_on</string>
 
@@ -76,18 +100,25 @@
     <string name="profile_is_move_enabled_title">是否允许拖动窗口移动</string>
     <string name="profile_is_move_enabled_summary_off">不允许</string>
     <string name="profile_is_move_enabled_summary_on">允许</string>
+    <bool name="profile_is_move_enabled_default_value">true</bool>
 
     <string name="profile_is_front" translatable="false">is_front</string>
     <string name="profile_is_front_title">摄像头</string>
     <string name="profile_is_front_summary_off">后置摄像头</string>
     <string name="profile_is_front_summary_on">前置摄像头</string>
+    <bool name="profile_is_front_default_value">false</bool>
 
     <string name="profile_is_video" translatable="false">is_video</string>
     <string name="profile_is_video_title">照片/视频</string>
     <string name="profile_is_video_summary_off">照片</string>
     <string name="profile_is_video_summary_on">视频</string>
+    <bool name="profile_is_video_default_value">false</bool>
 
     <string name="profile_back_photo" translatable="false">back_photo</string>
+    <string-array name="profile_back_photo_visible_keys_off" translatable="false">
+        <item>@string/profile_is_front</item>
+        <item>@string/profile_is_video</item>
+    </string-array>
 
     <string name="profile_back_photo_resolution" translatable="false">back_photo_resolution</string>
     <string name="profile_back_photo_resolution_title">后置摄像头照片分辨率</string>
@@ -95,6 +126,12 @@
     <string name="profile_photo_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素</string>
 
     <string name="profile_back_video" translatable="false">back_video</string>
+    <string-array name="profile_back_video_visible_keys_off" translatable="false">
+        <item>@string/profile_is_front</item>
+    </string-array>
+    <string-array name="profile_back_video_visible_keys_on" translatable="false">
+        <item>@string/profile_is_video</item>
+    </string-array>
 
     <string name="profile_back_video_profile" translatable="false">back_video_profile</string>
     <string name="profile_back_video_profile_title">后置摄像头视频配置</string>
@@ -102,11 +139,21 @@
     <string name="profile_video_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素，%6$s</string>
 
     <string name="profile_front_photo" translatable="false">front_photo</string>
+    <string-array name="profile_front_photo_visible_keys_off" translatable="false">
+        <item>@string/profile_is_video</item>
+    </string-array>
+    <string-array name="profile_front_photo_visible_keys_on" translatable="false">
+        <item>@string/profile_is_front</item>
+    </string-array>
 
     <string name="profile_front_photo_resolution" translatable="false">front_photo_resolution</string>
     <string name="profile_front_photo_resolution_title">前置摄像头照片分辨率</string>
 
     <string name="profile_front_video" translatable="false">front_video</string>
+    <string-array name="profile_front_video_visible_keys_on" translatable="false">
+        <item>@string/profile_is_front</item>
+        <item>@string/profile_is_video</item>
+    </string-array>
 
     <string name="profile_front_video_profile" translatable="false">front_video_profile</string>
     <string name="profile_front_video_profile_title">前置摄像头视频配置</string>

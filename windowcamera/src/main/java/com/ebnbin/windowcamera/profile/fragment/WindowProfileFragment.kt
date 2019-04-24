@@ -16,82 +16,14 @@ import com.ebnbin.windowcamera.profile.ProfileSpManager
 class WindowProfileFragment : BaseProfileFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-        PreferenceCategory(preferenceScreen.context).run {
-            key = ProfileSpManager.layout.key
-            preferenceScreen.addPreference(this)
-            setTitle(R.string.profile_layout_title)
-        }
+        setPreferencesFromResource(R.xml.profile_window_fragment, rootKey)
 
-        SeekBarPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.size.key
-            preferenceScreen.addPreference(this)
-            setDefaultValue(ProfileSpManager.size.getDefaultValue())
-            setTitle(R.string.profile_size_title)
-            setSummary(R.string.profile_size_summary)
-            min = 1
-            max = 100
-            setIcon(R.drawable.profile_size)
-        }
-
-        ListPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.ratio.key
-            preferenceScreen.addPreference(this)
-            setDefaultValue(ProfileSpManager.ratio.getDefaultValue())
-            setTitle(R.string.profile_ratio_title)
+        findPreference<ListPreference>(ProfileSpManager.ratio.key)?.run {
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
-            setIcon(R.drawable.profile_ratio)
-            setDialogIcon(R.drawable.profile_ratio)
-            entries = arrayOf(
-                getString(R.string.profile_ratio_summary_capture),
-                getString(R.string.profile_ratio_summary_raw),
-                getString(R.string.profile_ratio_summary_screen),
-                getString(R.string.profile_ratio_summary_square)
-            )
-            entryValues = arrayOf(
-                "capture",
-                "raw",
-                "screen",
-                "square"
-            )
-            setDialogTitle(R.string.profile_ratio_title)
         }
 
-        CheckBoxPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.is_out_enabled.key
-            preferenceScreen.addPreference(this)
-            setDefaultValue(ProfileSpManager.is_out_enabled.getDefaultValue())
-            setTitle(R.string.profile_is_out_enabled_title)
-            setSummaryOff(R.string.profile_is_out_enabled_summary_off)
-            setSummaryOn(R.string.profile_is_out_enabled_summary_on)
-            setIcon(R.drawable.profile_is_out_enabled)
-        }
-
-        SimplePreferenceGroup(preferenceScreen.context).run {
-            key = ProfileSpManager.is_out_enabled_off.key
-            preferenceScreen.addPreference(this)
+        findPreference<SimplePreferenceGroup>(ProfileSpManager.is_out_enabled_off.key)?.run {
             visibleKeysOff = arrayOf(ProfileSpManager.is_out_enabled.key)
-        }
-
-        SimpleSeekBarPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.in_x.key
-            findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_off.key)?.addPreference(this)
-            setDefaultValue(ProfileSpManager.in_x.getDefaultValue())
-            setTitle(R.string.profile_in_x_title)
-            setSummary(R.string.profile_in_x_summary)
-            min = 0
-            max = 100
-            setIcon(R.drawable.profile_x)
-        }
-
-        SimpleSeekBarPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.in_y.key
-            findPreference<PreferenceGroup>(ProfileSpManager.is_out_enabled_off.key)?.addPreference(this)
-            setDefaultValue(ProfileSpManager.in_y.getDefaultValue())
-            setTitle(R.string.profile_in_y_title)
-            setSummary(R.string.profile_in_y_summary)
-            min = 0
-            max = 100
-            setIcon(R.drawable.profile_y)
         }
 
         SimplePreferenceGroup(preferenceScreen.context).run {

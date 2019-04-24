@@ -68,6 +68,7 @@ open class SimpleSwitchPreference @JvmOverloads constructor(
     override fun onAttached() {
         super.onAttached()
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+        invalidateIcons()
     }
 
     override fun onDetached() {

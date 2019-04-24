@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.ebnbin.eb.preference.SimpleSwitchPreference
+        android:key="@string/profile_is_front"
+        android:defaultValue="@bool/profile_is_front_default_value"
+        android:title="@string/profile_is_front_title"
+        android:summaryOff="@string/profile_is_front_summary_off"
+        android:summaryOn="@string/profile_is_front_summary_on"
+        app:ebIconOff="@drawable/profile_is_front_off"
+        app:ebIconOn="@drawable/profile_is_front_on"/>
+
+    <com.ebnbin.eb.preference.SimpleSwitchPreference
+        android:key="@string/profile_is_video"
+        android:defaultValue="@bool/profile_is_video_default_value"
+        android:title="@string/profile_is_video_title"
+        android:summaryOff="@string/profile_is_video_summary_off"
+        android:summaryOn="@string/profile_is_video_summary_on"
+        app:ebIconOff="@drawable/profile_is_video_off"
+        app:ebIconOn="@drawable/profile_is_video_on"/>
+
+    <com.ebnbin.eb.preference.SimplePreferenceGroup
+        android:key="@string/profile_back_photo"/>
+
+    <com.ebnbin.eb.preference.SimplePreferenceGroup
+        android:key="@string/profile_back_video"/>
+
+    <com.ebnbin.eb.preference.SimplePreferenceGroup
+        android:key="@string/profile_front_photo"/>
+
+    <com.ebnbin.eb.preference.SimplePreferenceGroup
+        android:key="@string/profile_front_video"/>
+
+    <com.ebnbin.eb.preference.FooterPreference/>
+
+</androidx.preference.PreferenceScreen>

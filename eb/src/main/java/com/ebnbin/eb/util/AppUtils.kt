@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.os.VibrationEffect
 import android.widget.Toast
 import androidx.annotation.AttrRes
@@ -18,6 +19,9 @@ import kotlin.math.roundToInt
  */
 val ebApp: EBApplication
     get() = EBApplication.instance
+
+val ebRes: Resources
+    get() = ebApp.resources
 
 //*********************************************************************************************************************
 

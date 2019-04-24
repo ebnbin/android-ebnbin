@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.preference.PreferenceCategory
+        android:key="@string/profile_layout"
+        android:title="@string/profile_layout_title"/>
+
+    <androidx.preference.SeekBarPreference
+        android:key="@string/profile_size"
+        android:defaultValue="@integer/profile_size_default_value"
+        android:title="@string/profile_size_title"
+        android:summary="@string/profile_size_summary"
+        android:icon="@drawable/profile_size"
+        app:min="@integer/profile_size_min"
+        android:max="@integer/profile_size_max"/>
+
+    <androidx.preference.ListPreference
+        android:key="@string/profile_ratio"
+        android:defaultValue="@string/profile_ratio_default_value"
+        android:title="@string/profile_ratio_title"
+        android:icon="@drawable/profile_ratio"
+        android:entryValues="@array/profile_ratio_entry_values"
+        android:entries="@array/profile_ratio_entries"
+        android:dialogTitle="@string/profile_ratio_title"
+        android:dialogIcon="@drawable/profile_ratio"/>
+
+    <androidx.preference.CheckBoxPreference
+        android:key="@string/profile_is_out_enabled"
+        android:defaultValue="@bool/profile_is_out_enabled_default_value"
+        android:title="@string/profile_is_out_enabled_title"
+        android:summaryOff="@string/profile_is_out_enabled_summary_off"
+        android:summaryOn="@string/profile_is_out_enabled_summary_on"
+        android:icon="@drawable/profile_is_out_enabled"/>
+
+    <com.ebnbin.eb.preference.SimplePreferenceGroup
+        android:key="@string/profile_is_out_enabled_off">
+
+        <com.ebnbin.eb.preference.SimpleSeekBarPreference
+            android:key="@string/profile_in_x"
+            android:defaultValue="@integer/profile_in_x_default_value"
+            android:title="@string/profile_in_x_title"
+            android:summary="@string/profile_in_x_summary"
+            android:icon="@drawable/profile_x"
+            app:min="@integer/profile_in_x_min"
+            android:max="@integer/profile_in_x_max"/>
+
+        <com.ebnbin.eb.preference.SimpleSeekBarPreference
+            android:key="@string/profile_in_y"
+            android:defaultValue="@integer/profile_in_y_default_value"
+            android:title="@string/profile_in_y_title"
+            android:summary="@string/profile_in_y_summary"
+            android:icon="@drawable/profile_y"
+            app:min="@integer/profile_in_y_min"
+            android:max="@integer/profile_in_y_max"/>
+
+    </com.ebnbin.eb.preference.SimplePreferenceGroup>
+
+</PreferenceScreen>

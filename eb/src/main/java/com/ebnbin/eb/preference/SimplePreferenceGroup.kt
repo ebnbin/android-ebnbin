@@ -48,6 +48,7 @@ open class SimplePreferenceGroup @JvmOverloads constructor(
     override fun onAttached() {
         super.onAttached()
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+        invalidateVisible()
     }
 
     override fun onDetached() {
