@@ -59,15 +59,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.back_photo_resolution.key
             setDefaultValue(ProfileSpManager.back_photo_resolution.getDefaultValue())
             setTitle(R.string.profile_back_photo_resolution)
-            summaryProvider = Preference.SummaryProvider<ListPreference> {
-                val resolution = CameraHelper.backDevice.getPhotoResolutionOrElse(it.value) {
-                    val result = CameraHelper.backDevice.photoResolutions.first()
-                    value = result.key
-                    result
-                }
-                getString(R.string.profile_back_photo_resolution_summary, resolution.width, resolution.height,
-                    resolution.ratioWidth, resolution.ratioHeight, resolution.megapixel)
-            }
+            summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entries = CameraHelper.backDevice.photoResolutions
                 .map { getString(R.string.profile_back_photo_resolution_summary, it.width, it.height, it.ratioWidth,
                     it.ratioHeight, it.megapixel) }
@@ -89,16 +81,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.back_video_profile.key
             setDefaultValue(ProfileSpManager.back_video_profile.getDefaultValue())
             setTitle(R.string.profile_back_video_profile)
-            summaryProvider = Preference.SummaryProvider<ListPreference> {
-                val videoProfile = CameraHelper.backDevice.getVideoProfileOrElse(it.value) {
-                    val result = CameraHelper.backDevice.videoProfiles.first()
-                    value = result.key
-                    result
-                }
-                getString(R.string.profile_back_video_resolution_summary, videoProfile.width, videoProfile.height,
-                    videoProfile.ratioWidth, videoProfile.ratioHeight, videoProfile.megapixel,
-                    videoProfile.qualityString)
-            }
+            summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entries = CameraHelper.backDevice.videoProfiles
                 .map {
                     getString(R.string.profile_back_video_resolution_summary, it.width, it.height, it.ratioWidth,
@@ -121,15 +104,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.front_photo_resolution.key
             setDefaultValue(ProfileSpManager.front_photo_resolution.getDefaultValue())
             setTitle(R.string.profile_front_photo_resolution)
-            summaryProvider = Preference.SummaryProvider<ListPreference> {
-                val resolution = CameraHelper.frontDevice.getPhotoResolutionOrElse(it.value) {
-                    val result = CameraHelper.frontDevice.photoResolutions.first()
-                    value = result.key
-                    result
-                }
-                getString(R.string.profile_front_photo_resolution_summary, resolution.width, resolution.height,
-                    resolution.ratioWidth, resolution.ratioHeight, resolution.megapixel)
-            }
+            summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entries = CameraHelper.frontDevice.photoResolutions
                 .map { getString(R.string.profile_front_photo_resolution_summary, it.width, it.height, it.ratioWidth,
                     it.ratioHeight, it.megapixel) }
@@ -151,16 +126,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.front_video_profile.key
             setDefaultValue(ProfileSpManager.front_video_profile.getDefaultValue())
             setTitle(R.string.profile_front_video_profile)
-            summaryProvider = Preference.SummaryProvider<ListPreference> {
-                val videoProfile = CameraHelper.frontDevice.getVideoProfileOrElse(it.value) {
-                    val result = CameraHelper.frontDevice.videoProfiles.first()
-                    value = result.key
-                    result
-                }
-                getString(R.string.profile_front_video_resolution_summary, videoProfile.width, videoProfile.height,
-                    videoProfile.ratioWidth, videoProfile.ratioHeight, videoProfile.megapixel,
-                    videoProfile.qualityString)
-            }
+            summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entries = CameraHelper.frontDevice.videoProfiles
                 .map {
                     getString(R.string.profile_front_video_resolution_summary, it.width, it.height, it.ratioWidth,

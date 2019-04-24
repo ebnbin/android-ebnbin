@@ -57,15 +57,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.ratio.key
             setDefaultValue(ProfileSpManager.ratio.getDefaultValue())
             setTitle(R.string.profile_ratio)
-            summaryProvider = Preference.SummaryProvider<ListPreference> {
-                when(it.value) {
-                    "capture" -> getString(R.string.profile_ratio_summary_capture)
-                    "raw" -> getString(R.string.profile_ratio_summary_raw)
-                    "screen" -> getString(R.string.profile_ratio_summary_screen)
-                    "square" -> getString(R.string.profile_ratio_summary_square)
-                    else -> ""
-                }
-            }
+            summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             setIcon(R.drawable.profile_ratio)
             setDialogIcon(R.drawable.profile_ratio)
             entries = arrayOf(
