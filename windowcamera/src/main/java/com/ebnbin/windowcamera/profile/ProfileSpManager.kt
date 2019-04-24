@@ -1,6 +1,7 @@
 package com.ebnbin.windowcamera.profile
 
 import com.ebnbin.eb.sharedpreferences.sp.Sp
+import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 
 object ProfileSpManager {
@@ -42,7 +43,7 @@ object ProfileSpManager {
     val front_video_profile: Sp<String> = ProfileSp("front_video_profile",
         CameraHelper.frontDevice.videoProfiles.first().key)
 
-    val path: Sp<Unit> = ProfileSp("path", Unit)
+    val path: Sp<Unit> = ProfileSp(R.string.profile_path, Unit)
 
     //*****************************************************************************************************************
 

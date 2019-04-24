@@ -74,6 +74,7 @@
     <string name="profile_front_video_profile">前置摄像头视频配置</string>
     <string name="profile_front_video_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素，%6$s</string>
 
-    <string name="profile_path">存储路径</string>
+    <string name="profile_path" translatable="false">path</string>
+    <string name="profile_path_title">存储路径</string>
     <string name="profile_path_summary">%1$s。应用卸载后文件会被删除</string>
 </resources>
