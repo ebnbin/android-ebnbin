@@ -14,7 +14,7 @@ object ProfileSpManager {
     val is_out_enabled_off: Sp<Unit> = ProfileSp(R.string.profile_is_out_enabled_off, Unit)
     val in_x: Sp<Int> = ProfileSp(R.string.profile_in_x, 50)
     val in_y: Sp<Int> = ProfileSp(R.string.profile_in_y, 50)
-    val is_out_enabled_on: Sp<Unit> = ProfileSp("is_out_enabled_on", Unit)
+    val is_out_enabled_on: Sp<Unit> = ProfileSp(R.string.profile_is_out_enabled_on, Unit)
     val out_x: Sp<Int> = ProfileSp(R.string.profile_out_x, 50)
     val out_y: Sp<Int> = ProfileSp(R.string.profile_out_y, 50)
     val display: Sp<Unit> = ProfileSp(R.string.profile_display, Unit)
