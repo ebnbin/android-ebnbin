@@ -208,6 +208,11 @@ object CameraHelper {
          */
         open class Resolution(width: Int, height: Int, sensorOrientation: Int) :
             RotationSize(width, height, sensorOrientation / 90) {
+            /**
+             * 百万像素.
+             */
+            val megapixel: Float = area / 1_000_000f
+
             val key: String = "${width}_$height"
 
             override fun toString(): String {
@@ -283,6 +288,8 @@ object CameraHelper {
                         "audioSampleRate=${camcorderProfile.audioSampleRate}," +
                         "audioChannels=${camcorderProfile.audioChannels}}"
             }
+
+            val qualityString: String = camcorderProfile.qualityString
 
             private val CamcorderProfile.qualityString: String
                 get() = when (quality) {

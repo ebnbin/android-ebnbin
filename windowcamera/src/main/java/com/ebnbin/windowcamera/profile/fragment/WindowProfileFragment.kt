@@ -29,7 +29,6 @@ class WindowProfileFragment : BaseProfileFragment() {
     private lateinit var controlPreference: PreferenceCategory
     private lateinit var isTouchablePreference: CheckBoxPreference
     private lateinit var isTouchableOnPreferenceGroup: SimplePreferenceGroup
-    private lateinit var gesturePreference: PreferenceCategory
     private lateinit var singleTapPreference: Preference
     private lateinit var doubleTapPreference: Preference
     private lateinit var longPressPreference: Preference
@@ -67,6 +66,8 @@ class WindowProfileFragment : BaseProfileFragment() {
                     else -> ""
                 }
             }
+            setIcon(R.drawable.profile_ratio)
+            setDialogIcon(R.drawable.profile_ratio)
             entries = arrayOf(
                 getString(R.string.profile_ratio_summary_capture),
                 getString(R.string.profile_ratio_summary_raw),
@@ -86,9 +87,9 @@ class WindowProfileFragment : BaseProfileFragment() {
         isOutEnabledPreference = CheckBoxPreference(requireContext()).apply {
             key = ProfileSpManager.is_out_enabled.key
             setDefaultValue(ProfileSpManager.is_out_enabled.getDefaultValue())
-            setTitle(R.string.profile_is_out_enable)
-            setSummaryOff(R.string.profile_is_out_enable_summary_off)
-            setSummaryOn(R.string.profile_is_out_enable_summary_on)
+            setTitle(R.string.profile_is_out_enabled)
+            setSummaryOff(R.string.profile_is_out_enabled_summary_off)
+            setSummaryOn(R.string.profile_is_out_enabled_summary_on)
             setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
                 isOutEnabledOffPreferenceGroup.isVisible = !newValue
@@ -160,7 +161,6 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.alpha.key
             setDefaultValue(ProfileSpManager.alpha.getDefaultValue())
             setTitle(R.string.profile_alpha)
-            setSummary(R.string.profile_alpha_summary)
             min = 1
             max = 100
             preferenceScreen.addPreference(this)
@@ -199,12 +199,6 @@ class WindowProfileFragment : BaseProfileFragment() {
             key = ProfileSpManager.is_touchable_on.key
             isVisible = isTouchablePreference.isChecked
             preferenceScreen.addPreference(this)
-        }
-
-        gesturePreference = PreferenceCategory(requireContext()).apply {
-            key = ProfileSpManager.gesture.key
-            setTitle(R.string.profile_gesture)
-            isTouchableOnPreferenceGroup.addPreference(this)
         }
 
         singleTapPreference = Preference(requireContext()).apply {

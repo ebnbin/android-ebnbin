@@ -22,7 +22,6 @@ object ProfileSpManager {
     val control: Sp<Unit> = ProfileSp("control", Unit)
     val is_touchable: Sp<Boolean> = ProfileSp("is_touchable", true)
     val is_touchable_on: Sp<Unit> = ProfileSp("is_touchable_on", Unit)
-    val gesture: Sp<Unit> = ProfileSp("gesture", Unit)
     val single_tap: Sp<Unit> = ProfileSp("single_tap", Unit)
     val double_tap: Sp<Unit> = ProfileSp("double_tap", Unit)
     val long_press: Sp<Unit> = ProfileSp("long_press", Unit)

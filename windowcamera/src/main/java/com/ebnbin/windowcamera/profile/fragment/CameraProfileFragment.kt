@@ -91,10 +91,12 @@ class CameraProfileFragment : BaseProfileFragment() {
                     value = result.key
                     result
                 }
-                resolution.toString()
+                getString(R.string.profile_back_photo_resolution_summary, resolution.width, resolution.height,
+                    resolution.ratioWidth, resolution.ratioHeight, resolution.megapixel)
             }
             entries = CameraHelper.backDevice.photoResolutions
-                .map { it.toString() }
+                .map { getString(R.string.profile_back_photo_resolution_summary, it.width, it.height, it.ratioWidth,
+                    it.ratioHeight, it.megapixel) }
                 .toTypedArray()
             entryValues = CameraHelper.backDevice.photoResolutions
                 .map { it.key }
@@ -119,10 +121,14 @@ class CameraProfileFragment : BaseProfileFragment() {
                     value = result.key
                     result
                 }
-                videoProfile.toString()
+                getString(R.string.profile_back_video_resolution_summary, videoProfile.width, videoProfile.height,
+                    videoProfile.ratioWidth, videoProfile.ratioHeight, videoProfile.megapixel,
+                    videoProfile.qualityString)
             }
             entries = CameraHelper.backDevice.videoProfiles
-                .map { it.toString() }
+                .map {
+                    getString(R.string.profile_back_video_resolution_summary, it.width, it.height, it.ratioWidth,
+                        it.ratioHeight, it.megapixel, it.qualityString) }
                 .toTypedArray()
             entryValues = CameraHelper.backDevice.videoProfiles
                 .map { it.key }
@@ -147,10 +153,12 @@ class CameraProfileFragment : BaseProfileFragment() {
                     value = result.key
                     result
                 }
-                resolution.toString()
+                getString(R.string.profile_front_photo_resolution_summary, resolution.width, resolution.height,
+                    resolution.ratioWidth, resolution.ratioHeight, resolution.megapixel)
             }
             entries = CameraHelper.frontDevice.photoResolutions
-                .map { it.toString() }
+                .map { getString(R.string.profile_front_photo_resolution_summary, it.width, it.height, it.ratioWidth,
+                    it.ratioHeight, it.megapixel) }
                 .toTypedArray()
             entryValues = CameraHelper.frontDevice.photoResolutions
                 .map { it.key }
@@ -175,10 +183,14 @@ class CameraProfileFragment : BaseProfileFragment() {
                     value = result.key
                     result
                 }
-                videoProfile.toString()
+                getString(R.string.profile_front_video_resolution_summary, videoProfile.width, videoProfile.height,
+                    videoProfile.ratioWidth, videoProfile.ratioHeight, videoProfile.megapixel,
+                    videoProfile.qualityString)
             }
             entries = CameraHelper.frontDevice.videoProfiles
-                .map { it.toString() }
+                .map {
+                    getString(R.string.profile_front_video_resolution_summary, it.width, it.height, it.ratioWidth,
+                        it.ratioHeight, it.megapixel, it.qualityString) }
                 .toTypedArray()
             entryValues = CameraHelper.frontDevice.videoProfiles
                 .map { it.key }

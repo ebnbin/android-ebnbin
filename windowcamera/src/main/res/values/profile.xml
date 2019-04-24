@@ -3,59 +3,56 @@
     <string name="profile_layout">布局</string>
 
     <string name="profile_size">窗口大小</string>
-    <string name="profile_size_summary">窗口大小</string>
+    <string name="profile_size_summary">窗口占屏幕大小的百分比</string>
 
     <string name="profile_ratio">窗口宽高比</string>
-    <string name="profile_ratio_summary_capture">拍摄</string>
-    <string name="profile_ratio_summary_raw">原始</string>
-    <string name="profile_ratio_summary_screen">屏幕</string>
-    <string name="profile_ratio_summary_square">方形</string>
+    <string name="profile_ratio_summary_capture">与拍摄比例相同，所见即所得</string>
+    <string name="profile_ratio_summary_raw">与最大照片分辨率比例相同，原始拍摄比例</string>
+    <string name="profile_ratio_summary_screen">与屏幕比例相同</string>
+    <string name="profile_ratio_summary_square">正方形</string>
 
-    <string name="profile_is_out_enable">允许窗口移出屏幕</string>
-    <string name="profile_is_out_enable_summary_off">不允许窗口移出屏幕</string>
-    <string name="profile_is_out_enable_summary_on">允许窗口移出屏幕</string>
+    <string name="profile_is_out_enabled">是否允许窗口移出屏幕</string>
+    <string name="profile_is_out_enabled_summary_off">不允许</string>
+    <string name="profile_is_out_enabled_summary_on">允许</string>
 
-    <string name="profile_in_x">窗口水平方向位置</string>
-    <string name="profile_in_x_summary">窗口水平方向位置</string>
+    <string name="profile_in_x">窗口水平位置</string>
+    <string name="profile_in_x_summary">窗口在屏幕水平方向位置的百分比</string>
 
-    <string name="profile_in_y">窗口垂直方向位置</string>
-    <string name="profile_in_y_summary">窗口垂直方向位置</string>
+    <string name="profile_in_y">窗口垂直位置</string>
+    <string name="profile_in_y_summary">窗口在屏幕垂直方向位置的百分比</string>
 
-    <string name="profile_out_x">窗口水平方向位置</string>
-    <string name="profile_out_x_summary">窗口水平方向位置</string>
+    <string name="profile_out_x">窗口水平位置</string>
+    <string name="profile_out_x_summary">窗口在屏幕水平方向位置的百分比。值为 0 时窗口贴边屏幕左侧，值为 100 时窗口贴边屏幕右侧</string>
 
-    <string name="profile_out_y">窗口垂直方向位置</string>
-    <string name="profile_out_y_summary">窗口垂直方向位置</string>
+    <string name="profile_out_y">窗口垂直位置</string>
+    <string name="profile_out_y_summary">窗口在屏幕垂直方向位置的百分比。值为 0 时窗口贴边屏幕顶部，值为 100 时窗口贴边屏幕底部</string>
 
     <string name="profile_display">显示</string>
 
     <string name="profile_alpha">窗口不透明度</string>
-    <string name="profile_alpha_summary">窗口不透明度</string>
 
     <string name="profile_is_keep_screen_on_enabled">保持屏幕常量</string>
-    <string name="profile_is_keep_screen_on_enabled_summary_off">禁用保持屏幕常量</string>
-    <string name="profile_is_keep_screen_on_enabled_summary_on">启用保持屏幕常量</string>
+    <string name="profile_is_keep_screen_on_enabled_summary_off">禁用</string>
+    <string name="profile_is_keep_screen_on_enabled_summary_on">启用</string>
 
     <string name="profile_control">控制</string>
 
-    <string name="profile_is_touchable">接收点击事件</string>
-    <string name="profile_is_touchable_summary_off">不允许接收点击事件</string>
-    <string name="profile_is_touchable_summary_on">允许接收点击事件</string>
-
-    <string name="profile_gesture">手势</string>
+    <string name="profile_is_touchable">是否接收触摸事件。如果禁用，触摸屏幕会直接操控窗口下层的其他应用</string>
+    <string name="profile_is_touchable_summary_off">不接收</string>
+    <string name="profile_is_touchable_summary_on">接收</string>
 
     <string name="profile_single_tap">单击</string>
-    <string name="profile_single_tap_summary">单击</string>
+    <string name="profile_single_tap_summary">拍摄照片或开始/停止录制视频</string>
 
     <string name="profile_double_tap">双击</string>
-    <string name="profile_double_tap_summary">双击</string>
+    <string name="profile_double_tap_summary">打开应用主界面</string>
 
     <string name="profile_long_press">长按</string>
-    <string name="profile_long_press_summary">长按</string>
+    <string name="profile_long_press_summary">关闭窗口并停止拍摄</string>
 
-    <string name="profile_is_move_enabled">通过手势移动窗口</string>
-    <string name="profile_is_move_enabled_summary_off">不允许通过手势移动窗口</string>
-    <string name="profile_is_move_enabled_summary_on">允许通过手势移动窗口</string>
+    <string name="profile_is_move_enabled">是否允许拖动窗口移动</string>
+    <string name="profile_is_move_enabled_summary_off">不允许</string>
+    <string name="profile_is_move_enabled_summary_on">允许</string>
 
     <string name="profile_is_front">摄像头</string>
     <string name="profile_is_front_summary_off">后置摄像头</string>
@@ -66,13 +63,17 @@
     <string name="profile_is_video_summary_on">视频</string>
 
     <string name="profile_back_photo_resolution">后置摄像头照片分辨率</string>
+    <string name="profile_back_photo_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素</string>
 
     <string name="profile_back_video_profile">后置摄像头视频配置</string>
+    <string name="profile_back_video_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素，%6$s</string>
 
     <string name="profile_front_photo_resolution">前置摄像头照片分辨率</string>
+    <string name="profile_front_photo_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素</string>
 
     <string name="profile_front_video_profile">前置摄像头视频配置</string>
+    <string name="profile_front_video_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素，%6$s</string>
 
-    <string name="profile_path">路径</string>
-    <string name="profile_path_summary">路径</string>
+    <string name="profile_path">存储路径</string>
+    <string name="profile_path_summary">%1$s。应用卸载后文件会被删除</string>
 </resources>

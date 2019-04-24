@@ -80,6 +80,10 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
      */
     private val gcd: Int = width gcd height
 
+    val ratioWidth = width / gcd
+
+    val ratioHeight = height / gcd
+
     /**
      * 宽高比以旋转方向为 [Surface.ROTATION_0] 时的宽高为准.
      */
