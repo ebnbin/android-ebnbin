@@ -3,11 +3,11 @@ package com.ebnbin.windowcamera.profile.fragment
 import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
-import androidx.preference.SwitchPreferenceCompat
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.preference.FooterPreference
 import com.ebnbin.windowcamera.preference.SimplePreferenceGroup
+import com.ebnbin.windowcamera.preference.SimpleSwitchPreference
 import com.ebnbin.windowcamera.profile.CameraProfileEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSpManager
@@ -15,8 +15,8 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class CameraProfileFragment : BaseProfileFragment() {
-    private lateinit var isFrontPreference: SwitchPreferenceCompat
-    private lateinit var isVideoPreference: SwitchPreferenceCompat
+    private lateinit var isFrontPreference: SimpleSwitchPreference
+    private lateinit var isVideoPreference: SimpleSwitchPreference
     private lateinit var backPhotoPreferenceGroup: SimplePreferenceGroup
     private lateinit var backPhotoResolutionPreference: ListPreference
     private lateinit var backVideoPreferenceGroup: SimplePreferenceGroup
@@ -29,11 +29,7 @@ class CameraProfileFragment : BaseProfileFragment() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-        isFrontPreference = SwitchPreferenceCompat(requireContext()).apply {
-            fun invalidateIcon(value: Boolean) {
-                setIcon(if (value) R.drawable.profile_is_front_on else R.drawable.profile_is_front_off)
-            }
-
+        isFrontPreference = SimpleSwitchPreference(requireContext()).apply {
             key = ProfileSpManager.is_front.key
             setDefaultValue(ProfileSpManager.is_front.getDefaultValue())
             setTitle(R.string.profile_is_front)
@@ -41,22 +37,17 @@ class CameraProfileFragment : BaseProfileFragment() {
             setSummaryOn(R.string.profile_is_front_summary_on)
             setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
-                invalidateIcon(newValue)
                 backPhotoPreferenceGroup.isVisible = !newValue && !isVideoPreference.isChecked
                 backVideoPreferenceGroup.isVisible = !newValue && isVideoPreference.isChecked
                 frontPhotoPreferenceGroup.isVisible = newValue && !isVideoPreference.isChecked
                 frontVideoPreferenceGroup.isVisible = newValue && isVideoPreference.isChecked
                 true
             }
-            invalidateIcon(ProfileSpManager.is_front.value)
+            icons = Pair(R.drawable.profile_is_front_off, R.drawable.profile_is_front_on)
             preferenceScreen.addPreference(this)
         }
 
-        isVideoPreference = SwitchPreferenceCompat(requireContext()).apply {
-            fun invalidateIcon(value: Boolean) {
-                setIcon(if (value) R.drawable.profile_is_video_on else R.drawable.profile_is_video_off)
-            }
-
+        isVideoPreference = SimpleSwitchPreference(requireContext()).apply {
             key = ProfileSpManager.is_video.key
             setDefaultValue(ProfileSpManager.is_video.getDefaultValue())
             setTitle(R.string.profile_is_video)
@@ -64,14 +55,13 @@ class CameraProfileFragment : BaseProfileFragment() {
             setSummaryOn(R.string.profile_is_video_summary_on)
             setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
-                invalidateIcon(newValue)
                 backPhotoPreferenceGroup.isVisible = !isFrontPreference.isChecked && !newValue
                 backVideoPreferenceGroup.isVisible = !isFrontPreference.isChecked && newValue
                 frontPhotoPreferenceGroup.isVisible = isFrontPreference.isChecked && !newValue
                 frontVideoPreferenceGroup.isVisible = isFrontPreference.isChecked && newValue
                 true
             }
-            invalidateIcon(ProfileSpManager.is_video.value)
+            icons = Pair(R.drawable.profile_is_video_off, R.drawable.profile_is_video_on)
             preferenceScreen.addPreference(this)
         }
 
