@@ -35,14 +35,6 @@ class CameraProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_front)
             setSummaryOff(R.string.profile_is_front_summary_off)
             setSummaryOn(R.string.profile_is_front_summary_on)
-            setOnPreferenceChangeListener { _, newValue ->
-                newValue as Boolean
-                backPhotoPreferenceGroup.isVisible = !newValue && !isVideoPreference.isChecked
-                backVideoPreferenceGroup.isVisible = !newValue && isVideoPreference.isChecked
-                frontPhotoPreferenceGroup.isVisible = newValue && !isVideoPreference.isChecked
-                frontVideoPreferenceGroup.isVisible = newValue && isVideoPreference.isChecked
-                true
-            }
             icons = Pair(R.drawable.profile_is_front_off, R.drawable.profile_is_front_on)
             preferenceScreen.addPreference(this)
         }
@@ -53,21 +45,13 @@ class CameraProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_video)
             setSummaryOff(R.string.profile_is_video_summary_off)
             setSummaryOn(R.string.profile_is_video_summary_on)
-            setOnPreferenceChangeListener { _, newValue ->
-                newValue as Boolean
-                backPhotoPreferenceGroup.isVisible = !isFrontPreference.isChecked && !newValue
-                backVideoPreferenceGroup.isVisible = !isFrontPreference.isChecked && newValue
-                frontPhotoPreferenceGroup.isVisible = isFrontPreference.isChecked && !newValue
-                frontVideoPreferenceGroup.isVisible = isFrontPreference.isChecked && newValue
-                true
-            }
             icons = Pair(R.drawable.profile_is_video_off, R.drawable.profile_is_video_on)
             preferenceScreen.addPreference(this)
         }
 
         backPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.back_photo.key
-            isVisible = !isFrontPreference.isChecked && !isVideoPreference.isChecked
+            visibleTwoStatePreferences = Pair(setOf(isFrontPreference, isVideoPreference), null)
             preferenceScreen.addPreference(this)
         }
 
@@ -97,7 +81,7 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         backVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.back_video.key
-            isVisible = !isFrontPreference.isChecked && isVideoPreference.isChecked
+            visibleTwoStatePreferences = Pair(setOf(isFrontPreference), setOf(isVideoPreference))
             preferenceScreen.addPreference(this)
         }
 
@@ -129,7 +113,7 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         frontPhotoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.front_photo.key
-            isVisible = isFrontPreference.isChecked && !isVideoPreference.isChecked
+            visibleTwoStatePreferences = Pair(setOf(isVideoPreference), setOf(isFrontPreference))
             preferenceScreen.addPreference(this)
         }
 
@@ -159,7 +143,7 @@ class CameraProfileFragment : BaseProfileFragment() {
 
         frontVideoPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.front_video.key
-            isVisible = isFrontPreference.isChecked && isVideoPreference.isChecked
+            visibleTwoStatePreferences = Pair(null, setOf(isFrontPreference, isVideoPreference))
             preferenceScreen.addPreference(this)
         }
 

@@ -90,18 +90,12 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_out_enabled)
             setSummaryOff(R.string.profile_is_out_enabled_summary_off)
             setSummaryOn(R.string.profile_is_out_enabled_summary_on)
-            setOnPreferenceChangeListener { _, newValue ->
-                newValue as Boolean
-                isOutEnabledOffPreferenceGroup.isVisible = !newValue
-                isOutEnabledOnPreferenceGroup.isVisible = newValue
-                true
-            }
             preferenceScreen.addPreference(this)
         }
 
         isOutEnabledOffPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.is_out_enabled_off.key
-            isVisible = !isOutEnabledPreference.isChecked
+            visibleTwoStatePreferences = Pair(setOf(isOutEnabledPreference), null)
             preferenceScreen.addPreference(this)
         }
 
@@ -127,7 +121,7 @@ class WindowProfileFragment : BaseProfileFragment() {
 
         isOutEnabledOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.is_out_enabled_on.key
-            isVisible = isOutEnabledPreference.isChecked
+            visibleTwoStatePreferences = Pair(null, setOf(isOutEnabledPreference))
             preferenceScreen.addPreference(this)
         }
 
@@ -187,17 +181,12 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_is_touchable)
             setSummaryOff(R.string.profile_is_touchable_summary_off)
             setSummaryOn(R.string.profile_is_touchable_summary_on)
-            setOnPreferenceChangeListener { _, newValue ->
-                newValue as Boolean
-                isTouchableOnPreferenceGroup.isVisible = newValue
-                true
-            }
             preferenceScreen.addPreference(this)
         }
 
         isTouchableOnPreferenceGroup = SimplePreferenceGroup(requireContext()).apply {
             key = ProfileSpManager.is_touchable_on.key
-            isVisible = isTouchablePreference.isChecked
+            visibleTwoStatePreferences = Pair(null, setOf(isTouchablePreference))
             preferenceScreen.addPreference(this)
         }
 
