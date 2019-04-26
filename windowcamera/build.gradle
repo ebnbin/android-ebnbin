@@ -3,6 +3,7 @@ ext.version = '0.1.0-1'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
 android {
@@ -35,7 +36,7 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'crashlytics.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug.signingConfig signingConfigs.release
     }
@@ -43,8 +44,4 @@ android {
 
 dependencies {
     implementation project(':eb')
-    implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 }
-
-apply plugin: 'com.google.gms.google-services'
