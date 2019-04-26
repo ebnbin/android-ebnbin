@@ -9,7 +9,6 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.CameraProfileEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
-import com.ebnbin.windowcamera.profile.ProfileSpManager
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -18,14 +17,14 @@ class CameraProfileFragment : BaseProfileFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
         setPreferencesFromResource(R.xml.profile_camera_fragment, rootKey)
 
-        findPreference<SimplePreferenceGroup>(ProfileSpManager.back_photo.key)?.run {
-            visibleKeysOff = arrayOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key)
+        findPreference<SimplePreferenceGroup>(ProfileHelper.back_photo.key)?.run {
+            visibleKeysOff = arrayOf(ProfileHelper.is_front.key, ProfileHelper.is_video.key)
         }
 
         ListPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.back_photo_resolution.key
-            setDefaultValue(ProfileSpManager.back_photo_resolution.getDefaultValue())
-            findPreference<PreferenceGroup>(ProfileSpManager.back_photo.key)?.addPreference(this)
+            key = ProfileHelper.back_photo_resolution.key
+            setDefaultValue(ProfileHelper.back_photo_resolution.getDefaultValue())
+            findPreference<PreferenceGroup>(ProfileHelper.back_photo.key)?.addPreference(this)
             setTitle(R.string.profile_back_photo_resolution_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entryValues = CameraHelper.backDevice.photoResolutions
@@ -40,15 +39,15 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_resolution)
         }
 
-        findPreference<SimplePreferenceGroup>(ProfileSpManager.back_video.key)?.run {
-            visibleKeysOff = arrayOf(ProfileSpManager.is_front.key)
-            visibleKeysOn = arrayOf(ProfileSpManager.is_video.key)
+        findPreference<SimplePreferenceGroup>(ProfileHelper.back_video.key)?.run {
+            visibleKeysOff = arrayOf(ProfileHelper.is_front.key)
+            visibleKeysOn = arrayOf(ProfileHelper.is_video.key)
         }
 
         ListPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.back_video_profile.key
-            setDefaultValue(ProfileSpManager.back_video_profile.getDefaultValue())
-            findPreference<PreferenceGroup>(ProfileSpManager.back_video.key)?.addPreference(this)
+            key = ProfileHelper.back_video_profile.key
+            setDefaultValue(ProfileHelper.back_video_profile.getDefaultValue())
+            findPreference<PreferenceGroup>(ProfileHelper.back_video.key)?.addPreference(this)
             setTitle(R.string.profile_back_video_profile_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entryValues = CameraHelper.backDevice.videoProfiles
@@ -64,15 +63,15 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_video_profile)
         }
 
-        findPreference<SimplePreferenceGroup>(ProfileSpManager.front_photo.key)?.run {
-            visibleKeysOff = arrayOf(ProfileSpManager.is_video.key)
-            visibleKeysOn = arrayOf(ProfileSpManager.is_front.key)
+        findPreference<SimplePreferenceGroup>(ProfileHelper.front_photo.key)?.run {
+            visibleKeysOff = arrayOf(ProfileHelper.is_video.key)
+            visibleKeysOn = arrayOf(ProfileHelper.is_front.key)
         }
 
         ListPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.front_photo_resolution.key
-            setDefaultValue(ProfileSpManager.front_photo_resolution.getDefaultValue())
-            findPreference<PreferenceGroup>(ProfileSpManager.front_photo.key)?.addPreference(this)
+            key = ProfileHelper.front_photo_resolution.key
+            setDefaultValue(ProfileHelper.front_photo_resolution.getDefaultValue())
+            findPreference<PreferenceGroup>(ProfileHelper.front_photo.key)?.addPreference(this)
             setTitle(R.string.profile_front_photo_resolution_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entryValues = CameraHelper.frontDevice.photoResolutions
@@ -87,14 +86,14 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_resolution)
         }
 
-        findPreference<SimplePreferenceGroup>(ProfileSpManager.front_video.key)?.run {
-            visibleKeysOn = arrayOf(ProfileSpManager.is_front.key, ProfileSpManager.is_video.key)
+        findPreference<SimplePreferenceGroup>(ProfileHelper.front_video.key)?.run {
+            visibleKeysOn = arrayOf(ProfileHelper.is_front.key, ProfileHelper.is_video.key)
         }
 
         ListPreference(preferenceScreen.context).run {
-            key = ProfileSpManager.front_video_profile.key
-            setDefaultValue(ProfileSpManager.front_video_profile.getDefaultValue())
-            findPreference<PreferenceGroup>(ProfileSpManager.front_video.key)?.addPreference(this)
+            key = ProfileHelper.front_video_profile.key
+            setDefaultValue(ProfileHelper.front_video_profile.getDefaultValue())
+            findPreference<PreferenceGroup>(ProfileHelper.front_video.key)?.addPreference(this)
             setTitle(R.string.profile_front_video_profile_title)
             summaryProvider = Preference.SummaryProvider<ListPreference> { entry }
             entryValues = CameraHelper.frontDevice.videoProfiles

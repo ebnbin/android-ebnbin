@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresPermission
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.getColorOrThrow
 import com.ebnbin.eb.app.EBApplication
+import com.ebnbin.eb.sharedpreferences.EBSpManager
 import kotlin.math.roundToInt
 
 /**
@@ -121,3 +123,12 @@ val versionCode: Int
             packageInfo.versionCode
         }
     }
+
+//*********************************************************************************************************************
+
+fun setNightMode(nightMode: Int) {
+    if (nightMode == EBSpManager.eb.night_mode.value) return
+    EBSpManager.eb.night_mode.value = nightMode
+    AppCompatDelegate.setDefaultNightMode(nightMode)
+    restartMainActivity()
+}

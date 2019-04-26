@@ -5,9 +5,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.crash.CrashRuntimeException
-import com.ebnbin.eb.sharedpreferences.EBSpManager
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.restartMainActivity
+import com.ebnbin.eb.util.setNightMode
 import com.ebnbin.eb.util.toast
 
 /**
@@ -96,13 +96,11 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("夜间模式", "关闭") {
-            EBSpManager.eb.night_mode.value = AppCompatDelegate.MODE_NIGHT_NO
-            restartMainActivity()
+            setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         addDebugItem("夜间模式", "开启") {
-            EBSpManager.eb.night_mode.value = AppCompatDelegate.MODE_NIGHT_YES
-            restartMainActivity()
+            setNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
 
         addDebugItem("重置偏好", "TODO") {
