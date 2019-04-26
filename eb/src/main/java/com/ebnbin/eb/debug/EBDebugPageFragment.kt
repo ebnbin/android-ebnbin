@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.crash.CrashRuntimeException
 import com.ebnbin.eb.update.UpdateFragment
-import com.ebnbin.eb.util.restartMainActivity
-import com.ebnbin.eb.util.setNightMode
-import com.ebnbin.eb.util.toast
+import com.ebnbin.eb.util.AppHelper
 
 /**
  * Debug EB 页面.
@@ -30,10 +28,10 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Async", "5 秒后完成，可按返回键或点击空白处取消") {
             asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_CANCELABLE,
                 onSuccess = {
-                    toast(requireContext(), "onSuccess")
+                    AppHelper.toast(requireContext(), "onSuccess")
                 },
                 onFailure = {
-                    toast(requireContext(), "onFailure")
+                    AppHelper.toast(requireContext(), "onFailure")
                 }
             )
         }
@@ -41,10 +39,10 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Async", "5 秒后完成，可按返回键取消") {
             asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE,
                 onSuccess = {
-                    toast(requireContext(), "onSuccess")
+                    AppHelper.toast(requireContext(), "onSuccess")
                 },
                 onFailure = {
-                    toast(requireContext(), "onFailure")
+                    AppHelper.toast(requireContext(), "onFailure")
                 }
             )
         }
@@ -52,10 +50,10 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Async", "3 秒后完成，不可取消") {
             asyncHelper.task({ Thread.sleep(3000L) }, Loading.DIALOG_NOT_CANCELABLE,
                 onSuccess = {
-                    toast(requireContext(), "onSuccess")
+                    AppHelper.toast(requireContext(), "onSuccess")
                 },
                 onFailure = {
-                    toast(requireContext(), "onFailure")
+                    AppHelper.toast(requireContext(), "onFailure")
                 }
             )
         }
@@ -63,26 +61,26 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Async", "3 个任务，分别 4 秒、5 秒、3 秒后完成，都可按返回键或点击空白处取消") {
             asyncHelper.task({ Thread.sleep(4000L) }, Loading.DIALOG_CANCELABLE,
                 onSuccess = {
-                    toast(requireContext(), "onSuccess 4")
+                    AppHelper.toast(requireContext(), "onSuccess 4")
                 },
                 onFailure = {
-                    toast(requireContext(), "onFailure 4")
+                    AppHelper.toast(requireContext(), "onFailure 4")
                 }
             )
             asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_CANCELABLE,
                 onSuccess = {
-                    toast(requireContext(), "onSuccess 5")
+                    AppHelper.toast(requireContext(), "onSuccess 5")
                 },
                 onFailure = {
-                    toast(requireContext(), "onFailure 5")
+                    AppHelper.toast(requireContext(), "onFailure 5")
                 }
             )
             asyncHelper.task({ Thread.sleep(3000L) }, Loading.DIALOG_CANCELABLE,
                 onSuccess = {
-                    toast(requireContext(), "onSuccess 3")
+                    AppHelper.toast(requireContext(), "onSuccess 3")
                 },
                 onFailure = {
-                    toast(requireContext(), "onFailure 3")
+                    AppHelper.toast(requireContext(), "onFailure 3")
                 }
             )
         }
@@ -96,11 +94,11 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("夜间模式", "关闭") {
-            setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            AppHelper.setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         addDebugItem("夜间模式", "开启") {
-            setNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            AppHelper.setNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
 
         addDebugItem("重置偏好", "TODO") {
@@ -109,7 +107,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("重启 MainActivity") {
-            restartMainActivity()
+            AppHelper.restartMainActivity()
         }
 
         addDebugItem("Crash") {

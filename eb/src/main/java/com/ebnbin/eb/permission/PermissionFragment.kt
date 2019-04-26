@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.app.FragmentHelper
+import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.ebApp
-import com.ebnbin.eb.util.toast
 
 /**
  * 权限请求 Fragment.
@@ -134,7 +134,7 @@ class PermissionFragment : EBFragment() {
     private fun requestRuntimePermissionsDeniedForever() {
         startSettingsActivity(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
             REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER)
-        toast(requireContext(), R.string.eb_permission_hint)
+        AppHelper.toast(requireContext(), R.string.eb_permission_hint)
     }
 
     private fun startSettingsActivity(action: String, requestCode: Int) {
@@ -176,7 +176,7 @@ class PermissionFragment : EBFragment() {
     //*****************************************************************************************************************
 
     private fun onPermissionsResult(granted: Boolean) {
-        if (!granted) toast(requireContext(), R.string.eb_permission_denied)
+        if (!granted) AppHelper.toast(requireContext(), R.string.eb_permission_denied)
         callback.onPermissionsResult(permissions, granted, extraData)
         removeSelf()
     }

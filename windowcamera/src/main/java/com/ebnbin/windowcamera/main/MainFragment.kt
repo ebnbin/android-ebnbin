@@ -13,10 +13,10 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.Consts
+import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.ebApp
-import com.ebnbin.eb.util.getColorAttr
-import com.ebnbin.eb.util.toast
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.app.WindowCameraService
 import com.ebnbin.windowcamera.app.WindowCameraServiceEvent
@@ -90,11 +90,11 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
                                         startActivity(intent)
                                     } catch (e: ActivityNotFoundException) {
                                     }
-                                    toast(requireContext(), R.string.camera_error_no_class_def_found_error)
+                                    AppHelper.toast(requireContext(), R.string.camera_error_no_class_def_found_error)
                                     activity?.finish()
                                 }
                                 else -> {
-                                    toast(requireContext(), R.string.camera_error)
+                                    AppHelper.toast(requireContext(), R.string.camera_error)
                                     activity?.finish()
                                 }
                             }
@@ -140,7 +140,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         }
         floating_action_button.isEnabled = true
         floating_action_button.setImageResource(imageDrawableId)
-        val backgroundTint = getColorAttr(requireContext(), backgroundTintAttrId)
+        val backgroundTint = ResHelper.getColorAttr(requireContext(), backgroundTintAttrId)
         floating_action_button.backgroundTintList = ColorStateList.valueOf(backgroundTint)
         floating_action_button.setOnClickListener(onClickListener)
     }

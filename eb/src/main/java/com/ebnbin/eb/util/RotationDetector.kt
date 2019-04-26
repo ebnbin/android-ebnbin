@@ -11,7 +11,7 @@ object RotationDetector {
 
     private val orientationEventListener: OrientationEventListener = object : OrientationEventListener(ebApp) {
         override fun onOrientationChanged(orientation: Int) {
-            if (orientation == OrientationEventListener.ORIENTATION_UNKNOWN) return
+            if (orientation == ORIENTATION_UNKNOWN) return
             val oldRotation = rotation
             rotation = WindowHelper.displayRotation
             if (oldRotation == rotation) return

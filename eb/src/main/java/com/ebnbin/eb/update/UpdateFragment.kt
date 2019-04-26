@@ -8,7 +8,7 @@ import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.net.NetHelper
 import com.ebnbin.eb.sharedpreferences.EBSpManager
-import com.ebnbin.eb.util.toast
+import com.ebnbin.eb.util.AppHelper
 
 class UpdateFragment : EBFragment() {
     private var silent: Boolean = false
@@ -41,11 +41,11 @@ class UpdateFragment : EBFragment() {
                         if (it.hasUpdate()) {
                             UpdateDialogFragment.start(childFragmentManager, it)
                         } else {
-                            toast(requireContext(), "已是最新版本。")
+                            AppHelper.toast(requireContext(), "已是最新版本。")
                         }
                     },
                     onFailure = {
-                        toast(requireContext(), "检测更新失败。")
+                        AppHelper.toast(requireContext(), "检测更新失败。")
                     })
             }
         }

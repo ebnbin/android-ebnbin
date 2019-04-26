@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.app.EBDialogFragment
 import com.ebnbin.eb.net.model.eb.Update
-import com.ebnbin.eb.util.closeApp
+import com.ebnbin.eb.util.AppHelper
 
 internal class UpdateDialogFragment : EBDialogFragment() {
     private lateinit var update: Update
@@ -27,12 +27,12 @@ internal class UpdateDialogFragment : EBDialogFragment() {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(update.url))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 if (hasForceUpdate) {
-                    closeApp()
+                    AppHelper.restartMainActivity(true)
                 }
             }
             .setNegativeButton("取消") { _, _ ->
                 if (hasForceUpdate) {
-                    closeApp()
+                    AppHelper.restartMainActivity(true)
                 }
             }.create()
     }

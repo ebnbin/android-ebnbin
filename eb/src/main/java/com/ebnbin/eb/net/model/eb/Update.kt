@@ -1,7 +1,7 @@
 package com.ebnbin.eb.net.model.eb
 
 import com.ebnbin.eb.net.model.EBResponse
-import com.ebnbin.eb.util.versionCode
+import com.ebnbin.eb.util.BuildHelper
 
 class Update : EBResponse() {
     var version: Int = 0
@@ -10,10 +10,10 @@ class Update : EBResponse() {
     lateinit var message: String
 
     fun hasUpdate(): Boolean {
-        return versionCode < version
+        return BuildHelper.versionCode < version
     }
 
     fun hasForceUpdate(): Boolean {
-        return versionCode < minVersion
+        return BuildHelper.versionCode < minVersion
     }
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.debug.DebugSwipeDetector
 import com.ebnbin.eb.library.eventBus
+import com.ebnbin.eb.util.Consts
 
 /**
  * Base Activity.
@@ -17,7 +18,7 @@ import com.ebnbin.eb.library.eventBus
 open class EBActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (intent?.getBooleanExtra("finish", false) == true) {
+        if (intent?.getBooleanExtra(Consts.FINISH, false) == true) {
             finish()
             return
         }

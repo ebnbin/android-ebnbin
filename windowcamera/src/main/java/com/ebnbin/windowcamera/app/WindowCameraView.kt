@@ -26,6 +26,7 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.view.GestureDetectorCompat
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
+import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
@@ -33,9 +34,6 @@ import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.TimeHelper
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.dpToPx
-import com.ebnbin.eb.util.restartMainActivity
-import com.ebnbin.eb.util.toast
-import com.ebnbin.eb.util.vibrate
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -498,7 +496,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onLongPress(e: MotionEvent?) {
         longPressed = true
-        vibrate(100L)
+        AppHelper.vibrate(100L)
         WindowCameraService.stop(context)
     }
 
@@ -516,8 +514,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onDoubleTap(e: MotionEvent?): Boolean {
-        vibrate(50L)
-        restartMainActivity()
+        AppHelper.vibrate(50L)
+        AppHelper.restartMainActivity()
         return false
     }
 
@@ -698,7 +696,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         fos.close()
         image.close()
 
-        toast(context, file)
+        AppHelper.toast(context, file)
     }
 
     //*****************************************************************************************************************
@@ -800,7 +798,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         videoFile?.run {
             videoFile = null
-            toast(context, this)
+            AppHelper.toast(context, this)
         }
 
         videoCameraCaptureSession?.run {
@@ -840,7 +838,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     private fun onCameraError() {
-        toast(context, R.string.camera_error)
+        AppHelper.toast(context, R.string.camera_error)
         WindowCameraService.stop(context)
     }
 
