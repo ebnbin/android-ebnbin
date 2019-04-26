@@ -21,6 +21,8 @@ open class EBApplication : Application() {
         AppCompatDelegate.setDefaultNightMode(EBSpManager.eb.night_mode.value)
     }
 
+    open val mainActivityClass: Class<out EBActivity>? = null
+
     /**
      * 应用 debug page 页面.
      */

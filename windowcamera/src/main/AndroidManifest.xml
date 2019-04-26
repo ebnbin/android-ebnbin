@@ -15,12 +15,7 @@
         <activity
             android:name=".main.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="fullUser">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+            android:screenOrientation="fullUser"/>
 
         <service android:name=".app.WindowCameraService"/>
     </application>
