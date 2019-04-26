@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId project.ext.applicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        def versionSplit = project.ext.version.split('-')
+        def majorMinorPatch = versionSplit[0].split('\\.')
+        def major = majorMinorPatch[0].toInteger()
+        def minor = majorMinorPatch[1].toInteger()
+        def patch = majorMinorPatch[2].toInteger()
+        def preRelease = versionSplit.size() < 2 ? 0 : versionSplit[1].toInteger() - 100
+        versionCode 1000000 * major + 10000 * minor + 100 * patch + preRelease
+        versionName project.ext.version
+    }
+    signingConfigs {
+        release {
+            def localProperties = new Properties()
+            localProperties.load(new FileReader(rootProject.file('local.properties')))
+            def signingPassword = localProperties['signingPassword']
+            storeFile rootProject.file('gitignore/ebnbin.jks')
+            storePassword signingPassword
+            keyAlias 'ebnbin'
+            keyPassword signingPassword
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug.signingConfig signingConfigs.release
+    }
+}
+
+dependencies {
+    implementation project(':eb')
+}
