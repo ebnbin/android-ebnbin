@@ -11,17 +11,6 @@
         android:icon="@mipmap/app_icon"
         android:roundIcon="@mipmap/app_icon"
         android:logo="@drawable/app_logo_198">
-        <!-- TODO: 多 app 重名问题. -->
-        <activity
-            android:name=".splash.SplashActivity"
-            android:theme="@style/EBSplashTheme"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
         <activity
             android:name=".crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>

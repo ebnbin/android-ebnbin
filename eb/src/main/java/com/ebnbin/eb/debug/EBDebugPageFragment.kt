@@ -1,5 +1,6 @@
 package com.ebnbin.eb.debug
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -7,6 +8,7 @@ import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.crash.CrashRuntimeException
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.ebApp
 
 /**
  * Debug EB 页面.
@@ -24,6 +26,13 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Calling Activity", activity?.callingActivity?.className.toString())
 
         addDebugItem("Calling Fragment", callingFragmentClassName.toString())
+
+        addDebugItem("Splash") {
+            val intent = ebApp.packageManager.getLaunchIntentForPackage(ebApp.packageName) ?: return@addDebugItem
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.putExtra("review", true)
+            ebApp.startActivity(intent)
+        }
 
         addDebugItem("Async", "5 秒后完成，可按返回键或点击空白处取消") {
             asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_CANCELABLE,
