@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.async.Loading
+import com.ebnbin.eb.crash.CrashRuntimeException
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.restartMainActivity
@@ -114,7 +115,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("Crash") {
-            throw RuntimeException()
+            throw CrashRuntimeException()
         }
     }
 }

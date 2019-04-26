@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.eb_crash_activity.*
 /**
  * 崩溃页面.
  */
-class CrashActivity : AppCompatActivity() {
+internal class CrashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = intent

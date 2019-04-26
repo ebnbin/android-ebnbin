@@ -30,6 +30,7 @@ import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.eb.util.TimeHelper
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.eb.util.restartMainActivity
@@ -41,9 +42,6 @@ import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSpManager
 import java.io.File
 import java.io.FileOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -836,11 +834,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         if (!dir.exists()) {
             dir.mkdirs()
         }
-        val timestamp = System.currentTimeMillis()
-        val date = Date(timestamp)
-        val simpleDateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS", Locale.getDefault())
-        val timestampString = simpleDateFormat.format(date)
-        val fileName = "$timestampString$extension"
+        val fileName = "${TimeHelper.string("yyyy_MM_dd_HH_mm_ss_SSS")}$extension"
         return File(dir, fileName)
     }
 
