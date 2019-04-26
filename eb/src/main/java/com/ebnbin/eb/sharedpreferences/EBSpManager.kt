@@ -1,8 +1,6 @@
 package com.ebnbin.eb.sharedpreferences
 
 import androidx.appcompat.app.AppCompatDelegate
-import com.ebnbin.eb.event.NightModeEvent
-import com.ebnbin.eb.library.eventBus
 import com.ebnbin.eb.sharedpreferences.sp.EBDebugSp
 import com.ebnbin.eb.sharedpreferences.sp.EBSp
 import com.ebnbin.eb.sharedpreferences.sp.Sp
@@ -23,7 +21,6 @@ object EBSpManager {
         ) { oldValue, newValue ->
             if (oldValue == newValue) return@Sp true
             AppCompatDelegate.setDefaultNightMode(newValue)
-            eventBus.post(NightModeEvent(oldValue, newValue))
             false
         }
 
