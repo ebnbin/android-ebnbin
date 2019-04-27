@@ -1,9 +1,9 @@
-package com.ebnbin.eb.net.model.eb
+package com.ebnbin.eb.net.githubapi.model.eb
 
-import com.ebnbin.eb.net.model.EBResponse
+import com.ebnbin.eb.net.EBModel
 import com.ebnbin.eb.util.BuildHelper
 
-class Update : EBResponse() {
+class Update : EBModel {
     var version: Int = 0
     var minVersion: Int = 0
     lateinit var url: String

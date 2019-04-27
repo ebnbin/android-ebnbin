@@ -3,7 +3,6 @@ package com.ebnbin.eb.async
 import android.content.Context
 import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.dialog.LoadingDialog
-import com.ebnbin.eb.net.model.EBResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -64,7 +63,7 @@ class AsyncHelper(private val getContext: (() -> Context?)? = null) {
             )
     }
 
-    fun <Response : EBResponse> request(
+    fun <Response> request(
         observable: Observable<Response>,
         loading: Loading = Loading.NONE,
         onSuccess: ((Response) -> Unit)? = null,

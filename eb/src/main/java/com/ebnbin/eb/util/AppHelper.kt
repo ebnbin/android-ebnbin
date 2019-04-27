@@ -1,14 +1,18 @@
 package com.ebnbin.eb.util
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.VibrationEffect
+import android.provider.Settings
+import android.util.Base64
 import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.sharedpreferences.EBSpManager
+import java.security.MessageDigest
 
 object AppHelper {
     /**
@@ -60,5 +64,27 @@ object AppHelper {
         } else {
             Toast.makeText(context, any.toString(), duration).show()
         }
+    }
+
+    @SuppressLint("HardwareIds")
+    fun getAndroidId(): String {
+        return Settings.Secure.getString(ebApp.contentResolver, Settings.Secure.ANDROID_ID).toString()
+    }
+
+    fun md5(string: String): String {
+        return MessageDigest.getInstance("MD5").digest(string.toByteArray())
+            .joinToString("") { (it + 0x200).toString(16).substring(1) }
+    }
+
+    fun getUserId(): String {
+        return md5(getAndroidId())
+    }
+
+    fun base64Encode(string: String): String {
+        return Base64.encodeToString(string.toByteArray(), Base64.NO_WRAP)
+    }
+
+    fun base64Decode(string: String): String {
+        return String(Base64.decode(string, Base64.NO_WRAP))
     }
 }

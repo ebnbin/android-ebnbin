@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.eb.async.Loading
-import com.ebnbin.eb.net.NetHelper
+import com.ebnbin.eb.library.gson
+import com.ebnbin.eb.net.githubapi.GitHubApi
+import com.ebnbin.eb.net.githubapi.model.eb.Update
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import com.ebnbin.eb.util.AppHelper
 
@@ -24,22 +26,26 @@ class UpdateFragment : EBFragment() {
         if (savedInstanceState == null) {
             if (silent) {
                 if (System.currentTimeMillis() - EBSpManager.eb.request_update_timestamp.value >= UPDATE_INTERVAL) {
-                    asyncHelper.request(NetHelper.ebService.update(),
+                    asyncHelper.request(
+                        GitHubApi.update(),
                         onSuccess = {
+                            val update = gson.fromJson<Update>(AppHelper.base64Decode(it.content), Update::class.java)
                             EBSpManager.eb.request_update_timestamp.value = System.currentTimeMillis()
-                            if (it.hasUpdate()) {
-                                UpdateDialogFragment.start(childFragmentManager, it)
+                            if (update.hasUpdate()) {
+                                UpdateDialogFragment.start(childFragmentManager, update)
                             }
                         }
                     )
                 }
             } else {
-                asyncHelper.request(NetHelper.ebService.update(),
+                asyncHelper.request(
+                    GitHubApi.update(),
                     Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE,
                     onSuccess = {
+                        val update = gson.fromJson<Update>(AppHelper.base64Decode(it.content), Update::class.java)
                         EBSpManager.eb.request_update_timestamp.value = System.currentTimeMillis()
-                        if (it.hasUpdate()) {
-                            UpdateDialogFragment.start(childFragmentManager, it)
+                        if (update.hasUpdate()) {
+                            UpdateDialogFragment.start(childFragmentManager, update)
                         } else {
                             AppHelper.toast(requireContext(), "已是最新版本。")
                         }
