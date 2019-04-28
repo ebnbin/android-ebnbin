@@ -4,44 +4,19 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.ImageFormat
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.graphics.RectF
 import android.graphics.SurfaceTexture
-import android.hardware.camera2.CameraCaptureSession
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CaptureRequest
-import android.media.ImageReader
-import android.media.MediaRecorder
 import android.os.Handler
 import android.os.HandlerThread
-import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.Surface
 import android.view.TextureView
 import android.view.WindowManager
 import android.widget.FrameLayout
-import androidx.core.view.GestureDetectorCompat
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationDetector
-import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
-import com.ebnbin.eb.util.TimeHelper
-import com.ebnbin.eb.util.WindowHelper
-import com.ebnbin.eb.util.dpToPx
-import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
-import com.ebnbin.windowcamera.util.IOHelper
-import java.io.File
-import java.io.FileOutputStream
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.roundToInt
 
 /**
  * 用于 WindowCameraService 添加到 WindowManager 上的 view.
@@ -51,12 +26,9 @@ import kotlin.math.roundToInt
 class WindowCameraView(context: Context) : FrameLayout(context),
     TextureView.SurfaceTextureListener,
     SharedPreferences.OnSharedPreferenceChangeListener,
-    RotationDetector.Listener,
-    GestureDetector.OnGestureListener,
-    GestureDetector.OnDoubleTapListener,
-    ImageReader.OnImageAvailableListener
+    RotationDetector.Listener
 {
-    private val textureView: TextureView = TextureView(this.context)
+    val textureView: TextureView = TextureView(this.context)
 
     init {
         setWillNotDraw(false)
@@ -75,13 +47,11 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         startBackgroundThread()
 
-        displayRotation = WindowHelper.displayRotation
-
-        invalidateCamera()
-        invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-        invalidateAlpha()
-        invalidateIsKeepScreenOnEnabled()
-        invalidateIsTouchable()
+        cameraHelper.invalidateCamera()
+        layoutHelper.invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+        layoutHelper.invalidateAlpha()
+        layoutHelper.invalidateIsKeepScreenOnEnabled()
+        layoutHelper.invalidateIsTouchable()
     }
 
     override fun onDetachedFromWindow() {
@@ -110,16 +80,16 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
-        invalidateTransform()
-        openCamera()
+        cameraHelper.invalidateTransform()
+        cameraHelper.openCamera()
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
-        invalidateTransform()
+        cameraHelper.invalidateTransform()
     }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
-        closeCamera()
+        cameraHelper.closeCamera()
         return true
     }
 
@@ -128,728 +98,126 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    private fun invalidateTransform() {
-        textureView.surfaceTexture?.setDefaultBufferSize(previewResolution.width, previewResolution.height)
-
-        val viewWidth = textureView.width.toFloat()
-        val viewHeight = textureView.height.toFloat()
-
-        val viewCenterX = 0.5f * viewWidth
-        val viewCenterY = 0.5f * viewHeight
-
-        val bufferWidth = previewResolution.widths.getValue(Surface.ROTATION_0).toFloat()
-        val bufferHeight = previewResolution.heights.getValue(Surface.ROTATION_0).toFloat()
-
-        val viewRectF = RectF(0f, 0f, viewWidth, viewHeight)
-
-        val bufferLeft = 0.5f * (viewWidth - bufferWidth)
-        val bufferTop = 0.5f * (viewHeight - bufferHeight)
-        val bufferRight = bufferLeft + bufferWidth
-        val bufferBottom = bufferTop + bufferHeight
-        val bufferRectF = RectF(bufferLeft, bufferTop, bufferRight, bufferBottom)
-
-        val matrix = Matrix()
-
-        matrix.setRectToRect(viewRectF, bufferRectF, Matrix.ScaleToFit.FILL)
-
-        val scaleX = viewWidth / previewResolution.widths.getValue(displayRotation)
-        val scaleY = viewHeight / previewResolution.heights.getValue(displayRotation)
-        val scale = max(scaleX, scaleY)
-        matrix.postScale(scale, scale, viewCenterX, viewCenterY)
-
-        val rotate = 360f - 90f * displayRotation
-        matrix.postRotate(rotate, viewCenterX, viewCenterY)
-
-        textureView.setTransform(matrix)
-    }
-
-    //*****************************************************************************************************************
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ProfileHelper.size.key -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
             }
             ProfileHelper.ratio.key -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
             }
             ProfileHelper.is_out_enabled.key -> {
-                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+                layoutHelper.invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
             }
             ProfileHelper.in_x.key -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
             ProfileHelper.in_y.key -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
             ProfileHelper.out_x.key -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
             ProfileHelper.out_y.key -> {
-                invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
             ProfileHelper.alpha.key -> {
-                invalidateAlpha()
+                layoutHelper.invalidateAlpha()
             }
             ProfileHelper.is_keep_screen_on_enabled.key -> {
-                invalidateIsKeepScreenOnEnabled()
+                layoutHelper.invalidateIsKeepScreenOnEnabled()
             }
             ProfileHelper.is_touchable.key -> {
-                invalidateIsTouchable()
+                layoutHelper.invalidateIsTouchable()
             }
             ProfileHelper.is_move_enabled.key -> {
-                isMoveEnabled = ProfileHelper.is_move_enabled.value
+                gestureHelper.isMoveEnabled = ProfileHelper.is_move_enabled.value
             }
             ProfileHelper.is_front.key -> {
-                closeCamera()
-                invalidateCamera()
-                openCamera()
+                cameraHelper.reopenCamera()
             }
             ProfileHelper.is_video.key -> {
-                closeCamera()
-                invalidateCamera()
-                openCamera()
+                cameraHelper.reopenCamera()
             }
             ProfileHelper.back_photo_resolution.key -> {
-                closeCamera()
-                invalidateCamera()
-                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-                openCamera()
+                cameraHelper.reopenCamera(true)
             }
             ProfileHelper.back_video_profile.key -> {
-                closeCamera()
-                invalidateCamera()
-                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-                openCamera()
+                cameraHelper.reopenCamera(true)
             }
             ProfileHelper.front_photo_resolution.key -> {
-                closeCamera()
-                invalidateCamera()
-                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-                openCamera()
+                cameraHelper.reopenCamera(true)
             }
             ProfileHelper.front_video_profile.key -> {
-                closeCamera()
-                invalidateCamera()
-                invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-                openCamera()
+                cameraHelper.reopenCamera(true)
             }
         }
     }
 
     //*****************************************************************************************************************
 
-    private var displayRotation: Int = 0
-
     override fun onRotationChanged(oldRotation: Int, newRotation: Int) {
-        displayRotation = newRotation
-        invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
-        invalidateTransform()
+        cameraHelper.displayRotation = newRotation
+        layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+        cameraHelper.invalidateTransform()
     }
 
     //*****************************************************************************************************************
 
-    private fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
+    val layoutHelper: WindowCameraViewLayoutHelper = WindowCameraViewLayoutHelper(this)
+
+    fun getRatioBySp(): Ratio {
+        return cameraHelper.getRatioBySp()
+    }
+
+    fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
         val params = layoutParams as WindowManager.LayoutParams
         block(params)
         SystemServices.windowManager.updateViewLayout(this, params)
     }
 
-    private fun invalidateLayout(invalidateIsOutEnabled: Boolean, invalidateSize: Boolean) {
-        updateLayoutParams {
-            // 参数不合法.
-            if (invalidateIsOutEnabled && !invalidateSize) throw RuntimeException()
-
-            fun calcPosition(range: Int, percent: Int, offset: Int): Int {
-                return (range * percent / 100f + offset).roundToInt()
-            }
-
-            val isOutEnabled = ProfileHelper.is_out_enabled.value
-            if (invalidateIsOutEnabled) {
-                flags = if (isOutEnabled) {
-                    flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-                } else {
-                    flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS xor
-                            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-                }
-            }
-            val displaySize = if (isOutEnabled) WindowHelper.displayRealSize else WindowHelper.displaySize
-            val rotationSize: RotationSize
-            if (invalidateIsOutEnabled || invalidateSize) {
-                val sizeSp = ProfileHelper.size.value
-                val ratioSp = ProfileHelper.ratio.value
-                val ratio = when (ratioSp) {
-                    "capture" -> (if (isVideo) videoProfile else photoResolution).ratio
-                    "raw" -> device.maxResolution.ratio
-                    "screen" -> displaySize.ratio
-                    "square" -> Ratio.SQUARE
-                    else -> throw RuntimeException()
-                }
-                rotationSize = displaySize.crop(ratio, sizeSp / 100f)
-                width = rotationSize.width
-                height = rotationSize.height
-            } else {
-                rotationSize = RotationSize(width, height, displaySize.rotation)
-            }
-            val xSp = ProfileHelper.x().value
-            val xRange: Int
-            val xPercent: Int
-            val xOffset: Int
-            when (xSp) {
-                in 0..100 -> {
-                    xRange = displaySize.width - rotationSize.width
-                    xPercent = xSp
-                    xOffset = 0
-                }
-                in -99..-1 -> {
-                    xRange = rotationSize.width
-                    xPercent = xSp + 100
-                    xOffset = -rotationSize.width
-                }
-                in 101..199 -> {
-                    xRange = rotationSize.width
-                    xPercent = xSp - 100
-                    xOffset = displaySize.width - rotationSize.width
-                }
-                else -> throw RuntimeException()
-            }
-            x = calcPosition(xRange, xPercent, xOffset)
-            val ySp = ProfileHelper.y().value
-            val yRange: Int
-            val yPercent: Int
-            val yOffset: Int
-            when (ySp) {
-                in 0..100 -> {
-                    yRange = displaySize.height - rotationSize.height
-                    yPercent = ySp
-                    yOffset = 0
-                }
-                in -99..-1 -> {
-                    yRange = rotationSize.height
-                    yPercent = ySp + 100
-                    yOffset = -rotationSize.height
-                }
-                in 101..199 -> {
-                    yRange = rotationSize.height
-                    yPercent = ySp - 100
-                    yOffset = displaySize.height - rotationSize.height
-                }
-                else -> throw RuntimeException()
-            }
-            y = calcPosition(yRange, yPercent, yOffset)
-        }
-    }
-
-    private fun invalidateAlpha() {
-        updateLayoutParams {
-            alpha = ProfileHelper.alpha.value / 100f
-        }
-    }
-
-    private fun invalidateIsKeepScreenOnEnabled() {
-        updateLayoutParams {
-            flags = if (ProfileHelper.is_keep_screen_on_enabled.value) {
-                flags or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-            } else {
-                flags or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON xor
-                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-            }
-        }
-    }
-
-    private fun invalidateIsTouchable() {
-        updateLayoutParams {
-            flags = if (ProfileHelper.is_touchable.value) {
-                flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE xor
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-            } else {
-                flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-            }
-        }
-    }
-
     //*****************************************************************************************************************
 
-    private var isMoveEnabled: Boolean = ProfileHelper.is_move_enabled.value
+    private val gestureHelper: WindowCameraViewGestureHelper = WindowCameraViewGestureHelper(this)
 
-    private val gestureDetector: GestureDetectorCompat = GestureDetectorCompat(context, this)
-
-    private var downX: Int = 0
-    private var downY: Int = 0
-    private var downRawX: Float = 0f
-    private var downRawY: Float = 0f
-
-    private var longPressed: Boolean = false
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        event ?: return super.onTouchEvent(event)
-
-        if (gestureDetector.onTouchEvent(event)) return true
-
-        if (event.actionMasked == MotionEvent.ACTION_UP) {
-            if (longPressed) {
-                longPressed = false
-            } else {
-//                putPosition(event)
-            }
-        }
-
+        if (gestureHelper.onTouchEvent(event)) return true
         return super.onTouchEvent(event)
     }
 
-    private fun putPosition(motionEvent: MotionEvent) {
-        fun calcPositionPercent(position: Float, range: Int, percentOffset: Int, isOutEnabled: Boolean): Int {
-            var positionPercent = (position / range * 100).toInt() + percentOffset
-            positionPercent = min(positionPercent, if (isOutEnabled) 199 else 100)
-            positionPercent = max(positionPercent, if (isOutEnabled) -99 else 0)
-            return positionPercent
-        }
-
-        val x = downX + motionEvent.rawX - downRawX
-        val y = downY + motionEvent.rawY - downRawY
-
-        val isOutEnabled = ProfileHelper.is_out_enabled.value
-        val displaySize = if (isOutEnabled) WindowHelper.displayRealSize else WindowHelper.displaySize
-
-        val xMin = 0
-        val xMax = displaySize.width - layoutParams.width
-        val xPosition: Float
-        val xRange: Int
-        val xPercentOffset: Int
-        when {
-            x in xMin.toFloat()..xMax.toFloat() -> {
-                xPosition = x
-                xRange = xMax - xMin
-                xPercentOffset = 0
-            }
-            x < xMin -> {
-                xPosition = x + layoutParams.width
-                xRange = layoutParams.width
-                xPercentOffset = -100
-            }
-            else -> {
-                xPosition = x + layoutParams.width - displaySize.width
-                xRange = layoutParams.width
-                xPercentOffset = 100
-            }
-        }
-        val xPercent = calcPositionPercent(xPosition, xRange, xPercentOffset, isOutEnabled)
-
-        val yMin = 0
-        val yMax = displaySize.height - layoutParams.height
-        val yPosition: Float
-        val yRange: Int
-        val yPercentOffset: Int
-        when {
-            y in yMin.toFloat()..yMax.toFloat() -> {
-                yPosition = y
-                yRange = yMax - yMin
-                yPercentOffset = 0
-            }
-            y < yMin -> {
-                yPosition = y + layoutParams.height
-                yRange = layoutParams.height
-                yPercentOffset = -100
-            }
-            else -> {
-                yPosition = y + layoutParams.height - displaySize.height
-                yRange = layoutParams.height
-                yPercentOffset = 100
-            }
-        }
-        val yPercent = calcPositionPercent(yPosition, yRange, yPercentOffset, isOutEnabled)
-
-        val xSp = ProfileHelper.x().value
-        val ySp = ProfileHelper.y().value
-        if (xPercent == xSp && yPercent == ySp) {
-            invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
-        } else {
-            ProfileHelper.putXY(xPercent, yPercent)
-        }
+    fun onMove(x: Float, y: Float) {
+        layoutHelper.putPosition(layoutParams.width, layoutParams.height, x, y)
     }
 
-    override fun onDown(e: MotionEvent?): Boolean {
-        e ?: return false
-
-        val params = layoutParams as WindowManager.LayoutParams
-        downX = params.x
-        downY = params.y
-        downRawX = e.rawX
-        downRawY = e.rawY
-        return false
+    fun onSingleTap() {
+        cameraHelper.onSingleTap()
     }
 
-    override fun onShowPress(e: MotionEvent?) {
+    fun onDoubleTap() {
+        AppHelper.vibrate(50L)
+        AppHelper.restartMainActivity()
     }
 
-    override fun onSingleTapUp(e: MotionEvent?): Boolean {
-        return false
-    }
-
-    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-        e2 ?: return false
-        if (isMoveEnabled) {
-            putPosition(e2)
-        }
-        return false
-    }
-
-    override fun onLongPress(e: MotionEvent?) {
-        longPressed = true
+    fun onLongPress() {
         AppHelper.vibrate(100L)
         WindowCameraService.stop(context)
     }
 
-    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        return false
-    }
+    //*****************************************************************************************************************
 
-    override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-        if (isVideo) {
-            videoCapture()
-        } else {
-            photoCapture()
-        }
-        return false
-    }
+    private val cameraHelper: WindowCameraViewCameraHelper = WindowCameraViewCameraHelper(this)
 
-    override fun onDoubleTap(e: MotionEvent?): Boolean {
-        AppHelper.vibrate(50L)
-        AppHelper.restartMainActivity()
-        return false
-    }
-
-    override fun onDoubleTapEvent(e: MotionEvent?): Boolean {
-        return false
+    fun getSurfaceTexture(): SurfaceTexture {
+        return textureView.surfaceTexture
     }
 
     //*****************************************************************************************************************
 
-    private lateinit var device: CameraHelper.Device
-    private var isVideo: Boolean = false
-    private lateinit var photoResolution: CameraHelper.Device.Resolution
-    private lateinit var videoProfile: CameraHelper.Device.VideoProfile
-    private lateinit var previewResolution: CameraHelper.Device.Resolution
-
-    private fun invalidateCamera() {
-        device = ProfileHelper.device()
-        isVideo = ProfileHelper.is_video.value
-        if (isVideo) {
-            videoProfile = ProfileHelper.videoProfile()
-        } else {
-            photoResolution = ProfileHelper.photoResolution()
-        }
-        previewResolution = device.defaultPreviewResolution
-
-        invalidateTransform()
-    }
-
-    //*****************************************************************************************************************
-
-    private var cameraDevice: CameraDevice? = null
-
-    @SuppressLint("MissingPermission")
-    private fun openCamera() {
-        ProfileHelper.isCameraProfileInvalidating = true
-
-        val callback = object : CameraDevice.StateCallback() {
-            override fun onOpened(camera: CameraDevice) {
-                cameraDevice = camera
-
-                startPreview()
-            }
-
-            override fun onClosed(camera: CameraDevice) {
-                super.onClosed(camera)
-                cameraDevice = null
-            }
-
-            override fun onDisconnected(camera: CameraDevice) {
-                // 通常发生在通过别的应用启动相机时.
-                // 先将 cameraDevice 设置为 null, 以防在关闭摄像头过程中错误的调用.
-                cameraDevice = null
-                camera.close()
-                // TODO: 更合理的提示.
-                onCameraError()
-            }
-
-            override fun onError(camera: CameraDevice, error: Int) {
-                // 先将 cameraDevice 设置为 null, 以防在关闭摄像头过程中错误的调用.
-                cameraDevice = null
-                camera.close()
-                onCameraError()
-            }
-        }
-        SystemServices.cameraManager.openCamera(device.id, callback, null)
-    }
-
-    private fun closeCamera() {
-        ProfileHelper.isCameraProfileInvalidating = true
-
-        stopPreview()
-
-        cameraDevice?.run {
-            cameraDevice = null
-            close()
-        }
-
-        ProfileHelper.isCameraProfileInvalidating = false
-    }
-
-    //*****************************************************************************************************************
-
-    private fun startPreview() {
-        if (isVideo) {
-            startVideoPreview()
-        } else {
-            startPhotoPreview()
-        }
-    }
-
-    private fun stopPreview() {
-        if (isVideo) {
-            stopVideoCapture(false)
-            stopVideoPreview()
-        } else {
-            stopPhotoPreview()
-        }
-    }
-
-    //*****************************************************************************************************************
-
-    private var imageReader: ImageReader? = null
-
-    private var photoCameraCaptureSession: CameraCaptureSession? = null
-
-    private fun startPhotoPreview() {
-        val cameraDevice = cameraDevice ?: return
-
-        val imageReader = ImageReader.newInstance(photoResolution.width, photoResolution.height, ImageFormat.JPEG, 2)
-        imageReader.setOnImageAvailableListener(this, null)
-        this.imageReader = imageReader
-
-        val surfaceTextureSurface = Surface(textureView.surfaceTexture)
-        val imageReaderSurface = imageReader.surface
-        val outputs = listOf(surfaceTextureSurface, imageReaderSurface)
-        val callback = object : CameraCaptureSession.StateCallback() {
-            override fun onConfigured(session: CameraCaptureSession) {
-                photoCameraCaptureSession = session
-
-                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-                captureRequestBuilder.addTarget(surfaceTextureSurface)
-                val request = captureRequestBuilder.build()
-                session.setRepeatingRequest(request, null, null)
-
-                ProfileHelper.isCameraProfileInvalidating = false
-            }
-
-            override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError()
-            }
-        }
-        cameraDevice.createCaptureSession(outputs, callback, null)
-    }
-
-    private fun stopPhotoPreview() {
-        photoCameraCaptureSession?.run {
-            photoCameraCaptureSession = null
-            try {
-                stopRepeating()
-            } catch (e: IllegalStateException) {
-                // stopRepeating 对应 setRepeatingRequest, 但有可能出现 photoCameraCaptureSession 已经 closed 的情况.
-            }
-            close()
-        }
-
-        imageReader?.run {
-            imageReader = null
-            close()
-        }
-    }
-
-    private fun photoCapture() {
-        val photoCameraCaptureSession = photoCameraCaptureSession ?: return
-        val cameraDevice = cameraDevice ?: return
-        val imageReader = imageReader ?: return
-
-        val imageReaderSurface = imageReader.surface
-        val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
-        captureRequestBuilder.addTarget(imageReaderSurface)
-        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, device.sensorOrientations.getValue(displayRotation))
-        val request = captureRequestBuilder.build()
-        photoCameraCaptureSession.capture(request, null, null)
-    }
-
-    override fun onImageAvailable(reader: ImageReader?) {
-        reader ?: return
-        val image = reader.acquireNextImage() ?: return
-
-        val byteBuffer = image.planes[0].buffer
-        val byteArray = ByteArray(byteBuffer.remaining())
-        byteBuffer.get(byteArray)
-        val file = nextFile(".jpg")
-        val fos = FileOutputStream(file)
-        fos.write(byteArray)
-        fos.close()
-        image.close()
-
-        AppHelper.toast(context, file)
-    }
-
-    //*****************************************************************************************************************
-
-    private var videoCameraCaptureSession: CameraCaptureSession? = null
-
-    private var videoFile: File? = null
-
-    private var mediaRecorder: MediaRecorder? = null
-
-    private var isVideoRecording: Boolean = false
-
-    private fun startVideoPreview() {
-        val cameraDevice = cameraDevice ?: return
-
-        val surfaceTextureSurface = Surface(textureView.surfaceTexture)
-        val outputs = listOf(surfaceTextureSurface)
-        val callback = object : CameraCaptureSession.StateCallback() {
-            override fun onConfigured(session: CameraCaptureSession) {
-                videoCameraCaptureSession = session
-
-                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-                captureRequestBuilder.addTarget(surfaceTextureSurface)
-                val request = captureRequestBuilder.build()
-                session.setRepeatingRequest(request, null, null)
-
-                ProfileHelper.isCameraProfileInvalidating = false
-            }
-
-            override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError()
-            }
-        }
-        cameraDevice.createCaptureSession(outputs, callback, null)
-    }
-
-    private fun stopVideoPreview() {
-        videoCameraCaptureSession?.run {
-            videoCameraCaptureSession = null
-            try {
-                stopRepeating()
-            } catch (e: IllegalStateException) {
-                // stopRepeating 对应 setRepeatingRequest, 但有可能出现 videoCameraCaptureSession 已经 closed 的情况.
-            }
-            close()
-        }
-    }
-
-    private fun startVideoCapture() {
-        stopVideoPreview()
-
-        val cameraDevice = cameraDevice ?: return
-
-        val videoFile = nextFile(videoProfile.extension)
-        val mediaRecorder = MediaRecorder()
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
-        mediaRecorder.setProfile(videoProfile.camcorderProfile)
-        mediaRecorder.setOutputFile(videoFile.absolutePath)
-        mediaRecorder.setOrientationHint(device.sensorOrientations.getValue(displayRotation))
-        mediaRecorder.prepare()
-        this.videoFile = videoFile
-        this.mediaRecorder = mediaRecorder
-
-        val surfaceTextureSurface = Surface(textureView.surfaceTexture)
-        val mediaRecorderSurface = mediaRecorder.surface
-        val outputs = listOf(surfaceTextureSurface, mediaRecorderSurface)
-        val callback = object : CameraCaptureSession.StateCallback() {
-            override fun onConfigured(session: CameraCaptureSession) {
-                videoCameraCaptureSession = session
-
-                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
-                captureRequestBuilder.addTarget(surfaceTextureSurface)
-                captureRequestBuilder.addTarget(mediaRecorderSurface)
-                val request = captureRequestBuilder.build()
-                session.setRepeatingRequest(request, null, null)
-                mediaRecorder.start()
-                isVideoRecording = true
-
-                ProfileHelper.isCameraProfileInvalidating = false
-            }
-
-            override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError()
-            }
-        }
-        cameraDevice.createCaptureSession(outputs, callback, null)
-    }
-
-    private fun stopVideoCapture(resumePreview: Boolean) {
-        if (!isVideoRecording) return
-        isVideoRecording = false
-
-        mediaRecorder?.run {
-            mediaRecorder = null
-            stop()
-            release()
-        }
-
-        videoFile?.run {
-            videoFile = null
-            AppHelper.toast(context, this)
-        }
-
-        videoCameraCaptureSession?.run {
-            videoCameraCaptureSession = null
-            try {
-                stopRepeating()
-            } catch (e: IllegalStateException) {
-                // stopRepeating 对应 setRepeatingRequest, 但有可能出现 videoCameraCaptureSession 已经 closed 的情况.
-            }
-            close()
-        }
-
-        if (resumePreview) {
-            startVideoPreview()
-        }
-    }
-
-    private fun videoCapture() {
-        if (isVideoRecording) {
-            stopVideoCapture(true)
-        } else {
-            startVideoCapture()
-        }
-    }
-
-    //*****************************************************************************************************************
-
-    private fun nextFile(extension: String): File {
-        val path = IOHelper.getPath()
-        if (!path.exists()) {
-            path.mkdirs()
-        }
-        val fileName = "${TimeHelper.string("yyyy_MM_dd_HH_mm_ss_SSS")}$extension"
-        return File(path, fileName)
-    }
-
-    //*****************************************************************************************************************
-
-    private fun onCameraError() {
-        AppHelper.toast(context, R.string.camera_error)
-        WindowCameraService.stop(context)
-    }
-
-    //*****************************************************************************************************************
-
-    private val paint: Paint = Paint().apply {
-        style = Paint.Style.STROKE
-        strokeWidth = 2f.dpToPx
-        color = Color.RED
-    }
+    private val canvasHelper: WindowCameraViewCanvasHelper = WindowCameraViewCanvasHelper(this)
 
     override fun onDrawForeground(canvas: Canvas?) {
         super.onDrawForeground(canvas)
-        canvas ?: return
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+        canvasHelper.onDraw(canvas)
     }
 }
