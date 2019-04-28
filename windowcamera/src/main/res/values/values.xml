@@ -5,6 +5,7 @@
     <string name="window">窗口</string>
     <string name="camera">相机</string>
     <string name="other">其它</string>
+    <string name="stop_window_camera_service">点击关闭窗口相机</string>
     <string name="camera_error">相机异常。</string>
     <string name="camera_error_no_class_def_found_error">相机初始化异常！请尝试强制停止并重新打开应用。</string>
 </resources>

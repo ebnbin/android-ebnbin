@@ -3,6 +3,7 @@ package com.ebnbin.windowcamera.app
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -49,11 +50,14 @@ class WindowCameraService : Service() {
         if (BuildHelper.sdk26O() &&
             SystemServices.notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
             val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "WindowCameraService",
-                NotificationManager.IMPORTANCE_HIGH)
+                NotificationManager.IMPORTANCE_DEFAULT)
             SystemServices.notificationManager.createNotificationChannel(notificationChannel)
         }
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(android.R.mipmap.sym_def_app_icon)
+            .setSmallIcon(R.drawable.app_logo_198)
+            .setContentTitle(getString(R.string.stop_window_camera_service))
+            .setContentIntent(PendingIntent.getBroadcast(this, 0,
+                Intent(this, StopWindowCameraServiceBroadcastReceiver::class.java), 0))
             .build()
         startForeground(NOTIFICATION_ID, notification)
     }

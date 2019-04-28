@@ -28,5 +28,7 @@
             android:screenOrientation="fullUser"/>
 
         <service android:name=".app.WindowCameraService"/>
+
+        <receiver android:name=".app.StopWindowCameraServiceBroadcastReceiver"/>
     </application>
 </manifest>
