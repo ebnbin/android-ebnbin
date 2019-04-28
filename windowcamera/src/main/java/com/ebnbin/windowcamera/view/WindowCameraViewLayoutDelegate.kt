@@ -1,6 +1,7 @@
 package com.ebnbin.windowcamera.view
 
 import android.view.WindowManager
+import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -8,7 +9,34 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraView) {
+class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraView) : RotationDetector.Listener {
+    fun init() {
+        RotationDetector.register(this)
+        invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+        invalidateAlpha()
+        invalidateIsKeepScreenOnEnabled()
+        invalidateIsTouchable()
+    }
+
+    fun dispose() {
+        RotationDetector.unregister(this)
+    }
+
+    //*****************************************************************************************************************
+
+    var displaySize: RotationSize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
+        WindowHelper.displaySize
+        private set
+
+    override fun onRotationChanged(oldRotation: Int, newRotation: Int) {
+        displaySize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
+            WindowHelper.displaySize
+        invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+        windowCameraView.cameraDelegate.invalidateTransform()
+    }
+
+    //*****************************************************************************************************************
+
     fun invalidateLayout(invalidateIsOutEnabled: Boolean, invalidateSize: Boolean) {
         windowCameraView.updateLayoutParams {
             // 参数不合法.
@@ -26,8 +54,9 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
                     flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS xor
                             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 }
+                displaySize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
+                    WindowHelper.displaySize
             }
-            val displaySize = if (isOutEnabled) WindowHelper.displayRealSize else WindowHelper.displaySize
             val rotationSize: RotationSize
             if (invalidateIsOutEnabled || invalidateSize) {
                 val sizeSp = ProfileHelper.size.value

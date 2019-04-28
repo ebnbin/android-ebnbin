@@ -9,6 +9,8 @@ import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.media.MediaRecorder
+import android.os.Handler
+import android.os.HandlerThread
 import android.view.Surface
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.Ratio
@@ -27,15 +29,38 @@ import kotlin.math.max
 class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraView) :
     ImageReader.OnImageAvailableListener
 {
+    fun init() {
+        startBackgroundThread()
+        invalidateCamera()
+    }
+
+    fun dispose() {
+        stopBackgroundThread()
+    }
+
+    //*****************************************************************************************************************
+
+    private lateinit var backgroundHandler: Handler
+
+    private fun startBackgroundThread() {
+        val handlerThread = HandlerThread("window_camera_view_background")
+        handlerThread.start()
+        backgroundHandler = Handler(handlerThread.looper)
+    }
+
+    private fun stopBackgroundThread() {
+        backgroundHandler.looper.quitSafely()
+    }
+
+    //*****************************************************************************************************************
+
     private lateinit var device: CameraHelper.Device
     private var isVideo: Boolean = false
     private lateinit var photoResolution: CameraHelper.Device.Resolution
     private lateinit var videoProfile: CameraHelper.Device.VideoProfile
     private lateinit var previewResolution: CameraHelper.Device.Resolution
 
-    var displayRotation: Int = WindowHelper.displayRotation
-
-    fun invalidateCamera() {
+    private fun invalidateCamera() {
         device = ProfileHelper.device()
         isVideo = ProfileHelper.is_video.value
         if (isVideo) {
@@ -51,11 +76,11 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
     //*****************************************************************************************************************
 
     fun invalidateTransform() {
-        windowCameraView.textureView.surfaceTexture?.setDefaultBufferSize(
+        windowCameraView.surfaceDelegate.textureView.surfaceTexture?.setDefaultBufferSize(
             previewResolution.width, previewResolution.height)
 
-        val viewWidth = windowCameraView.textureView.width.toFloat()
-        val viewHeight = windowCameraView.textureView.height.toFloat()
+        val viewWidth = windowCameraView.surfaceDelegate.textureView.width.toFloat()
+        val viewHeight = windowCameraView.surfaceDelegate.textureView.height.toFloat()
 
         val viewCenterX = 0.5f * viewWidth
         val viewCenterY = 0.5f * viewHeight
@@ -75,15 +100,15 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
 
         matrix.setRectToRect(viewRectF, bufferRectF, Matrix.ScaleToFit.FILL)
 
-        val scaleX = viewWidth / previewResolution.widths.getValue(displayRotation)
-        val scaleY = viewHeight / previewResolution.heights.getValue(displayRotation)
+        val scaleX = viewWidth / previewResolution.widths.getValue(windowCameraView.getDisplaySize().rotation)
+        val scaleY = viewHeight / previewResolution.heights.getValue(windowCameraView.getDisplaySize().rotation)
         val scale = max(scaleX, scaleY)
         matrix.postScale(scale, scale, viewCenterX, viewCenterY)
 
-        val rotate = 360f - 90f * displayRotation
+        val rotate = 360f - 90f * windowCameraView.getDisplaySize().rotation
         matrix.postRotate(rotate, viewCenterX, viewCenterY)
 
-        windowCameraView.textureView.setTransform(matrix)
+        windowCameraView.surfaceDelegate.textureView.setTransform(matrix)
     }
 
     //*****************************************************************************************************************
@@ -217,7 +242,8 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         val imageReaderSurface = imageReader.surface
         val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         captureRequestBuilder.addTarget(imageReaderSurface)
-        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, device.sensorOrientations.getValue(displayRotation))
+        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION,
+            device.sensorOrientations.getValue(windowCameraView.getDisplaySize().rotation))
         val request = captureRequestBuilder.build()
         photoCameraCaptureSession.capture(request, null, null)
     }
@@ -295,7 +321,8 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
         mediaRecorder.setProfile(videoProfile.camcorderProfile)
         mediaRecorder.setOutputFile(videoFile.absolutePath)
-        mediaRecorder.setOrientationHint(device.sensorOrientations.getValue(displayRotation))
+        mediaRecorder.setOrientationHint(
+            device.sensorOrientations.getValue(windowCameraView.getDisplaySize().rotation))
         mediaRecorder.prepare()
         this.videoFile = videoFile
         this.mediaRecorder = mediaRecorder
