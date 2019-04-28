@@ -7,7 +7,7 @@ import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 open class Sp<T>(
     val key: String,
     val getDefaultValue: () -> T,
-    getSharedPreferences: () -> SharedPreferences = { SharedPreferencesHelper.getSharedPreferences() }
+    val getSharedPreferences: () -> SharedPreferences = { SharedPreferencesHelper.get() }
 ) {
     var value: T by SharedPreferencesDelegate(key, getDefaultValue, getSharedPreferences)
 }

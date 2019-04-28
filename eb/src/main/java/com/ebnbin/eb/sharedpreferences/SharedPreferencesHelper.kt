@@ -5,14 +5,17 @@ import android.content.SharedPreferences
 import com.ebnbin.eb.util.ebApp
 
 object SharedPreferencesHelper {
-    fun getSharedPreferencesName(namePostfix: String = ""): String {
+    /**
+     * "_eb", "_profile".
+     */
+    fun getName(namePostfix: String = ""): String {
         return "${ebApp.packageName}_preferences$namePostfix"
     }
 
     /**
      * "_eb", "_profile".
      */
-    fun getSharedPreferences(namePostfix: String = ""): SharedPreferences {
-        return ebApp.getSharedPreferences(getSharedPreferencesName(namePostfix), Context.MODE_PRIVATE)
+    fun get(namePostfix: String = ""): SharedPreferences {
+        return ebApp.getSharedPreferences(getName(namePostfix), Context.MODE_PRIVATE)
     }
 }

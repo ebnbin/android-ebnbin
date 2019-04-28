@@ -71,6 +71,11 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     //*****************************************************************************************************************
 
     /**
+     * 特殊的, 如果宽高相等则为 false.
+     */
+    val isLandscape: Boolean = width > height
+
+    /**
      * 面积.
      */
     val area: Int = width * height
@@ -97,6 +102,14 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     fun isWidthHeightGreaterOrEquals(other: RotationSize): Boolean {
         return widths.getValue(Surface.ROTATION_0) >= other.widths.getValue(Surface.ROTATION_0) &&
                 heights.getValue(Surface.ROTATION_0) >= other.heights.getValue(Surface.ROTATION_0)
+    }
+
+    /**
+     * 宽高都小等于指定对象.
+     */
+    fun isWidthHeightLessOrEquals(other: RotationSize): Boolean {
+        return widths.getValue(Surface.ROTATION_0) <= other.widths.getValue(Surface.ROTATION_0) &&
+                heights.getValue(Surface.ROTATION_0) <= other.heights.getValue(Surface.ROTATION_0)
     }
 
     /**

@@ -43,7 +43,8 @@ private fun setToStringSet(set: Set<*>?): Set<String?>? {
     if (set == null) return null
     val stringSet = LinkedHashSet<String?>()
     set.forEach {
-        stringSet.add(it?.toString())
+        if (it !is String?) throw RuntimeException()
+        stringSet.add(it)
     }
     return stringSet
 }

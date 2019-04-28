@@ -33,11 +33,13 @@ object CameraHelper {
     override fun toString(): String {
         val sb = StringBuilder()
         sb.run {
+            append("{")
             append("ids", ids.joinToString(",", "[", "]"))
             append("devices", devices.joinToString(",", "[", "]"))
             append("backDevice", if (::backDevice.isInitialized) backDevice.id else null)
             append("frontDevice", if (::frontDevice.isInitialized) frontDevice.id else null)
             delete(length - 1, length)
+            append("}")
         }
         return sb.toString()
     }
@@ -117,11 +119,14 @@ object CameraHelper {
                 append("sensorOrientations", sensorOrientations.asIterable().joinToString(",", "[", "]"))
                 append("jpegSizes", jpegSizes?.joinToString(",", "[", "]") { it.toString() })
                 append("photoResolutions", photoResolutions.joinToString(",", "[", "]"))
-                append("maxResolution", maxResolution)
+                append("defaultPhotoResolution", if (::defaultPhotoResolution.isInitialized) defaultPhotoResolution else null)
+                append("maxResolution", if (::maxResolution.isInitialized) maxResolution else null)
                 append("surfaceTextureSizes", surfaceTextureSizes?.joinToString(",", "[", "]"))
                 append("previewResolutions", previewResolutions.joinToString(",", "[", "]"))
+                append("defaultPreviewResolution", if (::defaultPreviewResolution.isInitialized) defaultPreviewResolution else null)
                 append("mediaRecorderSizes", mediaRecorderSizes?.joinToString(",", "[", "]"))
                 append("videoProfiles", videoProfiles.joinToString(",", "[", "]"))
+                append("defaultVideoProfile", if (::defaultVideoProfile.isInitialized) defaultVideoProfile else null)
                 delete(length - 1, length)
                 append("}")
             }
@@ -187,12 +192,16 @@ object CameraHelper {
                 .sortedDescending()
         }
 
-        fun getPhotoResolutionOrNull(key: String?): Resolution? {
-            return photoResolutions.firstOrNull { it.key == key }
+        lateinit var defaultPhotoResolution: Resolution
+            private set
+        init {
+            if (photoResolutions.isNotEmpty()) {
+                defaultPhotoResolution = photoResolutions.first()
+            }
         }
 
-        fun getPhotoResolutionOrElse(key: String?, defaultValue: (key: String?) -> Resolution): Resolution {
-            return getPhotoResolutionOrNull(key) ?: defaultValue(key)
+        fun getPhotoResolution(entryValue: String): Resolution {
+            return photoResolutions.first { it.entryValue == entryValue }
         }
 
         lateinit var maxResolution: Resolution
@@ -213,7 +222,10 @@ object CameraHelper {
              */
             val megapixel: Float = area / 1_000_000f
 
-            val key: String = "${width}_$height"
+            /**
+             * 用于 SharedPreferences.
+             */
+            val entryValue: String = "${width}_$height"
 
             override fun toString(): String {
                 return "{${width}x$height,ratio=$ratio}"
@@ -244,6 +256,22 @@ object CameraHelper {
                 .toList()
         }
 
+        lateinit var defaultPreviewResolution: Resolution
+            private set
+        init {
+            if (previewResolutions.isNotEmpty()) {
+                val maxPreviewResolution = previewResolutions.first()
+                val rotationSize1080 = if (maxPreviewResolution.isLandscape) {
+                    RotationSize(1920, 1080, maxPreviewResolution.rotation)
+                } else {
+                    RotationSize(1080, 1920, maxPreviewResolution.rotation)
+                }
+                defaultPreviewResolution = previewResolutions.firstOrNull {
+                    it.isWidthHeightLessOrEquals(rotationSize1080)
+                } ?: maxPreviewResolution
+            }
+        }
+
         //*************************************************************************************************************
 
         private val mediaRecorderSizes: Array<Size>? =
@@ -261,12 +289,19 @@ object CameraHelper {
                 .sortedDescending()
         }
 
-        fun getVideoProfileOrNull(key: String?): VideoProfile? {
-            return videoProfiles.firstOrNull { it.key == key }
+        lateinit var defaultVideoProfile: VideoProfile
+            private set
+        init {
+            if (videoProfiles.isNotEmpty()) {
+                defaultVideoProfile = videoProfiles.firstOrNull {
+                    it.camcorderProfile.quality == CamcorderProfile.QUALITY_1080P ||
+                            it.camcorderProfile.quality == CamcorderProfile.QUALITY_HIGH
+                } ?: videoProfiles.first()
+            }
         }
 
-        fun getVideoProfileOrElse(key: String?, defaultValue: (key: String?) -> VideoProfile): VideoProfile {
-            return getVideoProfileOrNull(key) ?: defaultValue(key)
+        fun getVideoProfile(entryValue: String): VideoProfile {
+            return videoProfiles.first { it.entryValue == entryValue }
         }
 
         /**

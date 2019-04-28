@@ -15,7 +15,6 @@ import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.media.MediaRecorder
-import android.os.Environment
 import android.os.Handler
 import android.os.HandlerThread
 import android.view.GestureDetector
@@ -37,6 +36,7 @@ import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.util.IOHelper
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.max
@@ -69,7 +69,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        SharedPreferencesHelper.getSharedPreferences(ProfileHelper.sharedPreferencesNamePostfix)
+        SharedPreferencesHelper.get(ProfileHelper.SHARED_PREFERENCES_NAME_POSTFIX)
             .registerOnSharedPreferenceChangeListener(this)
         RotationDetector.register(this)
 
@@ -88,7 +88,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         stopBackgroundThread()
 
         RotationDetector.unregister(this)
-        SharedPreferencesHelper.getSharedPreferences(ProfileHelper.sharedPreferencesNamePostfix)
+        SharedPreferencesHelper.get(ProfileHelper.SHARED_PREFERENCES_NAME_POSTFIX)
             .unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
     }
@@ -534,15 +534,12 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     private fun invalidateCamera() {
         device = ProfileHelper.device()
         isVideo = ProfileHelper.is_video.value
-        val photoResolution = ProfileHelper.photoResolution()
-        if (photoResolution != null) {
-            this.photoResolution = photoResolution
+        if (isVideo) {
+            videoProfile = ProfileHelper.videoProfile()
+        } else {
+            photoResolution = ProfileHelper.photoResolution()
         }
-        val videoProfile = ProfileHelper.videoProfile()
-        if (videoProfile != null) {
-            this.videoProfile = videoProfile
-        }
-        previewResolution = device.previewResolutions.first()
+        previewResolution = device.defaultPreviewResolution
 
         invalidateTransform()
     }
@@ -827,12 +824,12 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     private fun nextFile(extension: String): File {
-        val dir = context.getExternalFilesDir(Environment.DIRECTORY_DCIM)
-        if (!dir.exists()) {
-            dir.mkdirs()
+        val path = IOHelper.getPath()
+        if (!path.exists()) {
+            path.mkdirs()
         }
         val fileName = "${TimeHelper.string("yyyy_MM_dd_HH_mm_ss_SSS")}$extension"
-        return File(dir, fileName)
+        return File(path, fileName)
     }
 
     //*****************************************************************************************************************

@@ -12,17 +12,17 @@ import com.ebnbin.eb.sharedpreferences.sp.Sp
 object EBSpManager {
     object eb {
         /**
-         * 设置夜间模式. 发送 NightModeEvent 事件.
+         * 夜间模式.
          */
-        var night_mode: Sp<Int> = EBSp("night_mode") { AppCompatDelegate.MODE_NIGHT_NO }
+        internal var night_mode: Sp<Int> = EBSp("night_mode", AppCompatDelegate.MODE_NIGHT_NO)
 
         /**
          * 上次请求 update 接口时间.
          */
-        internal var request_update_timestamp: Sp<Long> = EBSp("request_update_timestamp") { 0L }
+        internal var request_update_timestamp: Sp<Long> = EBSp("request_update_timestamp", 0L)
     }
 
     object eb_debug {
-        internal var page: Sp<Int> = EBDebugSp("page") { 0 }
+        internal var page: Sp<Int> = EBDebugSp("page", 0)
     }
 }
