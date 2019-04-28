@@ -1,38 +1,56 @@
-package com.ebnbin.windowcamera.view
+package com.ebnbin.windowcamera.view.gesture
 
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.WindowManager
 import androidx.core.view.GestureDetectorCompat
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.view.WindowCameraView
 
-class WindowCameraViewGestureDelegate(private val windowCameraView: WindowCameraView) :
+class WindowCameraViewGestureDelegate(private val callback: IWindowCameraViewGestureCallback) :
+    IWindowCameraViewGestureDelegate,
     GestureDetector.OnGestureListener,
     GestureDetector.OnDoubleTapListener
 {
-    private val gestureDetector: GestureDetectorCompat = GestureDetectorCompat(windowCameraView.context, this)
+    override fun init(windowCameraView: WindowCameraView) {
+    }
 
-    var isMoveEnabled: Boolean = ProfileHelper.is_move_enabled.value
+    override fun dispose() {
+    }
 
-    private var downLayoutX: Float = 0f
-    private var downLayoutY: Float = 0f
+    //*****************************************************************************************************************
+
+    private val gestureDetector: GestureDetectorCompat = GestureDetectorCompat(callback.getContext(), this)
+
+    /**
+     * 按下时窗口的 layout x.
+     */
+    private var downLayoutX: Int = 0
+    /**
+     * 按下时窗口的 layout y.
+     */
+    private var downLayoutY: Int = 0
+    /**
+     * 按下时手指在屏幕的 x.
+     */
     private var downRawX: Float = 0f
+    /**
+     * 按下时手指在屏幕的 y.
+     */
     private var downRawY: Float = 0f
 
     //*****************************************************************************************************************
 
-    fun onTouchEvent(event: MotionEvent?): Boolean {
-        event ?: return false
-        return gestureDetector.onTouchEvent(event)
+    override fun onTouchEvent(motionEvent: MotionEvent?): Boolean {
+        motionEvent ?: return false
+        return gestureDetector.onTouchEvent(motionEvent)
     }
 
     //*****************************************************************************************************************
 
     override fun onDown(e: MotionEvent?): Boolean {
         e ?: return false
-        val layoutParams = windowCameraView.layoutParams as WindowManager.LayoutParams
-        downLayoutX = layoutParams.x.toFloat()
-        downLayoutY = layoutParams.y.toFloat()
+        downLayoutX = callback.getLayoutX()
+        downLayoutY = callback.getLayoutY()
         downRawX = e.rawX
         downRawY = e.rawY
         return false
@@ -47,16 +65,16 @@ class WindowCameraViewGestureDelegate(private val windowCameraView: WindowCamera
 
     override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
         e2 ?: return false
-        if (isMoveEnabled) {
-            val x = downLayoutX + e2.rawX - downRawX
-            val y = downLayoutY + e2.rawY - downRawY
-            windowCameraView.onMove(x, y)
-        }
+        // 缓存 is_move_enabled.
+        if (!ProfileHelper.is_move_enabled.value) return false
+        val layoutX = downLayoutX + e2.rawX - downRawX
+        val layoutY = downLayoutY + e2.rawY - downRawY
+        callback.onMove(layoutX, layoutY)
         return false
     }
 
     override fun onLongPress(e: MotionEvent?) {
-        windowCameraView.onLongPress()
+        callback.onLongPress()
     }
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
@@ -66,12 +84,12 @@ class WindowCameraViewGestureDelegate(private val windowCameraView: WindowCamera
     //*****************************************************************************************************************
 
     override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-        windowCameraView.onSingleTap()
+        callback.onSingleTap()
         return false
     }
 
     override fun onDoubleTap(e: MotionEvent?): Boolean {
-        windowCameraView.onDoubleTap()
+        callback.onDoubleTap()
         return false
     }
 

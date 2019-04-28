@@ -7,7 +7,7 @@ import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.view.WindowCameraView
 
-class WindowCameraViewCanvasDelegate(private val callback: WindowCameraViewCanvasCallback) :
+class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanvasCallback) :
     IWindowCameraViewCanvasDelegate
 {
     override fun init(windowCameraView: WindowCameraView) {

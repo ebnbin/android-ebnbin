@@ -116,7 +116,7 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
         }
     }
 
-    fun putPosition(layoutWidth: Int, layoutHeight: Int, x: Float, y: Float) {
+    fun putPosition(layoutWidth: Int, layoutHeight: Int, layoutX: Float, layoutY: Float) {
         fun calcPositionPercent(position: Float, range: Int, percentOffset: Int, isOutEnabled: Boolean): Int {
             var positionPercent = (position / range * 100).toInt() + percentOffset
             positionPercent = min(positionPercent, if (isOutEnabled) 199 else 100)
@@ -133,18 +133,18 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
         val xRange: Int
         val xPercentOffset: Int
         when {
-            x in xMin.toFloat()..xMax.toFloat() -> {
-                xPosition = x
+            layoutX in xMin.toFloat()..xMax.toFloat() -> {
+                xPosition = layoutX
                 xRange = xMax - xMin
                 xPercentOffset = 0
             }
-            x < xMin -> {
-                xPosition = x + layoutWidth
+            layoutX < xMin -> {
+                xPosition = layoutX + layoutWidth
                 xRange = layoutWidth
                 xPercentOffset = -100
             }
             else -> {
-                xPosition = x + layoutWidth - displaySize.width
+                xPosition = layoutX + layoutWidth - displaySize.width
                 xRange = layoutWidth
                 xPercentOffset = 100
             }
@@ -157,18 +157,18 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
         val yRange: Int
         val yPercentOffset: Int
         when {
-            y in yMin.toFloat()..yMax.toFloat() -> {
-                yPosition = y
+            layoutY in yMin.toFloat()..yMax.toFloat() -> {
+                yPosition = layoutY
                 yRange = yMax - yMin
                 yPercentOffset = 0
             }
-            y < yMin -> {
-                yPosition = y + layoutHeight
+            layoutY < yMin -> {
+                yPosition = layoutY + layoutHeight
                 yRange = layoutHeight
                 yPercentOffset = -100
             }
             else -> {
-                yPosition = y + layoutHeight - displaySize.height
+                yPosition = layoutY + layoutHeight - displaySize.height
                 yRange = layoutHeight
                 yPercentOffset = 100
             }

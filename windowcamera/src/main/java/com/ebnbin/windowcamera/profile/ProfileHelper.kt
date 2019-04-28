@@ -1,6 +1,8 @@
 package com.ebnbin.windowcamera.profile
 
+import android.content.SharedPreferences
 import com.ebnbin.eb.library.eventBus
+import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb.sharedpreferences.sp.Sp
 import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
@@ -90,6 +92,14 @@ object ProfileHelper {
     //*****************************************************************************************************************
 
     const val SHARED_PREFERENCES_NAME_POSTFIX: String = "_profile_default"
+
+    fun sharedPreferencesRegister(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        SharedPreferencesHelper.register(listener, SHARED_PREFERENCES_NAME_POSTFIX)
+    }
+
+    fun sharedPreferencesUnregister(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        SharedPreferencesHelper.unregister(listener, SHARED_PREFERENCES_NAME_POSTFIX)
+    }
 
     var isCameraProfileInvalidating: Boolean = false
         set(value) {

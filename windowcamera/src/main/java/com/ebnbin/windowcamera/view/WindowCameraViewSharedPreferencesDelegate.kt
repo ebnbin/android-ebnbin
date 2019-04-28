@@ -1,19 +1,16 @@
 package com.ebnbin.windowcamera.view
 
 import android.content.SharedPreferences
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 
 class WindowCameraViewSharedPreferencesDelegate(private val windowCameraView: WindowCameraView) :
     SharedPreferences.OnSharedPreferenceChangeListener {
     fun init() {
-        SharedPreferencesHelper.get(ProfileHelper.SHARED_PREFERENCES_NAME_POSTFIX)
-            .registerOnSharedPreferenceChangeListener(this)
+        ProfileHelper.sharedPreferencesRegister(this)
     }
 
     fun dispose() {
-        SharedPreferencesHelper.get(ProfileHelper.SHARED_PREFERENCES_NAME_POSTFIX)
-            .unregisterOnSharedPreferenceChangeListener(this)
+        ProfileHelper.sharedPreferencesUnregister(this)
     }
 
     //*****************************************************************************************************************
@@ -53,9 +50,6 @@ class WindowCameraViewSharedPreferencesDelegate(private val windowCameraView: Wi
             }
             ProfileHelper.is_touchable.key -> {
                 windowCameraView.layoutDelegate.invalidateIsTouchable()
-            }
-            ProfileHelper.is_move_enabled.key -> {
-                windowCameraView.gestureDelegate.isMoveEnabled = ProfileHelper.is_move_enabled.value
             }
             ProfileHelper.is_front.key -> {
                 windowCameraView.cameraDelegate.reopenCamera()

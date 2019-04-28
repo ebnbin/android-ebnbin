@@ -13,9 +13,12 @@ import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.windowcamera.service.WindowCameraService
+import com.ebnbin.windowcamera.view.canvas.IWindowCameraViewCanvasCallback
 import com.ebnbin.windowcamera.view.canvas.IWindowCameraViewCanvasDelegate
-import com.ebnbin.windowcamera.view.canvas.WindowCameraViewCanvasCallback
 import com.ebnbin.windowcamera.view.canvas.WindowCameraViewCanvasDelegate
+import com.ebnbin.windowcamera.view.gesture.IWindowCameraViewGestureCallback
+import com.ebnbin.windowcamera.view.gesture.IWindowCameraViewGestureDelegate
+import com.ebnbin.windowcamera.view.gesture.WindowCameraViewGestureDelegate
 
 /**
  * 用于 WindowCameraService 添加到 WindowManager 上的 view.
@@ -23,7 +26,8 @@ import com.ebnbin.windowcamera.view.canvas.WindowCameraViewCanvasDelegate
  * TextureView 不支持 onDraw 或 onDrawForeground, 使用 FrameLayout 包装, 在 onDrawForeground 绘制自定义内容.
  */
 class WindowCameraView(context: Context) : FrameLayout(context),
-    WindowCameraViewCanvasCallback
+    IWindowCameraViewCanvasCallback,
+    IWindowCameraViewGestureCallback
 {
     init {
         setWillNotDraw(false)
@@ -54,7 +58,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    val gestureDelegate: WindowCameraViewGestureDelegate = WindowCameraViewGestureDelegate(this)
+    private val gestureDelegate: IWindowCameraViewGestureDelegate = WindowCameraViewGestureDelegate(this)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -62,22 +66,30 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         return super.onTouchEvent(event)
     }
 
-    fun onMove(x: Float, y: Float) {
-        layoutDelegate.putPosition(layoutParams.width, layoutParams.height, x, y)
+    override fun onMove(layoutX: Float, layoutY: Float) {
+        layoutDelegate.putPosition(layoutParams.width, layoutParams.height, layoutX, layoutY)
     }
 
-    fun onSingleTap() {
+    override fun onSingleTap() {
         cameraDelegate.onSingleTap()
     }
 
-    fun onDoubleTap() {
+    override fun onDoubleTap() {
         AppHelper.vibrate(50L)
         AppHelper.restartMainActivity()
     }
 
-    fun onLongPress() {
+    override fun onLongPress() {
         AppHelper.vibrate(100L)
         WindowCameraService.stop(context)
+    }
+
+    override fun getLayoutX(): Int {
+        return (layoutParams as WindowManager.LayoutParams).x
+    }
+
+    override fun getLayoutY(): Int {
+        return (layoutParams as WindowManager.LayoutParams).y
     }
 
     //*****************************************************************************************************************
@@ -115,9 +127,11 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         cameraDelegate.init()
         layoutDelegate.init()
         canvasDelegate.init(this)
+        gestureDelegate.init(this)
     }
 
     override fun onDetachedFromWindow() {
+        gestureDelegate.dispose()
         canvasDelegate.dispose()
         layoutDelegate.dispose()
         cameraDelegate.dispose()

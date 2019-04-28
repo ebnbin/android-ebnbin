@@ -18,4 +18,12 @@ object SharedPreferencesHelper {
     fun get(namePostfix: String = ""): SharedPreferences {
         return ebApp.getSharedPreferences(getName(namePostfix), Context.MODE_PRIVATE)
     }
+
+    fun register(listener: SharedPreferences.OnSharedPreferenceChangeListener, namePostfix: String = "") {
+        get(namePostfix).registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    fun unregister(listener: SharedPreferences.OnSharedPreferenceChangeListener, namePostfix: String = "") {
+        get(namePostfix).unregisterOnSharedPreferenceChangeListener(listener)
+    }
 }
