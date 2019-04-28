@@ -1,11 +1,11 @@
-package com.ebnbin.windowcamera.app
+package com.ebnbin.windowcamera.view
 
 import android.graphics.Canvas
 import android.graphics.Paint
 import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.windowcamera.R
 
-class WindowCameraViewCanvasHelper(private val windowCameraView: WindowCameraView) {
+class WindowCameraViewCanvasDelegate(private val windowCameraView: WindowCameraView) {
     private val paint: Paint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = 2f.dpToPx

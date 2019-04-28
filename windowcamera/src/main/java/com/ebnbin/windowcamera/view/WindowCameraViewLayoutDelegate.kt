@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.app
+package com.ebnbin.windowcamera.view
 
 import android.view.WindowManager
 import com.ebnbin.eb.util.RotationSize
@@ -8,7 +8,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-class WindowCameraViewLayoutHelper(private val windowCameraView: WindowCameraView) {
+class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraView) {
     fun invalidateLayout(invalidateIsOutEnabled: Boolean, invalidateSize: Boolean) {
         windowCameraView.updateLayoutParams {
             // 参数不合法.

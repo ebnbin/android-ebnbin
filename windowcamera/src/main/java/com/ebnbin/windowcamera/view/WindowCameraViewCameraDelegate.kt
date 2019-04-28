@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.app
+package com.ebnbin.windowcamera.view
 
 import android.annotation.SuppressLint
 import android.graphics.ImageFormat
@@ -18,12 +18,13 @@ import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.util.IOHelper
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.max
 
-class WindowCameraViewCameraHelper(private val windowCameraView: WindowCameraView) :
+class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraView) :
     ImageReader.OnImageAvailableListener
 {
     private lateinit var device: CameraHelper.Device
@@ -404,7 +405,7 @@ class WindowCameraViewCameraHelper(private val windowCameraView: WindowCameraVie
         closeCamera()
         invalidateCamera()
         if (invalidateLayout) {
-            windowCameraView.layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+            windowCameraView.layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
         }
         openCamera()
     }

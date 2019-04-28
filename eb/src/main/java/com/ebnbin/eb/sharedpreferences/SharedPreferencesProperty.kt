@@ -5,9 +5,9 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
- * 偏好代理.
+ * 偏好属性代理.
  */
-internal class SharedPreferencesDelegate<T>(
+internal class SharedPreferencesProperty<T>(
     private val key: String,
     private val getDefaultValue: () -> T,
     private val getSharedPreferences: () -> SharedPreferences

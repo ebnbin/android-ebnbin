@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.app
+package com.ebnbin.windowcamera.view
 
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -6,7 +6,7 @@ import android.view.WindowManager
 import androidx.core.view.GestureDetectorCompat
 import com.ebnbin.windowcamera.profile.ProfileHelper
 
-class WindowCameraViewGestureHelper(private val windowCameraView: WindowCameraView) :
+class WindowCameraViewGestureDelegate(private val windowCameraView: WindowCameraView) :
     GestureDetector.OnGestureListener,
     GestureDetector.OnDoubleTapListener
 {

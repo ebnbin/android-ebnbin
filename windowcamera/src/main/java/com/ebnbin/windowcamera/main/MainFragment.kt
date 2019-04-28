@@ -18,8 +18,8 @@ import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.ebApp
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.app.WindowCameraService
-import com.ebnbin.windowcamera.app.WindowCameraServiceEvent
+import com.ebnbin.windowcamera.service.WindowCameraService
+import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.menu.MenuDialogFragment
 import com.ebnbin.windowcamera.profile.ProfileHelper

@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.app
+package com.ebnbin.windowcamera.view
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,6 +17,7 @@ import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.service.WindowCameraService
 
 /**
  * 用于 WindowCameraService 添加到 WindowManager 上的 view.
@@ -47,11 +48,11 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
         startBackgroundThread()
 
-        cameraHelper.invalidateCamera()
-        layoutHelper.invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-        layoutHelper.invalidateAlpha()
-        layoutHelper.invalidateIsKeepScreenOnEnabled()
-        layoutHelper.invalidateIsTouchable()
+        cameraDelegate.invalidateCamera()
+        layoutDelegate.invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+        layoutDelegate.invalidateAlpha()
+        layoutDelegate.invalidateIsKeepScreenOnEnabled()
+        layoutDelegate.invalidateIsTouchable()
     }
 
     override fun onDetachedFromWindow() {
@@ -80,16 +81,16 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
-        cameraHelper.invalidateTransform()
-        cameraHelper.openCamera()
+        cameraDelegate.invalidateTransform()
+        cameraDelegate.openCamera()
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
-        cameraHelper.invalidateTransform()
+        cameraDelegate.invalidateTransform()
     }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
-        cameraHelper.closeCamera()
+        cameraDelegate.closeCamera()
         return true
     }
 
@@ -101,55 +102,55 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ProfileHelper.size.key -> {
-                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+                layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
             }
             ProfileHelper.ratio.key -> {
-                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+                layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
             }
             ProfileHelper.is_out_enabled.key -> {
-                layoutHelper.invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+                layoutDelegate.invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
             }
             ProfileHelper.in_x.key -> {
-                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+                layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
             ProfileHelper.in_y.key -> {
-                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+                layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
             ProfileHelper.out_x.key -> {
-                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+                layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
             ProfileHelper.out_y.key -> {
-                layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
+                layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = false)
             }
             ProfileHelper.alpha.key -> {
-                layoutHelper.invalidateAlpha()
+                layoutDelegate.invalidateAlpha()
             }
             ProfileHelper.is_keep_screen_on_enabled.key -> {
-                layoutHelper.invalidateIsKeepScreenOnEnabled()
+                layoutDelegate.invalidateIsKeepScreenOnEnabled()
             }
             ProfileHelper.is_touchable.key -> {
-                layoutHelper.invalidateIsTouchable()
+                layoutDelegate.invalidateIsTouchable()
             }
             ProfileHelper.is_move_enabled.key -> {
-                gestureHelper.isMoveEnabled = ProfileHelper.is_move_enabled.value
+                gestureDelegate.isMoveEnabled = ProfileHelper.is_move_enabled.value
             }
             ProfileHelper.is_front.key -> {
-                cameraHelper.reopenCamera()
+                cameraDelegate.reopenCamera()
             }
             ProfileHelper.is_video.key -> {
-                cameraHelper.reopenCamera()
+                cameraDelegate.reopenCamera()
             }
             ProfileHelper.back_photo_resolution.key -> {
-                cameraHelper.reopenCamera(true)
+                cameraDelegate.reopenCamera(true)
             }
             ProfileHelper.back_video_profile.key -> {
-                cameraHelper.reopenCamera(true)
+                cameraDelegate.reopenCamera(true)
             }
             ProfileHelper.front_photo_resolution.key -> {
-                cameraHelper.reopenCamera(true)
+                cameraDelegate.reopenCamera(true)
             }
             ProfileHelper.front_video_profile.key -> {
-                cameraHelper.reopenCamera(true)
+                cameraDelegate.reopenCamera(true)
             }
         }
     }
@@ -157,17 +158,18 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     //*****************************************************************************************************************
 
     override fun onRotationChanged(oldRotation: Int, newRotation: Int) {
-        cameraHelper.displayRotation = newRotation
-        layoutHelper.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
-        cameraHelper.invalidateTransform()
+        cameraDelegate.displayRotation = newRotation
+        layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+        cameraDelegate.invalidateTransform()
     }
 
     //*****************************************************************************************************************
 
-    val layoutHelper: WindowCameraViewLayoutHelper = WindowCameraViewLayoutHelper(this)
+    val layoutDelegate: WindowCameraViewLayoutDelegate =
+        WindowCameraViewLayoutDelegate(this)
 
     fun getRatioBySp(): Ratio {
-        return cameraHelper.getRatioBySp()
+        return cameraDelegate.getRatioBySp()
     }
 
     fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
@@ -178,20 +180,21 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    private val gestureHelper: WindowCameraViewGestureHelper = WindowCameraViewGestureHelper(this)
+    private val gestureDelegate: WindowCameraViewGestureDelegate =
+        WindowCameraViewGestureDelegate(this)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (gestureHelper.onTouchEvent(event)) return true
+        if (gestureDelegate.onTouchEvent(event)) return true
         return super.onTouchEvent(event)
     }
 
     fun onMove(x: Float, y: Float) {
-        layoutHelper.putPosition(layoutParams.width, layoutParams.height, x, y)
+        layoutDelegate.putPosition(layoutParams.width, layoutParams.height, x, y)
     }
 
     fun onSingleTap() {
-        cameraHelper.onSingleTap()
+        cameraDelegate.onSingleTap()
     }
 
     fun onDoubleTap() {
@@ -206,7 +209,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    private val cameraHelper: WindowCameraViewCameraHelper = WindowCameraViewCameraHelper(this)
+    private val cameraDelegate: WindowCameraViewCameraDelegate =
+        WindowCameraViewCameraDelegate(this)
 
     fun getSurfaceTexture(): SurfaceTexture {
         return textureView.surfaceTexture
@@ -214,10 +218,11 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    private val canvasHelper: WindowCameraViewCanvasHelper = WindowCameraViewCanvasHelper(this)
+    private val canvasDelegate: WindowCameraViewCanvasDelegate =
+        WindowCameraViewCanvasDelegate(this)
 
     override fun onDrawForeground(canvas: Canvas?) {
         super.onDrawForeground(canvas)
-        canvasHelper.onDraw(canvas)
+        canvasDelegate.onDraw(canvas)
     }
 }

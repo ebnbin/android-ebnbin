@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.app
+package com.ebnbin.windowcamera.service
 
 import android.content.BroadcastReceiver
 import android.content.Context

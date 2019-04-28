@@ -27,8 +27,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="fullUser"/>
 
-        <service android:name=".app.WindowCameraService"/>
+        <service android:name=".service.WindowCameraService"/>
 
-        <receiver android:name=".app.StopWindowCameraServiceBroadcastReceiver"/>
+        <receiver android:name=".service.StopWindowCameraServiceBroadcastReceiver"/>
     </application>
 </manifest>
