@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 窗口. -->
+    <!-- ********************************************************************************************************** -->
+    <eat-comment/>
+
     <string name="profile_layout" translatable="false">layout</string>
     <string name="profile_layout_title">布局</string>
 
@@ -53,14 +57,14 @@
     <string name="profile_out_x" translatable="false">out_x</string>
     <integer name="profile_out_x_default_value">50</integer>
     <string name="profile_out_x_title">窗口水平位置</string>
-    <string name="profile_out_x_summary">窗口在屏幕水平方向位置的百分比。值为 0 时窗口贴边屏幕左侧，值为 100 时窗口贴边屏幕右侧</string>
+    <string name="profile_out_x_summary">窗口在屏幕水平方向位置的百分比。\n值为 0 时窗口贴边屏幕左侧，值为 100 时窗口贴边屏幕右侧</string>
     <integer name="profile_out_x_min">-99</integer>
     <integer name="profile_out_x_max">199</integer>
 
     <string name="profile_out_y" translatable="false">out_y</string>
     <integer name="profile_out_y_default_value">50</integer>
     <string name="profile_out_y_title">窗口垂直位置</string>
-    <string name="profile_out_y_summary">窗口在屏幕垂直方向位置的百分比。值为 0 时窗口贴边屏幕顶部，值为 100 时窗口贴边屏幕底部</string>
+    <string name="profile_out_y_summary">窗口在屏幕垂直方向位置的百分比。\n值为 0 时窗口贴边屏幕顶部，值为 100 时窗口贴边屏幕底部</string>
     <integer name="profile_out_y_min">-99</integer>
     <integer name="profile_out_y_max">199</integer>
 
@@ -84,9 +88,9 @@
 
     <string name="profile_is_touchable" translatable="false">is_touchable</string>
     <bool name="profile_is_touchable_default_value">true</bool>
-    <string name="profile_is_touchable_title">是否接收触摸事件。如果禁用，触摸屏幕会直接操控窗口下层的其他应用</string>
-    <string name="profile_is_touchable_summary_off">不接收</string>
-    <string name="profile_is_touchable_summary_on">接收</string>
+    <string name="profile_is_touchable_title">窗口接收触摸事件。\n如果禁用，触摸窗口会直接操控下层的其他应用</string>
+    <string name="profile_is_touchable_summary_off">禁用</string>
+    <string name="profile_is_touchable_summary_on">启用</string>
 
     <string name="profile_is_touchable_on" translatable="false">is_touchable_on</string>
 
@@ -104,9 +108,13 @@
 
     <string name="profile_is_move_enabled" translatable="false">is_move_enabled</string>
     <bool name="profile_is_move_enabled_default_value">true</bool>
-    <string name="profile_is_move_enabled_title">是否允许拖动窗口移动</string>
-    <string name="profile_is_move_enabled_summary_off">不允许</string>
-    <string name="profile_is_move_enabled_summary_on">允许</string>
+    <string name="profile_is_move_enabled_title">通过手势移动窗口</string>
+    <string name="profile_is_move_enabled_summary_off">禁用</string>
+    <string name="profile_is_move_enabled_summary_on">启用</string>
+
+    <!-- 相机. -->
+    <!-- ********************************************************************************************************** -->
+    <eat-comment/>
 
     <string name="profile_is_front" translatable="false">is_front</string>
     <bool name="profile_is_front_default_value">false</bool>
@@ -120,51 +128,34 @@
     <string name="profile_is_video_summary_off">照片</string>
     <string name="profile_is_video_summary_on">视频</string>
 
+    <string name="profile_photo_resolution_entry">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素</string>
+    <string name="profile_video_profile_entry">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素，%6$s</string>
+
     <string name="profile_back_photo" translatable="false">back_photo</string>
-    <string-array name="profile_back_photo_visible_keys_off" translatable="false">
-        <item>@string/profile_is_front</item>
-        <item>@string/profile_is_video</item>
-    </string-array>
 
     <string name="profile_back_photo_resolution" translatable="false">back_photo_resolution</string>
     <string name="profile_back_photo_resolution_title">后置摄像头照片分辨率</string>
 
-    <string name="profile_photo_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素</string>
-
     <string name="profile_back_video" translatable="false">back_video</string>
-    <string-array name="profile_back_video_visible_keys_off" translatable="false">
-        <item>@string/profile_is_front</item>
-    </string-array>
-    <string-array name="profile_back_video_visible_keys_on" translatable="false">
-        <item>@string/profile_is_video</item>
-    </string-array>
 
     <string name="profile_back_video_profile" translatable="false">back_video_profile</string>
     <string name="profile_back_video_profile_title">后置摄像头视频配置</string>
 
-    <string name="profile_video_resolution_summary">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素，%6$s</string>
-
     <string name="profile_front_photo" translatable="false">front_photo</string>
-    <string-array name="profile_front_photo_visible_keys_off" translatable="false">
-        <item>@string/profile_is_video</item>
-    </string-array>
-    <string-array name="profile_front_photo_visible_keys_on" translatable="false">
-        <item>@string/profile_is_front</item>
-    </string-array>
 
     <string name="profile_front_photo_resolution" translatable="false">front_photo_resolution</string>
     <string name="profile_front_photo_resolution_title">前置摄像头照片分辨率</string>
 
     <string name="profile_front_video" translatable="false">front_video</string>
-    <string-array name="profile_front_video_visible_keys_on" translatable="false">
-        <item>@string/profile_is_front</item>
-        <item>@string/profile_is_video</item>
-    </string-array>
 
     <string name="profile_front_video_profile" translatable="false">front_video_profile</string>
     <string name="profile_front_video_profile_title">前置摄像头视频配置</string>
 
+    <!-- 其他. -->
+    <!-- ********************************************************************************************************** -->
+    <eat-comment/>
+
     <string name="profile_path" translatable="false">path</string>
     <string name="profile_path_title">存储路径</string>
-    <string name="profile_path_summary">%1$s。应用卸载后文件会被删除</string>
+    <string name="profile_path_summary">应用卸载后文件会被删除。\n%1$s</string>
 </resources>

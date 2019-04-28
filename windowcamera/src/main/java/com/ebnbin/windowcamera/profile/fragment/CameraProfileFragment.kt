@@ -31,7 +31,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             entries = CameraHelper.backDevice.photoResolutions
-                .map { getString(R.string.profile_photo_resolution_summary, it.width, it.height, it.ratioWidth,
+                .map { getString(R.string.profile_photo_resolution_entry, it.width, it.height, it.ratioWidth,
                     it.ratioHeight, it.megapixel) }
                 .toTypedArray()
             setIcon(R.drawable.profile_resolution)
@@ -55,7 +55,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .toTypedArray()
             entries = CameraHelper.backDevice.videoProfiles
                 .map {
-                    getString(R.string.profile_video_resolution_summary, it.width, it.height, it.ratioWidth,
+                    getString(R.string.profile_video_profile_entry, it.width, it.height, it.ratioWidth,
                         it.ratioHeight, it.megapixel, it.qualityString) }
                 .toTypedArray()
             setIcon(R.drawable.profile_video_profile)
@@ -78,7 +78,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .map { it.key }
                 .toTypedArray()
             entries = CameraHelper.frontDevice.photoResolutions
-                .map { getString(R.string.profile_photo_resolution_summary, it.width, it.height, it.ratioWidth,
+                .map { getString(R.string.profile_photo_resolution_entry, it.width, it.height, it.ratioWidth,
                     it.ratioHeight, it.megapixel) }
                 .toTypedArray()
             setIcon(R.drawable.profile_resolution)
@@ -101,7 +101,7 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .toTypedArray()
             entries = CameraHelper.frontDevice.videoProfiles
                 .map {
-                    getString(R.string.profile_video_resolution_summary, it.width, it.height, it.ratioWidth,
+                    getString(R.string.profile_video_profile_entry, it.width, it.height, it.ratioWidth,
                         it.ratioHeight, it.megapixel, it.qualityString) }
                 .toTypedArray()
             setIcon(R.drawable.profile_video_profile)
