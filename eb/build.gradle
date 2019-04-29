@@ -12,8 +12,8 @@ android {
 }
 
 dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    api 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion" // https://github.com/JetBrains/kotlin
+    api 'androidx.appcompat:appcompat:1.1.0-alpha04' // https://developer.android.com/jetpack/androidx
     api 'androidx.core:core-ktx:1.1.0-alpha05'
     api 'androidx.preference:preference-ktx:1.1.0-alpha04'
     api 'com.google.android.material:material:1.1.0-alpha05'

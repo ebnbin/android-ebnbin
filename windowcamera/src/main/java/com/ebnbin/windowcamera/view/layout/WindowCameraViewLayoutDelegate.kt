@@ -181,6 +181,7 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
     }
 
     override fun putPosition(layoutWidth: Int, layoutHeight: Int, layoutX: Int, layoutY: Int) {
+        // TODO: NaN.
         fun calcPositionPercent(position: Int, range: Int, percentOffset: Int, isOutEnabled: Boolean): Int {
             var positionPercent = (position.toFloat() / range * 100f).roundToInt() + percentOffset
             positionPercent = min(positionPercent, if (isOutEnabled) 199 else 100)

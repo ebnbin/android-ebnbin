@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import com.ebnbin.eb.about.AboutFragment
+import com.ebnbin.eb.app.EBActivity
 import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.crash.CrashRuntimeException
 import com.ebnbin.eb.library.gson
@@ -30,6 +32,10 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Calling Activity", activity?.callingActivity?.className.toString())
 
         addDebugItem("Calling Fragment", callingFragmentClassName.toString())
+
+        addDebugItem("About") {
+            EBActivity.startFragment(requireContext(), AboutFragment::class.java)
+        }
 
         addDebugItem("User") {
             val fileName = "${AppHelper.getUserId()}.json"

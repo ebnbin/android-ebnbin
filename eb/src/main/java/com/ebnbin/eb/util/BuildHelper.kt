@@ -6,12 +6,18 @@ object BuildHelper {
     val versionCode: Int
         get() {
             val packageInfo = ebApp.packageManager.getPackageInfo(ebApp.packageName, 0)
-            return if (BuildHelper.sdk28P()) {
+            return if (sdk28P()) {
                 packageInfo.longVersionCode.toInt()
             } else {
                 @Suppress("DEPRECATION")
                 packageInfo.versionCode
             }
+        }
+
+    val versionName: String
+        get() {
+            val packageInfo = ebApp.packageManager.getPackageInfo(ebApp.packageName, 0)
+            return packageInfo.versionName
         }
 
     /**
