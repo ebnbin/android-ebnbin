@@ -12,6 +12,7 @@ import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.view.canvas.IWindowCameraViewCanvasCallback
 import com.ebnbin.windowcamera.view.canvas.IWindowCameraViewCanvasDelegate
@@ -19,6 +20,8 @@ import com.ebnbin.windowcamera.view.canvas.WindowCameraViewCanvasDelegate
 import com.ebnbin.windowcamera.view.gesture.IWindowCameraViewGestureCallback
 import com.ebnbin.windowcamera.view.gesture.IWindowCameraViewGestureDelegate
 import com.ebnbin.windowcamera.view.gesture.WindowCameraViewGestureDelegate
+import com.ebnbin.windowcamera.view.surfacetexture.IWindowCameraViewSurfaceTextureCallback
+import com.ebnbin.windowcamera.view.surfacetexture.WindowCameraViewSurfaceTextureDelegate
 
 /**
  * 用于 WindowCameraService 添加到 WindowManager 上的 view.
@@ -27,7 +30,8 @@ import com.ebnbin.windowcamera.view.gesture.WindowCameraViewGestureDelegate
  */
 class WindowCameraView(context: Context) : FrameLayout(context),
     IWindowCameraViewCanvasCallback,
-    IWindowCameraViewGestureCallback
+    IWindowCameraViewGestureCallback,
+    IWindowCameraViewSurfaceTextureCallback
 {
     init {
         setWillNotDraw(false)
@@ -35,10 +39,23 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    val surfaceDelegate: WindowCameraViewSurfaceDelegate = WindowCameraViewSurfaceDelegate(this)
+    private val surfaceTextureDelegate: WindowCameraViewSurfaceTextureDelegate =
+        WindowCameraViewSurfaceTextureDelegate(this)
 
-    fun getViewGroup(): ViewGroup {
+    override fun getViewGroup(): ViewGroup {
         return this
+    }
+
+    override fun onSurfaceTextureCreated() {
+        cameraDelegate.openCamera()
+    }
+
+    override fun onSurfaceTextureDestroyed() {
+        cameraDelegate.closeCamera()
+    }
+
+    override fun getPreviewResolution(): CameraHelper.Device.Resolution {
+        return cameraDelegate.previewResolution
     }
 
     //*****************************************************************************************************************
@@ -98,7 +115,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         WindowCameraViewCameraDelegate(this)
 
     fun getSurfaceTexture(): SurfaceTexture {
-        return surfaceDelegate.textureView.surfaceTexture
+        return surfaceTextureDelegate.getSurfaceTexture()
     }
 
     fun getDisplaySize(): RotationSize {
@@ -128,9 +145,11 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         layoutDelegate.init()
         canvasDelegate.init(this)
         gestureDelegate.init(this)
+        surfaceTextureDelegate.init(this)
     }
 
     override fun onDetachedFromWindow() {
+        surfaceTextureDelegate.dispose()
         gestureDelegate.dispose()
         canvasDelegate.dispose()
         layoutDelegate.dispose()

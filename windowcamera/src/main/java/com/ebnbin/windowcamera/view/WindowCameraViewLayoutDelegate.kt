@@ -32,7 +32,7 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
         displaySize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
             WindowHelper.displaySize
         invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
-        windowCameraView.cameraDelegate.invalidateTransform()
+//        windowCameraView.cameraDelegate.invalidateTransform()
     }
 
     //*****************************************************************************************************************

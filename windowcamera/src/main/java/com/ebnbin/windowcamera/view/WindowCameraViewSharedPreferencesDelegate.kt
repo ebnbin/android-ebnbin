@@ -58,16 +58,16 @@ class WindowCameraViewSharedPreferencesDelegate(private val windowCameraView: Wi
                 windowCameraView.cameraDelegate.reopenCamera()
             }
             ProfileHelper.back_photo_resolution.key -> {
-                windowCameraView.cameraDelegate.reopenCamera(true)
+                windowCameraView.cameraDelegate.reopenCamera()
             }
             ProfileHelper.back_video_profile.key -> {
-                windowCameraView.cameraDelegate.reopenCamera(true)
+                windowCameraView.cameraDelegate.reopenCamera()
             }
             ProfileHelper.front_photo_resolution.key -> {
-                windowCameraView.cameraDelegate.reopenCamera(true)
+                windowCameraView.cameraDelegate.reopenCamera()
             }
             ProfileHelper.front_video_profile.key -> {
-                windowCameraView.cameraDelegate.reopenCamera(true)
+                windowCameraView.cameraDelegate.reopenCamera()
             }
         }
     }

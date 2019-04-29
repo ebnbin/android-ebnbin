@@ -2,8 +2,6 @@ package com.ebnbin.windowcamera.view
 
 import android.annotation.SuppressLint
 import android.graphics.ImageFormat
-import android.graphics.Matrix
-import android.graphics.RectF
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CaptureRequest
@@ -24,7 +22,6 @@ import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.util.IOHelper
 import java.io.File
 import java.io.FileOutputStream
-import kotlin.math.max
 
 class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraView) :
     ImageReader.OnImageAvailableListener
@@ -58,7 +55,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
     private var isVideo: Boolean = false
     private lateinit var photoResolution: CameraHelper.Device.Resolution
     private lateinit var videoProfile: CameraHelper.Device.VideoProfile
-    private lateinit var previewResolution: CameraHelper.Device.Resolution
+    lateinit var previewResolution: CameraHelper.Device.Resolution
 
     private fun invalidateCamera() {
         device = ProfileHelper.device()
@@ -70,45 +67,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         }
         previewResolution = device.defaultPreviewResolution
 
-        invalidateTransform()
-    }
-
-    //*****************************************************************************************************************
-
-    fun invalidateTransform() {
-        windowCameraView.surfaceDelegate.textureView.surfaceTexture?.setDefaultBufferSize(
-            previewResolution.width, previewResolution.height)
-
-        val viewWidth = windowCameraView.surfaceDelegate.textureView.width.toFloat()
-        val viewHeight = windowCameraView.surfaceDelegate.textureView.height.toFloat()
-
-        val viewCenterX = 0.5f * viewWidth
-        val viewCenterY = 0.5f * viewHeight
-
-        val bufferWidth = previewResolution.widths.getValue(Surface.ROTATION_0).toFloat()
-        val bufferHeight = previewResolution.heights.getValue(Surface.ROTATION_0).toFloat()
-
-        val viewRectF = RectF(0f, 0f, viewWidth, viewHeight)
-
-        val bufferLeft = 0.5f * (viewWidth - bufferWidth)
-        val bufferTop = 0.5f * (viewHeight - bufferHeight)
-        val bufferRight = bufferLeft + bufferWidth
-        val bufferBottom = bufferTop + bufferHeight
-        val bufferRectF = RectF(bufferLeft, bufferTop, bufferRight, bufferBottom)
-
-        val matrix = Matrix()
-
-        matrix.setRectToRect(viewRectF, bufferRectF, Matrix.ScaleToFit.FILL)
-
-        val scaleX = viewWidth / previewResolution.widths.getValue(windowCameraView.getDisplaySize().rotation)
-        val scaleY = viewHeight / previewResolution.heights.getValue(windowCameraView.getDisplaySize().rotation)
-        val scale = max(scaleX, scaleY)
-        matrix.postScale(scale, scale, viewCenterX, viewCenterY)
-
-        val rotate = 360f - 90f * windowCameraView.getDisplaySize().rotation
-        matrix.postRotate(rotate, viewCenterX, viewCenterY)
-
-        windowCameraView.surfaceDelegate.textureView.setTransform(matrix)
+//        invalidateTransform()
     }
 
     //*****************************************************************************************************************
@@ -428,12 +387,10 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         }
     }
 
-    fun reopenCamera(invalidateLayout: Boolean = false) {
+    fun reopenCamera() {
         closeCamera()
         invalidateCamera()
-        if (invalidateLayout) {
-            windowCameraView.layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
-        }
+        windowCameraView.layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
         openCamera()
     }
 }

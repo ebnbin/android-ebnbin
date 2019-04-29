@@ -10,9 +10,6 @@ object WindowHelper {
     private val display: Display
         get() = SystemServices.windowManager.defaultDisplay
 
-    /**
-     * 不要频繁调用.
-     */
     val displayRotation: Int
         get() = display.rotation
 
