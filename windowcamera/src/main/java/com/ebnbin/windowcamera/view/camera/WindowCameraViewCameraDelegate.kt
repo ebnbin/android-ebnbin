@@ -128,6 +128,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         ProfileHelper.isCameraProfileInvalidating = false
     }
 
+    private fun reopenCamera() {
+        closeCamera()
+        callback.invalidateSizePosition()
+        openCamera()
+    }
+
     //*****************************************************************************************************************
 
     private fun startPreview() {
@@ -359,6 +365,16 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
     //*****************************************************************************************************************
 
+    override fun capture() {
+        if (ProfileHelper.is_video.value) {
+            videoCapture()
+        } else {
+            photoCapture()
+        }
+    }
+
+    //*****************************************************************************************************************
+
     private fun nextFile(extension: String): File {
         val path = IOHelper.getPath()
         if (!path.exists()) {
@@ -373,21 +389,5 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun onCameraError() {
         AppHelper.toast(callback.getContext(), R.string.camera_error)
         WindowCameraService.stop(callback.getContext())
-    }
-
-    //*****************************************************************************************************************
-
-    override fun capture() {
-        if (ProfileHelper.is_video.value) {
-            videoCapture()
-        } else {
-            photoCapture()
-        }
-    }
-
-    private fun reopenCamera() {
-        closeCamera()
-        callback.invalidateSizePosition()
-        openCamera()
     }
 }

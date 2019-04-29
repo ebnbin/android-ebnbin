@@ -3,7 +3,7 @@ package com.ebnbin.windowcamera.view.surfacetexture
 import android.view.ViewGroup
 import com.ebnbin.windowcamera.view.IWindowCameraViewCallback
 
-interface IWindowCameraViewSurfaceTextureCallback : IWindowCameraViewCallback {
+interface IWindowCameraViewSurfaceCallback : IWindowCameraViewCallback {
     /**
      * 返回 TextureView 要被添加到的 ViewGroup.
      */

@@ -10,8 +10,11 @@ import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import kotlin.math.max
 
-class WindowCameraViewSurfaceTextureDelegate(private val callback: IWindowCameraViewSurfaceTextureCallback) :
-    IWindowCameraViewSurfaceTextureDelegate,
+/**
+ * 需要晚于 WindowCameraViewLayoutDelegate 初始化.
+ */
+class WindowCameraViewSurfaceDelegate(private val callback: IWindowCameraViewSurfaceCallback) :
+    IWindowCameraViewSurfaceDelegate,
     TextureView.SurfaceTextureListener,
     RotationDetector.Listener
 {
@@ -26,7 +29,7 @@ class WindowCameraViewSurfaceTextureDelegate(private val callback: IWindowCamera
     //*****************************************************************************************************************
 
     private val textureView: TextureView = TextureView(callback.getContext()).apply {
-        surfaceTextureListener = this@WindowCameraViewSurfaceTextureDelegate
+        surfaceTextureListener = this@WindowCameraViewSurfaceDelegate
         callback.getViewGroup().addView(this)
     }
 

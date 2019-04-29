@@ -23,9 +23,9 @@ import com.ebnbin.windowcamera.view.gesture.WindowCameraViewGestureDelegate
 import com.ebnbin.windowcamera.view.layout.IWindowCameraViewLayoutCallback
 import com.ebnbin.windowcamera.view.layout.IWindowCameraViewLayoutDelegate
 import com.ebnbin.windowcamera.view.layout.WindowCameraViewLayoutDelegate
-import com.ebnbin.windowcamera.view.surfacetexture.IWindowCameraViewSurfaceTextureCallback
-import com.ebnbin.windowcamera.view.surfacetexture.IWindowCameraViewSurfaceTextureDelegate
-import com.ebnbin.windowcamera.view.surfacetexture.WindowCameraViewSurfaceTextureDelegate
+import com.ebnbin.windowcamera.view.surfacetexture.IWindowCameraViewSurfaceCallback
+import com.ebnbin.windowcamera.view.surfacetexture.IWindowCameraViewSurfaceDelegate
+import com.ebnbin.windowcamera.view.surfacetexture.WindowCameraViewSurfaceDelegate
 
 /**
  * 用于 WindowCameraService 添加到 WindowManager 上的 view.
@@ -33,11 +33,11 @@ import com.ebnbin.windowcamera.view.surfacetexture.WindowCameraViewSurfaceTextur
  * TextureView 不支持 onDraw 或 onDrawForeground, 使用 FrameLayout 包装, 在 onDrawForeground 绘制自定义内容.
  */
 class WindowCameraView(context: Context) : FrameLayout(context),
-    IWindowCameraViewCanvasCallback,
-    IWindowCameraViewGestureCallback,
-    IWindowCameraViewSurfaceTextureCallback,
+    IWindowCameraViewCameraCallback,
     IWindowCameraViewLayoutCallback,
-    IWindowCameraViewCameraCallback
+    IWindowCameraViewSurfaceCallback,
+    IWindowCameraViewGestureCallback,
+    IWindowCameraViewCanvasCallback
 {
     init {
         setWillNotDraw(false)
@@ -45,8 +45,29 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    private val surfaceTextureDelegate: IWindowCameraViewSurfaceTextureDelegate =
-        WindowCameraViewSurfaceTextureDelegate(this)
+    private val cameraDelegate: IWindowCameraViewCameraDelegate = WindowCameraViewCameraDelegate(this)
+
+    override fun getSurfaceTexture(): SurfaceTexture {
+        return surfaceDelegate.getSurfaceTexture()
+    }
+
+    override fun invalidateSizePosition() {
+        layoutDelegate.invalidateSizePosition()
+    }
+
+    //*****************************************************************************************************************
+
+    private val layoutDelegate: IWindowCameraViewLayoutDelegate = WindowCameraViewLayoutDelegate(this)
+
+    override fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
+        val params = layoutParams as WindowManager.LayoutParams
+        block(params)
+        SystemServices.windowManager.updateViewLayout(this, params)
+    }
+
+    //*****************************************************************************************************************
+
+    private val surfaceDelegate: IWindowCameraViewSurfaceDelegate = WindowCameraViewSurfaceDelegate(this)
 
     override fun getViewGroup(): ViewGroup {
         return this
@@ -62,26 +83,20 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    private val layoutDelegate: IWindowCameraViewLayoutDelegate = WindowCameraViewLayoutDelegate(this)
-
-    override fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
-        val params = layoutParams as WindowManager.LayoutParams
-        block(params)
-        SystemServices.windowManager.updateViewLayout(this, params)
-    }
-
-    override fun invalidateSizePosition() {
-        layoutDelegate.invalidateSizePosition()
-    }
-
-    //*****************************************************************************************************************
-
     private val gestureDelegate: IWindowCameraViewGestureDelegate = WindowCameraViewGestureDelegate(this)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (gestureDelegate.onTouchEvent(event)) return true
         return super.onTouchEvent(event)
+    }
+
+    override fun getLayoutX(): Int {
+        return (layoutParams as WindowManager.LayoutParams).x
+    }
+
+    override fun getLayoutY(): Int {
+        return (layoutParams as WindowManager.LayoutParams).y
     }
 
     override fun onMove(layoutX: Int, layoutY: Int) {
@@ -101,22 +116,6 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         WindowCameraService.stop(context)
     }
 
-    override fun getLayoutX(): Int {
-        return (layoutParams as WindowManager.LayoutParams).x
-    }
-
-    override fun getLayoutY(): Int {
-        return (layoutParams as WindowManager.LayoutParams).y
-    }
-
-    //*****************************************************************************************************************
-
-    private val cameraDelegate: IWindowCameraViewCameraDelegate = WindowCameraViewCameraDelegate(this)
-
-    override fun getSurfaceTexture(): SurfaceTexture {
-        return surfaceTextureDelegate.getSurfaceTexture()
-    }
-
     //*****************************************************************************************************************
 
     private val canvasDelegate: IWindowCameraViewCanvasDelegate = WindowCameraViewCanvasDelegate(this)
@@ -130,18 +129,17 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        // TODO layout 要比 surfaceTexture 先初始化, 因为 RotationDetector 注册顺序.
         cameraDelegate.init()
         layoutDelegate.init()
-        canvasDelegate.init()
+        surfaceDelegate.init()
         gestureDelegate.init()
-        surfaceTextureDelegate.init()
+        canvasDelegate.init()
     }
 
     override fun onDetachedFromWindow() {
-        surfaceTextureDelegate.dispose()
-        gestureDelegate.dispose()
         canvasDelegate.dispose()
+        gestureDelegate.dispose()
+        surfaceDelegate.dispose()
         layoutDelegate.dispose()
         cameraDelegate.dispose()
         super.onDetachedFromWindow()

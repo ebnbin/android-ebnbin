@@ -11,6 +11,9 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
+/**
+ * 需要早于 WindowCameraViewSurfaceDelegate 初始化.
+ */
 class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayoutCallback) :
     IWindowCameraViewLayoutDelegate,
     SharedPreferences.OnSharedPreferenceChangeListener,
