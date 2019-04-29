@@ -20,7 +20,7 @@ interface IWindowCameraViewGestureCallback : IWindowCameraViewCallback {
      *
      * @param layoutY 移动到的 WindowManager.LayoutParams.y.
      */
-    fun onMove(layoutX: Float, layoutY: Float)
+    fun onMove(layoutX: Int, layoutY: Int)
 
     /**
      * 单击手势.

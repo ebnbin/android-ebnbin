@@ -7,7 +7,6 @@ import android.view.Surface
 import android.view.TextureView
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.WindowHelper
-import com.ebnbin.windowcamera.view.WindowCameraView
 import kotlin.math.max
 
 class WindowCameraViewSurfaceTextureDelegate(private val callback: IWindowCameraViewSurfaceTextureCallback) :
@@ -15,7 +14,7 @@ class WindowCameraViewSurfaceTextureDelegate(private val callback: IWindowCamera
     TextureView.SurfaceTextureListener,
     RotationDetector.Listener
 {
-    override fun init(windowCameraView: WindowCameraView) {
+    override fun init() {
         RotationDetector.register(this)
     }
 

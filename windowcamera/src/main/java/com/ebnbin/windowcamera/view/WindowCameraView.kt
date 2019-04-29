@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import com.ebnbin.eb.util.AppHelper
-import com.ebnbin.eb.util.Ratio
-import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -20,7 +18,11 @@ import com.ebnbin.windowcamera.view.canvas.WindowCameraViewCanvasDelegate
 import com.ebnbin.windowcamera.view.gesture.IWindowCameraViewGestureCallback
 import com.ebnbin.windowcamera.view.gesture.IWindowCameraViewGestureDelegate
 import com.ebnbin.windowcamera.view.gesture.WindowCameraViewGestureDelegate
+import com.ebnbin.windowcamera.view.layout.IWindowCameraViewLayoutCallback
+import com.ebnbin.windowcamera.view.layout.IWindowCameraViewLayoutDelegate
+import com.ebnbin.windowcamera.view.layout.WindowCameraViewLayoutDelegate
 import com.ebnbin.windowcamera.view.surfacetexture.IWindowCameraViewSurfaceTextureCallback
+import com.ebnbin.windowcamera.view.surfacetexture.IWindowCameraViewSurfaceTextureDelegate
 import com.ebnbin.windowcamera.view.surfacetexture.WindowCameraViewSurfaceTextureDelegate
 
 /**
@@ -31,7 +33,8 @@ import com.ebnbin.windowcamera.view.surfacetexture.WindowCameraViewSurfaceTextur
 class WindowCameraView(context: Context) : FrameLayout(context),
     IWindowCameraViewCanvasCallback,
     IWindowCameraViewGestureCallback,
-    IWindowCameraViewSurfaceTextureCallback
+    IWindowCameraViewSurfaceTextureCallback,
+    IWindowCameraViewLayoutCallback
 {
     init {
         setWillNotDraw(false)
@@ -39,7 +42,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    private val surfaceTextureDelegate: WindowCameraViewSurfaceTextureDelegate =
+    private val surfaceTextureDelegate: IWindowCameraViewSurfaceTextureDelegate =
         WindowCameraViewSurfaceTextureDelegate(this)
 
     override fun getViewGroup(): ViewGroup {
@@ -60,17 +63,24 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    val layoutDelegate: WindowCameraViewLayoutDelegate =
-        WindowCameraViewLayoutDelegate(this)
+    val layoutDelegate: IWindowCameraViewLayoutDelegate = WindowCameraViewLayoutDelegate(this)
 
-    fun getRatioBySp(): Ratio {
-        return cameraDelegate.getRatioBySp()
+    override fun getResolution(): CameraHelper.Device.Resolution {
+        return cameraDelegate.getResolution()
     }
 
-    fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
+    override fun getMaxResolution(): CameraHelper.Device.Resolution {
+        return cameraDelegate.getMaxResolution()
+    }
+
+    override fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
         val params = layoutParams as WindowManager.LayoutParams
         block(params)
         SystemServices.windowManager.updateViewLayout(this, params)
+    }
+
+    fun invalidateSizePosition() {
+        layoutDelegate.invalidateSizePosition()
     }
 
     //*****************************************************************************************************************
@@ -83,7 +93,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         return super.onTouchEvent(event)
     }
 
-    override fun onMove(layoutX: Float, layoutY: Float) {
+    override fun onMove(layoutX: Int, layoutY: Int) {
         layoutDelegate.putPosition(layoutParams.width, layoutParams.height, layoutX, layoutY)
     }
 
@@ -118,10 +128,6 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         return surfaceTextureDelegate.getSurfaceTexture()
     }
 
-    fun getDisplaySize(): RotationSize {
-        return layoutDelegate.displaySize
-    }
-
     //*****************************************************************************************************************
 
     private val canvasDelegate: IWindowCameraViewCanvasDelegate = WindowCameraViewCanvasDelegate(this)
@@ -140,12 +146,13 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        // TODO layout 要比 surfaceTexture 先初始化, 因为 RotationDetector 注册顺序.
         sharedPreferencesDelegate.init()
         cameraDelegate.init()
         layoutDelegate.init()
-        canvasDelegate.init(this)
-        gestureDelegate.init(this)
-        surfaceTextureDelegate.init(this)
+        canvasDelegate.init()
+        gestureDelegate.init()
+        surfaceTextureDelegate.init()
     }
 
     override fun onDetachedFromWindow() {

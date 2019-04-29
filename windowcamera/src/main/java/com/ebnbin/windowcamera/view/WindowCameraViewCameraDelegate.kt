@@ -11,7 +11,6 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.view.Surface
 import com.ebnbin.eb.util.AppHelper
-import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.TimeHelper
 import com.ebnbin.eb.util.WindowHelper
@@ -202,7 +201,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         captureRequestBuilder.addTarget(imageReaderSurface)
         captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION,
-            device.sensorOrientations.getValue(windowCameraView.getDisplaySize().rotation))
+            device.sensorOrientations.getValue(WindowHelper.displayRotation))
         val request = captureRequestBuilder.build()
         photoCameraCaptureSession.capture(request, null, null)
     }
@@ -280,8 +279,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
         mediaRecorder.setProfile(videoProfile.camcorderProfile)
         mediaRecorder.setOutputFile(videoFile.absolutePath)
-        mediaRecorder.setOrientationHint(
-            device.sensorOrientations.getValue(windowCameraView.getDisplaySize().rotation))
+        mediaRecorder.setOrientationHint(device.sensorOrientations.getValue(WindowHelper.displayRotation))
         mediaRecorder.prepare()
         this.videoFile = videoFile
         this.mediaRecorder = mediaRecorder
@@ -377,20 +375,18 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         }
     }
 
-    fun getRatioBySp(): Ratio {
-        return when (ProfileHelper.ratio.value) {
-            "capture" -> (if (isVideo) videoProfile else photoResolution).ratio
-            "raw" -> device.maxResolution.ratio
-            "screen" -> WindowHelper.displaySize.ratio
-            "square" -> Ratio.SQUARE
-            else -> throw RuntimeException()
-        }
+    fun getResolution(): CameraHelper.Device.Resolution {
+        return if (isVideo) videoProfile else photoResolution
+    }
+
+    fun getMaxResolution(): CameraHelper.Device.Resolution {
+        return device.maxResolution
     }
 
     fun reopenCamera() {
         closeCamera()
         invalidateCamera()
-        windowCameraView.layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
+        windowCameraView.invalidateSizePosition()
         openCamera()
     }
 }

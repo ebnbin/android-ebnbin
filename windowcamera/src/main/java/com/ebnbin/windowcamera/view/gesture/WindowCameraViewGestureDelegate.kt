@@ -4,14 +4,14 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.core.view.GestureDetectorCompat
 import com.ebnbin.windowcamera.profile.ProfileHelper
-import com.ebnbin.windowcamera.view.WindowCameraView
+import kotlin.math.roundToInt
 
 class WindowCameraViewGestureDelegate(private val callback: IWindowCameraViewGestureCallback) :
     IWindowCameraViewGestureDelegate,
     GestureDetector.OnGestureListener,
     GestureDetector.OnDoubleTapListener
 {
-    override fun init(windowCameraView: WindowCameraView) {
+    override fun init() {
     }
 
     override fun dispose() {
@@ -67,8 +67,8 @@ class WindowCameraViewGestureDelegate(private val callback: IWindowCameraViewGes
         e2 ?: return false
         // 缓存 is_move_enabled.
         if (!ProfileHelper.is_move_enabled.value) return false
-        val layoutX = downLayoutX + e2.rawX - downRawX
-        val layoutY = downLayoutY + e2.rawY - downRawY
+        val layoutX = (downLayoutX + e2.rawX - downRawX).roundToInt()
+        val layoutY = (downLayoutY + e2.rawY - downRawY).roundToInt()
         callback.onMove(layoutX, layoutY)
         return false
     }

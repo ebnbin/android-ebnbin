@@ -17,40 +17,6 @@ class WindowCameraViewSharedPreferencesDelegate(private val windowCameraView: Wi
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ProfileHelper.size.key -> {
-                windowCameraView.layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
-            }
-            ProfileHelper.ratio.key -> {
-                windowCameraView.layoutDelegate.invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
-            }
-            ProfileHelper.is_out_enabled.key -> {
-                windowCameraView.layoutDelegate.invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
-            }
-            ProfileHelper.in_x.key -> {
-                windowCameraView.layoutDelegate.invalidateLayout(
-                    invalidateIsOutEnabled = false, invalidateSize = false)
-            }
-            ProfileHelper.in_y.key -> {
-                windowCameraView.layoutDelegate.invalidateLayout(
-                    invalidateIsOutEnabled = false, invalidateSize = false)
-            }
-            ProfileHelper.out_x.key -> {
-                windowCameraView.layoutDelegate.invalidateLayout(
-                    invalidateIsOutEnabled = false, invalidateSize = false)
-            }
-            ProfileHelper.out_y.key -> {
-                windowCameraView.layoutDelegate.invalidateLayout(
-                    invalidateIsOutEnabled = false, invalidateSize = false)
-            }
-            ProfileHelper.alpha.key -> {
-                windowCameraView.layoutDelegate.invalidateAlpha()
-            }
-            ProfileHelper.is_keep_screen_on_enabled.key -> {
-                windowCameraView.layoutDelegate.invalidateIsKeepScreenOnEnabled()
-            }
-            ProfileHelper.is_touchable.key -> {
-                windowCameraView.layoutDelegate.invalidateIsTouchable()
-            }
             ProfileHelper.is_front.key -> {
                 windowCameraView.cameraDelegate.reopenCamera()
             }

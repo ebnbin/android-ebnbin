@@ -1,6 +1,8 @@
-package com.ebnbin.windowcamera.view
+package com.ebnbin.windowcamera.view.layout
 
+import android.content.SharedPreferences
 import android.view.WindowManager
+import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.WindowHelper
@@ -9,105 +11,164 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraView) : RotationDetector.Listener {
-    fun init() {
+class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayoutCallback) :
+    IWindowCameraViewLayoutDelegate,
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    RotationDetector.Listener
+{
+    override fun init() {
+        ProfileHelper.sharedPreferencesRegister(this)
         RotationDetector.register(this)
-        invalidateLayout(invalidateIsOutEnabled = true, invalidateSize = true)
+        invalidateSizePosition(SizePosition.ALL)
         invalidateAlpha()
         invalidateIsKeepScreenOnEnabled()
         invalidateIsTouchable()
     }
 
-    fun dispose() {
+    override fun dispose() {
         RotationDetector.unregister(this)
+        ProfileHelper.sharedPreferencesUnregister(this)
     }
 
     //*****************************************************************************************************************
 
-    var displaySize: RotationSize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
-        WindowHelper.displaySize
-        private set
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            ProfileHelper.size.key -> {
+                invalidateSizePosition(SizePosition.SIZE_POSITION)
+            }
+            ProfileHelper.ratio.key -> {
+                invalidateSizePosition(SizePosition.SIZE_POSITION)
+            }
+            ProfileHelper.is_out_enabled.key -> {
+                invalidateSizePosition(SizePosition.ALL)
+            }
+            ProfileHelper.in_x.key -> {
+                invalidateSizePosition(SizePosition.POSITION)
+            }
+            ProfileHelper.in_y.key -> {
+                invalidateSizePosition(SizePosition.POSITION)
+            }
+            ProfileHelper.out_x.key -> {
+                invalidateSizePosition(SizePosition.POSITION)
+            }
+            ProfileHelper.out_y.key -> {
+                invalidateSizePosition(SizePosition.POSITION)
+            }
+            ProfileHelper.alpha.key -> {
+                invalidateAlpha()
+            }
+            ProfileHelper.is_keep_screen_on_enabled.key -> {
+                invalidateIsKeepScreenOnEnabled()
+            }
+            ProfileHelper.is_touchable.key -> {
+                invalidateIsTouchable()
+            }
+        }
+    }
+
+    //*****************************************************************************************************************
 
     override fun onRotationChanged(oldRotation: Int, newRotation: Int) {
-        displaySize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
-            WindowHelper.displaySize
-        invalidateLayout(invalidateIsOutEnabled = false, invalidateSize = true)
-//        windowCameraView.cameraDelegate.invalidateTransform()
+        invalidateSizePosition(SizePosition.SIZE_POSITION)
     }
 
     //*****************************************************************************************************************
 
-    fun invalidateLayout(invalidateIsOutEnabled: Boolean, invalidateSize: Boolean) {
-        windowCameraView.updateLayoutParams {
-            // 参数不合法.
-            if (invalidateIsOutEnabled && !invalidateSize) throw RuntimeException()
+    private enum class SizePosition {
+        /**
+         * 更新 is_out_enabled, 同时会更新大小和位置.
+         */
+        ALL,
+        /**
+         * 不更新 is_out_enabled, 只更新大小, 同时会更新位置.
+         */
+        SIZE_POSITION,
+        /**
+         * 不更新 is_out_enabled 和大小, 只更新位置.
+         */
+        POSITION
+    }
 
+    override fun invalidateSizePosition() {
+        invalidateSizePosition(SizePosition.SIZE_POSITION)
+    }
+
+    private fun invalidateSizePosition(sizePosition: SizePosition) {
+        callback.updateLayoutParams {
             fun calcPosition(range: Int, percent: Int, offset: Int): Int {
                 return (range * percent / 100f + offset).roundToInt()
             }
 
-            val isOutEnabled = ProfileHelper.is_out_enabled.value
-            if (invalidateIsOutEnabled) {
-                flags = if (isOutEnabled) {
+            if (sizePosition == SizePosition.ALL) {
+                flags = if (ProfileHelper.is_out_enabled.value) {
                     flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 } else {
                     flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS xor
                             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 }
-                displaySize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
-                    WindowHelper.displaySize
             }
+
+            val displaySize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
+                WindowHelper.displaySize
             val rotationSize: RotationSize
-            if (invalidateIsOutEnabled || invalidateSize) {
-                val sizeSp = ProfileHelper.size.value
-                val ratio = windowCameraView.getRatioBySp()
-                rotationSize = displaySize.crop(ratio, sizeSp / 100f)
+            if (sizePosition == SizePosition.POSITION) {
+                rotationSize = RotationSize(width, height, displaySize.rotation)
+            } else {
+                val ratio = when (ProfileHelper.ratio.value) {
+                    "capture" -> callback.getResolution().ratio
+                    "raw" -> callback.getMaxResolution().ratio
+                    "screen" -> WindowHelper.displaySize.ratio
+                    "square" -> Ratio.SQUARE
+                    else -> throw RuntimeException()
+                }
+                rotationSize = displaySize.crop(ratio, ProfileHelper.size.value / 100f)
                 width = rotationSize.width
                 height = rotationSize.height
-            } else {
-                rotationSize = RotationSize(width, height, displaySize.rotation)
             }
-            val xSp = ProfileHelper.x().value
+
+            val xSp = ProfileHelper.x()
             val xRange: Int
             val xPercent: Int
             val xOffset: Int
-            when (xSp) {
+            when (xSp.value) {
                 in 0..100 -> {
                     xRange = displaySize.width - rotationSize.width
-                    xPercent = xSp
+                    xPercent = xSp.value
                     xOffset = 0
                 }
                 in -99..-1 -> {
                     xRange = rotationSize.width
-                    xPercent = xSp + 100
+                    xPercent = xSp.value + 100
                     xOffset = -rotationSize.width
                 }
                 in 101..199 -> {
                     xRange = rotationSize.width
-                    xPercent = xSp - 100
+                    xPercent = xSp.value - 100
                     xOffset = displaySize.width - rotationSize.width
                 }
                 else -> throw RuntimeException()
             }
             x = calcPosition(xRange, xPercent, xOffset)
-            val ySp = ProfileHelper.y().value
+
+            val ySp = ProfileHelper.y()
             val yRange: Int
             val yPercent: Int
             val yOffset: Int
-            when (ySp) {
+            when (ySp.value) {
                 in 0..100 -> {
                     yRange = displaySize.height - rotationSize.height
-                    yPercent = ySp
+                    yPercent = ySp.value
                     yOffset = 0
                 }
                 in -99..-1 -> {
                     yRange = rotationSize.height
-                    yPercent = ySp + 100
+                    yPercent = ySp.value + 100
                     yOffset = -rotationSize.height
                 }
                 in 101..199 -> {
                     yRange = rotationSize.height
-                    yPercent = ySp - 100
+                    yPercent = ySp.value - 100
                     yOffset = displaySize.height - rotationSize.height
                 }
                 else -> throw RuntimeException()
@@ -116,24 +177,24 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
         }
     }
 
-    fun putPosition(layoutWidth: Int, layoutHeight: Int, layoutX: Float, layoutY: Float) {
-        fun calcPositionPercent(position: Float, range: Int, percentOffset: Int, isOutEnabled: Boolean): Int {
-            var positionPercent = (position / range * 100).toInt() + percentOffset
+    override fun putPosition(layoutWidth: Int, layoutHeight: Int, layoutX: Int, layoutY: Int) {
+        fun calcPositionPercent(position: Int, range: Int, percentOffset: Int, isOutEnabled: Boolean): Int {
+            var positionPercent = (position.toFloat() / range * 100f).roundToInt() + percentOffset
             positionPercent = min(positionPercent, if (isOutEnabled) 199 else 100)
             positionPercent = max(positionPercent, if (isOutEnabled) -99 else 0)
             return positionPercent
         }
 
-        val isOutEnabled = ProfileHelper.is_out_enabled.value
-        val displaySize = if (isOutEnabled) WindowHelper.displayRealSize else WindowHelper.displaySize
+        val displaySize = if (ProfileHelper.is_out_enabled.value) WindowHelper.displayRealSize else
+            WindowHelper.displaySize
 
         val xMin = 0
         val xMax = displaySize.width - layoutWidth
-        val xPosition: Float
+        val xPosition: Int
         val xRange: Int
         val xPercentOffset: Int
         when {
-            layoutX in xMin.toFloat()..xMax.toFloat() -> {
+            layoutX in xMin..xMax -> {
                 xPosition = layoutX
                 xRange = xMax - xMin
                 xPercentOffset = 0
@@ -149,15 +210,15 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
                 xPercentOffset = 100
             }
         }
-        val xPercent = calcPositionPercent(xPosition, xRange, xPercentOffset, isOutEnabled)
+        val xPercent = calcPositionPercent(xPosition, xRange, xPercentOffset, ProfileHelper.is_out_enabled.value)
 
         val yMin = 0
         val yMax = displaySize.height - layoutHeight
-        val yPosition: Float
+        val yPosition: Int
         val yRange: Int
         val yPercentOffset: Int
         when {
-            layoutY in yMin.toFloat()..yMax.toFloat() -> {
+            layoutY in yMin..yMax -> {
                 yPosition = layoutY
                 yRange = yMax - yMin
                 yPercentOffset = 0
@@ -173,25 +234,23 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
                 yPercentOffset = 100
             }
         }
-        val yPercent = calcPositionPercent(yPosition, yRange, yPercentOffset, isOutEnabled)
+        val yPercent = calcPositionPercent(yPosition, yRange, yPercentOffset, ProfileHelper.is_out_enabled.value)
 
-        val xSp = ProfileHelper.x().value
-        val ySp = ProfileHelper.y().value
-        if (xPercent != xSp || yPercent != ySp) {
+        if (xPercent != ProfileHelper.x().value || yPercent != ProfileHelper.y().value) {
             ProfileHelper.putXY(xPercent, yPercent)
         }
     }
 
     //*****************************************************************************************************************
 
-    fun invalidateAlpha() {
-        windowCameraView.updateLayoutParams {
+    private fun invalidateAlpha() {
+        callback.updateLayoutParams {
             alpha = ProfileHelper.alpha.value / 100f
         }
     }
 
-    fun invalidateIsKeepScreenOnEnabled() {
-        windowCameraView.updateLayoutParams {
+    private fun invalidateIsKeepScreenOnEnabled() {
+        callback.updateLayoutParams {
             flags = if (ProfileHelper.is_keep_screen_on_enabled.value) {
                 flags or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
             } else {
@@ -201,8 +260,8 @@ class WindowCameraViewLayoutDelegate(private val windowCameraView: WindowCameraV
         }
     }
 
-    fun invalidateIsTouchable() {
-        windowCameraView.updateLayoutParams {
+    private fun invalidateIsTouchable() {
+        callback.updateLayoutParams {
             flags = if (ProfileHelper.is_touchable.value) {
                 flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE xor
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
