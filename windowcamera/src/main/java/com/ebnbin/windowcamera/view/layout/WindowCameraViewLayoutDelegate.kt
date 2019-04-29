@@ -116,8 +116,8 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
                 rotationSize = RotationSize(width, height, displaySize.rotation)
             } else {
                 val ratio = when (ProfileHelper.ratio.value) {
-                    "capture" -> callback.getResolution().ratio
-                    "raw" -> callback.getMaxResolution().ratio
+                    "capture" -> ProfileHelper.resolution().ratio
+                    "raw" -> ProfileHelper.maxResolution().ratio
                     "screen" -> WindowHelper.displaySize.ratio
                     "square" -> Ratio.SQUARE
                     else -> throw RuntimeException()

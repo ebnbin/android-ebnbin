@@ -1,6 +1,7 @@
-package com.ebnbin.windowcamera.view
+package com.ebnbin.windowcamera.view.camera
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.graphics.ImageFormat
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
@@ -15,23 +16,50 @@ import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.TimeHelper
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.util.IOHelper
 import java.io.File
 import java.io.FileOutputStream
 
-class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraView) :
+class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCameraCallback) :
+    IWindowCameraViewCameraDelegate,
+    SharedPreferences.OnSharedPreferenceChangeListener,
     ImageReader.OnImageAvailableListener
 {
-    fun init() {
+    override fun init() {
+        ProfileHelper.sharedPreferencesRegister(this)
         startBackgroundThread()
-        invalidateCamera()
     }
 
-    fun dispose() {
+    override fun dispose() {
         stopBackgroundThread()
+        ProfileHelper.sharedPreferencesUnregister(this)
+    }
+
+    //*****************************************************************************************************************
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            ProfileHelper.is_front.key -> {
+                reopenCamera()
+            }
+            ProfileHelper.is_video.key -> {
+                reopenCamera()
+            }
+            ProfileHelper.back_photo_resolution.key -> {
+                reopenCamera()
+            }
+            ProfileHelper.back_video_profile.key -> {
+                reopenCamera()
+            }
+            ProfileHelper.front_photo_resolution.key -> {
+                reopenCamera()
+            }
+            ProfileHelper.front_video_profile.key -> {
+                reopenCamera()
+            }
+        }
     }
 
     //*****************************************************************************************************************
@@ -50,31 +78,10 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
 
     //*****************************************************************************************************************
 
-    private lateinit var device: CameraHelper.Device
-    private var isVideo: Boolean = false
-    private lateinit var photoResolution: CameraHelper.Device.Resolution
-    private lateinit var videoProfile: CameraHelper.Device.VideoProfile
-    lateinit var previewResolution: CameraHelper.Device.Resolution
-
-    private fun invalidateCamera() {
-        device = ProfileHelper.device()
-        isVideo = ProfileHelper.is_video.value
-        if (isVideo) {
-            videoProfile = ProfileHelper.videoProfile()
-        } else {
-            photoResolution = ProfileHelper.photoResolution()
-        }
-        previewResolution = device.defaultPreviewResolution
-
-//        invalidateTransform()
-    }
-
-    //*****************************************************************************************************************
-
     private var cameraDevice: CameraDevice? = null
 
     @SuppressLint("MissingPermission")
-    fun openCamera() {
+    override fun openCamera() {
         ProfileHelper.isCameraProfileInvalidating = true
 
         val callback = object : CameraDevice.StateCallback() {
@@ -105,10 +112,10 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
                 onCameraError()
             }
         }
-        SystemServices.cameraManager.openCamera(device.id, callback, null)
+        SystemServices.cameraManager.openCamera(ProfileHelper.device().id, callback, null)
     }
 
-    fun closeCamera() {
+    override fun closeCamera() {
         ProfileHelper.isCameraProfileInvalidating = true
 
         stopPreview()
@@ -124,7 +131,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
     //*****************************************************************************************************************
 
     private fun startPreview() {
-        if (isVideo) {
+        if (ProfileHelper.is_video.value) {
             startVideoPreview()
         } else {
             startPhotoPreview()
@@ -132,7 +139,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
     }
 
     private fun stopPreview() {
-        if (isVideo) {
+        if (ProfileHelper.is_video.value) {
             stopVideoCapture(false)
             stopVideoPreview()
         } else {
@@ -149,11 +156,12 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
     private fun startPhotoPreview() {
         val cameraDevice = cameraDevice ?: return
 
+        val photoResolution = ProfileHelper.photoResolution()
         val imageReader = ImageReader.newInstance(photoResolution.width, photoResolution.height, ImageFormat.JPEG, 2)
         imageReader.setOnImageAvailableListener(this, null)
         this.imageReader = imageReader
 
-        val surfaceTextureSurface = Surface(windowCameraView.getSurfaceTexture())
+        val surfaceTextureSurface = Surface(callback.getSurfaceTexture())
         val imageReaderSurface = imageReader.surface
         val outputs = listOf(surfaceTextureSurface, imageReaderSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
@@ -201,7 +209,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         captureRequestBuilder.addTarget(imageReaderSurface)
         captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION,
-            device.sensorOrientations.getValue(WindowHelper.displayRotation))
+            ProfileHelper.device().sensorOrientations.getValue(WindowHelper.displayRotation))
         val request = captureRequestBuilder.build()
         photoCameraCaptureSession.capture(request, null, null)
     }
@@ -219,7 +227,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
         fos.close()
         image.close()
 
-        AppHelper.toast(windowCameraView.context, file)
+        AppHelper.toast(callback.getContext(), file)
     }
 
     //*****************************************************************************************************************
@@ -235,7 +243,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
     private fun startVideoPreview() {
         val cameraDevice = cameraDevice ?: return
 
-        val surfaceTextureSurface = Surface(windowCameraView.getSurfaceTexture())
+        val surfaceTextureSurface = Surface(callback.getSurfaceTexture())
         val outputs = listOf(surfaceTextureSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
@@ -273,18 +281,20 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
 
         val cameraDevice = cameraDevice ?: return
 
+        val videoProfile = ProfileHelper.videoProfile()
         val videoFile = nextFile(videoProfile.extension)
         val mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
         mediaRecorder.setProfile(videoProfile.camcorderProfile)
         mediaRecorder.setOutputFile(videoFile.absolutePath)
-        mediaRecorder.setOrientationHint(device.sensorOrientations.getValue(WindowHelper.displayRotation))
+        mediaRecorder.setOrientationHint(
+            ProfileHelper.device().sensorOrientations.getValue(WindowHelper.displayRotation))
         mediaRecorder.prepare()
         this.videoFile = videoFile
         this.mediaRecorder = mediaRecorder
 
-        val surfaceTextureSurface = Surface(windowCameraView.getSurfaceTexture())
+        val surfaceTextureSurface = Surface(callback.getSurfaceTexture())
         val mediaRecorderSurface = mediaRecorder.surface
         val outputs = listOf(surfaceTextureSurface, mediaRecorderSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
@@ -321,7 +331,7 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
 
         videoFile?.run {
             videoFile = null
-            AppHelper.toast(windowCameraView.context, this)
+            AppHelper.toast(callback.getContext(), this)
         }
 
         videoCameraCaptureSession?.run {
@@ -361,32 +371,23 @@ class WindowCameraViewCameraDelegate(private val windowCameraView: WindowCameraV
     //*****************************************************************************************************************
 
     private fun onCameraError() {
-        AppHelper.toast(windowCameraView.context, R.string.camera_error)
-        WindowCameraService.stop(windowCameraView.context)
+        AppHelper.toast(callback.getContext(), R.string.camera_error)
+        WindowCameraService.stop(callback.getContext())
     }
 
     //*****************************************************************************************************************
 
-    fun onSingleTap() {
-        if (isVideo) {
+    override fun capture() {
+        if (ProfileHelper.is_video.value) {
             videoCapture()
         } else {
             photoCapture()
         }
     }
 
-    fun getResolution(): CameraHelper.Device.Resolution {
-        return if (isVideo) videoProfile else photoResolution
-    }
-
-    fun getMaxResolution(): CameraHelper.Device.Resolution {
-        return device.maxResolution
-    }
-
-    fun reopenCamera() {
+    private fun reopenCamera() {
         closeCamera()
-        invalidateCamera()
-        windowCameraView.invalidateSizePosition()
+        callback.invalidateSizePosition()
         openCamera()
     }
 }

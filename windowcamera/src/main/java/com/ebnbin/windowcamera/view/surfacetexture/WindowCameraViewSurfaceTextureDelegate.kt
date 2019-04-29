@@ -7,6 +7,7 @@ import android.view.Surface
 import android.view.TextureView
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.WindowHelper
+import com.ebnbin.windowcamera.profile.ProfileHelper
 import kotlin.math.max
 
 class WindowCameraViewSurfaceTextureDelegate(private val callback: IWindowCameraViewSurfaceTextureCallback) :
@@ -62,7 +63,7 @@ class WindowCameraViewSurfaceTextureDelegate(private val callback: IWindowCamera
 
     private fun invalidateTransform() {
         val rotation = WindowHelper.displayRotation
-        val previewResolution = callback.getPreviewResolution()
+        val previewResolution = ProfileHelper.previewResolution()
 
         val viewWidth = textureView.width.toFloat()
         val viewHeight = textureView.height.toFloat()

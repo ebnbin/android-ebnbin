@@ -10,8 +10,10 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.SystemServices
-import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
+import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraCallback
+import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraDelegate
+import com.ebnbin.windowcamera.view.camera.WindowCameraViewCameraDelegate
 import com.ebnbin.windowcamera.view.canvas.IWindowCameraViewCanvasCallback
 import com.ebnbin.windowcamera.view.canvas.IWindowCameraViewCanvasDelegate
 import com.ebnbin.windowcamera.view.canvas.WindowCameraViewCanvasDelegate
@@ -34,7 +36,8 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     IWindowCameraViewCanvasCallback,
     IWindowCameraViewGestureCallback,
     IWindowCameraViewSurfaceTextureCallback,
-    IWindowCameraViewLayoutCallback
+    IWindowCameraViewLayoutCallback,
+    IWindowCameraViewCameraCallback
 {
     init {
         setWillNotDraw(false)
@@ -57,21 +60,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         cameraDelegate.closeCamera()
     }
 
-    override fun getPreviewResolution(): CameraHelper.Device.Resolution {
-        return cameraDelegate.previewResolution
-    }
-
     //*****************************************************************************************************************
 
-    val layoutDelegate: IWindowCameraViewLayoutDelegate = WindowCameraViewLayoutDelegate(this)
-
-    override fun getResolution(): CameraHelper.Device.Resolution {
-        return cameraDelegate.getResolution()
-    }
-
-    override fun getMaxResolution(): CameraHelper.Device.Resolution {
-        return cameraDelegate.getMaxResolution()
-    }
+    private val layoutDelegate: IWindowCameraViewLayoutDelegate = WindowCameraViewLayoutDelegate(this)
 
     override fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
         val params = layoutParams as WindowManager.LayoutParams
@@ -79,7 +70,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         SystemServices.windowManager.updateViewLayout(this, params)
     }
 
-    fun invalidateSizePosition() {
+    override fun invalidateSizePosition() {
         layoutDelegate.invalidateSizePosition()
     }
 
@@ -98,11 +89,10 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onSingleTap() {
-        cameraDelegate.onSingleTap()
+        cameraDelegate.capture()
     }
 
     override fun onDoubleTap() {
-        AppHelper.vibrate(50L)
         AppHelper.restartMainActivity()
     }
 
@@ -121,10 +111,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    val cameraDelegate: WindowCameraViewCameraDelegate =
-        WindowCameraViewCameraDelegate(this)
+    private val cameraDelegate: IWindowCameraViewCameraDelegate = WindowCameraViewCameraDelegate(this)
 
-    fun getSurfaceTexture(): SurfaceTexture {
+    override fun getSurfaceTexture(): SurfaceTexture {
         return surfaceTextureDelegate.getSurfaceTexture()
     }
 
@@ -139,15 +128,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
-    val sharedPreferencesDelegate: WindowCameraViewSharedPreferencesDelegate =
-        WindowCameraViewSharedPreferencesDelegate(this)
-
-    //*****************************************************************************************************************
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         // TODO layout 要比 surfaceTexture 先初始化, 因为 RotationDetector 注册顺序.
-        sharedPreferencesDelegate.init()
         cameraDelegate.init()
         layoutDelegate.init()
         canvasDelegate.init()
@@ -161,7 +144,6 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         canvasDelegate.dispose()
         layoutDelegate.dispose()
         cameraDelegate.dispose()
-        sharedPreferencesDelegate.dispose()
         super.onDetachedFromWindow()
     }
 }

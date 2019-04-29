@@ -89,6 +89,18 @@ object ProfileHelper {
         }
     }
 
+    fun resolution(): CameraHelper.Device.Resolution {
+        return if (is_video.value) videoProfile() else photoResolution()
+    }
+
+    fun previewResolution(): CameraHelper.Device.Resolution {
+        return device().defaultPreviewResolution
+    }
+
+    fun maxResolution(): CameraHelper.Device.Resolution {
+        return device().maxResolution
+    }
+
     //*****************************************************************************************************************
 
     const val SHARED_PREFERENCES_NAME_POSTFIX: String = "_profile_default"
