@@ -6,6 +6,14 @@
     <string name="camera">相机</string>
     <string name="other">其它</string>
     <string name="stop_window_camera_service">点击关闭窗口相机</string>
+
     <string name="camera_error">相机异常。</string>
     <string name="camera_error_no_class_def_found_error">相机初始化异常！请尝试强制停止并重新打开应用。</string>
+
+    <string name="camera_error_disconnected">相机已断开连接</string>
+    <string name="camera_error_code">相机异常（%1$d）</string>
+    <string name="camera_error_photo_preview">照片预览异常</string>
+    <string name="camera_error_video_preview">视频预览异常</string>
+    <string name="camera_error_video_capture">视频拍摄异常</string>
+    <string name="camera_error_null">null</string>
 </resources>
