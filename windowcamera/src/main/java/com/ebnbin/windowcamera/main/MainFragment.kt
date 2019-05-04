@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
+import com.ebnbin.eb.about.AboutFragment
+import com.ebnbin.eb.app.EBActivity
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.util.AppHelper
@@ -18,11 +20,10 @@ import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.ebApp
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.camera.CameraHelper
+import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
-import com.ebnbin.windowcamera.camera.CameraHelper
-import com.ebnbin.windowcamera.menu.MenuDialogFragment
-import com.ebnbin.windowcamera.profile.ProfileHelper
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -74,7 +75,8 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
                             view_pager.addOnPageChangeListener(this)
                             tab_layout.setupWithViewPager(view_pager)
                             bottom_app_bar.setNavigationOnClickListener {
-                                MenuDialogFragment.start(childFragmentManager)
+                                EBActivity.startFragmentFromFragment(this, AboutFragment::class.java,
+                                    AboutFragment.createIntent(bottomToTop = true))
                             }
                             invalidateWindowCameraServiceEvent()
 

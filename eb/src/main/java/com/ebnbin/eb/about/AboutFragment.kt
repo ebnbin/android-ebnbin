@@ -2,25 +2,39 @@ package com.ebnbin.eb.about
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.R
+import com.ebnbin.eb.app.EBActivity
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.debug.debug
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.BuildHelper
+import com.ebnbin.eb.util.IntentHelper
 import kotlinx.android.synthetic.main.eb_about_fragment.*
 
 class AboutFragment : EBFragment() {
+    private lateinit var openSources: ArrayList<Pair<String, String>>
+    private var bottomToTop: Boolean = false
+
+    override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
+        super.onInitArguments(savedInstanceState, arguments, activityExtras)
+        @Suppress("UNCHECKED_CAST")
+        openSources = activityExtras.getSerializable("open_sources") as ArrayList<Pair<String, String>>
+        bottomToTop = activityExtras.getBoolean("bottom_to_top")
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.eb_about_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        eb_toolbar.setNavigationIcon(if (bottomToTop) R.drawable.eb_close else R.drawable.eb_back)
         eb_toolbar.setNavigationOnClickListener {
             activity?.finish()
         }
@@ -41,14 +55,14 @@ class AboutFragment : EBFragment() {
         }
         eb_version.text = getString(R.string.eb_about_version, BuildHelper.versionName,
             if (debug) " ${BuildConfig.BUILD_TYPE}" else "")
-        eb_request_update.setOnClickListener {
+        eb_update.setOnClickListener {
             UpdateFragment.start(childFragmentManager, false)
+        }
+        eb_open_app_store.setOnClickListener {
+            IntentHelper.openAppStore(requireContext())
         }
         OPEN_SOURCES.forEach {
             addOpenSource(it)
-        }
-        eb_share.setOnClickListener {
-            // TODO
         }
     }
 
@@ -71,5 +85,18 @@ class AboutFragment : EBFragment() {
             Pair("okhttp", "https://github.com/square/okhttp"),
             Pair("retrofit", "https://github.com/square/retrofit")
         )
+
+        fun createIntent(
+            openSources: ArrayList<Pair<String, String>> = arrayListOf(),
+            bottomToTop: Boolean = false
+        ): Intent {
+            val result = Intent()
+                .putExtra("open_sources", openSources)
+                .putExtra("bottom_to_top", bottomToTop)
+            if (bottomToTop) {
+                result.putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_About)
+            }
+            return result
+        }
     }
 }

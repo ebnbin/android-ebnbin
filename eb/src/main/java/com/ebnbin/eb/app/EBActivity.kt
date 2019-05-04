@@ -98,10 +98,10 @@ open class EBActivity : AppCompatActivity() {
         fun startFragment(
             context: Context,
             fragmentClass: Class<out Fragment>,
-            options: Bundle? = null,
-            fillIntent: (Intent.() -> Unit)? = null
+            intent: Intent = Intent(),
+            options: Bundle? = null
         ) {
-            val intent = createStartFragmentIntent(context, fragmentClass, fillIntent)
+            fillStartFragmentIntent(context, fragmentClass, intent)
             context.startActivity(intent, options)
         }
 
@@ -111,11 +111,11 @@ open class EBActivity : AppCompatActivity() {
         fun startFragmentFromActivity(
             activity: Activity,
             fragmentClass: Class<out Fragment>,
+            intent: Intent = Intent(),
             requestCode: Int = 0,
-            options: Bundle? = null,
-            fillIntent: (Intent.() -> Unit)? = null
+            options: Bundle? = null
         ) {
-            val intent = createStartFragmentIntent(activity, fragmentClass, fillIntent)
+            fillStartFragmentIntent(activity, fragmentClass, intent)
             activity.startActivityForResult(intent, requestCode, options)
         }
 
@@ -125,27 +125,17 @@ open class EBActivity : AppCompatActivity() {
         fun startFragmentFromFragment(
             fragment: Fragment,
             fragmentClass: Class<out Fragment>,
+            intent: Intent = Intent(),
             requestCode: Int = 0,
-            options: Bundle? = null,
-            fillIntent: (Intent.() -> Unit)? = null
+            options: Bundle? = null
         ) {
-            val intent = createStartFragmentIntent(fragment.requireContext(), fragmentClass, fillIntent)
+            fillStartFragmentIntent(fragment.requireContext(), fragmentClass, intent)
             fragment.startActivityForResult(intent, requestCode, options)
         }
 
-        /**
-         * 返回 Intent 用于启动包装 Fragment 的 EBActivity.
-         */
-        private fun createStartFragmentIntent(
-            context: Context,
-            fragmentClass: Class<out Fragment>,
-            fillIntent: (Intent.() -> Unit)? = null
-        ): Intent {
-            val intent = Intent()
-            fillIntent?.invoke(intent)
+        private fun fillStartFragmentIntent(context: Context, fragmentClass: Class<out Fragment>, intent: Intent) {
             intent.setClass(context, EBActivity::class.java)
             intent.putExtra(KEY_FRAGMENT_CLASS, fragmentClass)
-            return intent
         }
     }
 }

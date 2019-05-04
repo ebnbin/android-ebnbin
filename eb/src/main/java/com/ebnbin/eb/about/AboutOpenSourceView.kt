@@ -5,9 +5,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.ebnbin.eb.R
+import com.ebnbin.eb.util.IntentHelper
 import kotlinx.android.synthetic.main.eb_about_open_source_view.view.*
 
-class AboutOpenSourceView @JvmOverloads constructor(
+/**
+ * 关于页面开源 item.
+ */
+internal class AboutOpenSourceView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -21,7 +25,7 @@ class AboutOpenSourceView @JvmOverloads constructor(
         eb_name.text = pair.first
         eb_url.text = pair.second
         setOnClickListener {
-            // TODO
+            IntentHelper.openInBrowser(context, pair.second)
         }
     }
 }

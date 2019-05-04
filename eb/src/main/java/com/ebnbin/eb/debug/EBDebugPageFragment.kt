@@ -34,7 +34,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Calling Fragment", callingFragmentClassName.toString())
 
         addDebugItem("About") {
-            EBActivity.startFragment(requireContext(), AboutFragment::class.java)
+            EBActivity.startFragmentFromFragment(this, AboutFragment::class.java, AboutFragment.createIntent())
         }
 
         addDebugItem("User") {

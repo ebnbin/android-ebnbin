@@ -47,7 +47,7 @@
             android:layout_gravity="bottom"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="8dp"
-            app:navigationIcon="@drawable/eb_menu"/>
+            app:navigationIcon="@drawable/eb_more"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"

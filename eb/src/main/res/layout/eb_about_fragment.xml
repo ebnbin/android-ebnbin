@@ -19,8 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorSurface"
-                app:title="@string/eb_about"
-                app:navigationIcon="@drawable/eb_back"/>
+                app:title="@string/eb_about"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -86,32 +85,42 @@
                     android:text="@string/app_slogan"
                     android:textSize="12sp"/>
 
+                <TextView
+                    android:id="@+id/eb_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:minHeight="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:maxLines="1"/>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="32dp">
-
-                    <TextView
-                        android:id="@+id/eb_version"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:minHeight="48dp"
-                        android:gravity="center_vertical"
-                        android:textSize="14sp"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:maxLines="1"/>
 
                     <com.google.android.material.button.MaterialButton
                         style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:id="@+id/eb_request_update"
+                        android:id="@+id/eb_update"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/eb_about_update"
+                        android:textColor="?attr/colorAccent"
+                        app:rippleColor="?attr/colorAccent"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/eb_open_app_store"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eb_about_open_app_store"
                         android:textColor="?attr/colorAccent"
                         app:rippleColor="?attr/colorAccent"/>
 
@@ -124,14 +133,6 @@
                     android:background="@color/eb_black"
                     android:backgroundTint="?android:attr/colorControlHighlight"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:text="@string/eb_about_open_source"/>
-
                 <LinearLayout
                     android:id="@+id/eb_open_source_linear_layout"
                     android:layout_width="match_parent"
@@ -143,14 +144,13 @@
         </ScrollView>
 
     </LinearLayout>
-    
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/eb_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:src="@drawable/eb_share"
+        android:visibility="gone"
         app:tint="?attr/colorBackgroundFloating"/>
 
 </FrameLayout>

@@ -1,5 +1,6 @@
 package com.ebnbin.eb.debug
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -77,10 +78,10 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
         internal const val KEY_CALLING_FRAGMENT_CLASS_NAME = "calling_fragment_class_name"
 
         fun start(ebActivity: EBActivity) {
-            EBActivity.startFragmentFromActivity(ebActivity, DebugFragment::class.java) {
-                putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_Debug)
-                putExtra(KEY_CALLING_FRAGMENT_CLASS_NAME, ebActivity.fragmentClass?.name)
-            }
+            val intent = Intent()
+                .putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_Debug)
+                .putExtra(KEY_CALLING_FRAGMENT_CLASS_NAME, ebActivity.fragmentClass?.name)
+            EBActivity.startFragmentFromActivity(ebActivity, DebugFragment::class.java, intent)
         }
     }
 }
