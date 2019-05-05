@@ -65,6 +65,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
                         {
                             if (!CameraHelper.isValid()) throw RuntimeException()
                         },
+                        null,
                         onSuccess = {
                             progress_bar.visibility = View.GONE
                             coordinator_layout.visibility = View.VISIBLE

@@ -59,10 +59,10 @@ abstract class EBFragment : Fragment() {
 
     //*****************************************************************************************************************
 
-    protected val asyncHelper: AsyncHelper = AsyncHelper { context }
+    protected val asyncHelper: AsyncHelper = AsyncHelper()
 
     override fun onDestroyView() {
-        asyncHelper.onDestroy()
+        asyncHelper.clear()
         super.onDestroyView()
     }
 

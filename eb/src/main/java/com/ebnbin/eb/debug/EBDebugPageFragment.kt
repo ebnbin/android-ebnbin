@@ -39,16 +39,16 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
 
         addDebugItem("User") {
             val fileName = "${AppHelper.getUserId()}.json"
-            asyncHelper.request(
+            asyncHelper.load(
                 GitHubApi.getContentsDirectory("users"),
-                Loading.DIALOG_NOT_CANCELABLE,
+                Loading.dialogNotCancelable(requireContext()),
                 onSuccess = {
                     val oldContent = it.firstOrNull { content ->
                         content.name == fileName
                     }
-                    asyncHelper.request(
+                    asyncHelper.load(
                         GitHubApi.putContents("users/$fileName", Date(), oldContent),
-                        Loading.DIALOG_NOT_CANCELABLE,
+                        Loading.dialogNotCancelable(requireContext()),
                         onSuccess = {
                             AppHelper.toast(requireContext(), "success")
                         },
@@ -81,7 +81,9 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("Async", "5 秒后完成，可按返回键或点击空白处取消") {
-            asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_CANCELABLE,
+            asyncHelper.task(
+                { Thread.sleep(5000L) },
+                Loading.dialog(requireContext()),
                 onSuccess = {
                     AppHelper.toast(requireContext(), "onSuccess")
                 },
@@ -92,7 +94,9 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("Async", "5 秒后完成，可按返回键取消") {
-            asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE,
+            asyncHelper.task(
+                { Thread.sleep(5000L) },
+                Loading.dialogNotCanceledOnTouchOutside(requireContext()),
                 onSuccess = {
                     AppHelper.toast(requireContext(), "onSuccess")
                 },
@@ -103,7 +107,9 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("Async", "3 秒后完成，不可取消") {
-            asyncHelper.task({ Thread.sleep(3000L) }, Loading.DIALOG_NOT_CANCELABLE,
+            asyncHelper.task(
+                { Thread.sleep(3000L) },
+                Loading.dialogNotCancelable(requireContext()),
                 onSuccess = {
                     AppHelper.toast(requireContext(), "onSuccess")
                 },
@@ -114,7 +120,9 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("Async", "3 个任务，分别 4 秒、5 秒、3 秒后完成，都可按返回键或点击空白处取消") {
-            asyncHelper.task({ Thread.sleep(4000L) }, Loading.DIALOG_CANCELABLE,
+            asyncHelper.task(
+                { Thread.sleep(4000L) },
+                Loading.dialog(requireContext()),
                 onSuccess = {
                     AppHelper.toast(requireContext(), "onSuccess 4")
                 },
@@ -122,7 +130,9 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
                     AppHelper.toast(requireContext(), "onFailure 4")
                 }
             )
-            asyncHelper.task({ Thread.sleep(5000L) }, Loading.DIALOG_CANCELABLE,
+            asyncHelper.task(
+                { Thread.sleep(5000L) },
+                Loading.dialog(requireContext()),
                 onSuccess = {
                     AppHelper.toast(requireContext(), "onSuccess 5")
                 },
@@ -130,7 +140,9 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
                     AppHelper.toast(requireContext(), "onFailure 5")
                 }
             )
-            asyncHelper.task({ Thread.sleep(3000L) }, Loading.DIALOG_CANCELABLE,
+            asyncHelper.task(
+                { Thread.sleep(3000L) },
+                Loading.dialog(requireContext()),
                 onSuccess = {
                     AppHelper.toast(requireContext(), "onSuccess 3")
                 },
@@ -149,9 +161,9 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("网络测试") {
-            asyncHelper.request(
+            asyncHelper.load(
                 GitHubApi.ebnbin(),
-                Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE,
+                Loading.dialogNotCanceledOnTouchOutside(requireContext()),
                 onSuccess = {
                     val ebnbin = gson.fromJson<EBNBIN>(AppHelper.base64Decode(it.content), EBNBIN::class.java)
                     AppHelper.toast(requireContext(), ebnbin.name)

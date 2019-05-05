@@ -26,7 +26,7 @@ class UpdateFragment : EBFragment() {
         if (savedInstanceState == null) {
             if (silent) {
                 if (System.currentTimeMillis() - EBSpManager.eb.request_update_timestamp.value >= UPDATE_INTERVAL) {
-                    asyncHelper.request(
+                    asyncHelper.load(
                         GitHubApi.update(),
                         onSuccess = {
                             val update = gson.fromJson<Update>(AppHelper.base64Decode(it.content), Update::class.java)
@@ -38,9 +38,9 @@ class UpdateFragment : EBFragment() {
                     )
                 }
             } else {
-                asyncHelper.request(
+                asyncHelper.load(
                     GitHubApi.update(),
-                    Loading.DIALOG_NOT_CANCELED_ON_TOUCH_OUTSIDE,
+                    Loading.dialogNotCanceledOnTouchOutside(requireContext()),
                     onSuccess = {
                         val update = gson.fromJson<Update>(AppHelper.base64Decode(it.content), Update::class.java)
                         EBSpManager.eb.request_update_timestamp.value = System.currentTimeMillis()
