@@ -23,8 +23,7 @@ internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
     /**
      * 是否为 debug 页面.
      */
-    private val isDebugFragment: Boolean = ebActivity::class.java == EBActivity::class.java &&
-            ebActivity.fragmentClass == DebugFragment::class.java
+    private val isDebugActivity: Boolean = ebActivity::class.java == DebugActivity::class.java
 
     /**
      * 当指定数量的手指按下时设置为 true. 当最后一个手指抬起时设置为 false.
@@ -72,17 +71,17 @@ internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
                 leftToRight -> eventBus.post(DebugLeftToRightEvent(ebActivity))
                 rightToLeft -> eventBus.post(DebugRightToLeftEvent(ebActivity))
                 topToBottom -> {
-                    if (isDebugFragment) {
+                    if (isDebugActivity) {
                         ebActivity.finish()
                     } else {
                         eventBus.post(DebugTopToBottomEvent(ebActivity))
                     }
                 }
                 bottomToTop -> {
-                    if (isDebugFragment) {
+                    if (isDebugActivity) {
                         eventBus.post(DebugBottomToTopEvent(ebActivity))
                     } else {
-                        DebugFragment.start(ebActivity)
+                        DebugActivity.start(ebActivity)
                     }
                 }
                 else -> return false

@@ -57,7 +57,7 @@ open class EBActivity : AppCompatActivity() {
 
     //*****************************************************************************************************************
 
-    private var themeStyleId: Int = 0
+    protected var themeStyleId: Int = 0
 
     private fun initTheme() {
         if (themeStyleId != 0) setTheme(themeStyleId)
