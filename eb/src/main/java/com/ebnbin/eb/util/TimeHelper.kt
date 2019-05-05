@@ -5,6 +5,10 @@ import java.util.Date
 import java.util.Locale
 
 object TimeHelper {
+    fun nano(): Long {
+        return System.nanoTime()
+    }
+
     fun long(): Long {
         return System.currentTimeMillis()
     }

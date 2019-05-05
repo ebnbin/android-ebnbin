@@ -34,11 +34,11 @@ object GitHubApi {
     private val api: GitHubApiService = retrofit.create(GitHubApiService::class.java)
 
     fun getContentsFile(path: String): Observable<Content> {
-        return api.getContentsFile("${ebApp.packageName}/$path")
+        return api.getContentsFile("${ebApp.packageName}$path")
     }
 
     fun getContentsDirectory(path: String): Observable<List<Content>> {
-        return api.getContentsDirectory("${ebApp.packageName}/$path")
+        return api.getContentsDirectory("${ebApp.packageName}$path")
     }
 
     fun <T> putContents(path: String, json: T, oldContent: Content? = null): Observable<PutContents> {
@@ -46,14 +46,6 @@ object GitHubApi {
         putContentsRequest.message = "${ebApp.packageName} ${BuildHelper.versionCode}"
         putContentsRequest.content = AppHelper.base64Encode(gson.toJson(json))
         putContentsRequest.sha = oldContent?.sha
-        return api.putContents("${ebApp.packageName}/$path", putContentsRequest)
-    }
-
-    fun ebnbin(): Observable<Content> {
-        return api.getContentsFile("ebnbin.json")
-    }
-
-    fun update(): Observable<Content> {
-        return api.getContentsFile("${ebApp.packageName}/eb/update.json")
+        return api.putContents("${ebApp.packageName}$path", putContentsRequest)
     }
 }

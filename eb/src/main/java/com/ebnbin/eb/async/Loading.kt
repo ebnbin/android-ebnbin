@@ -2,17 +2,16 @@ package com.ebnbin.eb.async
 
 import android.content.Context
 import com.ebnbin.eb.dialog.Cancel
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
 interface Loading<T> {
-    fun onStart(observable: Observable<T>, loadings: LinkedHashMap<Observable<*>, Loading<*>>, disposable: Disposable)
+    fun onStart(key: String, loadings: LinkedHashMap<String, Loading<*>>, disposable: Disposable)
 
-    fun onSuccess(observable: Observable<T>, loadings: LinkedHashMap<Observable<*>, Loading<*>>, t: T)
+    fun onSuccess(key: String, loadings: LinkedHashMap<String, Loading<*>>, t: T)
 
     fun onFailure(
-        observable: Observable<T>,
-        loadings: LinkedHashMap<Observable<*>, Loading<*>>,
+        key: String,
+        loadings: LinkedHashMap<String, Loading<*>>,
         throwable: Throwable,
         onRetry: (() -> Unit)?
     )

@@ -8,9 +8,7 @@ import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.app.EBActivity
 import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.crash.CrashRuntimeException
-import com.ebnbin.eb.library.gson
-import com.ebnbin.eb.net.githubapi.GitHubApi
-import com.ebnbin.eb.net.githubapi.model.EBNBIN
+import com.ebnbin.eb.net.githubapi.model.Application
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.ebApp
@@ -38,29 +36,16 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("User") {
-            val fileName = "${AppHelper.getUserId()}.json"
-            asyncHelper.load(
-                GitHubApi.getContentsDirectory("users"),
+            asyncHelper.githubPutJson(
+                "/users/${AppHelper.getUserId()}.json",
+                Date(),
                 Loading.dialogNotCancelable(requireContext()),
                 onSuccess = {
-                    val oldContent = it.firstOrNull { content ->
-                        content.name == fileName
-                    }
-                    asyncHelper.load(
-                        GitHubApi.putContents("users/$fileName", Date(), oldContent),
-                        Loading.dialogNotCancelable(requireContext()),
-                        onSuccess = {
-                            AppHelper.toast(requireContext(), "success")
-                        },
-                        onFailure = { throwable ->
-                            AppHelper.toast(requireContext(), throwable)
-                        }
-                    )
+                    AppHelper.toast(requireContext(), "success")
                 },
-                onFailure = { throwable ->
-                    AppHelper.toast(requireContext(), throwable)
-                }
-            )
+                onFailure = {
+                    AppHelper.toast(requireContext(), it)
+                })
         }
 
         addDebugItem("MD5") {
@@ -161,12 +146,12 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("网络测试") {
-            asyncHelper.load(
-                GitHubApi.ebnbin(),
+            asyncHelper.githubGetJson(
+                Application::class.java,
+                "/application.json",
                 Loading.dialogNotCanceledOnTouchOutside(requireContext()),
                 onSuccess = {
-                    val ebnbin = gson.fromJson<EBNBIN>(AppHelper.base64Decode(it.content), EBNBIN::class.java)
-                    AppHelper.toast(requireContext(), ebnbin.name)
+                    AppHelper.toast(requireContext(), it.application_id)
                 },
                 onFailure = {
                     AppHelper.toast(requireContext(), it)

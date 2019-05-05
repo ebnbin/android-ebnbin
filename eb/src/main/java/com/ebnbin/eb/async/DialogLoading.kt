@@ -4,39 +4,34 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDialog
 import com.ebnbin.eb.R
 import com.ebnbin.eb.dialog.Cancel
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
 internal class DialogLoading<T>(private val context: Context, private val cancel: Cancel) : Loading<T> {
     private var dialog: AppCompatDialog? = null
 
-    override fun onStart(
-        observable: Observable<T>,
-        loadings: LinkedHashMap<Observable<*>, Loading<*>>,
-        disposable: Disposable
-    ) {
+    override fun onStart(key: String, loadings: LinkedHashMap<String, Loading<*>>, disposable: Disposable) {
         val dialog = AppCompatDialog(context)
         dialog.setCancelable(cancel != Cancel.NOT_CANCELABLE)
         dialog.setCanceledOnTouchOutside(cancel == Cancel.CANCELABLE)
         dialog.setContentView(R.layout.eb_loading_dialog)
         dialog.setOnDismissListener {
-            loadings.remove(observable)
+            loadings.remove(key)
             if (!disposable.isDisposed) {
                 disposable.dispose()
             }
         }
         dialog.show()
         this.dialog = dialog
-        loadings[observable] = this
+        loadings[key] = this
     }
 
-    override fun onSuccess(observable: Observable<T>, loadings: LinkedHashMap<Observable<*>, Loading<*>>, t: T) {
+    override fun onSuccess(key: String, loadings: LinkedHashMap<String, Loading<*>>, t: T) {
         stopLoading()
     }
 
     override fun onFailure(
-        observable: Observable<T>,
-        loadings: LinkedHashMap<Observable<*>, Loading<*>>,
+        key: String,
+        loadings: LinkedHashMap<String, Loading<*>>,
         throwable: Throwable,
         onRetry: (() -> Unit)?
     ) {

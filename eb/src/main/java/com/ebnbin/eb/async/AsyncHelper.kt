@@ -1,5 +1,9 @@
 package com.ebnbin.eb.async
 
+import com.ebnbin.eb.library.gson
+import com.ebnbin.eb.net.githubapi.GitHubApi
+import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.TimeHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -38,7 +42,7 @@ class AsyncHelper {
             )
     }
 
-    private val loadings: LinkedHashMap<Observable<*>, Loading<*>> = LinkedHashMap()
+    private val loadings: LinkedHashMap<String, Loading<*>> = LinkedHashMap()
 
     fun <T> load(
         observable: Observable<T>,
@@ -47,16 +51,17 @@ class AsyncHelper {
         onFailure: ((Throwable) -> Unit)? = null,
         onStart: ((Disposable) -> Unit)? = null
     ): Disposable {
+        val key = TimeHelper.nano().toString()
         return observable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    loading?.onSuccess(observable, loadings, it)
+                    loading?.onSuccess(key, loadings, it)
                     onSuccess?.invoke(it)
                 },
                 {
-                    loading?.onFailure(observable, loadings, it) {
+                    loading?.onFailure(key, loadings, it) {
                         load(observable, loading, onSuccess, onFailure, onStart)
                     }
                     onFailure?.invoke(it)
@@ -64,7 +69,7 @@ class AsyncHelper {
                 {
                 },
                 {
-                    loading?.onStart(observable, loadings, it)
+                    loading?.onStart(key, loadings, it)
                     onStart?.invoke(it)
                 }
             )
@@ -93,5 +98,87 @@ class AsyncHelper {
             },
             loading, onSuccess, onFailure, onStart
         )
+    }
+
+    fun <T> githubGetJson(
+        classOfT: Class<T>,
+        path: String,
+        loading: Loading<T>? = null,
+        onSuccess: ((T) -> Unit)? = null,
+        onFailure: ((Throwable) -> Unit)? = null,
+        onStart: ((Disposable) -> Unit)? = null
+    ): Disposable {
+        val key = TimeHelper.nano().toString()
+        return GitHubApi.getContentsFile(path)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                val content = AppHelper.base64Decode(it.content)
+                val t = gson.fromJson<T>(content, classOfT)
+                t
+            }
+            .subscribe(
+                {
+                    loading?.onSuccess(key, loadings, it)
+                    onSuccess?.invoke(it)
+                },
+                {
+                    loading?.onFailure(key, loadings, it) {
+                        githubGetJson(classOfT, path, loading, onSuccess, onFailure, onStart)
+                    }
+                    onFailure?.invoke(it)
+                },
+                {
+                },
+                {
+                    loading?.onStart(key, loadings, it)
+                    onStart?.invoke(it)
+                }
+            )
+    }
+
+    fun <T> githubPutJson(
+        path: String,
+        t: T,
+        loading: Loading<Unit>? = null,
+        onSuccess: (() -> Unit)? = null,
+        onFailure: ((Throwable) -> Unit)? = null,
+        onStart: ((Disposable) -> Unit)? = null
+    ): Disposable {
+        val key = TimeHelper.nano().toString()
+        val dir = path.substringBeforeLast("/")
+        val name = path.substringAfterLast("/")
+        return GitHubApi.getContentsDirectory(dir)
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .flatMap {
+                val oldContent = it.firstOrNull { content ->
+                    content.name == name
+                }
+                GitHubApi.putContents(path, t, oldContent)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Unit
+            }
+            .subscribe(
+                {
+                    loading?.onSuccess(key, loadings, it)
+                    onSuccess?.invoke()
+                },
+                {
+                    loading?.onFailure(key, loadings, it) {
+                        githubPutJson(path, t, loading, onSuccess, onFailure, onStart)
+                    }
+                    onFailure?.invoke(it)
+                },
+                {
+                },
+                {
+                    loading?.onStart(key, loadings, it)
+                    onStart?.invoke(it)
+                }
+            )
     }
 }
