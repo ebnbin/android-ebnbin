@@ -23,29 +23,45 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
-                android:padding="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="48dp"
+                android:paddingBottom="48dp">
 
-                <ImageView
-                    android:id="@+id/eb_image_view"
+                <FrameLayout
+                    android:id="@+id/eb_icon"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/customactivityoncrash_error_image"/>
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
+                        android:src="@drawable/app_icon_128"/>
+
+                    <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_gravity="end|bottom"
+                        android:scaleType="fitEnd"
+                        android:src="@drawable/customactivityoncrash_error_image"/>
+
+                </FrameLayout>
 
                 <TextView
+                    android:id="@+id/eb_title_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
                     android:gravity="center_horizontal"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textStyle="bold"
-                    android:text="@string/eb_crash_title"/>
+                    android:textStyle="bold"/>
 
                 <LinearLayout
                     android:id="@+id/eb_log_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginTop="48dp"
                     android:gravity="center_horizontal"
                     android:visibility="gone">
 

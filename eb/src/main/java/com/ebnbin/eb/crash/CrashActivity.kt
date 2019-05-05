@@ -29,8 +29,8 @@ internal class CrashActivity : AppCompatActivity() {
             return
         }
         setContentView(R.layout.eb_crash_activity)
-        eb_image_view.setOnLongClickListener {
-            eb_image_view.setOnLongClickListener(null)
+        eb_icon.setOnLongClickListener {
+            eb_icon.setOnLongClickListener(null)
             eb_log_view.visibility = View.VISIBLE
             val log = CustomActivityOnCrash.getAllErrorDetailsFromIntent(this, intent)
             eb_copy_view.setOnClickListener {
@@ -41,6 +41,7 @@ internal class CrashActivity : AppCompatActivity() {
             eb_log_text_view.text = log
             true
         }
+        eb_title_text_view.text = getString(R.string.eb_crash_title, getString(R.string.app_label))
         eb_close_view.setOnClickListener {
             CustomActivityOnCrash.closeApplication(this, caocConfig)
         }
@@ -48,7 +49,7 @@ internal class CrashActivity : AppCompatActivity() {
             CustomActivityOnCrash.restartApplication(this, caocConfig)
         }
         if (BuildConfig.DEBUG) {
-            eb_image_view.performLongClick()
+            eb_icon.performLongClick()
         }
     }
 
