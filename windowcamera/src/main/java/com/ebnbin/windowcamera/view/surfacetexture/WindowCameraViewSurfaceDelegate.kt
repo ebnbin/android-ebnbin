@@ -85,7 +85,7 @@ class WindowCameraViewSurfaceDelegate(private val callback: IWindowCameraViewSur
         val bufferBottom = bufferTop + bufferHeight
         val bufferRectF = RectF(bufferLeft, bufferTop, bufferRight, bufferBottom)
 
-        getSurfaceTexture().setDefaultBufferSize(bufferWidth, bufferHeight)
+        getSurfaceTexture().setDefaultBufferSize(previewResolution.width, previewResolution.height)
 
         val matrix = Matrix()
 
