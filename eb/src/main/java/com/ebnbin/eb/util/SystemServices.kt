@@ -2,6 +2,7 @@ package com.ebnbin.eb.util
 
 import android.app.ActivityManager
 import android.app.NotificationManager
+import android.content.ClipboardManager
 import android.hardware.camera2.CameraManager
 import android.os.Vibrator
 import android.view.WindowManager
@@ -12,6 +13,9 @@ object SystemServices {
         get() = ebApp.getSystemService() ?: throw RuntimeException()
 
     val cameraManager: CameraManager
+        get() = ebApp.getSystemService() ?: throw RuntimeException()
+
+    val clipboardManager: ClipboardManager
         get() = ebApp.getSystemService() ?: throw RuntimeException()
 
     val notificationManager: NotificationManager

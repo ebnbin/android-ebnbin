@@ -3,6 +3,7 @@ package com.ebnbin.eb.util
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Service
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.os.VibrationEffect
@@ -11,6 +12,7 @@ import android.util.Base64
 import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
+import com.ebnbin.eb.R
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import java.security.MessageDigest
 
@@ -86,5 +88,10 @@ object AppHelper {
 
     fun base64Decode(string: String): String {
         return String(Base64.decode(string, Base64.NO_WRAP))
+    }
+
+    fun clip(context: Context, text: CharSequence) {
+        SystemServices.clipboardManager.primaryClip = ClipData.newPlainText(ebApp.packageName, text)
+        toast(context, R.string.eb_clip)
     }
 }
