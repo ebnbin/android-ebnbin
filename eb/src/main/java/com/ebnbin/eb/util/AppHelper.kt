@@ -90,8 +90,13 @@ object AppHelper {
         return String(Base64.decode(string, Base64.NO_WRAP))
     }
 
-    fun clip(context: Context, text: CharSequence) {
-        SystemServices.clipboardManager.primaryClip = ClipData.newPlainText(ebApp.packageName, text)
-        toast(context, R.string.eb_clip)
+    fun clip(
+        context: Context,
+        text: CharSequence,
+        toast: CharSequence = context.getString(R.string.eb_clip),
+        label: CharSequence = ebApp.packageName
+    ) {
+        SystemServices.clipboardManager.primaryClip = ClipData.newPlainText(label, text)
+        toast(context, toast)
     }
 }

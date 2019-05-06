@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.eb.async.Loading
-import com.ebnbin.eb.net.githubapi.model.eb.Update
+import com.ebnbin.eb.net.githubapi.model.Update
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import com.ebnbin.eb.util.AppHelper
 

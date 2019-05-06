@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="eb_clip">复制成功</string>
+    <string name="eb_clip">已复制到剪贴板</string>
+
+    <style name="EBBottomToTopWindowAnimation" parent="android:Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/eb_bottom_to_top_activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/eb_bottom_to_top_activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/eb_bottom_to_top_activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/eb_bottom_to_top_activity_close_exit</item>
+    </style>
 </resources>

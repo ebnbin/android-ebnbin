@@ -34,7 +34,7 @@ class AboutFragment : EBFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        eb_toolbar.setNavigationIcon(if (bottomToTop) R.drawable.eb_close else R.drawable.eb_back)
+        eb_toolbar.setNavigationIcon(if (bottomToTop) R.drawable.eb_toolbar_close else R.drawable.eb_toolbar_back)
         eb_toolbar.setNavigationOnClickListener {
             activity?.finish()
         }

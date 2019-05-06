@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.app.EBDialogFragment
-import com.ebnbin.eb.net.githubapi.model.eb.Update
+import com.ebnbin.eb.net.githubapi.model.Update
 import com.ebnbin.eb.util.AppHelper
 
 internal class UpdateDialogFragment : EBDialogFragment() {
