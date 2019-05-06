@@ -1,5 +1,6 @@
 package com.ebnbin.eb.net.githubapi
 
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.library.gson
 import com.ebnbin.eb.net.githubapi.model.Content
 import com.ebnbin.eb.net.githubapi.model.PutContents
@@ -14,8 +15,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object GitHubApi {
-    private const val TOKEN: String = "ab4eec4c17b45de7376b41fb7b393df27d727bfb"
-
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://api.github.com/")
         .client(OkHttpClient.Builder()
@@ -23,7 +22,7 @@ object GitHubApi {
                 it.proceed(it.request()
                     .newBuilder()
                     .addHeader("Authorization",
-                        "Basic ${AppHelper.base64Encode("$TOKEN:x-oauth-basic")}")
+                        "Basic ${AppHelper.base64Encode("${BuildConfig.GITHUB_API_TOKEN}:x-oauth-basic")}")
                     .build())
             }
             .build())

@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
+def localProperties = new Properties()
+localProperties.load(new FileReader(rootProject.file('local.properties')))
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
@@ -21,8 +24,6 @@ android {
     }
     signingConfigs {
         release {
-            def localProperties = new Properties()
-            localProperties.load(new FileReader(rootProject.file('local.properties')))
             def signingPassword = localProperties['signingPassword']
             storeFile rootProject.file('gitignore/ebnbin.jks')
             storePassword signingPassword

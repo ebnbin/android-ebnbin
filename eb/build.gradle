@@ -2,12 +2,16 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def localProperties = new Properties()
+localProperties.load(new FileReader(rootProject.file('local.properties')))
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         consumerProguardFiles 'proguard-rules.pro', 'crashlytics.pro', 'eventbus.pro', 'gson.pro', 'okhttp.pro', 'retrofit.pro'
+        buildConfigField "String", "GITHUB_API_TOKEN", "\"${localProperties['github_api_token']}\""
     }
 }
 
