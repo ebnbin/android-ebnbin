@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def buildTimestamp = System.currentTimeMillis()
+
 def localProperties = new Properties()
 localProperties.load(new FileReader(rootProject.file('local.properties')))
 
@@ -10,26 +12,36 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        consumerProguardFiles 'proguard-rules.pro', 'crashlytics.pro', 'eventbus.pro', 'gson.pro', 'okhttp.pro', 'retrofit.pro'
-        buildConfigField "String", "GITHUB_API_TOKEN", "\"${localProperties['github_api_token']}\""
+        buildConfigField "long", "BUILD_TIMESTAMP", "${buildTimestamp}L"
+        buildConfigField "String", "GITHUB_API_TOKEN", "\"${localProperties['githubApiToken']}\""
+        setConsumerProguardFiles fileTree('proguard/')
+    }
+    buildTypes {
+        prerelease {
+            debuggable true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion" // https://github.com/JetBrains/kotlin
-    api 'androidx.appcompat:appcompat:1.1.0-alpha04' // https://developer.android.com/jetpack/androidx
+    api 'androidx.appcompat:appcompat:1.1.0-alpha04' // https://dl.google.com/dl/android/maven2/index.html
     api 'androidx.core:core-ktx:1.1.0-alpha05'
     api 'androidx.preference:preference-ktx:1.1.0-alpha04'
-    api 'com.google.android.material:material:1.1.0-alpha05'
-    api 'com.google.firebase:firebase-core:16.0.8'
-    api 'com.crashlytics.sdk.android:crashlytics:2.9.9'
-    implementation 'cat.ereza:customactivityoncrash:2.2.0' // https://github.com/Ereza/CustomActivityOnCrash
+    api 'com.google.android.material:material:1.1.0-alpha06'
+    api 'com.google.firebase:firebase-core:16.0.8' // https://firebase.google.com/docs/android/setup
+    api 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    api 'cat.ereza:customactivityoncrash:2.2.0' // https://github.com/Ereza/CustomActivityOnCrash
     api 'org.greenrobot:eventbus:3.1.1' // https://github.com/greenrobot/EventBus
     api 'com.google.code.gson:gson:2.8.5' // https://github.com/google/gson
     api 'io.reactivex.rxjava2:rxjava:2.2.8' // https://github.com/ReactiveX/RxJava
     api 'io.reactivex.rxjava2:rxandroid:2.1.1' // https://github.com/ReactiveX/RxAndroid
-    api 'com.squareup.okhttp3:okhttp:3.12.2' // https://github.com/square/okhttp
+    api 'com.squareup.okhttp3:okhttp:3.14.1' // https://github.com/square/okhttp
     api 'com.squareup.retrofit2:retrofit:2.5.0' // https://github.com/square/retrofit
-    api 'com.squareup.retrofit2:converter-gson:2.5.0' // https://github.com/square/retrofit/tree/master/retrofit-converters/gson
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0' // https://github.com/square/retrofit/tree/master/retrofit-adapters/rxjava2
+    api 'com.squareup.retrofit2:converter-gson:2.5.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 }

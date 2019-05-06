@@ -10,7 +10,7 @@ localProperties.load(new FileReader(rootProject.file('local.properties')))
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId project.ext.applicationId
+        applicationId "com.ebnbin.${project.ext.applicationId}"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         def versionSplit = project.ext.version.split('-')
@@ -35,9 +35,23 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            setProguardFiles fileTree('proguard/')
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
         }
-        debug.signingConfig signingConfigs.release
+        prerelease {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            setProguardFiles fileTree('proguard/')
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            debuggable true
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

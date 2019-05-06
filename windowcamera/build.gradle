@@ -1,5 +1,5 @@
 ext {
-    applicationId = 'com.ebnbin.windowcamera'
+    applicationId = 'windowcamera'
     version = '0.1.0-1'
 }
 

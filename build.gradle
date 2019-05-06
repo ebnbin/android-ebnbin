@@ -14,9 +14,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.google.gms:google-services:4.2.0'
-        classpath 'io.fabric.tools:gradle:1.26.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion" // https://github.com/JetBrains/kotlin
+        classpath 'com.google.gms:google-services:4.2.0' // https://firebase.google.com/docs/android/setup
+        classpath 'io.fabric.tools:gradle:1.28.1' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
     }
 }
 
