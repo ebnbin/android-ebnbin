@@ -2,13 +2,11 @@ package com.ebnbin.eb.debug
 
 import android.content.Intent
 import android.os.Bundle
-import com.ebnbin.eb.R
 import com.ebnbin.eb.app.EBActivity
 
 class DebugActivity : EBActivity() {
     override fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
         super.onInitArguments(savedInstanceState, extras)
-        themeStyleId = R.style.EBTheme_Debug
         fragmentClass = DebugFragment::class.java
     }
 

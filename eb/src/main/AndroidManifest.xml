@@ -17,6 +17,8 @@
 
         <activity android:name=".app.EBActivity"/>
 
-        <activity android:name=".debug.DebugActivity"/>
+        <activity
+            android:name=".debug.DebugActivity"
+            android:theme="@style/EBTheme.Debug"/>
     </application>
 </manifest>
