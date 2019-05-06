@@ -2,7 +2,6 @@ package com.ebnbin.windowcamera.view.canvas
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.windowcamera.R
 
@@ -20,8 +19,7 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
     private val paint: Paint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = 2f.dpToPx
-        color = ResHelper.getColor(callback.getContext(), R.color.eb_material_light_blue_500,
-            callback.getContext().theme)
+        color = callback.getContext().getColor(R.color.eb_material_light_blue_500)
     }
 
     override fun onDraw(canvas: Canvas?) {

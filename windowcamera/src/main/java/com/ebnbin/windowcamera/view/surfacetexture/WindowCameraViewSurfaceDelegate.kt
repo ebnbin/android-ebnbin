@@ -3,7 +3,6 @@ package com.ebnbin.windowcamera.view.surfacetexture
 import android.graphics.Matrix
 import android.graphics.RectF
 import android.graphics.SurfaceTexture
-import android.view.Surface
 import android.view.TextureView
 import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.WindowHelper
@@ -65,7 +64,7 @@ class WindowCameraViewSurfaceDelegate(private val callback: IWindowCameraViewSur
     //*****************************************************************************************************************
 
     private fun invalidateTransform() {
-        val rotation = WindowHelper.displayRotation
+        val displayRotation = WindowHelper.displayRotation
         val previewResolution = ProfileHelper.previewResolution()
 
         val viewWidth = textureView.width.toFloat()
@@ -74,8 +73,8 @@ class WindowCameraViewSurfaceDelegate(private val callback: IWindowCameraViewSur
         val viewCenterX = 0.5f * viewWidth
         val viewCenterY = 0.5f * viewHeight
 
-        val bufferWidth = previewResolution.widths.getValue(Surface.ROTATION_0)
-        val bufferHeight = previewResolution.heights.getValue(Surface.ROTATION_0)
+        val bufferWidth = previewResolution.width0
+        val bufferHeight = previewResolution.height0
 
         val viewRectF = RectF(0f, 0f, viewWidth, viewHeight)
 
@@ -91,12 +90,12 @@ class WindowCameraViewSurfaceDelegate(private val callback: IWindowCameraViewSur
 
         matrix.setRectToRect(viewRectF, bufferRectF, Matrix.ScaleToFit.FILL)
 
-        val scaleX = viewWidth / previewResolution.widths.getValue(rotation)
-        val scaleY = viewHeight / previewResolution.heights.getValue(rotation)
+        val scaleX = viewWidth / previewResolution.widths[displayRotation]
+        val scaleY = viewHeight / previewResolution.heights[displayRotation]
         val scale = max(scaleX, scaleY)
         matrix.postScale(scale, scale, viewCenterX, viewCenterY)
 
-        val rotate = 360f - 90f * rotation
+        val rotate = 360f - 90f * displayRotation
         matrix.postRotate(rotate, viewCenterX, viewCenterY)
 
         textureView.setTransform(matrix)

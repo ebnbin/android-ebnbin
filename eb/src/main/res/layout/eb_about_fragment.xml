@@ -117,10 +117,10 @@
 
                     <com.google.android.material.button.MaterialButton
                         style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:id="@+id/eb_open_app_store"
+                        android:id="@+id/eb_open_market"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/eb_about_open_app_store"
+                        android:text="@string/eb_about_open_market"
                         android:textColor="?attr/colorAccent"
                         app:rippleColor="?attr/colorAccent"/>
 

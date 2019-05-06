@@ -3,9 +3,6 @@ package com.ebnbin.eb.util
 import android.graphics.Point
 import android.view.Display
 
-/**
- * Window 帮助类.
- */
 object WindowHelper {
     private val display: Display
         get() = SystemServices.windowManager.defaultDisplay
@@ -13,9 +10,6 @@ object WindowHelper {
     val displayRotation: Int
         get() = display.rotation
 
-    /**
-     * 不要频繁调用.
-     */
     val displaySize: RotationSize
         get() {
             val display = display
@@ -24,9 +18,6 @@ object WindowHelper {
             return RotationSize(outSize.x, outSize.y, display.rotation)
         }
 
-    /**
-     * 不要频繁调用.
-     */
     val displayRealSize: RotationSize
         get() {
             val display = display

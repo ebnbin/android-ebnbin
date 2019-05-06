@@ -9,6 +9,7 @@ import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.net.githubapi.model.Update
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.TimeHelper
 
 class UpdateFragment : EBFragment() {
     private var silent: Boolean = false
@@ -23,7 +24,7 @@ class UpdateFragment : EBFragment() {
 
         if (savedInstanceState == null) {
             if (silent) {
-                if (System.currentTimeMillis() - EBSpManager.eb.request_update_timestamp.value >= UPDATE_INTERVAL) {
+                if (TimeHelper.expired(EBSpManager.eb.request_update_timestamp.value, UPDATE_EXPIRATION)) {
                     asyncHelper.githubGetJson(
                         Update::class.java,
                         "/update.json",
@@ -57,7 +58,7 @@ class UpdateFragment : EBFragment() {
     }
 
     companion object {
-        private const val UPDATE_INTERVAL: Long = 24 * 60 * 60 * 1000L
+        private const val UPDATE_EXPIRATION: Long = 24 * 60 * 60 * 1000L
 
         fun start(fm: FragmentManager, silent: Boolean) {
             FragmentHelper.add(fm, UpdateFragment::class.java, arguments = bundleOf(

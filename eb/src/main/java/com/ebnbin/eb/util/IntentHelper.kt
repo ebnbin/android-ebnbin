@@ -4,23 +4,27 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.ebnbin.eb.R
+import com.ebnbin.eb.dev.DevHelper
 
 object IntentHelper {
-    fun openInBrowser(context: Context, url: String) {
+    fun openBrowser(context: Context, url: String) {
         try {
-            val uri = Uri.parse(url)
-            val intent = Intent(Intent.ACTION_VIEW, uri)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
+            AppHelper.toast(context, R.string.eb_open_browser_error)
+            DevHelper.report(e)
         }
     }
 
-    fun openAppStore(context: Context) {
+    fun openMarket(context: Context) {
         try {
-            val uri = Uri.parse("market://details?id=${ebApp.packageName}")
-            val intent = Intent(Intent.ACTION_VIEW, uri)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${ebApp.packageName}"))
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
+            AppHelper.toast(context, R.string.eb_open_market_error)
+            DevHelper.report(e)
         }
     }
 }

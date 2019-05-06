@@ -11,6 +11,7 @@ import com.ebnbin.eb.crash.CrashRuntimeException
 import com.ebnbin.eb.net.githubapi.model.Application
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.DeviceHelper
 import com.ebnbin.eb.util.ebApp
 import java.util.Date
 
@@ -37,7 +38,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
 
         addDebugItem("User") {
             asyncHelper.githubPutJson(
-                "/users/${AppHelper.getUserId()}.json",
+                "/users/${DeviceHelper.DEVICE_ID}.json",
                 Date(),
                 Loading.dialogNotCancelable(requireContext()),
                 onSuccess = {
@@ -48,14 +49,8 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
                 })
         }
 
-        addDebugItem("MD5") {
-            (0 until 100).forEach {
-                log("$it\t${AppHelper.md5(it.toString())}")
-            }
-        }
-
-        addDebugItem("Android Id") {
-            AppHelper.toast(requireContext(), AppHelper.getAndroidId())
+        addDebugItem("Consts") {
+            // TODO: 各种设备常量.
         }
 
         addDebugItem("Splash") {
@@ -151,7 +146,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
                 "/application.json",
                 Loading.dialogNotCanceledOnTouchOutside(requireContext()),
                 onSuccess = {
-                    AppHelper.toast(requireContext(), it.application_id)
+                    AppHelper.toast(requireContext(), it.applicationId)
                 },
                 onFailure = {
                     AppHelper.toast(requireContext(), it)

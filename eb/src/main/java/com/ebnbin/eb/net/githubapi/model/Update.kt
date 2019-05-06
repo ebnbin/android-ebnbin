@@ -1,7 +1,7 @@
 package com.ebnbin.eb.net.githubapi.model
 
-import com.ebnbin.eb.net.EBModel
 import com.ebnbin.eb.util.BuildHelper
+import com.ebnbin.eb.util.EBModel
 
 class Update : EBModel {
     var version: Int = 0

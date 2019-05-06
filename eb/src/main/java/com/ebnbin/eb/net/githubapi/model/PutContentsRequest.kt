@@ -1,6 +1,6 @@
 package com.ebnbin.eb.net.githubapi.model
 
-import com.ebnbin.eb.net.EBModel
+import com.ebnbin.eb.util.EBModel
 
 class PutContentsRequest : EBModel {
     lateinit var message: String

@@ -2,19 +2,19 @@ package com.ebnbin.eb.preference
 
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
-import com.ebnbin.eb.library.eventBus
+import com.ebnbin.eb.util.LibraryHelper
 
 abstract class EBPreferenceFragment : PreferenceFragmentCompat() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isEventBusEnabled && !eventBus.isRegistered(this)) {
-            eventBus.register(this)
+        if (isEventBusEnabled && !LibraryHelper.eventBus.isRegistered(this)) {
+            LibraryHelper.eventBus.register(this)
         }
     }
 
     override fun onDestroy() {
-        if (isEventBusEnabled && eventBus.isRegistered(this)) {
-            eventBus.unregister(this)
+        if (isEventBusEnabled && LibraryHelper.eventBus.isRegistered(this)) {
+            LibraryHelper.eventBus.unregister(this)
         }
         super.onDestroy()
     }

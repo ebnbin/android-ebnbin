@@ -19,15 +19,13 @@ import com.ebnbin.windowcamera.camera.CameraHelper.isValid
 /**
  * 相机帮助类.
  *
- * 需要相机权限, 以防万一.
- *
  * 需要 try catch Throwable 避免 ExceptionInInitializerError.
  *
  * TODO: 在使用前必须调用 [isValid] 检测有效性.
  */
 object CameraHelper {
     private fun StringBuilder.append(key: String, value: Any?): StringBuilder {
-        return append("$key=$value,")
+        return append("$key:$value,")
     }
 
     override fun toString(): String {
@@ -116,8 +114,8 @@ object CameraHelper {
                 append("oldId", oldId)
                 append("lensFacing", lensFacingString)
                 append("sensorOrientation", sensorOrientation)
-                append("sensorOrientations", sensorOrientations.asIterable().joinToString(",", "[", "]"))
-                append("jpegSizes", jpegSizes?.joinToString(",", "[", "]") { it.toString() })
+                append("sensorOrientations", sensorOrientations.joinToString(",", "[", "]"))
+                append("jpegSizes", jpegSizes?.joinToString(",", "[", "]"))
                 append("photoResolutions", photoResolutions.joinToString(",", "[", "]"))
                 append("defaultPhotoResolution", if (::defaultPhotoResolution.isInitialized) defaultPhotoResolution else null)
                 append("maxResolution", if (::maxResolution.isInitialized) maxResolution else null)
@@ -165,16 +163,14 @@ object CameraHelper {
         /**
          * 根据当前屏幕旋转方向设置拍摄照片或录制视频的方向.
          */
-        val sensorOrientations: Map<Int, Int> = LinkedHashMap<Int, Int>().apply {
-            arrayOf(
-                Surface.ROTATION_0,
-                Surface.ROTATION_90,
-                Surface.ROTATION_180,
-                Surface.ROTATION_270
-            ).forEach {
-                put(it, (sensorOrientation + (if (isFront) 90 else -90) * it + 360) % 360)
-            }
-        }
+        val sensorOrientations: IntArray = arrayOf(
+            Surface.ROTATION_0,
+            Surface.ROTATION_90,
+            Surface.ROTATION_180,
+            Surface.ROTATION_270
+        ).map {
+            (sensorOrientation + (if (isFront) 90 else -90) * it + 360) % 360
+        }.toIntArray()
 
         //*************************************************************************************************************
 
@@ -228,7 +224,7 @@ object CameraHelper {
             val entryValue: String = "${width}_$height"
 
             override fun toString(): String {
-                return "{${width}x$height,ratio=$ratio}"
+                return "{${width}x$height,ratio:${ratioWidth}_$ratioHeight}"
             }
         }
 
@@ -310,18 +306,25 @@ object CameraHelper {
         open class VideoProfile(val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
             Resolution(camcorderProfile.videoFrameWidth, camcorderProfile.videoFrameHeight, sensorOrientation) {
             override fun toString(): String {
-                return "{${width}x$height," +
-                        "ratio=$ratio," +
-                        "duration=${camcorderProfile.duration}," +
-                        "quality=${camcorderProfile.qualityString}," +
-                        "fileFormat=${camcorderProfile.fileFormatString}," +
-                        "videoCodec=${camcorderProfile.videoCodecString}," +
-                        "videoBitRate=${camcorderProfile.videoBitRate}," +
-                        "videoFrameRate=${camcorderProfile.videoFrameRate}," +
-                        "audioCodec=${camcorderProfile.audioCodecString}," +
-                        "audioBitRate=${camcorderProfile.audioBitRate}," +
-                        "audioSampleRate=${camcorderProfile.audioSampleRate}," +
-                        "audioChannels=${camcorderProfile.audioChannels}}"
+                val sb = StringBuilder()
+                sb.run {
+                    append("{")
+                    append("${width}x$height,")
+                    append("ratio", "${ratioWidth}_$ratioHeight")
+                    append("duration", camcorderProfile.duration)
+                    append("quality", camcorderProfile.qualityString)
+                    append("fileFormat", camcorderProfile.fileFormatString)
+                    append("videoCodec", camcorderProfile.videoCodecString)
+                    append("videoBitRate", camcorderProfile.videoBitRate)
+                    append("videoFrameRate", camcorderProfile.videoFrameRate)
+                    append("audioCodec", camcorderProfile.audioCodecString)
+                    append("audioBitRate", camcorderProfile.audioBitRate)
+                    append("audioSampleRate", camcorderProfile.audioSampleRate)
+                    append("audioChannels", camcorderProfile.audioChannels)
+                    delete(length - 1, length)
+                    append("}")
+                }
+                return sb.toString()
             }
 
             val qualityString: String = camcorderProfile.qualityString

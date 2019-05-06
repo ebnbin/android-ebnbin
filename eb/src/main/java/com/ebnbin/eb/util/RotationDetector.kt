@@ -36,7 +36,7 @@ object RotationDetector {
         }
     }
 
-    private val listeners: LinkedHashSet<Listener> = LinkedHashSet()
+    private val listeners: ArrayList<Listener> = ArrayList()
 
     interface Listener {
         fun onRotationChanged(oldRotation: Int, newRotation: Int)

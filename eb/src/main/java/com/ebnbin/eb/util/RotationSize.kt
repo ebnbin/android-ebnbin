@@ -31,47 +31,43 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     /**
      * 指定旋转方向的宽.
      */
-    val widths: Map<Int, Int> = LinkedHashMap<Int, Int>().apply {
-        arrayOf(
-            Surface.ROTATION_0,
-            Surface.ROTATION_90,
-            Surface.ROTATION_180,
-            Surface.ROTATION_270
-        ).forEach {
-            val width = if (it == Surface.ROTATION_0 || it == Surface.ROTATION_180) {
-                if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) width else height
-            } else {
-                if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) width else height
-            }
-            put(it, width)
+    val widths: IntArray = arrayOf(
+        Surface.ROTATION_0,
+        Surface.ROTATION_90,
+        Surface.ROTATION_180,
+        Surface.ROTATION_270
+    ).map {
+        if (it == Surface.ROTATION_0 || it == Surface.ROTATION_180) {
+            if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) width else height
+        } else {
+            if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) width else height
         }
-    }
+    }.toIntArray()
 
     /**
      * 指定旋转方向的高.
      */
-    val heights: Map<Int, Int> = LinkedHashMap<Int, Int>().apply {
-        arrayOf(
-            Surface.ROTATION_0,
-            Surface.ROTATION_90,
-            Surface.ROTATION_180,
-            Surface.ROTATION_270
-        ).forEach {
-            val height = if (it == Surface.ROTATION_0 || it == Surface.ROTATION_180) {
-                if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) height else width
-            } else {
-                if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) height else width
-            }
-            put(it, height)
+    val heights: IntArray = arrayOf(
+        Surface.ROTATION_0,
+        Surface.ROTATION_90,
+        Surface.ROTATION_180,
+        Surface.ROTATION_270
+    ).map {
+        if (it == Surface.ROTATION_0 || it == Surface.ROTATION_180) {
+            if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) height else width
+        } else {
+            if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) height else width
         }
-    }
+    }.toIntArray()
 
-    private val width0: Int = widths.getValue(Surface.ROTATION_0)
+    val width0: Int = widths[Surface.ROTATION_0]
+
+    val height0: Int = heights[Surface.ROTATION_0]
 
     //*****************************************************************************************************************
 
     /**
-     * 特殊的, 如果宽高相等则为 false.
+     * 特殊地, 如果宽高相等则为 false.
      */
     val isLandscape: Boolean = width > height
 
@@ -92,7 +88,7 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     /**
      * 宽高比以旋转方向为 [Surface.ROTATION_0] 时的宽高为准.
      */
-    val ratio: Ratio = Ratio(widths.getValue(Surface.ROTATION_0) / gcd, heights.getValue(Surface.ROTATION_0) / gcd)
+    val ratio: Ratio = Ratio(width0 / gcd, height0 / gcd)
 
     //*****************************************************************************************************************
 
@@ -100,16 +96,14 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
      * 宽高都大等于指定对象.
      */
     fun isWidthHeightGreaterOrEquals(other: RotationSize): Boolean {
-        return widths.getValue(Surface.ROTATION_0) >= other.widths.getValue(Surface.ROTATION_0) &&
-                heights.getValue(Surface.ROTATION_0) >= other.heights.getValue(Surface.ROTATION_0)
+        return width0 >= other.width0 && height0 >= other.height0
     }
 
     /**
      * 宽高都小等于指定对象.
      */
     fun isWidthHeightLessOrEquals(other: RotationSize): Boolean {
-        return widths.getValue(Surface.ROTATION_0) <= other.widths.getValue(Surface.ROTATION_0) &&
-                heights.getValue(Surface.ROTATION_0) <= other.heights.getValue(Surface.ROTATION_0)
+        return width0 <= other.width0 && height0 <= other.height0
     }
 
     /**
@@ -126,10 +120,10 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
         var newWidth0: Int
         var newHeight0: Int
         if (this.ratio < ratio) {
-            newWidth0 = (widths.getValue(Surface.ROTATION_0) * scale).roundToInt()
+            newWidth0 = (width0 * scale).roundToInt()
             newHeight0 = (newWidth0 / ratio.ratio).roundToInt()
         } else {
-            newHeight0 = (heights.getValue(Surface.ROTATION_0) * scale).roundToInt()
+            newHeight0 = (height0 * scale).roundToInt()
             newWidth0 = (newHeight0 * ratio.ratio).roundToInt()
         }
         // 宽高不能为 0.
@@ -151,13 +145,12 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
         other as RotationSize
-        return widths.getValue(Surface.ROTATION_0) == other.widths.getValue(Surface.ROTATION_0) &&
-                heights.getValue(Surface.ROTATION_0) == other.heights.getValue(Surface.ROTATION_0)
+        return width0 == other.width0 && height0 == other.height0
     }
 
     override fun hashCode(): Int {
-        var result = widths.getValue(Surface.ROTATION_0)
-        result = 31 * result + heights.getValue(Surface.ROTATION_0)
+        var result = width0
+        result = 31 * result + height0
         return result
     }
 

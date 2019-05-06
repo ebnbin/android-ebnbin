@@ -1,12 +1,7 @@
 package com.ebnbin.windowcamera.main
 
-import android.Manifest
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.content.res.ColorStateList
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +10,9 @@ import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.app.EBActivity
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
-import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.ResHelper
-import com.ebnbin.eb.util.ebApp
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
@@ -37,9 +29,21 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PermissionFragment.start(childFragmentManager, arrayListOf(Manifest.permission.CAMERA), hashMapOf(
-            Consts.CALLING_ID to "CameraHelper"
-        ))
+
+        mainPagerAdapter = MainPagerAdapter(requireContext(), childFragmentManager)
+        view_pager.adapter = mainPagerAdapter
+        view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
+        view_pager.addOnPageChangeListener(this)
+        tab_layout.setupWithViewPager(view_pager)
+        bottom_app_bar.setNavigationOnClickListener {
+            EBActivity.startFragmentFromFragment(this, AboutFragment::class.java,
+                AboutFragment.createIntent(bottomToTop = true))
+        }
+        invalidateWindowCameraServiceEvent()
+
+        if (savedInstanceState == null) {
+            view_pager.setCurrentItem(ProfileHelper.page.value, false)
+        }
     }
 
     override fun onDestroyView() {
@@ -59,53 +63,6 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
 
     override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: HashMap<*, *>) {
         when (extraData[Consts.CALLING_ID]) {
-            "CameraHelper" -> {
-                if (granted) {
-                    asyncHelper.task(
-                        {
-                            if (!CameraHelper.isValid()) throw RuntimeException()
-                        },
-                        null,
-                        onSuccess = {
-                            progress_bar.visibility = View.GONE
-                            coordinator_layout.visibility = View.VISIBLE
-
-                            mainPagerAdapter = MainPagerAdapter(requireContext(), childFragmentManager)
-                            view_pager.adapter = mainPagerAdapter
-                            view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
-                            view_pager.addOnPageChangeListener(this)
-                            tab_layout.setupWithViewPager(view_pager)
-                            bottom_app_bar.setNavigationOnClickListener {
-                                EBActivity.startFragmentFromFragment(this, AboutFragment::class.java,
-                                    AboutFragment.createIntent(bottomToTop = true))
-                            }
-                            invalidateWindowCameraServiceEvent()
-
-                            view_pager.setCurrentItem(ProfileHelper.page.value, false)
-                        },
-                        onFailure = {
-                            when (it) {
-                                is NoClassDefFoundError -> {
-                                    // 在初始化 CameraHelper 时 task 中断导致.
-                                    try {
-                                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                            .setData(Uri.parse("package:${ebApp.packageName}"))
-                                        startActivity(intent)
-                                    } catch (e: ActivityNotFoundException) {
-                                    }
-                                    AppHelper.toast(requireContext(), R.string.camera_error_no_class_def_found_error)
-                                    activity?.finish()
-                                }
-                                else -> {
-                                    AppHelper.toast(requireContext(), R.string.camera_error)
-                                    activity?.finish()
-                                }
-                            }
-                        })
-                } else {
-                    activity?.finish()
-                }
-            }
             "WindowCameraService" -> {
                 if (granted) {
                     WindowCameraService.start(requireContext())

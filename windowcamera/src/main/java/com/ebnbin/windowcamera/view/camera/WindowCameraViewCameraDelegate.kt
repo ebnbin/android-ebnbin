@@ -232,7 +232,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         captureRequestBuilder.addTarget(imageReaderSurface)
         captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION,
-            ProfileHelper.device().sensorOrientations.getValue(WindowHelper.displayRotation))
+            ProfileHelper.device().sensorOrientations[WindowHelper.displayRotation])
         val request = captureRequestBuilder.build()
         photoCameraCaptureSession.capture(request, null, null)
     }
@@ -297,8 +297,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
         mediaRecorder.setProfile(videoProfile.camcorderProfile)
         mediaRecorder.setOutputFile(videoFile.absolutePath)
-        mediaRecorder.setOrientationHint(
-            ProfileHelper.device().sensorOrientations.getValue(WindowHelper.displayRotation))
+        mediaRecorder.setOrientationHint(ProfileHelper.device().sensorOrientations[WindowHelper.displayRotation])
         mediaRecorder.prepare()
         this.videoFile = videoFile
         this.mediaRecorder = mediaRecorder

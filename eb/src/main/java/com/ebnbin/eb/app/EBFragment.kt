@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.async.AsyncHelper
-import com.ebnbin.eb.library.eventBus
+import com.ebnbin.eb.util.LibraryHelper
 
 /**
  * Base Fragment.
@@ -12,16 +12,16 @@ import com.ebnbin.eb.library.eventBus
 abstract class EBFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isEventBusEnabled && !eventBus.isRegistered(this)) {
-            eventBus.register(this)
+        if (isEventBusEnabled && !LibraryHelper.eventBus.isRegistered(this)) {
+            LibraryHelper.eventBus.register(this)
         }
 
         onInitArguments(savedInstanceState, arguments ?: Bundle.EMPTY, activity?.intent?.extras ?: Bundle.EMPTY)
     }
 
     override fun onDestroy() {
-        if (isEventBusEnabled && eventBus.isRegistered(this)) {
-            eventBus.unregister(this)
+        if (isEventBusEnabled && LibraryHelper.eventBus.isRegistered(this)) {
+            LibraryHelper.eventBus.unregister(this)
         }
         super.onDestroy()
     }

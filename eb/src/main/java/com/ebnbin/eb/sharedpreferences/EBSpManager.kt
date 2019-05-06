@@ -20,6 +20,8 @@ object EBSpManager {
          * 上次请求 update 接口时间.
          */
         internal var request_update_timestamp: Sp<Long> = EBSp("request_update_timestamp", 0L)
+
+        internal var request_device_timestamp: Sp<Long> = EBSp("request_device_timestamp", 0L)
     }
 
     object eb_debug {

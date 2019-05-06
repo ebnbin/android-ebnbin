@@ -25,7 +25,7 @@ internal class AboutOpenSourceView @JvmOverloads constructor(
         eb_name.text = pair.first
         eb_url.text = pair.second
         setOnClickListener {
-            IntentHelper.openInBrowser(context, pair.second)
+            IntentHelper.openBrowser(context, pair.second)
         }
     }
 }

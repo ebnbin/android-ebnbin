@@ -58,8 +58,8 @@ class AboutFragment : EBFragment() {
         eb_update.setOnClickListener {
             UpdateFragment.start(childFragmentManager, false)
         }
-        eb_open_app_store.setOnClickListener {
-            IntentHelper.openAppStore(requireContext())
+        eb_open_market.setOnClickListener {
+            IntentHelper.openMarket(requireContext())
         }
         OPEN_SOURCES.forEach {
             addOpenSource(it)

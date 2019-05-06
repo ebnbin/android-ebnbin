@@ -35,8 +35,17 @@ abstract class EBSplashActivity : EBActivity() {
     }
 
     private fun startMainActivity() {
-        startActivity(Intent(this, mainActivityClass))
+        if (init()) {
+            startActivity(Intent(this, mainActivityClass))
+        }
         finish()
+    }
+
+    /**
+     * @return 初始化是否成功.
+     */
+    protected open fun init(): Boolean {
+        return true
     }
 
     abstract val mainActivityClass: Class<out EBActivity>

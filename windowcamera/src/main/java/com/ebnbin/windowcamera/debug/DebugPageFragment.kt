@@ -1,38 +1,20 @@
 package com.ebnbin.windowcamera.debug
 
-import android.Manifest
 import android.os.Bundle
 import android.view.View
 import com.ebnbin.eb.debug.BaseDebugPageFragment
 import com.ebnbin.eb.debug.log
-import com.ebnbin.eb.permission.PermissionFragment
-import com.ebnbin.eb.util.Consts
-import com.ebnbin.windowcamera.camera.CameraHelper
+import com.ebnbin.eb.util.LibraryHelper
+import com.ebnbin.windowcamera.dev.Device
 
 /**
  * Debug page 页面.
  */
-class DebugPageFragment : BaseDebugPageFragment(), PermissionFragment.Callback {
+class DebugPageFragment : BaseDebugPageFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addDebugItem("CameraHelper") {
-            PermissionFragment.start(childFragmentManager, arrayListOf(Manifest.permission.CAMERA), hashMapOf(
-                Consts.CALLING_ID to "CameraHelper"
-            ))
-        }
-    }
-
-    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: HashMap<*, *>) {
-        when (extraData[Consts.CALLING_ID]) {
-            "CameraHelper" -> {
-                if (granted) {
-                    try {
-                        log(CameraHelper)
-                    } catch (throwable: Throwable) {
-                        log(throwable)
-                    }
-                }
-            }
+            log(LibraryHelper.gson.toJson(Device()))
         }
     }
 }
