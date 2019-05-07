@@ -113,10 +113,10 @@ object ProfileHelper {
         SharedPreferencesHelper.unregister(listener, SHARED_PREFERENCES_NAME_POSTFIX)
     }
 
-    var isCameraProfileInvalidating: Boolean = false
+    var cameraState: CameraState = CameraState.CLOSED
         set(value) {
             if (field == value) return
             field = value
-            LibraryHelper.eventBus.post(CameraProfileEvent(field))
+            LibraryHelper.eventBus.post(CameraStateEvent(field))
         }
 }

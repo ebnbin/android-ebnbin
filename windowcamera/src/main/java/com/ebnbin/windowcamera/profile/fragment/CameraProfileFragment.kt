@@ -6,7 +6,8 @@ import com.ebnbin.eb.preference.SimpleListPreference
 import com.ebnbin.eb.preference.SimplePreferenceGroup
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
-import com.ebnbin.windowcamera.profile.CameraProfileEvent
+import com.ebnbin.windowcamera.profile.CameraState
+import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -110,17 +111,20 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_video_profile)
         }
 
-        invalidateCameraProfile(ProfileHelper.isCameraProfileInvalidating)
+        invalidateCameraState(ProfileHelper.cameraState)
     }
 
     override val isEventBusEnabled: Boolean = true
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: CameraProfileEvent) {
-        invalidateCameraProfile(event.isInvalidating)
+    fun onEvent(event: CameraStateEvent) {
+        invalidateCameraState(event.cameraState)
     }
 
-    private fun invalidateCameraProfile(isInvalidating: Boolean) {
-        preferenceScreen?.isEnabled = !isInvalidating
+    private fun invalidateCameraState(cameraState: CameraState) {
+        preferenceScreen?.isEnabled = cameraState == CameraState.CLOSED ||
+                cameraState == CameraState.PREVIEWING_PHOTO ||
+                cameraState == CameraState.PREVIEWING_VIDEO ||
+                cameraState == CameraState.CAPTURING_VIDEO
     }
 }

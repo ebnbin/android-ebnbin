@@ -8,14 +8,13 @@ import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.media.MediaRecorder
-import android.os.Handler
-import android.os.HandlerThread
 import android.view.Surface
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.util.IOHelper
@@ -28,11 +27,9 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 {
     override fun init() {
         ProfileHelper.sharedPreferencesRegister(this)
-        startBackgroundThread()
     }
 
     override fun dispose() {
-        stopBackgroundThread()
         ProfileHelper.sharedPreferencesUnregister(this)
     }
 
@@ -44,7 +41,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 reopenCamera()
             }
             ProfileHelper.is_video.key -> {
-                reopenCamera()
+                restartPreview()
             }
             ProfileHelper.back_photo_resolution.key -> {
                 restartPreview()
@@ -63,30 +60,20 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
     //*****************************************************************************************************************
 
-    private lateinit var backgroundHandler: Handler
-
-    private fun startBackgroundThread() {
-        val handlerThread = HandlerThread("window_camera_view_background")
-        handlerThread.start()
-        backgroundHandler = Handler(handlerThread.looper)
-    }
-
-    private fun stopBackgroundThread() {
-        backgroundHandler.looper.quitSafely()
-    }
-
-    //*****************************************************************************************************************
-
     private var cameraDevice: CameraDevice? = null
 
     @SuppressLint("MissingPermission")
     override fun openCamera() {
-        ProfileHelper.isCameraProfileInvalidating = true
+        ProfileHelper.cameraState = CameraState.OPENING
 
         val callback = object : CameraDevice.StateCallback() {
             override fun onOpened(camera: CameraDevice) {
                 cameraDevice = camera
-                startPreview()
+                if (ProfileHelper.is_video.value) {
+                    startVideoPreview()
+                } else {
+                    startPhotoPreview()
+                }
             }
 
             override fun onClosed(camera: CameraDevice) {
@@ -107,16 +94,19 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     }
 
     override fun closeCamera() {
-        ProfileHelper.isCameraProfileInvalidating = true
+        if (ProfileHelper.is_video.value) {
+            stopVideoPreview()
+        } else {
+            stopPhotoPreview()
+        }
 
-        stopPreview()
 
         cameraDevice?.run {
             cameraDevice = null
             close()
         }
 
-        ProfileHelper.isCameraProfileInvalidating = false
+        ProfileHelper.cameraState = CameraState.CLOSED
     }
 
     private fun reopenCamera() {
@@ -126,22 +116,6 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     }
 
     //*****************************************************************************************************************
-
-    private fun startPreview() {
-        if (ProfileHelper.is_video.value) {
-            startVideoPreview()
-        } else {
-            startPhotoPreview()
-        }
-    }
-
-    private fun stopPreview() {
-        if (ProfileHelper.is_video.value) {
-            stopVideoPreview()
-        } else {
-            stopPhotoPreview()
-        }
-    }
 
     private fun restartPreview() {
         if (ProfileHelper.is_video.value) {
@@ -158,11 +132,16 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     //*****************************************************************************************************************
 
     private var imageReader: ImageReader? = null
-    private var photoPreviewCameraCaptureSession: CameraCaptureSession? = null
+    private var photoCameraCaptureSession: CameraCaptureSession? = null
 
     private fun startPhotoPreview() {
-        val cameraDevice = cameraDevice ?: return
+        ProfileHelper.cameraState = CameraState.STARTING_PHOTO_PREVIEW
 
+        val cameraDevice = cameraDevice
+        if (cameraDevice == null) {
+            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            return
+        }
         val photoResolution = ProfileHelper.photoResolution()
         val imageReader = ImageReader.newInstance(photoResolution.width, photoResolution.height, ImageFormat.JPEG, 2)
         val onImageAvailableListener = ImageReader.OnImageAvailableListener {
@@ -189,9 +168,9 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 captureRequestBuilder.addTarget(surfaceTextureSurface)
                 val request = captureRequestBuilder.build()
                 session.setRepeatingRequest(request, null, null)
-                photoPreviewCameraCaptureSession = session
+                photoCameraCaptureSession = session
 
-                ProfileHelper.isCameraProfileInvalidating = false
+                ProfileHelper.cameraState = CameraState.PREVIEWING_PHOTO
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
@@ -202,8 +181,8 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     }
 
     private fun stopPhotoPreview() {
-        photoPreviewCameraCaptureSession?.run {
-            photoPreviewCameraCaptureSession = null
+        photoCameraCaptureSession?.run {
+            photoCameraCaptureSession = null
             try {
                 stopRepeating()
             } catch (e: Exception) {
@@ -224,9 +203,13 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     }
 
     private fun photoCapture() {
-        val cameraDevice = cameraDevice ?: return
-        val imageReader = imageReader ?: return
-        val photoCameraCaptureSession = photoPreviewCameraCaptureSession ?: return
+        val cameraDevice = cameraDevice
+        val imageReader = imageReader
+        val photoCameraCaptureSession = photoCameraCaptureSession
+        if (cameraDevice == null || imageReader == null || photoCameraCaptureSession == null) {
+            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            return
+        }
 
         val imageReaderSurface = imageReader.surface
         val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
@@ -242,8 +225,13 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private var videoPreviewCameraCaptureSession: CameraCaptureSession? = null
 
     private fun startVideoPreview() {
-        val cameraDevice = cameraDevice ?: return
+        ProfileHelper.cameraState = CameraState.STARTING_VIDEO_PREVIEW
 
+        val cameraDevice = cameraDevice
+        if (cameraDevice == null) {
+            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            return
+        }
         val surfaceTextureSurface = Surface(callback.getSurfaceTexture())
         val outputs = listOf(surfaceTextureSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
@@ -254,7 +242,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 session.setRepeatingRequest(request, null, null)
                 videoPreviewCameraCaptureSession = session
 
-                ProfileHelper.isCameraProfileInvalidating = false
+                ProfileHelper.cameraState = CameraState.PREVIEWING_VIDEO
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
@@ -286,10 +274,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private var isVideoRecording: Boolean = false
 
     private fun startVideoCapture() {
+        val cameraDevice = cameraDevice
+        if (cameraDevice == null) {
+            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            return
+        }
         stopVideoPreview()
-
-        val cameraDevice = cameraDevice ?: return
-
         val videoProfile = ProfileHelper.videoProfile()
         val videoFile = IOHelper.nextFile(videoProfile.extension)
         val mediaRecorder = MediaRecorder()
@@ -316,7 +306,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 mediaRecorder.start()
                 isVideoRecording = true
 
-                ProfileHelper.isCameraProfileInvalidating = false
+                ProfileHelper.cameraState = CameraState.CAPTURING_VIDEO
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
@@ -328,7 +318,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
     private fun stopVideoCapture(resumePreview: Boolean) {
         if (!isVideoRecording) return
-        isVideoRecording = false
+        ProfileHelper.cameraState = CameraState.CAPTURING_VIDEO
 
         mediaRecorder?.run {
             mediaRecorder = null
