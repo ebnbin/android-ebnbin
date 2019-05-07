@@ -17,9 +17,17 @@ android {
         setConsumerProguardFiles fileTree('proguard/')
     }
     buildTypes {
+        release {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: "true"]
+        }
         prerelease {
             debuggable true
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: "false"]
         }
+        debug {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: "false"]
+        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
