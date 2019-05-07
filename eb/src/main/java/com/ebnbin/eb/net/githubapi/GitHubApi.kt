@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object GitHubApi {
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://api.github.com/")
+        .baseUrl("https://api.github.com")
         .client(OkHttpClient.Builder()
             .addInterceptor {
                 it.proceed(it.request()

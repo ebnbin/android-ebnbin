@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera.profile
 
 import androidx.annotation.StringRes
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
-import com.ebnbin.eb.sharedpreferences.sp.Sp
+import com.ebnbin.eb.sharedpreferences.Sp
 import com.ebnbin.eb.util.res
 
 open class ProfileSp<T>(key: String, getDefaultValue: () -> T) : Sp<T>(

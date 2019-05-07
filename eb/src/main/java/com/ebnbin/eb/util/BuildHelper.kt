@@ -3,9 +3,15 @@ package com.ebnbin.eb.util
 import android.os.Build
 
 object BuildHelper {
+    val applicationId: String
+        get() = ebApp.packageName
+
+    val simpleApplicationId: String
+        get() = applicationId.substringAfter("com.ebnbin.")
+
     val versionCode: Int
         get() {
-            val packageInfo = ebApp.packageManager.getPackageInfo(ebApp.packageName, 0)
+            val packageInfo = ebApp.packageManager.getPackageInfo(applicationId, 0)
             return if (sdk28P()) {
                 packageInfo.longVersionCode.toInt()
             } else {
@@ -16,7 +22,7 @@ object BuildHelper {
 
     val versionName: String
         get() {
-            val packageInfo = ebApp.packageManager.getPackageInfo(ebApp.packageName, 0)
+            val packageInfo = ebApp.packageManager.getPackageInfo(applicationId, 0)
             return packageInfo.versionName
         }
 

@@ -1,6 +1,4 @@
-package com.ebnbin.eb.sharedpreferences.sp
-
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
+package com.ebnbin.eb.sharedpreferences
 
 open class EBSp<T>(key: String, getDefaultValue: () -> T) : Sp<T>(
     key,

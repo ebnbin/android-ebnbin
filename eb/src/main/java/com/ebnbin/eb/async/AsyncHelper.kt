@@ -7,7 +7,6 @@ import com.ebnbin.eb.util.DataHelper
 import com.ebnbin.eb.util.DeviceHelper
 import com.ebnbin.eb.util.LibraryHelper
 import com.ebnbin.eb.util.TimeHelper
-import com.ebnbin.eb.util.ebApp
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -114,7 +113,7 @@ class AsyncHelper {
     ): Disposable {
         val key = TimeHelper.nano().toString()
         return GitHubApi.api
-            .getContentsFile("${ebApp.packageName}$path")
+            .getContentsFile("${BuildHelper.simpleApplicationId}$path")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
@@ -154,16 +153,16 @@ class AsyncHelper {
         val dir = path.substringBeforeLast("/")
         val name = path.substringAfterLast("/")
         return GitHubApi.api
-            .getContentsDirectory("${ebApp.packageName}$dir")
+            .getContentsDirectory("${BuildHelper.simpleApplicationId}$dir")
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .flatMap {
                 val putContentsRequest = PutContentsRequest()
                 putContentsRequest.message =
-                    "${ebApp.packageName} ${BuildHelper.versionName} ${DeviceHelper.DEVICE_ID}"
+                    "${BuildHelper.simpleApplicationId} ${BuildHelper.versionName} ${DeviceHelper.DEVICE_ID}"
                 putContentsRequest.content = DataHelper.base64Encode(LibraryHelper.gson.toJson(t))
                 putContentsRequest.sha = it.firstOrNull { content -> content.name == name }?.sha
-                GitHubApi.api.putContents("${ebApp.packageName}$path", putContentsRequest)
+                GitHubApi.api.putContents("${BuildHelper.simpleApplicationId}$path", putContentsRequest)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

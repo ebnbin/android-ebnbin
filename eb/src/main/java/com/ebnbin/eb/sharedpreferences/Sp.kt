@@ -1,8 +1,6 @@
-package com.ebnbin.eb.sharedpreferences.sp
+package com.ebnbin.eb.sharedpreferences
 
 import android.content.SharedPreferences
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesProperty
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 
 open class Sp<T>(
     val key: String,

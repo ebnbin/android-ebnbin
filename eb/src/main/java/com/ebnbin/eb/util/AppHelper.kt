@@ -19,7 +19,7 @@ object AppHelper {
      * @param finish 如果为 true 则关闭 MainActivity, 相当于关闭应用所有 Activity.
      */
     fun restartMainActivity(finish: Boolean = false) {
-        val intent = ebApp.packageManager.getLaunchIntentForPackage(ebApp.packageName) ?: return
+        val intent = ebApp.packageManager.getLaunchIntentForPackage(BuildHelper.applicationId) ?: return
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         intent.putExtra(Consts.FINISH, finish)
         ebApp.startActivity(intent)
@@ -44,8 +44,8 @@ object AppHelper {
     }
 
     fun setNightMode(nightMode: Int, restartMainActivity: Boolean = true) {
-        if (nightMode == EBSpManager.eb.night_mode.value) return
-        EBSpManager.eb.night_mode.value = nightMode
+        if (nightMode == EBSpManager.night_mode.value) return
+        EBSpManager.night_mode.value = nightMode
         AppCompatDelegate.setDefaultNightMode(nightMode)
         if (restartMainActivity) {
             restartMainActivity()
@@ -68,7 +68,7 @@ object AppHelper {
         context: Context,
         text: CharSequence,
         toast: CharSequence = context.getString(R.string.eb_clip),
-        label: CharSequence = ebApp.packageName
+        label: CharSequence = BuildHelper.applicationId
     ) {
         SystemServices.clipboardManager.primaryClip = ClipData.newPlainText(label, text)
         toast(context, toast)

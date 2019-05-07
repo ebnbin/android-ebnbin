@@ -16,14 +16,14 @@ object DevHelper {
         }
     }
 
-    fun <T : EBDevice> device(device: T) {
-        if (!TimeHelper.expired(EBSpManager.eb.request_device_timestamp.value, DEVICE_EXPIRATION)) return
+    fun <T : EBReport> report(report: T) {
+        if (!TimeHelper.expired(EBSpManager.last_report_timestamp.value, DEVICE_EXPIRATION)) return
         ebApp.asyncHelper.githubPutJson(
-            "/devices/${DeviceHelper.DEVICE_ID}.json",
-            device,
+            "/report/${DeviceHelper.DEVICE_ID}.json",
+            report,
             null,
             onSuccess = {
-                EBSpManager.eb.request_device_timestamp.value = TimeHelper.long()
+                EBSpManager.last_report_timestamp.value = TimeHelper.long()
             }
         )
     }

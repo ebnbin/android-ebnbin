@@ -8,7 +8,7 @@ import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.TimeHelper
 import com.ebnbin.eb.util.WindowHelper
 
-open class EBDevice : EBModel {
+open class EBReport : EBModel {
     val timestamp: String = TimeHelper.string("yyyy-MM-dd HH:mm:ss:SSS")
 
     val deviceId: String = DeviceHelper.DEVICE_ID

@@ -24,13 +24,13 @@ class UpdateFragment : EBFragment() {
 
         if (savedInstanceState == null) {
             if (silent) {
-                if (TimeHelper.expired(EBSpManager.eb.request_update_timestamp.value, UPDATE_EXPIRATION)) {
+                if (TimeHelper.expired(EBSpManager.last_update_timestamp.value, UPDATE_EXPIRATION)) {
                     asyncHelper.githubGetJson(
                         Update::class.java,
                         "/update.json",
                         null,
                         onSuccess = {
-                            EBSpManager.eb.request_update_timestamp.value = System.currentTimeMillis()
+                            EBSpManager.last_update_timestamp.value = System.currentTimeMillis()
                             if (it.hasUpdate()) {
                                 UpdateDialogFragment.start(childFragmentManager, it)
                             }
@@ -43,7 +43,7 @@ class UpdateFragment : EBFragment() {
                     "/update.json",
                     Loading.dialogNotCanceledOnTouchOutside(requireContext()),
                     onSuccess = {
-                        EBSpManager.eb.request_update_timestamp.value = System.currentTimeMillis()
+                        EBSpManager.last_update_timestamp.value = System.currentTimeMillis()
                         if (it.hasUpdate()) {
                             UpdateDialogFragment.start(childFragmentManager, it)
                         } else {

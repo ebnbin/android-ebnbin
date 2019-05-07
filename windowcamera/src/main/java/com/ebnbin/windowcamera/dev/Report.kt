@@ -1,8 +1,8 @@
 package com.ebnbin.windowcamera.dev
 
-import com.ebnbin.eb.dev.EBDevice
+import com.ebnbin.eb.dev.EBReport
 import com.ebnbin.windowcamera.camera.CameraHelper
 
-class Device : EBDevice() {
+class Report : EBReport() {
     val cameraHelper: String = CameraHelper.toString()
 }

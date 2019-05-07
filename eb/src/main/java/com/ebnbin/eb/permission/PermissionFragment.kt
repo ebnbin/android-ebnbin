@@ -13,8 +13,8 @@ import com.ebnbin.eb.R
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.Consts
-import com.ebnbin.eb.util.ebApp
 
 /**
  * 权限请求 Fragment.
@@ -139,7 +139,7 @@ class PermissionFragment : EBFragment() {
 
     private fun startSettingsActivity(action: String, requestCode: Int) {
         try {
-            val intent = Intent(action).setData(Uri.parse("package:${ebApp.packageName}"))
+            val intent = Intent(action).setData(Uri.parse("package:${BuildHelper.applicationId}"))
             startActivityForResult(intent, requestCode)
         } catch (e: ActivityNotFoundException) {
             onPermissionsResult(false)

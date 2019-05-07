@@ -9,11 +9,11 @@ open class EBSplashFragment : EBFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            val oldVersion = EBSpManager.eb.version.value
+            val oldVersion = EBSpManager.version.value
             val newVersion = BuildHelper.versionCode
             if (oldVersion < newVersion) {
                 onNewVersion(oldVersion, newVersion)
-                EBSpManager.eb.version.value = newVersion
+                EBSpManager.version.value = newVersion
             }
         }
     }

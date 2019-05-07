@@ -25,7 +25,7 @@ open class EBApplication : Application() {
         if (!debug) {
             Crashlytics.setUserIdentifier(DeviceHelper.DEVICE_ID)
         }
-        AppCompatDelegate.setDefaultNightMode(EBSpManager.eb.night_mode.value)
+        AppCompatDelegate.setDefaultNightMode(EBSpManager.night_mode.value)
     }
 
     /**

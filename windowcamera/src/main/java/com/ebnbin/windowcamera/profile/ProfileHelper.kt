@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera.profile
 
 import android.content.SharedPreferences
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
-import com.ebnbin.eb.sharedpreferences.sp.Sp
+import com.ebnbin.eb.sharedpreferences.Sp
 import com.ebnbin.eb.util.LibraryHelper
 import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R

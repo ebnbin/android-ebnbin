@@ -20,7 +20,7 @@ object IntentHelper {
 
     fun openMarket(context: Context) {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${ebApp.packageName}"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${BuildHelper.applicationId}"))
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             AppHelper.toast(context, R.string.eb_open_market_error)

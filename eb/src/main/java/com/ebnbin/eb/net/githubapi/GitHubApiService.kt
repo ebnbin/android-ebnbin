@@ -19,6 +19,6 @@ interface GitHubApiService {
     fun putContents(@Path("path") path: String, @Body request: PutContentsRequest): Observable<Unit>
 
     companion object {
-        private const val PREFIX = "repos/ebnbin/api/contents"
+        private const val PREFIX = "/repos/ebnbin/api-android-ebnbin/contents"
     }
 }

@@ -2,6 +2,7 @@ package com.ebnbin.eb.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.ebApp
 
 object SharedPreferencesHelper {
@@ -9,7 +10,7 @@ object SharedPreferencesHelper {
      * "_eb", "_profile".
      */
     fun getName(namePostfix: String = ""): String {
-        return "${ebApp.packageName}_preferences$namePostfix"
+        return "${BuildHelper.applicationId}_preferences$namePostfix"
     }
 
     /**
