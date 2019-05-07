@@ -17,11 +17,13 @@ open class EBDevice : EBModel {
 
     val version: String = BuildHelper.versionName
 
-    val brand: String = Build.BRAND
+    val manufacturer: String = Build.MANUFACTURER
 
     val model: String = Build.MODEL
 
     val sdk: Int = Build.VERSION.SDK_INT
+
+    val release: String = Build.VERSION.RELEASE
 
     val displayRealSize: String = WindowHelper.displayRealSize.run { "${width0}x$height0" }
 
