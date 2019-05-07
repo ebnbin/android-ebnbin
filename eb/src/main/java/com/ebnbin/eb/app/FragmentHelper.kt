@@ -26,4 +26,14 @@ object FragmentHelper {
         fm.beginTransaction().add(containerViewId, fragment, tag).commit()
         return fragment
     }
+
+    fun onBackPressed(fm: FragmentManager): Boolean {
+        val topVisibleFragment = fm.fragments
+            .reversed()
+            .firstOrNull { it.isVisible }
+        if (topVisibleFragment is EBFragment) {
+            return topVisibleFragment.onBackPressed()
+        }
+        return false
+    }
 }

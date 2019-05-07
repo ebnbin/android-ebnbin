@@ -104,4 +104,6 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         floating_action_button.backgroundTintList = ColorStateList.valueOf(backgroundTint)
         floating_action_button.setOnClickListener(onClickListener)
     }
+
+    override val isDoubleBackFinishEnabled: Boolean = true
 }

@@ -87,6 +87,11 @@ open class EBActivity : AppCompatActivity() {
 
     //*****************************************************************************************************************
 
+    override fun onBackPressed() {
+        if (FragmentHelper.onBackPressed(supportFragmentManager)) return
+        super.onBackPressed()
+    }
+
     companion object {
         const val KEY_THEME_STYLE_ID = "theme_style_id"
 
