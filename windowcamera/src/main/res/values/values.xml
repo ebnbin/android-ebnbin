@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_label">窗口相机</string>
-    <string name="app_slogan">展示浮动窗口在其他应用上层使用相机</string>
+    <string name="eb_label">窗口相机</string>
+    <string name="eb_slogan">展示浮动窗口在其他应用上层使用相机</string>
 
     <string name="window">窗口</string>
     <string name="camera">相机</string>

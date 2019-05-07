@@ -55,7 +55,7 @@
                     <ImageView
                         android:layout_width="128dp"
                         android:layout_height="128dp"
-                        android:src="@drawable/app_icon_128"
+                        android:src="@drawable/eb_icon_128"
                         android:layout_marginStart="-5dp"
                         android:layout_marginTop="-5dp"/>
 
@@ -69,7 +69,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/app_label"
+                    android:text="@string/eb_label"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="?android:attr/textColorPrimary"
@@ -82,7 +82,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="center_horizontal"
-                    android:text="@string/app_slogan"
+                    android:text="@string/eb_slogan"
                     android:textSize="12sp"/>
 
                 <TextView

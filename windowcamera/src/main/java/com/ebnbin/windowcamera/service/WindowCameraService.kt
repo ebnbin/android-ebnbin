@@ -55,7 +55,7 @@ class WindowCameraService : Service() {
             SystemServices.notificationManager.createNotificationChannel(notificationChannel)
         }
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.app_logo_198)
+            .setSmallIcon(R.drawable.eb_logo_198)
             .setContentTitle(getString(R.string.stop_window_camera_service))
             .setContentIntent(PendingIntent.getBroadcast(this, 0,
                 Intent(this, StopWindowCameraServiceBroadcastReceiver::class.java), 0))

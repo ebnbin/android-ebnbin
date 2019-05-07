@@ -41,7 +41,7 @@ internal class CrashActivity : AppCompatActivity() {
             eb_log_text_view.text = log
             true
         }
-        eb_title_text_view.text = getString(R.string.eb_crash_title, getString(R.string.app_label))
+        eb_title_text_view.text = getString(R.string.eb_crash_title, getString(R.string.eb_label))
         eb_close_view.setOnClickListener {
             CustomActivityOnCrash.closeApplication(this, caocConfig)
         }

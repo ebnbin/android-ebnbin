@@ -6,11 +6,11 @@
 
     <application
         android:name=".app.EBApplication"
-        android:label="@string/app_label"
+        android:label="@string/eb_label"
         android:theme="@style/EBTheme"
-        android:icon="@mipmap/app_icon"
-        android:roundIcon="@mipmap/app_icon"
-        android:logo="@drawable/app_logo_198">
+        android:icon="@mipmap/eb_icon"
+        android:roundIcon="@mipmap/eb_icon"
+        android:logo="@drawable/eb_logo_198">
         <activity
             android:name=".crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>

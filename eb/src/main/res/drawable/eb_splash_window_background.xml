@@ -7,7 +7,7 @@
         android:height="198dp"
         android:gravity="center">
         <bitmap
-            android:src="@drawable/app_logo_198"
+            android:src="@drawable/eb_logo_198"
             android:tint="@color/eb_material_light_blue_500"/>
     </item>
 </layer-list>
