@@ -28,11 +28,11 @@ object FragmentHelper {
     }
 
     fun onBackPressed(fm: FragmentManager): Boolean {
-        val topVisibleFragment = fm.fragments
+        val topFragment = fm.fragments
             .reversed()
-            .firstOrNull { it.isVisible }
-        if (topVisibleFragment is EBFragment) {
-            return topVisibleFragment.onBackPressed()
+            .firstOrNull()
+        if (topFragment is EBFragment) {
+            return topFragment.onBackPressed()
         }
         return false
     }

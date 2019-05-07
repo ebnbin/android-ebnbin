@@ -18,6 +18,16 @@
         <activity android:name=".app.EBActivity"/>
 
         <activity
+            android:name=".splash.SplashActivity"
+            android:theme="@style/EBSplashTheme"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".debug.DebugActivity"
             android:theme="@style/EBTheme.Debug"/>
     </application>

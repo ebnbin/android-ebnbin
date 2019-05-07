@@ -1,6 +1,5 @@
 package com.ebnbin.eb.debug
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -12,7 +11,6 @@ import com.ebnbin.eb.net.githubapi.model.Application
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.DeviceHelper
-import com.ebnbin.eb.util.ebApp
 import java.util.Date
 
 /**
@@ -51,13 +49,6 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
 
         addDebugItem("Consts") {
             // TODO: 各种设备常量.
-        }
-
-        addDebugItem("Splash") {
-            val intent = ebApp.packageManager.getLaunchIntentForPackage(ebApp.packageName) ?: return@addDebugItem
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.putExtra("review", true)
-            ebApp.startActivity(intent)
         }
 
         addDebugItem("Async", "5 秒后完成，可按返回键或点击空白处取消") {

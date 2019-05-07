@@ -3,6 +3,7 @@ package com.ebnbin.eb.app
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.annotation.CallSuper
@@ -29,6 +30,7 @@ open class EBActivity : AppCompatActivity() {
 
         onInitArguments(savedInstanceState, intent?.extras ?: Bundle.EMPTY)
         initTheme()
+        initRequestedOrientation();
         initFragment(savedInstanceState)
     }
 
@@ -51,6 +53,7 @@ open class EBActivity : AppCompatActivity() {
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
         themeStyleId = extras.getInt(KEY_THEME_STYLE_ID)
+        screenOrientation = extras.getInt(KEY_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
         @Suppress("UNCHECKED_CAST")
         fragmentClass = extras.getSerializable(KEY_FRAGMENT_CLASS) as Class<out Fragment>?
     }
@@ -61,6 +64,14 @@ open class EBActivity : AppCompatActivity() {
 
     private fun initTheme() {
         if (themeStyleId != 0) setTheme(themeStyleId)
+    }
+
+    //*****************************************************************************************************************
+
+    private var screenOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
+    private fun initRequestedOrientation() {
+        if (screenOrientation != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) requestedOrientation = screenOrientation
     }
 
     //*****************************************************************************************************************
@@ -94,6 +105,7 @@ open class EBActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_THEME_STYLE_ID = "theme_style_id"
+        const val KEY_SCREEN_ORIENTATION = "screen_orientation"
 
         private const val KEY_FRAGMENT_CLASS = "fragment_class"
 

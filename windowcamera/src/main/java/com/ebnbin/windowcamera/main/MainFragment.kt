@@ -1,5 +1,7 @@
 package com.ebnbin.windowcamera.main
 
+import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.app.EBActivity
 import com.ebnbin.eb.app.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.windowcamera.R
@@ -29,6 +32,9 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState == null) {
+            UpdateFragment.start(childFragmentManager, true)
+        }
 
         mainPagerAdapter = MainPagerAdapter(requireContext(), childFragmentManager)
         view_pager.adapter = mainPagerAdapter
@@ -106,4 +112,12 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
     }
 
     override val isDoubleBackFinishEnabled: Boolean = true
+
+    companion object {
+        fun createIntent(): Intent {
+            return Intent()
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .putExtra(EBActivity.KEY_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_FULL_USER)
+        }
+    }
 }

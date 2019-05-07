@@ -7,6 +7,7 @@ import com.ebnbin.eb.async.AsyncHelper
 import com.ebnbin.eb.crash.CrashActivity
 import com.ebnbin.eb.debug.BaseDebugPageFragment
 import com.ebnbin.eb.sharedpreferences.EBSpManager
+import com.ebnbin.eb.splash.EBSplashFragment
 
 /**
  * Base Application.
@@ -28,6 +29,8 @@ open class EBApplication : Application() {
     open val debugPageFragmentClass: Class<out BaseDebugPageFragment>? = null
 
     val asyncHelper: AsyncHelper = AsyncHelper()
+
+    open val splashFragment: Class<out EBSplashFragment>? = null
 
     companion object {
         internal lateinit var instance: EBApplication

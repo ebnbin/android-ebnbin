@@ -11,6 +11,8 @@ import com.ebnbin.eb.sharedpreferences.sp.Sp
 @Suppress("ClassName")
 object EBSpManager {
     object eb {
+        internal var version: Sp<Int> = EBSp("version", 0)
+
         /**
          * 夜间模式.
          */
