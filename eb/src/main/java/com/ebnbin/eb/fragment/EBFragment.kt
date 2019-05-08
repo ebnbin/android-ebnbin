@@ -11,6 +11,8 @@ import com.ebnbin.eb.util.TimeHelper
 
 /**
  * Base Fragment.
+ *
+ * 功能大部分同步给 EBDialogFragment 和 EBPreferenceFragment.
  */
 abstract class EBFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {

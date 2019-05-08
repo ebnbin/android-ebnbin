@@ -3,6 +3,8 @@ package com.ebnbin.eb.dialog
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatDialogFragment
+import com.ebnbin.eb.async.AsyncHelper
+import com.ebnbin.eb.library.Libraries
 
 /**
  * Base DialogFragment.
@@ -10,7 +12,18 @@ import androidx.appcompat.app.AppCompatDialogFragment
 abstract class EBDialogFragment : AppCompatDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onInitArguments(savedInstanceState, arguments ?: Bundle.EMPTY, activity?.intent?.extras ?: Bundle.EMPTY)
+        initEventBus()
+        initArguments(savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        disposeAsyncHelper()
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        disposeEventBus()
+        super.onDestroy()
     }
 
     //*****************************************************************************************************************
@@ -33,7 +46,41 @@ abstract class EBDialogFragment : AppCompatDialogFragment() {
 
     //*****************************************************************************************************************
 
+    protected open val isEventBusEnabled: Boolean = false
+
+    private fun initEventBus() {
+        if (isEventBusEnabled && !Libraries.eventBus.isRegistered(this)) {
+            Libraries.eventBus.register(this)
+        }
+    }
+
+    private fun disposeEventBus() {
+        if (isEventBusEnabled && Libraries.eventBus.isRegistered(this)) {
+            Libraries.eventBus.unregister(this)
+        }
+    }
+
+    //*****************************************************************************************************************
+
+    private fun initArguments(savedInstanceState: Bundle?) {
+        onInitArguments(savedInstanceState, arguments ?: Bundle.EMPTY, activity?.intent?.extras ?: Bundle.EMPTY)
+    }
+
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
+    }
+
+    //*****************************************************************************************************************
+
+    protected val asyncHelper: AsyncHelper = AsyncHelper()
+
+    private fun disposeAsyncHelper() {
+        asyncHelper.clear()
+    }
+
+    //*****************************************************************************************************************
+
+    protected fun finish() {
+        activity?.finish()
     }
 }
