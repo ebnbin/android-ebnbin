@@ -10,8 +10,8 @@ import android.provider.Settings
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
-import com.ebnbin.eb.app.EBFragment
-import com.ebnbin.eb.app.FragmentHelper
+import com.ebnbin.eb.fragment.EBFragment
+import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.Consts

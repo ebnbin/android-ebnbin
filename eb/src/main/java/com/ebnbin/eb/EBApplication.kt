@@ -1,4 +1,4 @@
-package com.ebnbin.eb.app
+package com.ebnbin.eb
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate

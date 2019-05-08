@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.about.AboutFragment
-import com.ebnbin.eb.app.EBActivity
-import com.ebnbin.eb.app.EBFragment
+import com.ebnbin.eb.activity.EBActivity
+import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.Consts

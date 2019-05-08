@@ -1,7 +1,7 @@
 package com.ebnbin.windowcamera.splash
 
 import android.os.Bundle
-import com.ebnbin.eb.app.EBActivity
+import com.ebnbin.eb.activity.EBActivity
 import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.splash.EBSplashFragment
 import com.ebnbin.eb.util.AppHelper

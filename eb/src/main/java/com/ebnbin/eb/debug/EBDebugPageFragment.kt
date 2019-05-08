@@ -4,51 +4,29 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.about.AboutFragment
-import com.ebnbin.eb.app.EBActivity
+import com.ebnbin.eb.activity.EBActivity
 import com.ebnbin.eb.async.Loading
 import com.ebnbin.eb.crash.CrashRuntimeException
-import com.ebnbin.eb.net.githubapi.model.Application
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.AppHelper
-import com.ebnbin.eb.util.DeviceHelper
-import java.util.Date
 
 /**
  * Debug EB 页面.
  */
 internal class EBDebugPageFragment : BaseDebugPageFragment() {
-    private var callingFragmentClassName: String? = null
+    private var calling: String? = null
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        callingFragmentClassName = activityExtras.getString(DebugFragment.KEY_CALLING_FRAGMENT_CLASS_NAME)
+        calling = activityExtras.getString(DebugFragment.KEY_CALLING)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addDebugItem("Calling Activity", activity?.callingActivity?.className.toString())
-
-        addDebugItem("Calling Fragment", callingFragmentClassName.toString())
+        addDebugItem("Calling", calling.toString())
 
         addDebugItem("About") {
             EBActivity.startFragmentFromFragment(this, AboutFragment::class.java, AboutFragment.createIntent())
-        }
-
-        addDebugItem("User") {
-            asyncHelper.githubPutJson(
-                "/users/${DeviceHelper.DEVICE_ID}.json",
-                Date(),
-                Loading.dialogNotCancelable(requireContext()),
-                onSuccess = {
-                    AppHelper.toast(requireContext(), "success")
-                },
-                onFailure = {
-                    AppHelper.toast(requireContext(), it)
-                })
-        }
-
-        addDebugItem("Consts") {
-            // TODO: 各种设备常量.
         }
 
         addDebugItem("Async", "5 秒后完成，可按返回键或点击空白处取消") {
@@ -131,20 +109,6 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
             UpdateFragment.start(childFragmentManager, false)
         }
 
-        addDebugItem("网络测试") {
-            asyncHelper.githubGetJson(
-                Application::class.java,
-                "/application.json",
-                Loading.dialogNotCanceledOnTouchOutside(requireContext()),
-                onSuccess = {
-                    AppHelper.toast(requireContext(), it.applicationId)
-                },
-                onFailure = {
-                    AppHelper.toast(requireContext(), it)
-                }
-            )
-        }
-
         addDebugItem("夜间模式", "关闭") {
             AppHelper.setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
@@ -158,8 +122,12 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
             // 中处理.
         }
 
-        addDebugItem("重启 MainActivity") {
-            AppHelper.restartMainActivity()
+        addDebugItem("重启应用") {
+            AppHelper.restartApp()
+        }
+
+        addDebugItem("关闭应用") {
+            AppHelper.restartApp(true)
         }
 
         addDebugItem("Crash") {

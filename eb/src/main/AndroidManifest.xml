@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".app.EBApplication"
+        android:name=".EBApplication"
         android:label="@string/eb_label"
         android:theme="@style/EBTheme"
         android:icon="@mipmap/eb_icon"
@@ -15,7 +15,7 @@
             android:name=".crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>
 
-        <activity android:name=".app.EBActivity"/>
+        <activity android:name=".activity.EBActivity"/>
 
         <activity
             android:name=".splash.SplashActivity"

@@ -1,4 +1,4 @@
-package com.ebnbin.eb.net.githubapi.model
+package com.ebnbin.eb.githubapi.model.content
 
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.EBModel

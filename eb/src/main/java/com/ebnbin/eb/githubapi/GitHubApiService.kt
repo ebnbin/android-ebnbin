@@ -1,7 +1,7 @@
-package com.ebnbin.eb.net.githubapi
+package com.ebnbin.eb.githubapi
 
-import com.ebnbin.eb.net.githubapi.model.Content
-import com.ebnbin.eb.net.githubapi.model.PutContentsRequest
+import com.ebnbin.eb.githubapi.model.Content
+import com.ebnbin.eb.githubapi.model.PutContentsRequest
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.GET

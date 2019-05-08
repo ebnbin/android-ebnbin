@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.R
-import com.ebnbin.eb.app.EBActivity
-import com.ebnbin.eb.app.EBFragment
+import com.ebnbin.eb.activity.EBActivity
+import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.debug.debug
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.BuildHelper

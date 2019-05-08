@@ -1,4 +1,4 @@
-package com.ebnbin.eb.net.githubapi
+package com.ebnbin.eb.githubapi
 
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.util.DataHelper

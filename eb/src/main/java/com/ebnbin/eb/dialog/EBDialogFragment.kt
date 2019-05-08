@@ -1,4 +1,4 @@
-package com.ebnbin.eb.app
+package com.ebnbin.eb.dialog
 
 import android.os.Bundle
 import androidx.annotation.CallSuper

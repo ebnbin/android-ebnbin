@@ -1,7 +1,7 @@
 package com.ebnbin.eb.splash
 
 import android.os.Bundle
-import com.ebnbin.eb.app.EBActivity
+import com.ebnbin.eb.activity.EBActivity
 import com.ebnbin.eb.util.ebApp
 
 class SplashActivity : EBActivity() {

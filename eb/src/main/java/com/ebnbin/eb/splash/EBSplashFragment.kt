@@ -1,7 +1,7 @@
 package com.ebnbin.eb.splash
 
 import android.os.Bundle
-import com.ebnbin.eb.app.EBFragment
+import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import com.ebnbin.eb.util.BuildHelper
 

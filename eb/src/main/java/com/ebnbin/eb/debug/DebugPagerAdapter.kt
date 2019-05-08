@@ -3,7 +3,7 @@ package com.ebnbin.eb.debug
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.ebnbin.eb.app.FragmentHelper
+import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.util.ebApp
 
 internal class DebugPagerAdapter(private val fm: FragmentManager) : FragmentPagerAdapter(fm) {

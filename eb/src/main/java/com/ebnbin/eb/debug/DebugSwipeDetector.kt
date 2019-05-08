@@ -1,7 +1,7 @@
 package com.ebnbin.eb.debug
 
 import android.view.MotionEvent
-import com.ebnbin.eb.app.EBActivity
+import com.ebnbin.eb.activity.EBActivity
 import com.ebnbin.eb.debug.event.DebugBottomToTopEvent
 import com.ebnbin.eb.debug.event.DebugLeftToRightEvent
 import com.ebnbin.eb.debug.event.DebugRightToLeftEvent

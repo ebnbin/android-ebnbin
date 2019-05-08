@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.R
-import com.ebnbin.eb.app.EBFragment
+import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import kotlinx.android.synthetic.main.eb_debug_fragment.*
 
@@ -73,6 +73,6 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
     }
 
     companion object {
-        internal const val KEY_CALLING_FRAGMENT_CLASS_NAME = "calling_fragment_class_name"
+        internal const val KEY_CALLING = "calling"
     }
 }

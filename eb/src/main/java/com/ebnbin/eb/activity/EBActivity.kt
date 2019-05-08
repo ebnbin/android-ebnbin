@@ -1,4 +1,4 @@
-package com.ebnbin.eb.app
+package com.ebnbin.eb.activity
 
 import android.app.Activity
 import android.content.Context
@@ -10,6 +10,7 @@ import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.debug.DebugSwipeDetector
+import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.LibraryHelper
 
@@ -102,6 +103,21 @@ open class EBActivity : AppCompatActivity() {
         if (FragmentHelper.onBackPressed(supportFragmentManager)) return
         super.onBackPressed()
     }
+
+    //*****************************************************************************************************************
+
+    override fun toString(): String {
+        val fragment = supportFragmentManager.findFragmentByTag(fragmentClass?.name)
+        val fragmentClass = fragmentClass
+        val fragmentString = when {
+            fragment != null -> ",$fragment"
+            fragmentClass != null -> ",${fragmentClass.name}"
+            else -> ""
+        }
+        return "${super.toString()}$fragmentString"
+    }
+
+    //*****************************************************************************************************************
 
     companion object {
         const val KEY_THEME_STYLE_ID = "theme_style_id"

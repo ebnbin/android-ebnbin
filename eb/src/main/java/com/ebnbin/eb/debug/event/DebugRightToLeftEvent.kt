@@ -1,6 +1,6 @@
 package com.ebnbin.eb.debug.event
 
-import com.ebnbin.eb.app.EBActivity
+import com.ebnbin.eb.activity.EBActivity
 
 /**
  * Debug 滑动事件.

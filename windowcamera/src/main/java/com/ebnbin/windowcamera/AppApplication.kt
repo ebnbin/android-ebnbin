@@ -1,6 +1,6 @@
 package com.ebnbin.windowcamera
 
-import com.ebnbin.eb.app.EBApplication
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.debug.BaseDebugPageFragment
 import com.ebnbin.eb.splash.EBSplashFragment
 import com.ebnbin.windowcamera.debug.DebugPageFragment

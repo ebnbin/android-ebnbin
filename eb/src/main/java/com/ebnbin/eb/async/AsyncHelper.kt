@@ -1,7 +1,7 @@
 package com.ebnbin.eb.async
 
-import com.ebnbin.eb.net.githubapi.GitHubApi
-import com.ebnbin.eb.net.githubapi.model.PutContentsRequest
+import com.ebnbin.eb.githubapi.GitHubApi
+import com.ebnbin.eb.githubapi.model.PutContentsRequest
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DataHelper
 import com.ebnbin.eb.util.DeviceHelper

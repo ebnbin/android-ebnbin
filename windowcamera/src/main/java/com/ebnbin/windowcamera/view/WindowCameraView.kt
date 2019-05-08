@@ -108,7 +108,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onDoubleTap() {
-        AppHelper.restartMainActivity()
+        AppHelper.restartApp()
     }
 
     override fun onLongPress() {

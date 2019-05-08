@@ -3,10 +3,10 @@ package com.ebnbin.eb.update
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.app.EBFragment
-import com.ebnbin.eb.app.FragmentHelper
 import com.ebnbin.eb.async.Loading
-import com.ebnbin.eb.net.githubapi.model.Update
+import com.ebnbin.eb.fragment.EBFragment
+import com.ebnbin.eb.fragment.FragmentHelper
+import com.ebnbin.eb.githubapi.model.content.Update
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.TimeHelper
