@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.ebnbin.eb.debug.BaseDebugPageFragment
 import com.ebnbin.eb.dev.DevHelper
-import com.ebnbin.eb.util.LibraryHelper
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.windowcamera.dev.Report
 
 /**
@@ -13,7 +13,7 @@ import com.ebnbin.windowcamera.dev.Report
 class DebugPageFragment : BaseDebugPageFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addDebugItem("Report", LibraryHelper.gson.toJson(Report())) {
+        addDebugItem("Report", Libraries.gson.toJson(Report())) {
             DevHelper.report(Report())
         }
     }

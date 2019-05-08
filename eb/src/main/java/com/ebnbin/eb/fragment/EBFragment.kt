@@ -5,8 +5,8 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.R
 import com.ebnbin.eb.async.AsyncHelper
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.AppHelper
-import com.ebnbin.eb.util.LibraryHelper
 import com.ebnbin.eb.util.TimeHelper
 
 /**
@@ -15,17 +15,17 @@ import com.ebnbin.eb.util.TimeHelper
 abstract class EBFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isEventBusEnabled && !LibraryHelper.eventBus.isRegistered(this)) {
-            LibraryHelper.eventBus.register(this)
-        }
+        initEventBus()
+        initArguments(savedInstanceState)
+    }
 
-        onInitArguments(savedInstanceState, arguments ?: Bundle.EMPTY, activity?.intent?.extras ?: Bundle.EMPTY)
+    override fun onDestroyView() {
+        disposeAsyncHelper()
+        super.onDestroyView()
     }
 
     override fun onDestroy() {
-        if (isEventBusEnabled && LibraryHelper.eventBus.isRegistered(this)) {
-            LibraryHelper.eventBus.unregister(this)
-        }
+        disposeEventBus()
         super.onDestroy()
     }
 
@@ -49,12 +49,25 @@ abstract class EBFragment : Fragment() {
 
     //*****************************************************************************************************************
 
-    /**
-     * 是否注册 EventBus.
-     */
     protected open val isEventBusEnabled: Boolean = false
 
+    private fun initEventBus() {
+        if (isEventBusEnabled && !Libraries.eventBus.isRegistered(this)) {
+            Libraries.eventBus.register(this)
+        }
+    }
+
+    private fun disposeEventBus() {
+        if (isEventBusEnabled && Libraries.eventBus.isRegistered(this)) {
+            Libraries.eventBus.unregister(this)
+        }
+    }
+
     //*****************************************************************************************************************
+
+    private fun initArguments(savedInstanceState: Bundle?) {
+        onInitArguments(savedInstanceState, arguments ?: Bundle.EMPTY, activity?.intent?.extras ?: Bundle.EMPTY)
+    }
 
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
@@ -64,48 +77,66 @@ abstract class EBFragment : Fragment() {
 
     protected val asyncHelper: AsyncHelper = AsyncHelper()
 
-    override fun onDestroyView() {
+    private fun disposeAsyncHelper() {
         asyncHelper.clear()
-        super.onDestroyView()
     }
 
     //*****************************************************************************************************************
 
+    protected fun finish() {
+        activity?.finish()
+    }
+
+    //*****************************************************************************************************************
+
+    /**
+     * @return 是否已经处理了 back 事件.
+     */
     fun onBackPressed(): Boolean {
         if (FragmentHelper.onBackPressed(childFragmentManager)) return true
-        if (!isBackFinishEnabled) return true
-        if (isDoubleBackFinishEnabled) {
-            if (TimeHelper.expired(lastBackTimestamp, DOUBLE_BACK_FINISH_EXPIRATION)) {
-                lastBackTimestamp = TimeHelper.long()
-                AppHelper.toast(requireContext(), R.string.eb_double_back_finish)
-                return true
-            }
-        }
-        if (isMoveTaskToBackEnabled) {
-            if (activity?.isTaskRoot == true) {
-                activity?.moveTaskToBack(false)
-                return true
-            }
-        }
+        if (onBackFinish()) return true
+        if (onDoubleBackFinish()) return true
+        if (onMoveTaskToBack()) return true
         return false
     }
 
+    /**
+     * 是否启用返回键退出.
+     */
     protected open val isBackFinishEnabled: Boolean = true
 
-    protected open val isDoubleBackFinishEnabled: Boolean = false
+    private fun onBackFinish(): Boolean {
+        return !isBackFinishEnabled
+    }
 
-    protected open val isMoveTaskToBackEnabled: Boolean = false
+    /**
+     * 是否启用两次返回键退出.
+     */
+    protected open val isDoubleBackFinishEnabled: Boolean = false
 
     private var lastBackTimestamp: Long = 0L
 
+    private fun onDoubleBackFinish(): Boolean {
+        if (!isDoubleBackFinishEnabled) return false
+        if (!TimeHelper.expired(lastBackTimestamp, DOUBLE_BACK_FINISH_EXPIRATION)) return false
+        lastBackTimestamp = TimeHelper.long()
+        AppHelper.toast(requireContext(), R.string.eb_fragment_double_back_finish)
+        return true
+    }
+
+    /**
+     * 是否启用返回键后台.
+     */
+    protected open val isMoveTaskToBackEnabled: Boolean = false
+
+    private fun onMoveTaskToBack(): Boolean {
+        if (!isMoveTaskToBackEnabled) return false
+        if (activity?.isTaskRoot != true) return false
+        activity?.moveTaskToBack(false)
+        return true
+    }
+
     companion object {
         private const val DOUBLE_BACK_FINISH_EXPIRATION = 2000L
-
-        /**
-         * 将自己从 FragmentManager 移除.
-         */
-        fun Fragment.removeSelf() {
-            fragmentManager?.beginTransaction()?.remove(this)?.commit()
-        }
     }
 }

@@ -1,7 +1,5 @@
 package com.ebnbin.eb.async
 
-import android.content.Context
-import com.ebnbin.eb.dialog.Cancel
 import io.reactivex.disposables.Disposable
 
 interface Loading<T> {
@@ -15,18 +13,4 @@ interface Loading<T> {
         throwable: Throwable,
         onRetry: (() -> Unit)?
     )
-
-    companion object {
-        fun <T> dialog(context: Context): Loading<T> {
-            return DialogLoading(context, Cancel.CANCELABLE)
-        }
-
-        fun <T> dialogNotCanceledOnTouchOutside(context: Context): Loading<T> {
-            return DialogLoading(context, Cancel.NOT_CANCELED_ON_TOUCH_OUTSIDE)
-        }
-
-        fun <T> dialogNotCancelable(context: Context): Loading<T> {
-            return DialogLoading(context, Cancel.NOT_CANCELABLE)
-        }
-    }
 }

@@ -1,9 +1,9 @@
 package com.ebnbin.windowcamera.profile
 
 import android.content.SharedPreferences
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb.sharedpreferences.Sp
-import com.ebnbin.eb.util.LibraryHelper
 import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
@@ -117,6 +117,6 @@ object ProfileHelper {
         set(value) {
             if (field == value) return
             field = value
-            LibraryHelper.eventBus.post(CameraStateEvent(field))
+            Libraries.eventBus.post(CameraStateEvent(field))
         }
 }

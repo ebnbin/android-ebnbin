@@ -5,9 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.util.ebApp
 
-/**
- * Fragment 帮助类.
- */
 object FragmentHelper {
     fun <T : Fragment> instantiate(fm: FragmentManager, fragmentClass: Class<T>): T {
         val fragment = fm.fragmentFactory.instantiate(ebApp.classLoader, fragmentClass.name)
@@ -27,13 +24,12 @@ object FragmentHelper {
         return fragment
     }
 
-    fun onBackPressed(fm: FragmentManager): Boolean {
-        val topFragment = fm.fragments
-            .reversed()
-            .firstOrNull()
-        if (topFragment is EBFragment) {
-            return topFragment.onBackPressed()
-        }
-        return false
+    /**
+     * 需要在 EBActivity 和 EBFragment 的 onBackPressed 中调用.
+     *
+     * @return 是否已经处理了 back 事件.
+     */
+    internal fun onBackPressed(fm: FragmentManager): Boolean {
+        return (fm.fragments.lastOrNull() as? EBFragment?)?.onBackPressed() == true
     }
 }

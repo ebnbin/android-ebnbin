@@ -6,7 +6,7 @@ import com.ebnbin.eb.debug.event.DebugBottomToTopEvent
 import com.ebnbin.eb.debug.event.DebugLeftToRightEvent
 import com.ebnbin.eb.debug.event.DebugRightToLeftEvent
 import com.ebnbin.eb.debug.event.DebugTopToBottomEvent
-import com.ebnbin.eb.util.LibraryHelper
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.dpToPx
 
 /**
@@ -68,18 +68,18 @@ internal class DebugSwipeDetector(private val ebActivity: EBActivity) {
                 if (offsetY > -offset) bottomToTop = false
             }
             when {
-                leftToRight -> LibraryHelper.eventBus.post(DebugLeftToRightEvent(ebActivity))
-                rightToLeft -> LibraryHelper.eventBus.post(DebugRightToLeftEvent(ebActivity))
+                leftToRight -> Libraries.eventBus.post(DebugLeftToRightEvent(ebActivity))
+                rightToLeft -> Libraries.eventBus.post(DebugRightToLeftEvent(ebActivity))
                 topToBottom -> {
                     if (isDebugActivity) {
                         ebActivity.finish()
                     } else {
-                        LibraryHelper.eventBus.post(DebugTopToBottomEvent(ebActivity))
+                        Libraries.eventBus.post(DebugTopToBottomEvent(ebActivity))
                     }
                 }
                 bottomToTop -> {
                     if (isDebugActivity) {
-                        LibraryHelper.eventBus.post(DebugBottomToTopEvent(ebActivity))
+                        Libraries.eventBus.post(DebugBottomToTopEvent(ebActivity))
                     } else {
                         DebugActivity.start(ebActivity)
                     }

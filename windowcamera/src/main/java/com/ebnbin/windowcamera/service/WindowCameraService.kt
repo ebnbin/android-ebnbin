@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat
 import com.ebnbin.eb.permission.PermissionHelper
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
-import com.ebnbin.eb.util.LibraryHelper
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.view.WindowCameraView
@@ -28,7 +28,7 @@ class WindowCameraService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        LibraryHelper.eventBus.post(WindowCameraServiceEvent(true))
+        Libraries.eventBus.post(WindowCameraServiceEvent(true))
 
         startForeground()
 
@@ -71,7 +71,7 @@ class WindowCameraService : Service() {
 
         stopForeground(true)
 
-        LibraryHelper.eventBus.post(WindowCameraServiceEvent(false))
+        Libraries.eventBus.post(WindowCameraServiceEvent(false))
         super.onDestroy()
     }
 

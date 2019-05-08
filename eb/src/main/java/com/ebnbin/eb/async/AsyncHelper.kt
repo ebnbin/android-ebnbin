@@ -2,10 +2,10 @@ package com.ebnbin.eb.async
 
 import com.ebnbin.eb.githubapi.GitHubApi
 import com.ebnbin.eb.githubapi.model.PutContentsRequest
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DataHelper
 import com.ebnbin.eb.util.DeviceHelper
-import com.ebnbin.eb.util.LibraryHelper
 import com.ebnbin.eb.util.TimeHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -118,7 +118,7 @@ class AsyncHelper {
             .observeOn(AndroidSchedulers.mainThread())
             .map {
                 val content = DataHelper.base64Decode(it.content)
-                val t = LibraryHelper.gson.fromJson<T>(content, classOfT)
+                val t = Libraries.gson.fromJson<T>(content, classOfT)
                 t
             }
             .subscribe(
@@ -160,7 +160,7 @@ class AsyncHelper {
                 val putContentsRequest = PutContentsRequest()
                 putContentsRequest.message =
                     "${BuildHelper.simpleApplicationId} ${BuildHelper.versionName} ${DeviceHelper.DEVICE_ID}"
-                putContentsRequest.content = DataHelper.base64Encode(LibraryHelper.gson.toJson(t))
+                putContentsRequest.content = DataHelper.base64Encode(Libraries.gson.toJson(t))
                 putContentsRequest.sha = it.firstOrNull { content -> content.name == name }?.sha
                 GitHubApi.api.putContents("${BuildHelper.simpleApplicationId}$path", putContentsRequest)
             }

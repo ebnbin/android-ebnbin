@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.debug.DebugSwipeDetector
 import com.ebnbin.eb.fragment.FragmentHelper
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.Consts
-import com.ebnbin.eb.util.LibraryHelper
 
 /**
  * Base Activity.
@@ -25,8 +25,8 @@ open class EBActivity : AppCompatActivity() {
             return
         }
 
-        if (isEventBusEnabled && !LibraryHelper.eventBus.isRegistered(this)) {
-            LibraryHelper.eventBus.register(this)
+        if (isEventBusEnabled && !Libraries.eventBus.isRegistered(this)) {
+            Libraries.eventBus.register(this)
         }
 
         onInitArguments(savedInstanceState, intent?.extras ?: Bundle.EMPTY)
@@ -36,8 +36,8 @@ open class EBActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        if (isEventBusEnabled && LibraryHelper.eventBus.isRegistered(this)) {
-            LibraryHelper.eventBus.unregister(this)
+        if (isEventBusEnabled && Libraries.eventBus.isRegistered(this)) {
+            Libraries.eventBus.unregister(this)
         }
         super.onDestroy()
     }

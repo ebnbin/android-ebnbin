@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.R
 import com.ebnbin.eb.activity.EBActivity
-import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.debug.debug
+import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.IntentHelper
@@ -36,7 +36,7 @@ class AboutFragment : EBFragment() {
         super.onViewCreated(view, savedInstanceState)
         eb_toolbar.setNavigationIcon(if (bottomToTop) R.drawable.eb_toolbar_close else R.drawable.eb_toolbar_back)
         eb_toolbar.setNavigationOnClickListener {
-            activity?.finish()
+            finish()
         }
         eb_icon.setOnLongClickListener {
             it.isLongClickable = false

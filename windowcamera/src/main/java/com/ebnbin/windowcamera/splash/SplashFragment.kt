@@ -20,7 +20,7 @@ class SplashFragment : EBSplashFragment() {
         } catch (throwable: Throwable) {
             AppHelper.toast(requireContext(), R.string.camera_error)
         }
-        activity?.finish()
+        finish()
     }
 
     override val isBackFinishEnabled: Boolean = false

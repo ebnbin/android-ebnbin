@@ -23,7 +23,7 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         eb_toolbar.setNavigationOnClickListener {
-            activity?.finish()
+            finish()
         }
         eb_toolbar.inflateMenu(R.menu.eb_debug_toolbar)
         eb_toolbar.setOnMenuItemClickListener(this)
