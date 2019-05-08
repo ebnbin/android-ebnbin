@@ -63,7 +63,7 @@ abstract class EBDialogFragment : AppCompatDialogFragment() {
     //*****************************************************************************************************************
 
     private fun initArguments(savedInstanceState: Bundle?) {
-        onInitArguments(savedInstanceState, arguments ?: Bundle.EMPTY, activity?.intent?.extras ?: Bundle.EMPTY)
+        onInitArguments(savedInstanceState, arguments ?: Bundle(), activity?.intent?.extras ?: Bundle())
     }
 
     @CallSuper

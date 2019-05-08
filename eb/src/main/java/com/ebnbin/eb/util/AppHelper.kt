@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Service
 import android.content.ClipData
 import android.content.Context
-import android.content.Intent
 import android.os.VibrationEffect
 import android.widget.Toast
 import androidx.annotation.RequiresPermission
@@ -13,18 +12,6 @@ import com.ebnbin.eb.R
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 
 object AppHelper {
-    /**
-     * 关闭所以 Activity 并重启 MainActivity.
-     *
-     * @param finish 如果为 true 则关闭 MainActivity, 相当于关闭应用所有 Activity.
-     */
-    fun restartApp(finish: Boolean = false) {
-        val intent = ebApp.packageManager.getLaunchIntentForPackage(BuildHelper.applicationId) ?: return
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        intent.putExtra(Consts.FINISH, finish)
-        ebApp.startActivity(intent)
-    }
-
     fun isServiceRunning(serviceClass: Class<out Service>): Boolean {
         @Suppress("DEPRECATION")
         return SystemServices.activityManager.getRunningServices(Int.MAX_VALUE).any {
@@ -48,7 +35,7 @@ object AppHelper {
         EBSpManager.night_mode.value = nightMode
         AppCompatDelegate.setDefaultNightMode(nightMode)
         if (restartMainActivity) {
-            restartApp()
+            IntentHelper.restartApp()
         }
     }
 

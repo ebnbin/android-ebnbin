@@ -1,7 +1,5 @@
 package com.ebnbin.windowcamera.main
 
-import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.about.AboutFragment
-import com.ebnbin.eb.activity.EBActivity
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.Consts
+import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -42,8 +40,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         view_pager.addOnPageChangeListener(this)
         tab_layout.setupWithViewPager(view_pager)
         bottom_app_bar.setNavigationOnClickListener {
-            EBActivity.startFragmentFromFragment(this, AboutFragment::class.java,
-                AboutFragment.createIntent(bottomToTop = true))
+            IntentHelper.startFragmentFromFragment(this, AboutFragment.createIntent(bottomToTop = true))
         }
         invalidateWindowCameraServiceEvent()
 
@@ -112,12 +109,4 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
     }
 
     override val isDoubleBackFinishEnabled: Boolean = true
-
-    companion object {
-        fun createIntent(): Intent {
-            return Intent()
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .putExtra(EBActivity.KEY_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_FULL_USER)
-        }
-    }
 }

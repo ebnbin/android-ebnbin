@@ -59,7 +59,7 @@ class AboutFragment : EBFragment() {
             UpdateFragment.start(childFragmentManager, false)
         }
         eb_open_market.setOnClickListener {
-            IntentHelper.openMarket(requireContext())
+            IntentHelper.startMarket(requireContext())
         }
         OPEN_SOURCES.forEach {
             addOpenSource(it)
@@ -91,6 +91,7 @@ class AboutFragment : EBFragment() {
             bottomToTop: Boolean = false
         ): Intent {
             val result = Intent()
+                .putExtra(EBActivity.KEY_FRAGMENT_CLASS, AboutFragment::class.java)
                 .putExtra("open_sources", openSources)
                 .putExtra("bottom_to_top", bottomToTop)
             if (bottomToTop) {

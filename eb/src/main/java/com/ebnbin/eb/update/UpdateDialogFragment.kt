@@ -1,14 +1,12 @@
 package com.ebnbin.eb.update
 
 import android.app.Dialog
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.dialog.EBDialogFragment
 import com.ebnbin.eb.githubapi.model.content.Update
-import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.IntentHelper
 
 internal class UpdateDialogFragment : EBDialogFragment() {
     private lateinit var update: Update
@@ -24,15 +22,14 @@ internal class UpdateDialogFragment : EBDialogFragment() {
         return AlertDialog.Builder(requireContext())
             .setMessage(update.message)
             .setPositiveButton("确定") { _, _ ->
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(update.url))
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                IntentHelper.startBrowser(requireContext(), update.url)
                 if (hasForceUpdate) {
-                    AppHelper.restartApp(true)
+                    IntentHelper.finishApp()
                 }
             }
             .setNegativeButton("取消") { _, _ ->
                 if (hasForceUpdate) {
-                    AppHelper.restartApp(true)
+                    IntentHelper.finishApp()
                 }
             }.create()
     }

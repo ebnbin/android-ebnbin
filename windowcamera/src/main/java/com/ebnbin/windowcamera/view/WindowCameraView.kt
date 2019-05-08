@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraCallback
@@ -108,7 +109,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     }
 
     override fun onDoubleTap() {
-        AppHelper.restartApp()
+        IntentHelper.restartApp()
     }
 
     override fun onLongPress() {

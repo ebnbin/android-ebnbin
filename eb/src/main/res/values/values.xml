@@ -2,8 +2,8 @@
 <resources>
     <string name="eb_clip">已复制到剪贴板</string>
 
-    <string name="eb_open_browser_error">打开浏览器失败</string>
-    <string name="eb_open_market_error">打开应用商店失败</string>
+    <string name="eb_start_browser_error">打开浏览器失败</string>
+    <string name="eb_start_market_error">打开应用商店失败</string>
 
     <style name="EBBottomToTopWindowAnimation" parent="android:Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/eb_bottom_to_top_activity_open_enter</item>

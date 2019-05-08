@@ -1,10 +1,8 @@
 package com.ebnbin.eb.permission
 
 import android.Manifest
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import androidx.core.os.bundleOf
@@ -14,8 +12,8 @@ import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.util.AppHelper
-import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.Consts
+import com.ebnbin.eb.util.IntentHelper
 
 /**
  * 权限请求 Fragment.
@@ -139,10 +137,7 @@ class PermissionFragment : EBFragment() {
     }
 
     private fun startSettingsActivity(action: String, requestCode: Int) {
-        try {
-            val intent = Intent(action).setData(Uri.parse("package:${BuildHelper.applicationId}"))
-            startActivityForResult(intent, requestCode)
-        } catch (e: ActivityNotFoundException) {
+        if (!IntentHelper.startSettingsFromFragment(this, action, requestCode)) {
             onPermissionsResult(false)
         }
     }
