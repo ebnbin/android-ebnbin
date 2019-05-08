@@ -84,7 +84,8 @@ open class EBActivity : AppCompatActivity() {
 
     //*****************************************************************************************************************
 
-    private var fragmentClass: Class<out Fragment>? = null
+    var fragmentClass: Class<out Fragment>? = null
+        private set
 
     private fun initFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) return

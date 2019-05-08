@@ -1,5 +1,6 @@
 package com.ebnbin.eb.debug
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -8,8 +9,10 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.R
+import com.ebnbin.eb.activity.EBActivity
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.sharedpreferences.EBSpManager
+import com.ebnbin.eb.util.IntentHelper
 import kotlinx.android.synthetic.main.eb_debug_fragment.*
 
 /**
@@ -74,5 +77,13 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
 
     companion object {
         internal const val KEY_CALLING = "calling"
+
+        fun start(ebActivity: EBActivity): Boolean {
+            val intent = Intent()
+                .putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_Debug)
+                .putExtra(EBActivity.KEY_FRAGMENT_CLASS, DebugFragment::class.java)
+                .putExtra(KEY_CALLING, ebActivity.toString())
+            return IntentHelper.startFragmentFromActivity(ebActivity, intent)
+        }
     }
 }

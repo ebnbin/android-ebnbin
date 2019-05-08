@@ -188,4 +188,8 @@ class AsyncHelper {
                 }
             )
     }
+
+    companion object {
+        val global: AsyncHelper = AsyncHelper()
+    }
 }

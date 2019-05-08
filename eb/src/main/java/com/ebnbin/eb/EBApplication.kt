@@ -4,12 +4,10 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.crashlytics.android.Crashlytics
-import com.ebnbin.eb.async.AsyncHelper
 import com.ebnbin.eb.crash.CrashActivity
 import com.ebnbin.eb.debug.BaseDebugPageFragment
 import com.ebnbin.eb.debug.debug
 import com.ebnbin.eb.sharedpreferences.EBSpManager
-import com.ebnbin.eb.splash.EBSplashFragment
 import com.ebnbin.eb.util.DeviceHelper
 
 /**
@@ -32,10 +30,6 @@ open class EBApplication : Application() {
      * 应用 debug page 页面.
      */
     open val debugPageFragmentClass: Class<out BaseDebugPageFragment>? = null
-
-    val asyncHelper: AsyncHelper = AsyncHelper()
-
-    open val splashFragment: Class<out EBSplashFragment>? = null
 
     companion object {
         internal lateinit var instance: EBApplication
