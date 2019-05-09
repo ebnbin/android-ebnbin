@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="eb_update_latest">已是最新版本</string>
+    <string name="eb_update_failure">检测更新失败</string>
+    <string name="eb_update_title">检测到新版本</string>
+    <string name="eb_update_title_force">应用版本太低，请更新后使用</string>
+    <string name="eb_update_positive">立即更新</string>
+    <string name="eb_update_negative">暂不更新</string>
+    <string name="eb_update_negative_force">退出应用</string>
+</resources>

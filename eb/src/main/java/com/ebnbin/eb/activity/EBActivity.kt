@@ -1,6 +1,5 @@
 package com.ebnbin.eb.activity
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.annotation.CallSuper
@@ -25,7 +24,6 @@ open class EBActivity : AppCompatActivity() {
         initEventBus()
         initArguments(savedInstanceState)
         initTheme()
-        initScreenOrientation()
         initFragment(savedInstanceState)
     }
 
@@ -59,7 +57,6 @@ open class EBActivity : AppCompatActivity() {
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
         themeStyleId = extras.getInt(KEY_THEME_STYLE_ID, 0)
-        screenOrientation = extras.getInt(KEY_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
         @Suppress("UNCHECKED_CAST")
         fragmentClass = extras.getSerializable(KEY_FRAGMENT_CLASS) as Class<out Fragment>?
     }
@@ -71,15 +68,6 @@ open class EBActivity : AppCompatActivity() {
     private fun initTheme() {
         if (themeStyleId == 0) return
         setTheme(themeStyleId)
-    }
-
-    //*****************************************************************************************************************
-
-    private var screenOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-
-    private fun initScreenOrientation() {
-        if (screenOrientation == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) return
-        requestedOrientation = screenOrientation
     }
 
     //*****************************************************************************************************************
@@ -100,7 +88,6 @@ open class EBActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    //*****************************************************************************************************************
     //*****************************************************************************************************************
 
     @Suppress("LeakingThis")
@@ -129,7 +116,6 @@ open class EBActivity : AppCompatActivity() {
     companion object {
         const val KEY_FINISH = "finish"
         const val KEY_THEME_STYLE_ID = "theme_style_id"
-        const val KEY_SCREEN_ORIENTATION = "screen_orientation"
         const val KEY_FRAGMENT_CLASS = "fragment_class"
     }
 }
