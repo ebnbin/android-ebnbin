@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.dialog.EBDialogFragment
+import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.util.Consts
 
 internal class PermissionDialogFragment : EBDialogFragment() {
@@ -43,13 +44,10 @@ internal class PermissionDialogFragment : EBDialogFragment() {
 
     companion object {
         fun start(fm: FragmentManager, message: String, extraData: Bundle = Bundle.EMPTY): PermissionDialogFragment {
-            val fragment = PermissionDialogFragment()
-            fragment.arguments = bundleOf(
+            return FragmentHelper.add(fm, PermissionDialogFragment::class.java, arguments = bundleOf(
                 "message" to message,
                 Consts.KEY_EXTRA_DATA to extraData
-            )
-            fragment.show(fm, PermissionDialogFragment::class.java.name)
-            return fragment
+            ))
         }
     }
 }

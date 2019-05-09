@@ -20,7 +20,7 @@ object FragmentHelper {
     ): T {
         val fragment = instantiate(fm, fragmentClass)
         fragment.arguments = arguments
-        fm.beginTransaction().add(containerViewId, fragment, tag).commit()
+        fm.beginTransaction().add(containerViewId, fragment, tag).commitAllowingStateLoss()
         return fragment
     }
 

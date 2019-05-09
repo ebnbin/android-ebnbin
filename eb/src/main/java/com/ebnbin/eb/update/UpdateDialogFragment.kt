@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.dialog.EBDialogFragment
+import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.githubapi.model.content.Update
 import com.ebnbin.eb.util.IntentHelper
 
@@ -48,12 +49,9 @@ internal class UpdateDialogFragment : EBDialogFragment() {
 
     companion object {
         fun start(fm: FragmentManager, update: Update): UpdateDialogFragment {
-            val fragment = UpdateDialogFragment()
-            fragment.arguments = bundleOf(
+            return FragmentHelper.add(fm, UpdateDialogFragment::class.java, arguments = bundleOf(
                 "update" to update
-            )
-            fragment.show(fm, UpdateDialogFragment::class.java.name)
-            return fragment
+            ))
         }
     }
 }
