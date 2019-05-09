@@ -73,4 +73,8 @@
 
     <!-- Base theme. -->
     <style name="EBTheme" parent="EBBaseTheme"/>
+
+    <style name="EBTheme.BottomToTop">
+        <item name="android:windowAnimationStyle">@style/EBBottomToTopWindowAnimation</item>
+    </style>
 </resources>

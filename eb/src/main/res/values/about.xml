@@ -5,8 +5,4 @@
     <string name="eb_about_version">版本：%1$s%2$s</string>
     <string name="eb_about_update">检查更新</string>
     <string name="eb_about_open_market">在应用商店中查看</string>
-
-    <style name="EBTheme.About">
-        <item name="android:windowAnimationStyle">@style/EBBottomToTopWindowAnimation</item>
-    </style>
 </resources>

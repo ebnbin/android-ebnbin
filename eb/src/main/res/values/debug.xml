@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="eb_debug_switch">Switch</string>
-
-    <style name="EBTheme.Debug">
-        <item name="android:windowAnimationStyle">@style/EBBottomToTopWindowAnimation</item>
-    </style>
 </resources>
