@@ -43,7 +43,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 reopenCamera()
             }
             ProfileHelper.is_video.key -> {
-                restartPreview()
+                restartPreview(true)
             }
             ProfileHelper.back_photo_resolution.key -> {
                 restartPreview()
@@ -118,14 +118,24 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
     //*****************************************************************************************************************
 
-    private fun restartPreview() {
+    private fun restartPreview(isVideoChanged: Boolean = false) {
+        if (isVideoChanged) {
+            if (ProfileHelper.is_video.value) {
+                stopPhotoPreview()
+            } else {
+                stopVideoPreview()
+            }
+        } else {
+            if (ProfileHelper.is_video.value) {
+                stopVideoPreview()
+            } else {
+                stopPhotoPreview()
+            }
+        }
+        callback.invalidateSizePosition()
         if (ProfileHelper.is_video.value) {
-            stopVideoPreview()
-            callback.invalidateSizePosition()
             startVideoPreview()
         } else {
-            stopPhotoPreview()
-            callback.invalidateSizePosition()
             startPhotoPreview()
         }
     }
@@ -324,7 +334,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
     private fun stopVideoCapture(resumePreview: Boolean) {
         if (!isVideoRecording) return
-        ProfileHelper.cameraState = CameraState.CAPTURING_VIDEO
+        isVideoRecording = false
 
         mediaRecorder?.run {
             mediaRecorder = null
