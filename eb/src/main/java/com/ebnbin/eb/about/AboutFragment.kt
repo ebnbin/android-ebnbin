@@ -39,7 +39,8 @@ class AboutFragment : EBFragment() {
             finish()
         }
         eb_toolbar.setOnLongClickListener {
-            AppHelper.clip(requireContext(), DeviceHelper.DEVICE_ID, getString(R.string.eb_about_device_id_copied))
+            AppHelper.clip(DeviceHelper.DEVICE_ID)
+            AppHelper.toast(requireContext(), R.string.eb_about_device_id_copied)
             true
         }
         eb_icon.setOnLongClickListener {
@@ -66,6 +67,9 @@ class AboutFragment : EBFragment() {
             IntentHelper.startMarket(requireContext())
         }
         OPEN_SOURCES.forEach {
+            addOpenSource(it)
+        }
+        openSources.forEach {
             addOpenSource(it)
         }
     }

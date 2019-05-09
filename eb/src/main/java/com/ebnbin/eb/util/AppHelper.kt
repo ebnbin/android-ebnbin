@@ -8,7 +8,6 @@ import android.os.VibrationEffect
 import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
-import com.ebnbin.eb.R
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 
 object AppHelper {
@@ -51,13 +50,7 @@ object AppHelper {
         }
     }
 
-    fun clip(
-        context: Context,
-        text: CharSequence,
-        toast: CharSequence = context.getString(R.string.eb_clip),
-        label: CharSequence = BuildHelper.applicationId
-    ) {
+    fun clip(text: CharSequence, label: CharSequence = BuildHelper.applicationId) {
         SystemServices.clipboardManager.primaryClip = ClipData.newPlainText(label, text)
-        toast(context, toast)
     }
 }

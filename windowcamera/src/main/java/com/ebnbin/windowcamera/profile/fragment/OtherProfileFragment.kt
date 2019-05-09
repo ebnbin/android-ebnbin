@@ -2,7 +2,6 @@ package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import androidx.preference.Preference
-import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.util.IOHelper
@@ -14,10 +13,6 @@ class OtherProfileFragment : BaseProfileFragment() {
 
         findPreference<Preference>(ProfileHelper.path.key)?.run {
             summary = getString(R.string.profile_path_summary, IOHelper.getPath().toString())
-            setOnPreferenceClickListener {
-                AppHelper.clip(requireContext(), IOHelper.getPath().toString())
-                false
-            }
         }
     }
 }

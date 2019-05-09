@@ -19,5 +19,7 @@ open class EBSplashFragment : EBFragment() {
     }
 
     protected open fun onNewVersion(oldVersion: Int, newVersion: Int) {
+        EBSpManager.last_update_timestamp.value = 0L
+        EBSpManager.last_report_timestamp.value = 0L
     }
 }

@@ -24,8 +24,6 @@ open class EBReport : EBModel {
 
     val sdk: Int = Build.VERSION.SDK_INT
 
-    val release: String = Build.VERSION.RELEASE
-
     val displayRealSize: String = WindowHelper.displayRealSize.run { "${width0}x$height0" }
 
     val displaySize: String = WindowHelper.displaySize.run { "${width0}x$height0" }

@@ -11,9 +11,8 @@ object DevHelper {
     private const val DEVICE_EXPIRATION = 7 * 24 * 60 * 60 * 1000L
 
     fun report(throwable: Throwable) {
-        if (!debug) {
-            Crashlytics.logException(throwable)
-        }
+        if (debug) return
+        Crashlytics.logException(throwable)
     }
 
     fun <T : EBReport> report(report: T) {
