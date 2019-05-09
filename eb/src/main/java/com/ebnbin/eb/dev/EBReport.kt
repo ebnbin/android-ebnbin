@@ -8,6 +8,8 @@ import com.ebnbin.eb.util.EBModel
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.TimeHelper
 import com.ebnbin.eb.util.WindowHelper
+import com.ebnbin.eb.util.res
+import java.util.Arrays
 
 open class EBReport : EBModel {
     val timestamp: String = TimeHelper.string("yyyy-MM-dd HH:mm:ss:SSS")
@@ -31,6 +33,15 @@ open class EBReport : EBModel {
     val density: Float = ResHelper.density
 
     val displayRealSizeDp: String = WindowHelper.displayRealSize.run { "${width0 / density}x${height0 / density}" }
+
+    val locale: String = if (BuildHelper.sdk24N()) {
+        res.configuration.locales.toString()
+    } else {
+        @Suppress("DEPRECATION")
+        res.configuration.locale.toString()
+    }
+
+    val abi: String = Arrays.toString(Build.SUPPORTED_ABIS)
 
     override fun toString(): String {
         return Libraries.gson.toJson(this)
