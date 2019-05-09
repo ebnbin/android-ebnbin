@@ -12,8 +12,6 @@ import android.view.Surface
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
-import com.ebnbin.windowcamera.camera.CameraHelper.backDevice
-import com.ebnbin.windowcamera.camera.CameraHelper.frontDevice
 import com.ebnbin.windowcamera.camera.CameraHelper.isValid
 
 /**
@@ -21,7 +19,7 @@ import com.ebnbin.windowcamera.camera.CameraHelper.isValid
  *
  * 需要 try catch Throwable 避免 ExceptionInInitializerError.
  *
- * TODO: 在使用前必须调用 [isValid] 检测有效性.
+ * 在使用前必须调用 [isValid] 检测有效性.
  */
 object CameraHelper {
     private fun StringBuilder.append(key: String, value: Any?): StringBuilder {

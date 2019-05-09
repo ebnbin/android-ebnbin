@@ -61,7 +61,7 @@ internal class CrashActivity : AppCompatActivity() {
         } catch (throwable: Throwable) {
             "ERROR"
         }
-        return "$ebReport\nStack trace:\n${CustomActivityOnCrash.getStackTraceFromIntent(intent)}"
+        return "$ebReport\n\nStack trace:\n${CustomActivityOnCrash.getStackTraceFromIntent(intent)}"
     }
 
     override fun onBackPressed() {

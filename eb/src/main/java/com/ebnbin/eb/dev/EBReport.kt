@@ -33,6 +33,6 @@ open class EBReport : EBModel {
     val displayRealSizeDp: String = WindowHelper.displayRealSize.run { "${width0 / density}x${height0 / density}" }
 
     override fun toString(): String {
-        return "${Libraries.gson.toJson(this)}\n"
+        return Libraries.gson.toJson(this)
     }
 }

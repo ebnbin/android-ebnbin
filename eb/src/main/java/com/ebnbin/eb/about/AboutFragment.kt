@@ -17,6 +17,7 @@ import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DeviceHelper
 import com.ebnbin.eb.util.IntentHelper
+import com.ebnbin.eb.util.TimeHelper
 import kotlinx.android.synthetic.main.eb_about_fragment.*
 
 class AboutFragment : EBFragment() {
@@ -57,8 +58,10 @@ class AboutFragment : EBFragment() {
                 .start()
             true
         }
-        eb_version.text = getString(R.string.eb_about_version, BuildHelper.versionName,
-            if (debug) " ${BuildConfig.BUILD_TYPE}" else "")
+        eb_version.text = getString(R.string.eb_about_version,
+            BuildHelper.versionName,
+            if (debug) " ${BuildConfig.BUILD_TYPE}" else "",
+            TimeHelper.longToString(BuildConfig.BUILD_TIMESTAMP, "yyyy-MM-dd"))
         eb_update.setOnClickListener {
             UpdateFragment.start(childFragmentManager, false)
         }

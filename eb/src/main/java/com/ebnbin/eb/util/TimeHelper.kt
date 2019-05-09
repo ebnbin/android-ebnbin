@@ -14,11 +14,30 @@ object TimeHelper {
     }
 
     fun date(): Date {
-        return Date()
+        val long = long()
+        return longToDate(long)
     }
 
     fun string(pattern: String): String {
-        return SimpleDateFormat(pattern, Locale.getDefault()).format(date())
+        val date = date()
+        return dateToString(date, pattern)
+    }
+
+    fun longToDate(long: Long): Date {
+        return Date(long)
+    }
+
+    fun longToString(long: Long, pattern: String): String {
+        val date = longToDate(long)
+        return dateToString(date, pattern)
+    }
+
+    fun dateToLong(date: Date): Long {
+        return date.time
+    }
+
+    fun dateToString(date: Date, pattern: String): String {
+        return SimpleDateFormat(pattern, Locale.getDefault()).format(date)
     }
 
     fun expired(lastTimestamp: Long, expiration: Long): Boolean {

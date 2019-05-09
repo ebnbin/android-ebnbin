@@ -12,10 +12,10 @@ import android.os.IBinder
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.permission.PermissionHelper
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
-import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.view.WindowCameraView
@@ -56,7 +56,7 @@ class WindowCameraService : Service() {
         }
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.eb_logo_198)
-            .setContentTitle(getString(R.string.stop_window_camera_service))
+            .setContentTitle(getString(R.string.window_camera_service_stop))
             .setContentIntent(PendingIntent.getBroadcast(this, 0,
                 Intent(this, StopWindowCameraServiceBroadcastReceiver::class.java), 0))
             .build()

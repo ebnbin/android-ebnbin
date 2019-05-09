@@ -9,11 +9,13 @@ import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.media.MediaRecorder
 import android.view.Surface
+import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.camera.CameraRuntimeException
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -100,7 +102,6 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             stopPhotoPreview()
         }
 
-
         cameraDevice?.run {
             cameraDevice = null
             close()
@@ -186,10 +187,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
             try {
                 close()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
         }
 
@@ -198,6 +201,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 close()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
         }
     }
@@ -260,10 +264,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
             try {
                 close()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
         }
     }
@@ -325,10 +331,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stop()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
             try {
                 release()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
         }
 
@@ -342,10 +350,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
             try {
                 close()
             } catch (e: Exception) {
+                DevHelper.report(e)
             }
         }
 
@@ -380,5 +390,6 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun onCameraError(string: String) {
         AppHelper.toast(callback.getContext(), string)
         WindowCameraService.stop(callback.getContext())
+        DevHelper.report(CameraRuntimeException(string))
     }
 }
