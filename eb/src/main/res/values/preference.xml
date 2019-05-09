@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="ebSimplePreferenceGroupStyle" format="reference"/>
+    <attr name="ebFooterPreferenceStyle" format="reference"/>
+
+    <declare-styleable name="EBSimplePreferenceGroup">
+        <attr name="ebVisibleKeysOff" format="reference"/>
+        <attr name="ebVisibleKeysOn" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="EBSimpleSwitchPreference">
+        <attr name="ebIconOff" format="reference"/>
+        <attr name="ebIconOn" format="reference"/>
+    </declare-styleable>
+
+    <style name="EBPreferenceTheme" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="singleLineTitle">false</item>
+        <item name="preferenceCategoryStyle">@style/EBPreferenceCategoryStyle</item>
+        <item name="seekBarPreferenceStyle">@style/EBSeekBarPreferenceStyle</item>
+        <item name="ebSimplePreferenceGroupStyle">@style/EBSimplePreferenceGroupStyle</item>
+        <item name="ebFooterPreferenceStyle">@style/EBFooterPreferenceStyle</item>
+    </style>
+
+    <style name="EBSimplePreferenceGroupStyle" parent="Preference.Material">
+        <item name="android:layout">@layout/eb_simple_preference_group</item>
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="allowDividerAfterLastItem">false</item>
+        <item name="allowDividerAbove">false</item>
+        <item name="allowDividerBelow">false</item>
+    </style>
+
+    <style name="EBFooterPreferenceStyle" parent="Preference.Material">
+        <item name="android:layout">@layout/eb_footer_preference</item>
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="allowDividerAfterLastItem">false</item>
+        <item name="allowDividerAbove">false</item>
+        <item name="allowDividerBelow">false</item>
+    </style>
+
+    <style name="EBPreferenceCategoryStyle" parent="Preference.Category.Material">
+        <item name="android:shouldDisableView">true</item>
+    </style>
+
+    <style name="EBSeekBarPreferenceStyle" parent="Preference.SeekBarPreference.Material">
+        <item name="showSeekBarValue">true</item>
+        <item name="updatesContinuously">true</item>
+    </style>
+</resources>

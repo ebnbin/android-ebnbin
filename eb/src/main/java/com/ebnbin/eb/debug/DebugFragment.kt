@@ -80,7 +80,6 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
 
         fun start(ebActivity: EBActivity): Boolean {
             val intent = Intent()
-                .putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_BottomToTop)
                 .putExtra(EBActivity.KEY_FRAGMENT_CLASS, DebugFragment::class.java)
                 .putExtra(KEY_CALLING_ACTIVITY, ebActivity.toString())
             return IntentHelper.startFragmentFromActivity(ebActivity, intent)

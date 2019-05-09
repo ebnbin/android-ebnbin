@@ -34,7 +34,6 @@ class AboutFragment : EBFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        eb_toolbar.setNavigationIcon(R.drawable.eb_toolbar_close)
         eb_toolbar.setNavigationOnClickListener {
             finish()
         }
@@ -96,7 +95,6 @@ class AboutFragment : EBFragment() {
 
         fun intent(openSources: ArrayList<Pair<String, String>> = arrayListOf()): Intent {
             return Intent()
-                .putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_BottomToTop)
                 .putExtra(EBActivity.KEY_FRAGMENT_CLASS, AboutFragment::class.java)
                 .putExtra("open_sources", openSources)
         }
