@@ -39,7 +39,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         view_pager.addOnPageChangeListener(this)
         tab_layout.setupWithViewPager(view_pager)
         bottom_app_bar.setNavigationOnClickListener {
-            IntentHelper.startFragmentFromFragment(this, AboutFragment.createIntent(bottomToTop = true))
+            IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
         }
         invalidateWindowCameraServiceEvent()
 

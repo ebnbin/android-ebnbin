@@ -17,12 +17,23 @@ open class EBApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        initCaoc()
+        initCrashlytics()
+        initNightMode()
+    }
+
+    private fun initCaoc() {
         CaocConfig.Builder.create()
             .errorActivity(CrashActivity::class.java)
             .apply()
-        if (!debug) {
-            Crashlytics.setUserIdentifier(DeviceHelper.DEVICE_ID)
-        }
+    }
+
+    private fun initCrashlytics() {
+        if (debug) return
+        Crashlytics.setUserIdentifier(DeviceHelper.DEVICE_ID)
+    }
+
+    private fun initNightMode() {
         AppCompatDelegate.setDefaultNightMode(EBSpManager.night_mode.value)
     }
 

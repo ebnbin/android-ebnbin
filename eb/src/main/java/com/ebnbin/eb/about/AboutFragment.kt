@@ -13,19 +13,19 @@ import com.ebnbin.eb.activity.EBActivity
 import com.ebnbin.eb.debug.debug
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.update.UpdateFragment
+import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
+import com.ebnbin.eb.util.DeviceHelper
 import com.ebnbin.eb.util.IntentHelper
 import kotlinx.android.synthetic.main.eb_about_fragment.*
 
 class AboutFragment : EBFragment() {
     private lateinit var openSources: ArrayList<Pair<String, String>>
-    private var bottomToTop: Boolean = false
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
         @Suppress("UNCHECKED_CAST")
         openSources = activityExtras.getSerializable("open_sources") as ArrayList<Pair<String, String>>
-        bottomToTop = activityExtras.getBoolean("bottom_to_top")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,9 +34,13 @@ class AboutFragment : EBFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        eb_toolbar.setNavigationIcon(if (bottomToTop) R.drawable.eb_toolbar_close else R.drawable.eb_toolbar_back)
+        eb_toolbar.setNavigationIcon(R.drawable.eb_toolbar_close)
         eb_toolbar.setNavigationOnClickListener {
             finish()
+        }
+        eb_toolbar.setOnLongClickListener {
+            AppHelper.clip(requireContext(), DeviceHelper.DEVICE_ID, getString(R.string.eb_about_device_id_copied))
+            true
         }
         eb_icon.setOnLongClickListener {
             it.isLongClickable = false
@@ -86,18 +90,11 @@ class AboutFragment : EBFragment() {
             Pair("retrofit", "https://github.com/square/retrofit")
         )
 
-        fun createIntent(
-            openSources: ArrayList<Pair<String, String>> = arrayListOf(),
-            bottomToTop: Boolean = false
-        ): Intent {
-            val result = Intent()
+        fun intent(openSources: ArrayList<Pair<String, String>> = arrayListOf()): Intent {
+            return Intent()
+                .putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_About)
                 .putExtra(EBActivity.KEY_FRAGMENT_CLASS, AboutFragment::class.java)
                 .putExtra("open_sources", openSources)
-                .putExtra("bottom_to_top", bottomToTop)
-            if (bottomToTop) {
-                result.putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_About)
-            }
-            return result
         }
     }
 }

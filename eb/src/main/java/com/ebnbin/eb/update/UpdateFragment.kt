@@ -8,6 +8,7 @@ import com.ebnbin.eb.async.DialogLoading
 import com.ebnbin.eb.dialog.DialogCancel
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.FragmentHelper
+import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.githubapi.model.content.Update
 import com.ebnbin.eb.sharedpreferences.EBSpManager
 import com.ebnbin.eb.util.AppHelper
@@ -34,8 +35,12 @@ class UpdateFragment : EBFragment() {
                             EBSpManager.last_update_timestamp.value = if (it.hasForceUpdate()) 0L else
                                 TimeHelper.long()
                             if (it.hasUpdate()) {
-                                UpdateDialogFragment.start(childFragmentManager, it)
+                                UpdateDialogFragment.start(requireFragmentManager(), it)
                             }
+                            removeSelf()
+                        },
+                        onFailure = {
+                            removeSelf()
                         }
                     )
                 }
@@ -47,13 +52,15 @@ class UpdateFragment : EBFragment() {
                     onSuccess = {
                         EBSpManager.last_update_timestamp.value = if (it.hasForceUpdate()) 0L else TimeHelper.long()
                         if (it.hasUpdate()) {
-                            UpdateDialogFragment.start(childFragmentManager, it)
+                            UpdateDialogFragment.start(requireFragmentManager(), it)
                         } else {
                             AppHelper.toast(requireContext(), R.string.eb_update_latest)
                         }
+                        removeSelf()
                     },
                     onFailure = {
                         AppHelper.toast(requireContext(), R.string.eb_update_failure)
+                        removeSelf()
                     }
                 )
             }

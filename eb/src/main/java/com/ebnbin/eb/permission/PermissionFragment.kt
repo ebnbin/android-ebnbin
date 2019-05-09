@@ -20,7 +20,7 @@ import com.ebnbin.eb.util.IntentHelper
 /**
  * 权限请求 Fragment.
  */
-class PermissionFragment : EBFragment() {
+class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
     private lateinit var callback: Callback
 
     override fun onAttach(context: Context) {
@@ -124,7 +124,11 @@ class PermissionFragment : EBFragment() {
     //*****************************************************************************************************************
 
     private fun requestSystemAlertWindowPermission() {
-        startSettingsActivity(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION)
+        val extraData = bundleOf(
+            "action" to Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            "request_code" to REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION
+        )
+        startSettingsActivity(R.string.eb_permission_system_alert_window, extraData)
     }
 
     private fun requestRuntimePermissions() {
@@ -132,12 +136,20 @@ class PermissionFragment : EBFragment() {
     }
 
     private fun requestRuntimePermissionsDeniedForever() {
-        startSettingsActivity(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER)
-        AppHelper.toast(requireContext(), R.string.eb_permission_hint)
+        val extraData = bundleOf(
+            "action" to Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            "request_code" to REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER
+        )
+        startSettingsActivity(R.string.eb_permission_denied_forever, extraData)
     }
 
-    private fun startSettingsActivity(action: String, requestCode: Int) {
+    private fun startSettingsActivity(messageStringId: Int, extraData: Bundle) {
+        PermissionDialogFragment.start(childFragmentManager, getString(messageStringId), extraData)
+    }
+
+    override fun onOk(extraData: Bundle) {
+        val action = extraData.getString("action") ?: throw RuntimeException()
+        val requestCode = extraData.getInt("request_code")
         if (!IntentHelper.startSettingsFromFragment(this, action, requestCode)) {
             onPermissionsResult(false)
         }

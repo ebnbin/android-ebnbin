@@ -2,6 +2,7 @@ package com.ebnbin.eb.crash
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -10,6 +11,7 @@ import androidx.core.content.getSystemService
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.R
+import com.ebnbin.eb.dev.EBReport
 import kotlinx.android.synthetic.main.eb_crash_activity.*
 
 /**
@@ -32,7 +34,7 @@ internal class CrashActivity : AppCompatActivity() {
         eb_icon.setOnLongClickListener {
             eb_icon.setOnLongClickListener(null)
             eb_log_view.visibility = View.VISIBLE
-            val log = CustomActivityOnCrash.getAllErrorDetailsFromIntent(this, intent)
+            val log = getLog(intent)
             eb_copy_view.setOnClickListener {
                 val clipboardManager = getSystemService<ClipboardManager>() ?: return@setOnClickListener
                 clipboardManager.primaryClip = ClipData.newPlainText(CrashActivity::class.java.name, log)
@@ -51,6 +53,15 @@ internal class CrashActivity : AppCompatActivity() {
         if (BuildConfig.DEBUG) {
             eb_icon.performLongClick()
         }
+    }
+
+    private fun getLog(intent: Intent): CharSequence {
+        val ebReport = try {
+            EBReport().toString()
+        } catch (throwable: Throwable) {
+            "ERROR"
+        }
+        return "$ebReport\nStack trace:\n${CustomActivityOnCrash.getStackTraceFromIntent(intent)}"
     }
 
     override fun onBackPressed() {

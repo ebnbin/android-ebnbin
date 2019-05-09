@@ -1,6 +1,7 @@
 package com.ebnbin.eb.dev
 
 import android.os.Build
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DeviceHelper
 import com.ebnbin.eb.util.EBModel
@@ -32,4 +33,8 @@ open class EBReport : EBModel {
     val density: Float = ResHelper.density
 
     val displayRealSizeDp: String = WindowHelper.displayRealSize.run { "${width0 / density}x${height0 / density}" }
+
+    override fun toString(): String {
+        return "${Libraries.gson.toJson(this)}\n"
+    }
 }

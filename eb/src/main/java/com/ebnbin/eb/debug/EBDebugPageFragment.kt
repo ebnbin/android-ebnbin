@@ -5,8 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.async.DialogLoading
-import com.ebnbin.eb.crash.CrashRuntimeException
 import com.ebnbin.eb.dialog.DialogCancel
+import com.ebnbin.eb.exception.CrashRuntimeException
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.IntentHelper
@@ -27,7 +27,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("Calling Activity", callingActivity)
 
         addDebugItem("About") {
-            IntentHelper.startFragmentFromFragment(this, AboutFragment.createIntent())
+            IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
         }
 
         addDebugItem("异步任务", "5 秒后完成，可按返回键取消") {
