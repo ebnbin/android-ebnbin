@@ -181,8 +181,14 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
     }
 
     override fun putPosition(layoutWidth: Int, layoutHeight: Int, layoutX: Int, layoutY: Int) {
-        // TODO: NaN.
-        fun calcPositionPercent(position: Int, range: Int, percentOffset: Int, isOutEnabled: Boolean): Int {
+        fun calcPositionPercent(
+            position: Int,
+            range: Int,
+            percentOffset: Int,
+            isOutEnabled: Boolean,
+            defaultValue: Int
+        ): Int {
+            if (range <= 0) return defaultValue
             var positionPercent = (position.toFloat() / range * 100f).roundToInt() + percentOffset
             positionPercent = min(positionPercent, if (isOutEnabled) 199 else 100)
             positionPercent = max(positionPercent, if (isOutEnabled) -99 else 0)
@@ -214,7 +220,8 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
                 xPercentOffset = 100
             }
         }
-        val xPercent = calcPositionPercent(xPosition, xRange, xPercentOffset, ProfileHelper.is_out_enabled.value)
+        val xPercent = calcPositionPercent(xPosition, xRange, xPercentOffset, ProfileHelper.is_out_enabled.value,
+            ProfileHelper.x().value)
 
         val yMin = 0
         val yMax = displaySize.height - layoutHeight
@@ -238,7 +245,8 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
                 yPercentOffset = 100
             }
         }
-        val yPercent = calcPositionPercent(yPosition, yRange, yPercentOffset, ProfileHelper.is_out_enabled.value)
+        val yPercent = calcPositionPercent(yPosition, yRange, yPercentOffset, ProfileHelper.is_out_enabled.value,
+            ProfileHelper.y().value)
 
         if (xPercent != ProfileHelper.x().value || yPercent != ProfileHelper.y().value) {
             ProfileHelper.putXY(xPercent, yPercent)
