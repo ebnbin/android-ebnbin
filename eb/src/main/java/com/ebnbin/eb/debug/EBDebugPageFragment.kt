@@ -15,16 +15,16 @@ import com.ebnbin.eb.util.IntentHelper
  * Debug EB 页面.
  */
 internal class EBDebugPageFragment : BaseDebugPageFragment() {
-    private var calling: String? = null
+    private lateinit var callingActivity: String
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        calling = activityExtras.getString(DebugFragment.KEY_CALLING)
+        callingActivity = activityExtras.getString(DebugFragment.KEY_CALLING_ACTIVITY) ?: throw RuntimeException()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addDebugItem("Calling", calling.toString())
+        addDebugItem("Calling Activity", callingActivity)
 
         addDebugItem("About") {
             IntentHelper.startFragmentFromFragment(this, AboutFragment.createIntent())
@@ -55,10 +55,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
             AppHelper.setNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
 
-        addDebugItem("重置偏好", "TODO") {
-            // 删除 sp 后重启到 MainActivity, 在 Application 中保存的偏好不会被初始化 (如: version_code), 需要在 MainActivity
-            // 中处理.
-        }
+        addDebugItem("重置偏好", "TODO")
 
         addDebugItem("重启应用") {
             IntentHelper.restartApp()

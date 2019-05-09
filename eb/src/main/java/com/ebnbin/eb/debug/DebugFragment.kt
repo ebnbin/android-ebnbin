@@ -76,13 +76,13 @@ internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, Vi
     }
 
     companion object {
-        internal const val KEY_CALLING = "calling"
+        internal const val KEY_CALLING_ACTIVITY = "calling_activity"
 
         fun start(ebActivity: EBActivity): Boolean {
             val intent = Intent()
                 .putExtra(EBActivity.KEY_THEME_STYLE_ID, R.style.EBTheme_Debug)
                 .putExtra(EBActivity.KEY_FRAGMENT_CLASS, DebugFragment::class.java)
-                .putExtra(KEY_CALLING, ebActivity.toString())
+                .putExtra(KEY_CALLING_ACTIVITY, ebActivity.toString())
             return IntentHelper.startFragmentFromActivity(ebActivity, intent)
         }
     }

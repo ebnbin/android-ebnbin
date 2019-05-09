@@ -8,6 +8,8 @@ import android.provider.Settings
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
+import com.ebnbin.eb.dev.DevHelper
+import com.ebnbin.eb.exception.WTFRuntimeException
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.fragment.removeSelf
@@ -30,13 +32,13 @@ class PermissionFragment : EBFragment() {
      * 权限结果回调.
      */
     interface Callback {
-        fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: HashMap<*, *>)
+        fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle)
     }
 
     //*****************************************************************************************************************
 
     private lateinit var permissions: ArrayList<String>
-    private lateinit var extraData: HashMap<*, *>
+    private lateinit var extraData: Bundle
 
     private var hasSystemAlertWindowPermission: Boolean = false
     private lateinit var runtimePermissions: List<String>
@@ -44,9 +46,8 @@ class PermissionFragment : EBFragment() {
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
         permissions = arguments.getStringArrayList("permissions") ?: throw RuntimeException()
-        extraData = arguments.getSerializable(Consts.EXTRA_DATA) as HashMap<*, *>
+        extraData = arguments.getBundle(Consts.KEY_EXTRA_DATA) ?: throw RuntimeException()
 
-        // 没有重复的权限.
         val validPermissions = LinkedHashSet(permissions)
         hasSystemAlertWindowPermission = validPermissions.remove(Manifest.permission.SYSTEM_ALERT_WINDOW)
         this.runtimePermissions = ArrayList(validPermissions)
@@ -161,6 +162,7 @@ class PermissionFragment : EBFragment() {
             REQUEST_CODE_RUNTIME_PERMISSIONS -> {
                 if (grantResults.isEmpty()) {
                     // 正常情况下不应该发生.
+                    DevHelper.report(WTFRuntimeException("grantResults isEmpty"))
                 } else {
                     checkRuntimePermissions(CheckRuntimePermissions.REQUEST_RESULT)
                 }
@@ -187,11 +189,11 @@ class PermissionFragment : EBFragment() {
         fun start(
             fm: FragmentManager,
             permissions: ArrayList<String>,
-            extraData: HashMap<*, *> = hashMapOf<Any?, Any?>()
+            extraData: Bundle = Bundle.EMPTY
         ): PermissionFragment {
             return FragmentHelper.add(fm, PermissionFragment::class.java, arguments = bundleOf(
                 "permissions" to permissions,
-                Consts.EXTRA_DATA to extraData
+                Consts.KEY_EXTRA_DATA to extraData
             ))
         }
     }

@@ -10,7 +10,6 @@ import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.update.UpdateFragment
-import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.windowcamera.R
@@ -64,13 +63,9 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
     override fun onPageScrollStateChanged(state: Int) {
     }
 
-    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: HashMap<*, *>) {
-        when (extraData[Consts.CALLING_ID]) {
-            "WindowCameraService" -> {
-                if (granted) {
-                    WindowCameraService.start(requireContext())
-                }
-            }
+    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
+        if (granted) {
+            WindowCameraService.start(requireContext())
         }
     }
 
@@ -96,9 +91,7 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
             imageDrawableId = R.drawable.main_camera
             backgroundTintAttrId = R.attr.colorPrimary
             onClickListener = View.OnClickListener {
-                PermissionFragment.start(childFragmentManager, WindowCameraService.permissions, hashMapOf(
-                    Consts.CALLING_ID to "WindowCameraService"
-                ))
+                PermissionFragment.start(childFragmentManager, WindowCameraService.permissions)
             }
         }
         floating_action_button.isEnabled = true

@@ -15,7 +15,7 @@ internal class UpdateDialogFragment : EBDialogFragment() {
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        update = arguments.getSerializable(KEY_UPDATE) as Update
+        update = arguments.getSerializable("update") as Update
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -47,14 +47,13 @@ internal class UpdateDialogFragment : EBDialogFragment() {
     }
 
     companion object {
-        private const val KEY_UPDATE = "update"
-
-        fun start(fm: FragmentManager, update: Update) {
+        fun start(fm: FragmentManager, update: Update): UpdateDialogFragment {
             val fragment = UpdateDialogFragment()
             fragment.arguments = bundleOf(
-                KEY_UPDATE to update
+                "update" to update
             )
             fragment.show(fm, UpdateDialogFragment::class.java.name)
+            return fragment
         }
     }
 }
