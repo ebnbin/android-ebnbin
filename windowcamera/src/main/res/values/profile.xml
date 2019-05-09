@@ -156,6 +156,5 @@
     <eat-comment/>
 
     <string name="profile_path" translatable="false">path</string>
-    <string name="profile_path_title">存储路径</string>
-    <string name="profile_path_summary">应用卸载后文件会被删除。\n%1$s</string>
+    <string name="profile_path_title">存储路径。\n应用卸载后文件会被删除</string>
 </resources>

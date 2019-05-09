@@ -10,7 +10,10 @@ import com.ebnbin.windowcamera.profile.fragment.CameraProfileFragment
 import com.ebnbin.windowcamera.profile.fragment.OtherProfileFragment
 import com.ebnbin.windowcamera.profile.fragment.WindowProfileFragment
 
-class MainPagerAdapter(private val context: Context, private val fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class MainPagerAdapter(
+    private val context: Context,
+    private val fm: FragmentManager
+) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val pages: List<Pair<Class<out Fragment>, CharSequence>> =
         ArrayList<Pair<Class<out Fragment>, CharSequence>>().apply {
             add(Pair(WindowProfileFragment::class.java, context.getString(R.string.window)))

@@ -12,7 +12,7 @@ class OtherProfileFragment : BaseProfileFragment() {
         setPreferencesFromResource(R.xml.profile_other_fragment, rootKey)
 
         findPreference<Preference>(ProfileHelper.path.key)?.run {
-            summary = getString(R.string.profile_path_summary, IOHelper.getPath().toString())
+            summary = IOHelper.getPath().toString()
         }
     }
 }

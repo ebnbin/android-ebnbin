@@ -29,7 +29,7 @@ object AppHelper {
         }
     }
 
-    fun setNightMode(nightMode: Int, restartMainActivity: Boolean = true) {
+    fun setNightMode(nightMode: Int, restartMainActivity: Boolean = false) {
         if (nightMode == EBSpManager.night_mode.value) return
         EBSpManager.night_mode.value = nightMode
         AppCompatDelegate.setDefaultNightMode(nightMode)
