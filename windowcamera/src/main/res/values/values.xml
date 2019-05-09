@@ -8,8 +8,7 @@
     <string name="other">其它</string>
     <string name="stop_window_camera_service">点击关闭窗口相机</string>
 
-    <string name="camera_error">相机异常。</string>
-
+    <string name="camera_error_splash">相机异常</string>
     <string name="camera_error_disconnected">相机已断开连接</string>
     <string name="camera_error_code">相机异常（%1$d）</string>
     <string name="camera_error_photo_preview">照片预览异常</string>

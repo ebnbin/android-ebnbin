@@ -15,11 +15,14 @@ class SplashFragment : EBSplashFragment() {
         super.onCreate(savedInstanceState)
         try {
             if (!CameraHelper.isValid()) throw RuntimeException()
-            DevHelper.report(Report())
-            IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
         } catch (throwable: Throwable) {
-            AppHelper.toast(requireContext(), R.string.camera_error)
+            DevHelper.report(throwable)
+            AppHelper.toast(requireContext(), R.string.camera_error_splash)
+            finish()
+            return
         }
+        DevHelper.report(Report())
+        IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
         finish()
     }
 
