@@ -13,7 +13,6 @@ import android.view.Surface
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
-import com.ebnbin.windowcamera.camera.CameraHelper.isValid
 
 /**
  * 相机帮助类.
@@ -25,7 +24,7 @@ import com.ebnbin.windowcamera.camera.CameraHelper.isValid
  * 需要 camera 权限.
  */
 @Suppress("DEPRECATION")
-object CameraHelper {
+class CameraHelper private constructor() {
     private fun StringBuilder.append(key: String, value: Any?): StringBuilder {
         return append("$key:$value,")
     }
@@ -43,20 +42,6 @@ object CameraHelper {
         }
         return sb.toString()
     }
-
-    //*****************************************************************************************************************
-
-    private val CAMCORDER_PROFILE_QUALITIES = listOf(
-        CamcorderProfile.QUALITY_2160P,
-        CamcorderProfile.QUALITY_1080P,
-        CamcorderProfile.QUALITY_720P,
-        CamcorderProfile.QUALITY_480P,
-        CamcorderProfile.QUALITY_CIF,
-        CamcorderProfile.QUALITY_QVGA,
-        CamcorderProfile.QUALITY_QCIF,
-        CamcorderProfile.QUALITY_HIGH,
-        CamcorderProfile.QUALITY_LOW
-    )
 
     //*****************************************************************************************************************
 
@@ -398,5 +383,21 @@ object CameraHelper {
                     previewResolutions.isNotEmpty() &&
                     videoProfiles.isNotEmpty()
         }
+    }
+
+    companion object {
+        val instance: CameraHelper by lazy { CameraHelper() }
+
+        private val CAMCORDER_PROFILE_QUALITIES = listOf(
+            CamcorderProfile.QUALITY_2160P,
+            CamcorderProfile.QUALITY_1080P,
+            CamcorderProfile.QUALITY_720P,
+            CamcorderProfile.QUALITY_480P,
+            CamcorderProfile.QUALITY_CIF,
+            CamcorderProfile.QUALITY_QVGA,
+            CamcorderProfile.QUALITY_QCIF,
+            CamcorderProfile.QUALITY_HIGH,
+            CamcorderProfile.QUALITY_LOW
+        )
     }
 }

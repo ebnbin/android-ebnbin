@@ -61,7 +61,7 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
 
     private fun onPermissionsGranted() {
         try {
-            if (!CameraHelper.isValid()) throw RuntimeException()
+            if (!CameraHelper.instance.isValid()) throw RuntimeException()
         } catch (throwable: Throwable) {
             DevHelper.report(throwable)
             AppHelper.toast(requireContext(), R.string.camera_error_splash)

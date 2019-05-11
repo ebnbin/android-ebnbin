@@ -33,13 +33,13 @@ object ProfileHelper {
     val is_front: Sp<Boolean> = ProfileSp(R.string.profile_is_front, res.getBoolean(R.bool.profile_is_front_default_value))
     val is_video: Sp<Boolean> = ProfileSp(R.string.profile_is_video, res.getBoolean(R.bool.profile_is_video_default_value))
     val back_photo: Sp<Unit> = ProfileSp(R.string.profile_back_photo, Unit)
-    val back_photo_resolution: Sp<String> = ProfileSp(R.string.profile_back_photo_resolution) { CameraHelper.backDevice.defaultPhotoResolution.entryValue }
+    val back_photo_resolution: Sp<String> = ProfileSp(R.string.profile_back_photo_resolution) { CameraHelper.instance.backDevice.defaultPhotoResolution.entryValue }
     val back_video: Sp<Unit> = ProfileSp(R.string.profile_back_video, Unit)
-    val back_video_profile: Sp<String> = ProfileSp(R.string.profile_back_video_profile) { CameraHelper.backDevice.defaultVideoProfile.entryValue }
+    val back_video_profile: Sp<String> = ProfileSp(R.string.profile_back_video_profile) { CameraHelper.instance.backDevice.defaultVideoProfile.entryValue }
     val front_photo: Sp<Unit> = ProfileSp(R.string.profile_front_photo, Unit)
-    val front_photo_resolution: Sp<String> = ProfileSp(R.string.profile_front_photo_resolution) { CameraHelper.frontDevice.defaultPhotoResolution.entryValue }
+    val front_photo_resolution: Sp<String> = ProfileSp(R.string.profile_front_photo_resolution) { CameraHelper.instance.frontDevice.defaultPhotoResolution.entryValue }
     val front_video: Sp<Unit> = ProfileSp(R.string.profile_front_video, Unit)
-    val front_video_profile: Sp<String> = ProfileSp(R.string.profile_front_video_profile) { CameraHelper.frontDevice.defaultVideoProfile.entryValue }
+    val front_video_profile: Sp<String> = ProfileSp(R.string.profile_front_video_profile) { CameraHelper.instance.frontDevice.defaultVideoProfile.entryValue }
 
     val path: Sp<Unit> = ProfileSp(R.string.profile_path, Unit)
 
@@ -68,24 +68,24 @@ object ProfileHelper {
     }
 
     fun device(): CameraHelper.Device {
-        return if (is_front.value) CameraHelper.frontDevice else CameraHelper.backDevice
+        return if (is_front.value) CameraHelper.instance.frontDevice else CameraHelper.instance.backDevice
     }
 
     fun photoResolution(): CameraHelper.Device.Resolution {
         if (is_video.value) throw RuntimeException()
         return if (is_front.value) {
-            CameraHelper.frontDevice.getPhotoResolution(front_photo_resolution.value)
+            CameraHelper.instance.frontDevice.getPhotoResolution(front_photo_resolution.value)
         } else {
-            CameraHelper.backDevice.getPhotoResolution(back_photo_resolution.value)
+            CameraHelper.instance.backDevice.getPhotoResolution(back_photo_resolution.value)
         }
     }
 
     fun videoProfile(): CameraHelper.Device.VideoProfile {
         if (!is_video.value) throw RuntimeException()
         return if (is_front.value) {
-            CameraHelper.frontDevice.getVideoProfile(front_video_profile.value)
+            CameraHelper.instance.frontDevice.getVideoProfile(front_video_profile.value)
         } else {
-            CameraHelper.backDevice.getVideoProfile(back_video_profile.value)
+            CameraHelper.instance.backDevice.getVideoProfile(back_video_profile.value)
         }
     }
 
