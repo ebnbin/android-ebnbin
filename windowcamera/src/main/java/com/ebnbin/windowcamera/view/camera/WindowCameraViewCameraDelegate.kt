@@ -173,7 +173,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val outputs = listOf(surfaceTextureSurface, imageReaderSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
-                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
+                if (innerCameraDevice == null) {
+                    onCameraError(CameraException(""))
+                    return
+                }
+                val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
                 captureRequestBuilder.addTarget(surfaceTextureSurface)
                 val request = captureRequestBuilder.build()
                 session.setRepeatingRequest(request, null, null)
@@ -248,7 +253,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val outputs = listOf(surfaceTextureSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
-                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
+                if (innerCameraDevice == null) {
+                    onCameraError(CameraException(""))
+                    return
+                }
+                val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
                 captureRequestBuilder.addTarget(surfaceTextureSurface)
                 val request = captureRequestBuilder.build()
                 session.setRepeatingRequest(request, null, null)
@@ -311,7 +321,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val outputs = listOf(surfaceTextureSurface, mediaRecorderSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
-                val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
+                val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
+                if (innerCameraDevice == null) {
+                    onCameraError(CameraException(""))
+                    return
+                }
+                val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
                 captureRequestBuilder.addTarget(surfaceTextureSurface)
                 captureRequestBuilder.addTarget(mediaRecorderSurface)
                 val request = captureRequestBuilder.build()
@@ -412,7 +427,9 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
      */
     private fun onCameraError(exception: CameraException) {
         DevHelper.report(exception)
-        AppHelper.toast(callback.getContext(), exception.text)
+        if (exception.text.isNotEmpty()) {
+            AppHelper.toast(callback.getContext(), exception.text)
+        }
         WindowCameraService.stop(callback.getContext())
     }
 }
