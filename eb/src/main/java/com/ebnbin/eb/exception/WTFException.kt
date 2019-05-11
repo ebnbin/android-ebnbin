@@ -1,6 +1,6 @@
 package com.ebnbin.eb.exception
 
-open class WTFRuntimeException : RuntimeException {
+open class WTFException : RuntimeException {
     constructor() : super()
     constructor(message: String?) : super(message)
     constructor(message: String?, cause: Throwable?) : super(message, cause)

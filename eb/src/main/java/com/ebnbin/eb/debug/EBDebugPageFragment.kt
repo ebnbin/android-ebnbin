@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.async.DialogLoading
 import com.ebnbin.eb.dialog.Cancel
-import com.ebnbin.eb.exception.CrashRuntimeException
+import com.ebnbin.eb.exception.CrashException
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.IntentHelper
@@ -66,7 +66,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         }
 
         addDebugItem("Crash") {
-            throw CrashRuntimeException()
+            throw CrashException()
         }
     }
 }

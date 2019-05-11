@@ -15,9 +15,9 @@ import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.camera.exception.CameraDisconnectedRuntimeException
-import com.ebnbin.windowcamera.camera.exception.CameraRuntimeException
-import com.ebnbin.windowcamera.camera.exception.CameraStopVideoCaptureStopRepeatingRuntimeException
+import com.ebnbin.windowcamera.camera.exception.CameraDisconnectedException
+import com.ebnbin.windowcamera.camera.exception.CameraException
+import com.ebnbin.windowcamera.camera.exception.CameraStopVideoCaptureStopRepeatingException
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -86,7 +86,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onDisconnected(camera: CameraDevice) {
-                onCameraError(CameraDisconnectedRuntimeException())
+                onCameraError(CameraDisconnectedException())
             }
 
             override fun onError(camera: CameraDevice, error: Int) {
@@ -349,7 +349,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                DevHelper.report(CameraStopVideoCaptureStopRepeatingRuntimeException(e))
+                DevHelper.report(CameraStopVideoCaptureStopRepeatingException(e))
             }
             try {
                 close()
@@ -387,7 +387,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
      * 相机异常.
      */
     private fun onCameraError(string: String) {
-        DevHelper.report(CameraRuntimeException(string))
+        DevHelper.report(CameraException(string))
         AppHelper.toast(callback.getContext(), string)
         WindowCameraService.stop(callback.getContext())
     }
@@ -395,7 +395,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     /**
      * 相机异常.
      */
-    private fun onCameraError(exception: CameraRuntimeException) {
+    private fun onCameraError(exception: CameraException) {
         DevHelper.report(exception)
         AppHelper.toast(callback.getContext(), exception.text)
         WindowCameraService.stop(callback.getContext())

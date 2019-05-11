@@ -13,7 +13,7 @@ import com.ebnbin.eb.R
 import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.dialog.SimpleDialogFragment
-import com.ebnbin.eb.exception.WTFRuntimeException
+import com.ebnbin.eb.exception.WTFException
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.fragment.removeSelf
@@ -226,7 +226,7 @@ class PermissionFragment : EBFragment(), SimpleDialogFragment.Callback {
             REQUEST_CODE_RUNTIME_PERMISSIONS -> {
                 if (grantResults.isEmpty()) {
                     // 正常情况下不应该发生.
-                    DevHelper.report(WTFRuntimeException("grantResults isEmpty"))
+                    DevHelper.report(WTFException("grantResults isEmpty"))
                 } else {
                     checkRuntimePermissions(CheckRuntimePermissions.REQUEST_RESULT)
                 }

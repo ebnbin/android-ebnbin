@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="splash_message">应用需要相机权限才能正常运行 ^_^</string>
-    <string name="splash_positive">好的</string>
-    <string name="splash_negative">退出应用</string>
+    <string name="splash_permission_message">应用需要相机权限才能正常运行 ^_^</string>
+    <string name="splash_permission_positive">好的</string>
+    <string name="splash_permission_negative">退出应用</string>
+
+    <string name="splash_camera_message">抱歉！检测相机时发生异常。错误日志已上报，我会尽快修复的 &#62;_&#60;</string>
+    <string name="splash_camera_positive">退出应用</string>
 </resources>

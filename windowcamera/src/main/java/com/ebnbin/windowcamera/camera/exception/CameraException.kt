@@ -1,6 +1,6 @@
 package com.ebnbin.windowcamera.camera.exception
 
-open class CameraRuntimeException : RuntimeException {
+open class CameraException : RuntimeException {
     val text: String
 
     constructor(message: String) : super(message) {
