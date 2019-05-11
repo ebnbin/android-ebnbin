@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="splash_message">应用需要相机权限才能正常运行 ^_^</string>
+    <string name="splash_positive">好的</string>
+    <string name="splash_negative">退出应用</string>
+</resources>

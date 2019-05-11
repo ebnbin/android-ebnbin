@@ -90,7 +90,7 @@ class SimpleDialogFragment : EBDialogFragment() {
         fun start(
             fm: FragmentManager,
             builder: Builder,
-            tag: String = SimpleDialogFragment::class.java.name,
+            tag: String,
             extraData: Bundle = Bundle.EMPTY
         ): SimpleDialogFragment {
             return FragmentHelper.add(fm, SimpleDialogFragment::class.java, tag = tag, arguments = bundleOf(

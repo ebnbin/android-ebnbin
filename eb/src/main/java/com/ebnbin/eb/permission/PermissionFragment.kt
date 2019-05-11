@@ -180,7 +180,7 @@ class PermissionFragment : EBFragment(), SimpleDialogFragment.Callback {
             positive = getString(R.string.eb_permission_dialog_positive),
             negative = getString(R.string.eb_permission_dialog_negative),
             cancel = Cancel.NOT_CANCELABLE
-        ), extraData = extraData)
+        ), "permission", extraData)
     }
 
     override fun onDialogPositive(extraData: Bundle): Boolean {

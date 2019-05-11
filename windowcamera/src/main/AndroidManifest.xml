@@ -15,7 +15,7 @@
         tools:replace="android:name">
         <activity
             android:name=".splash.SplashActivity"
-            android:theme="@style/EBSplashTheme"
+            android:theme="@style/EBTheme.Splash"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
