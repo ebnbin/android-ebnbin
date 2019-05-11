@@ -1,0 +1,1 @@
+* Old camera report
