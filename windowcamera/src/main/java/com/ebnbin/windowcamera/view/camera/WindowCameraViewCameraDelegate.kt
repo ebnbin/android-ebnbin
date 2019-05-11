@@ -17,6 +17,7 @@ import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.exception.CameraDisconnectedRuntimeException
 import com.ebnbin.windowcamera.camera.exception.CameraRuntimeException
+import com.ebnbin.windowcamera.camera.exception.CameraStopVideoCaptureStopRepeatingRuntimeException
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -348,7 +349,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                DevHelper.report(CameraStopVideoCaptureStopRepeatingRuntimeException(e))
             }
             try {
                 close()
