@@ -15,7 +15,8 @@ import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.camera.CameraRuntimeException
+import com.ebnbin.windowcamera.camera.exception.CameraDisconnectedRuntimeException
+import com.ebnbin.windowcamera.camera.exception.CameraRuntimeException
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -84,8 +85,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onDisconnected(camera: CameraDevice) {
-                // 通常发生在通过别的应用启动相机时.
-                onCameraError(res.getString(R.string.camera_error_disconnected))
+                onCameraError(CameraDisconnectedRuntimeException())
             }
 
             override fun onError(camera: CameraDevice, error: Int) {
@@ -386,8 +386,17 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
      * 相机异常.
      */
     private fun onCameraError(string: String) {
+        DevHelper.report(CameraRuntimeException(string))
         AppHelper.toast(callback.getContext(), string)
         WindowCameraService.stop(callback.getContext())
-        DevHelper.report(CameraRuntimeException(string))
+    }
+
+    /**
+     * 相机异常.
+     */
+    private fun onCameraError(exception: CameraRuntimeException) {
+        DevHelper.report(exception)
+        AppHelper.toast(callback.getContext(), exception.text)
+        WindowCameraService.stop(callback.getContext())
     }
 }
