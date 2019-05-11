@@ -103,6 +103,8 @@ class CameraHelper private constructor() : EBModel {
         @Transient
         private val oldParameters: Camera.Parameters = oldCamera.parameters
 
+        private val oldPreferredPreviewSizeForVideo: Camera.Size? = oldParameters.preferredPreviewSizeForVideo
+
         init {
             oldCamera.release()
         }
@@ -218,10 +220,20 @@ class CameraHelper private constructor() : EBModel {
 
         val previewResolutions: List<Resolution> = run {
             val displayRealSize = WindowHelper.displayRealSize
+            val preferredPreviewResolution = oldPreferredPreviewSizeForVideo?.let {
+                Resolution(it.width, it.height, sensorOrientation)
+            }
             val linkedHashSet = LinkedHashSet<Resolution>()
             (surfaceTextureSizes ?: emptyArray())
                 .filter { it.width > 0 && it.height > 0 }
                 .map { Resolution(it.width, it.height, sensorOrientation) }
+                .filter {
+                    if (preferredPreviewResolution == null) {
+                        true
+                    } else {
+                        it.isWidthHeightLessOrEquals(preferredPreviewResolution)
+                    }
+                }
                 .sorted()
                 .run outer@{
                     forEach {
@@ -234,23 +246,10 @@ class CameraHelper private constructor() : EBModel {
                 .toList()
         }
 
-        private var defaultPreviewResolution: Resolution? = null
-        init {
-            if (previewResolutions.isNotEmpty()) {
-                val maxPreviewResolution = previewResolutions.first()
-                val rotationSize1080 = if (maxPreviewResolution.isLandscape) {
-                    RotationSize(1920, 1080, maxPreviewResolution.rotation)
-                } else {
-                    RotationSize(1080, 1920, maxPreviewResolution.rotation)
-                }
-                defaultPreviewResolution = previewResolutions.firstOrNull {
-                    it.isWidthHeightLessOrEquals(rotationSize1080)
-                } ?: maxPreviewResolution
-            }
-        }
-
-        fun requireDefaultPreviewResolution(): Resolution {
-            return defaultPreviewResolution ?: throw RuntimeException()
+        fun getPreviewResolution(captureResolution: Resolution): Resolution {
+            return previewResolutions
+                .firstOrNull { it.ratio == captureResolution.ratio }
+                ?: previewResolutions.first()
         }
 
         //*************************************************************************************************************

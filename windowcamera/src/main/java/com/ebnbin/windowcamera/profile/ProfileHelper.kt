@@ -98,7 +98,7 @@ object ProfileHelper {
     }
 
     fun previewResolution(): CameraHelper.Device.Resolution {
-        return device().requireDefaultPreviewResolution()
+        return device().getPreviewResolution(resolution())
     }
 
     //*****************************************************************************************************************

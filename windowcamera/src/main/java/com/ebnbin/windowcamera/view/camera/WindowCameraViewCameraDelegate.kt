@@ -40,22 +40,22 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ProfileHelper.is_front.key -> {
-                reopenCamera()
+                reopenCamera(false)
             }
             ProfileHelper.is_video.key -> {
-                restartPreview(true)
+                reopenCamera(true)
             }
             ProfileHelper.back_photo_resolution.key -> {
-                restartPreview()
+                reopenCamera(false)
             }
             ProfileHelper.back_video_profile.key -> {
-                restartPreview()
+                reopenCamera(false)
             }
             ProfileHelper.front_photo_resolution.key -> {
-                restartPreview()
+                reopenCamera(false)
             }
             ProfileHelper.front_video_profile.key -> {
-                restartPreview()
+                reopenCamera(false)
             }
         }
     }
@@ -96,29 +96,10 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     }
 
     override fun closeCamera() {
-        if (ProfileHelper.is_video.value) {
-            stopVideoPreview()
-        } else {
-            stopPhotoPreview()
-        }
-
-        cameraDevice?.run {
-            cameraDevice = null
-            close()
-        }
-
-        ProfileHelper.cameraState = CameraState.CLOSED
+        closeCamera(false)
     }
 
-    private fun reopenCamera() {
-        closeCamera()
-        callback.invalidateSizePosition()
-        openCamera()
-    }
-
-    //*****************************************************************************************************************
-
-    private fun restartPreview(isVideoChanged: Boolean = false) {
+    private fun closeCamera(isVideoChanged: Boolean) {
         if (isVideoChanged) {
             if (ProfileHelper.is_video.value) {
                 stopPhotoPreview()
@@ -132,12 +113,19 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 stopPhotoPreview()
             }
         }
-        callback.invalidateSizePosition()
-        if (ProfileHelper.is_video.value) {
-            startVideoPreview()
-        } else {
-            startPhotoPreview()
+
+        cameraDevice?.run {
+            cameraDevice = null
+            close()
         }
+
+        ProfileHelper.cameraState = CameraState.CLOSED
+    }
+
+    private fun reopenCamera(isVideoChanged: Boolean) {
+        closeCamera(isVideoChanged)
+        callback.invalidateSizePosition()
+        openCamera()
     }
 
     //*****************************************************************************************************************

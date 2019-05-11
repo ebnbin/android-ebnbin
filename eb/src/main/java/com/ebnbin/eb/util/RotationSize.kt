@@ -71,12 +71,6 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     //*****************************************************************************************************************
 
     /**
-     * 特殊地, 如果宽高相等则为 false.
-     */
-    @Transient
-    val isLandscape: Boolean = width > height
-
-    /**
      * 面积.
      */
     @Transient
