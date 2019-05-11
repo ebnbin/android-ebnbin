@@ -2,6 +2,7 @@ package com.ebnbin.windowcamera.camera
 
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
+import android.hardware.Camera
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraMetadata
 import android.hardware.camera2.params.StreamConfigurationMap
@@ -20,7 +21,10 @@ import com.ebnbin.windowcamera.camera.CameraHelper.isValid
  * 需要 try catch Throwable 避免 ExceptionInInitializerError.
  *
  * 在使用前必须调用 [isValid] 检测有效性.
+ *
+ * 需要 camera 权限.
  */
+@Suppress("DEPRECATION")
 object CameraHelper {
     private fun StringBuilder.append(key: String, value: Any?): StringBuilder {
         return append("$key:$value,")
@@ -131,6 +135,16 @@ object CameraHelper {
 
         private val cameraCharacteristics: CameraCharacteristics =
             SystemServices.cameraManager.getCameraCharacteristics(id)
+
+        //*************************************************************************************************************
+
+        private val oldCamera: Camera = Camera.open(oldId)
+
+        private val oldParameters: Camera.Parameters = oldCamera.parameters
+
+        init {
+            oldCamera.release()
+        }
 
         //*************************************************************************************************************
 
