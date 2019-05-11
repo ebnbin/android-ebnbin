@@ -26,10 +26,10 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDefaultValue(ProfileHelper.back_photo_resolution.getDefaultValue())
             findPreference<PreferenceGroup>(ProfileHelper.back_photo.key)?.addPreference(this)
             setTitle(R.string.profile_back_photo_resolution_title)
-            entryValues = CameraHelper.instance.backDevice.photoResolutions
+            entryValues = CameraHelper.instance.requireBackDevice().photoResolutions
                 .map { it.entryValue }
                 .toTypedArray()
-            entries = CameraHelper.instance.backDevice.photoResolutions
+            entries = CameraHelper.instance.requireBackDevice().photoResolutions
                 .map {
                     getString(R.string.profile_photo_resolution_entry, it.width, it.height, it.ratioWidth,
                         it.ratioHeight, it.megapixel)
@@ -50,10 +50,10 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDefaultValue(ProfileHelper.back_video_profile.getDefaultValue())
             findPreference<PreferenceGroup>(ProfileHelper.back_video.key)?.addPreference(this)
             setTitle(R.string.profile_back_video_profile_title)
-            entryValues = CameraHelper.instance.backDevice.videoProfiles
+            entryValues = CameraHelper.instance.requireBackDevice().videoProfiles
                 .map { it.entryValue }
                 .toTypedArray()
-            entries = CameraHelper.instance.backDevice.videoProfiles
+            entries = CameraHelper.instance.requireBackDevice().videoProfiles
                 .map {
                     getString(R.string.profile_video_profile_entry, it.width, it.height, it.ratioWidth, it.ratioHeight,
                         it.megapixel, it.qualityString)
@@ -74,10 +74,10 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDefaultValue(ProfileHelper.front_photo_resolution.getDefaultValue())
             findPreference<PreferenceGroup>(ProfileHelper.front_photo.key)?.addPreference(this)
             setTitle(R.string.profile_front_photo_resolution_title)
-            entryValues = CameraHelper.instance.frontDevice.photoResolutions
+            entryValues = CameraHelper.instance.requireFrontDevice().photoResolutions
                 .map { it.entryValue }
                 .toTypedArray()
-            entries = CameraHelper.instance.frontDevice.photoResolutions
+            entries = CameraHelper.instance.requireFrontDevice().photoResolutions
                 .map {
                     getString(R.string.profile_photo_resolution_entry, it.width, it.height, it.ratioWidth,
                         it.ratioHeight, it.megapixel)
@@ -97,10 +97,10 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDefaultValue(ProfileHelper.front_video_profile.getDefaultValue())
             findPreference<PreferenceGroup>(ProfileHelper.front_video.key)?.addPreference(this)
             setTitle(R.string.profile_front_video_profile_title)
-            entryValues = CameraHelper.instance.frontDevice.videoProfiles
+            entryValues = CameraHelper.instance.requireFrontDevice().videoProfiles
                 .map { it.entryValue }
                 .toTypedArray()
-            entries = CameraHelper.instance.frontDevice.videoProfiles
+            entries = CameraHelper.instance.requireFrontDevice().videoProfiles
                 .map {
                     getString(R.string.profile_video_profile_entry, it.width, it.height, it.ratioWidth, it.ratioHeight,
                         it.megapixel, it.qualityString)

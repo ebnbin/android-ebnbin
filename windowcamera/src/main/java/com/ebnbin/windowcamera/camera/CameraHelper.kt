@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.ebnbin.windowcamera.camera
 
 import android.graphics.ImageFormat
@@ -23,7 +25,6 @@ import com.ebnbin.eb.util.WindowHelper
  *
  * 需要 camera 权限.
  */
-@Suppress("DEPRECATION")
 class CameraHelper private constructor() {
     private fun StringBuilder.append(key: String, value: Any?): StringBuilder {
         return append("$key:$value,")
@@ -35,8 +36,8 @@ class CameraHelper private constructor() {
             append("{")
             append("ids", ids.joinToString(",", "[", "]"))
             append("devices", devices.joinToString(",", "[", "]"))
-            append("backDevice", if (::backDevice.isInitialized) backDevice.id else null)
-            append("frontDevice", if (::frontDevice.isInitialized) frontDevice.id else null)
+            append("backDevice", backDevice?.id)
+            append("frontDevice", frontDevice?.id)
             delete(length - 1, length)
             append("}")
         }
@@ -60,29 +61,32 @@ class CameraHelper private constructor() {
         }
     }
 
-    /**
-     * 为了方便调用, 使用 lateinit 修饰 [backDevice] 和 [frontDevice]. 在使用 CameraHelper 前需要调用 [isValid] 检测有效性.
-     */
-    lateinit var backDevice: Device
-        private set
-    lateinit var frontDevice: Device
-        private set
+    private var backDevice: Device? = null
+    private var frontDevice: Device? = null
     init {
         devices.forEach {
             if (!it.isValid()) return@forEach
             if (it.isFront) {
-                if (!this::frontDevice.isInitialized) frontDevice = it
+                if (frontDevice == null) frontDevice = it
             } else {
-                if (!this::backDevice.isInitialized) backDevice = it
+                if (backDevice == null) backDevice = it
             }
         }
+    }
+
+    fun requireBackDevice(): Device {
+        return backDevice ?: throw RuntimeException()
+    }
+
+    fun requireFrontDevice(): Device {
+        return frontDevice ?: throw RuntimeException()
     }
 
     /**
      * 在使用 CameraHelper 前必须调用.
      */
     fun isValid(): Boolean {
-        return this::backDevice.isInitialized && this::frontDevice.isInitialized
+        return backDevice != null && frontDevice != null
     }
 
     /**
@@ -104,13 +108,13 @@ class CameraHelper private constructor() {
                 append("sensorOrientations", sensorOrientations.joinToString(",", "[", "]"))
                 append("jpegSizes", jpegSizes?.joinToString(",", "[", "]"))
                 append("photoResolutions", photoResolutions.joinToString(",", "[", "]"))
-                append("defaultPhotoResolution", if (::defaultPhotoResolution.isInitialized) defaultPhotoResolution else null)
+                append("defaultPhotoResolution", defaultPhotoResolution)
                 append("surfaceTextureSizes", surfaceTextureSizes?.joinToString(",", "[", "]"))
                 append("previewResolutions", previewResolutions.joinToString(",", "[", "]"))
-                append("defaultPreviewResolution", if (::defaultPreviewResolution.isInitialized) defaultPreviewResolution else null)
+                append("defaultPreviewResolution", defaultPreviewResolution)
                 append("mediaRecorderSizes", mediaRecorderSizes?.joinToString(",", "[", "]"))
                 append("videoProfiles", videoProfiles.joinToString(",", "[", "]"))
-                append("defaultVideoProfile", if (::defaultVideoProfile.isInitialized) defaultVideoProfile else null)
+                append("defaultVideoProfile", defaultVideoProfile)
                 delete(length - 1, length)
                 append("}")
             }
@@ -184,12 +188,15 @@ class CameraHelper private constructor() {
                 .sortedDescending()
         }
 
-        lateinit var defaultPhotoResolution: Resolution
-            private set
+        private var defaultPhotoResolution: Resolution? = null
         init {
             if (photoResolutions.isNotEmpty()) {
                 defaultPhotoResolution = photoResolutions.first()
             }
+        }
+
+        fun requireDefaultPhotoResolution(): Resolution {
+            return defaultPhotoResolution ?: throw RuntimeException()
         }
 
         fun getPhotoResolution(entryValue: String): Resolution {
@@ -239,8 +246,7 @@ class CameraHelper private constructor() {
                 .toList()
         }
 
-        lateinit var defaultPreviewResolution: Resolution
-            private set
+        private var defaultPreviewResolution: Resolution? = null
         init {
             if (previewResolutions.isNotEmpty()) {
                 val maxPreviewResolution = previewResolutions.first()
@@ -253,6 +259,10 @@ class CameraHelper private constructor() {
                     it.isWidthHeightLessOrEquals(rotationSize1080)
                 } ?: maxPreviewResolution
             }
+        }
+
+        fun requireDefaultPreviewResolution(): Resolution {
+            return defaultPreviewResolution ?: throw RuntimeException()
         }
 
         //*************************************************************************************************************
@@ -272,8 +282,7 @@ class CameraHelper private constructor() {
                 .sortedDescending()
         }
 
-        lateinit var defaultVideoProfile: VideoProfile
-            private set
+        private var defaultVideoProfile: VideoProfile? = null
         init {
             if (videoProfiles.isNotEmpty()) {
                 defaultVideoProfile = videoProfiles.firstOrNull {
@@ -281,6 +290,10 @@ class CameraHelper private constructor() {
                             it.camcorderProfile.quality == CamcorderProfile.QUALITY_HIGH
                 } ?: videoProfiles.first()
             }
+        }
+
+        fun requireDefaultVideoProfile(): VideoProfile {
+            return defaultVideoProfile ?: throw RuntimeException()
         }
 
         fun getVideoProfile(entryValue: String): VideoProfile {
