@@ -5,7 +5,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.async.DialogLoading
-import com.ebnbin.eb.dialog.DialogCancel
+import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.fragment.removeSelf
@@ -48,7 +48,7 @@ class UpdateFragment : EBFragment() {
                 asyncHelper.githubGetJson(
                     Update::class.java,
                     "/update.json",
-                    DialogLoading(requireContext(), DialogCancel.NOT_CANCELED_ON_TOUCH_OUTSIDE),
+                    DialogLoading(requireContext(), Cancel.NOT_CANCELED_ON_TOUCH_OUTSIDE),
                     onSuccess = {
                         EBSpManager.last_update_timestamp.value = if (it.hasForceUpdate()) 0L else TimeHelper.long()
                         if (it.hasUpdate()) {

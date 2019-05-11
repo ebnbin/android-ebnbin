@@ -11,6 +11,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.dev.DevHelper
+import com.ebnbin.eb.dialog.Cancel
+import com.ebnbin.eb.dialog.SimpleDialogFragment
 import com.ebnbin.eb.exception.WTFRuntimeException
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.FragmentHelper
@@ -23,7 +25,7 @@ import com.ebnbin.eb.util.IntentHelper
 /**
  * 权限请求 Fragment.
  */
-class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
+class PermissionFragment : EBFragment(), SimpleDialogFragment.Callback {
     private lateinit var callback: Callback
 
     override fun onAttach(context: Context) {
@@ -173,15 +175,33 @@ class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
     }
 
     private fun startSettingsActivity(messageStringId: Int, extraData: Bundle) {
-        PermissionDialogFragment.start(childFragmentManager, getString(messageStringId), extraData)
+        SimpleDialogFragment.start(childFragmentManager, SimpleDialogFragment.Builder(
+            message = getString(messageStringId),
+            positive = getString(R.string.eb_permission_dialog_positive),
+            negative = getString(R.string.eb_permission_dialog_negative),
+            cancel = Cancel.NOT_CANCELABLE
+        ), extraData = extraData)
     }
 
-    override fun onOk(extraData: Bundle) {
+    override fun onDialogPositive(extraData: Bundle): Boolean {
         val action = extraData.getString("action") ?: throw RuntimeException()
         val requestCode = extraData.getInt("request_code")
         if (!IntentHelper.startSettingsFromFragment(this, action, requestCode)) {
             onPermissionsResult(false)
         }
+        return true
+    }
+
+    override fun onDialogNegative(extraData: Bundle): Boolean {
+        onPermissionsResult(false)
+        return true
+    }
+
+    override fun onDialogNeutral(extraData: Bundle): Boolean {
+        return true
+    }
+
+    override fun onDialogDismiss(extraData: Bundle) {
     }
 
     //*****************************************************************************************************************

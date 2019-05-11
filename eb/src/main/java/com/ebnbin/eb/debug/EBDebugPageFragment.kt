@@ -5,7 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.async.DialogLoading
-import com.ebnbin.eb.dialog.DialogCancel
+import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.exception.CrashRuntimeException
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.AppHelper
@@ -33,7 +33,7 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
         addDebugItem("异步任务", "5 秒后完成，可按返回键取消") {
             asyncHelper.task(
                 { Thread.sleep(5000L) },
-                DialogLoading(requireContext(), DialogCancel.NOT_CANCELED_ON_TOUCH_OUTSIDE),
+                DialogLoading(requireContext(), Cancel.NOT_CANCELED_ON_TOUCH_OUTSIDE),
                 onSuccess = {
                     AppHelper.toast(requireContext(), "onSuccess")
                 },
