@@ -19,13 +19,11 @@
     <string name="profile_ratio_title">窗口宽高比</string>
     <string-array name="profile_ratio_entry_values" translatable="false">
         <item>capture</item>
-        <item>raw</item>
         <item>screen</item>
         <item>square</item>
     </string-array>
     <string-array name="profile_ratio_entries">
         <item>与拍摄比例相同，所见即所得</item>
-        <item>与最大照片分辨率比例相同，原始拍摄比例</item>
         <item>与屏幕比例相同</item>
         <item>正方形</item>
     </string-array>

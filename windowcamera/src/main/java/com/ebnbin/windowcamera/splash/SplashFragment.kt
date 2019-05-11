@@ -2,11 +2,14 @@ package com.ebnbin.windowcamera.splash
 
 import android.Manifest
 import android.os.Bundle
+import androidx.core.content.edit
 import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.dialog.SimpleDialogFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.PermissionHelper
+import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
+import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.eb.splash.EBSplashFragment
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.IntentHelper
@@ -68,6 +71,20 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
         DevHelper.report(Report())
         IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
         finish()
+    }
+
+    override fun onNewVersion(oldVersion: Int, newVersion: Int) {
+        super.onNewVersion(oldVersion, newVersion)
+        when (oldVersion) {
+            in 0..19999 -> {
+                val sp = SharedPreferencesHelper.get("_profile_default")
+                if (sp.get("ratio", "capture") == "raw") {
+                    sp.edit {
+                        remove("ratio")
+                    }
+                }
+            }
+        }
     }
 
     override val isBackFinishEnabled: Boolean = false

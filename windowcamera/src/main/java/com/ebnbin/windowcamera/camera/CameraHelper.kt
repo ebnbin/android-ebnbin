@@ -120,7 +120,6 @@ object CameraHelper {
                 append("jpegSizes", jpegSizes?.joinToString(",", "[", "]"))
                 append("photoResolutions", photoResolutions.joinToString(",", "[", "]"))
                 append("defaultPhotoResolution", if (::defaultPhotoResolution.isInitialized) defaultPhotoResolution else null)
-                append("maxResolution", if (::maxResolution.isInitialized) maxResolution else null)
                 append("surfaceTextureSizes", surfaceTextureSizes?.joinToString(",", "[", "]"))
                 append("previewResolutions", previewResolutions.joinToString(",", "[", "]"))
                 append("defaultPreviewResolution", if (::defaultPreviewResolution.isInitialized) defaultPreviewResolution else null)
@@ -212,14 +211,6 @@ object CameraHelper {
             return photoResolutions.first { it.entryValue == entryValue }
         }
 
-        lateinit var maxResolution: Resolution
-            private set
-        init {
-            if (photoResolutions.isNotEmpty()) {
-                maxResolution = photoResolutions.first()
-            }
-        }
-
         /**
          * 照片分辨率, 预览分辨率.
          */
@@ -251,7 +242,6 @@ object CameraHelper {
             (surfaceTextureSizes ?: emptyArray())
                 .filter { it.width > 0 && it.height > 0 }
                 .map { Resolution(it.width, it.height, sensorOrientation) }
-                .filter { it.ratio == maxResolution.ratio }
                 .sorted()
                 .run outer@{
                     forEach {

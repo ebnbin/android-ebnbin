@@ -97,10 +97,6 @@ object ProfileHelper {
         return device().defaultPreviewResolution
     }
 
-    fun maxResolution(): CameraHelper.Device.Resolution {
-        return device().maxResolution
-    }
-
     //*****************************************************************************************************************
 
     const val SHARED_PREFERENCES_NAME_POSTFIX: String = "_profile_default"
