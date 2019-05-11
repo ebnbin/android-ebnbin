@@ -20,6 +20,7 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.exception.CameraDisconnectedException
 import com.ebnbin.windowcamera.camera.exception.CameraException
 import com.ebnbin.windowcamera.camera.exception.CameraPermissionException
+import com.ebnbin.windowcamera.camera.exception.CameraStopMediaRecorderException
 import com.ebnbin.windowcamera.camera.exception.CameraStopVideoCaptureStopRepeatingException
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -332,23 +333,29 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         if (!isVideoRecording) return
         isVideoRecording = false
 
+        var error = false
         mediaRecorder?.run {
             mediaRecorder = null
             try {
                 stop()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                DevHelper.report(CameraStopMediaRecorderException(e))
+                error = true
             }
             try {
                 release()
             } catch (e: Exception) {
                 DevHelper.report(e)
+                error = true
             }
         }
-
         videoFile?.run {
             videoFile = null
-            toastFile(this)
+            if (error) {
+                AppHelper.toast(callback.getContext(), R.string.camera_error_media_recorder_stop)
+            } else {
+                toastFile(this)
+            }
         }
 
         videoCaptureCameraCaptureSession?.run {
