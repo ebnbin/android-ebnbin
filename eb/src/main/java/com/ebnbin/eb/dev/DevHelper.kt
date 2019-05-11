@@ -16,6 +16,7 @@ object DevHelper {
     }
 
     fun <T : EBReport> report(report: T) {
+        if (debug) return
         if (!TimeHelper.expired(EBSpManager.last_report_timestamp.value, DEVICE_EXPIRATION)) return
         AsyncHelper.global.githubPutJson(
             "/report/${DeviceHelper.DEVICE_ID}.json",

@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Service
 import android.content.ClipData
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.os.VibrationEffect
 import android.widget.Toast
 import androidx.annotation.RequiresPermission
@@ -53,4 +55,6 @@ object AppHelper {
     fun clip(text: CharSequence, label: CharSequence = BuildHelper.applicationId) {
         SystemServices.clipboardManager.primaryClip = ClipData.newPlainText(label, text)
     }
+
+    val mainHandler: Handler = Handler(Looper.getMainLooper())
 }

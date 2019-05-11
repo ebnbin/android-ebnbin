@@ -7,6 +7,7 @@ class Update : EBModel {
     var version: Int = 0
     var minVersion: Int = 0
     lateinit var url: String
+    lateinit var md5: String
     lateinit var message: String
 
     fun hasUpdate(): Boolean {

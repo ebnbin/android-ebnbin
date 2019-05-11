@@ -3,8 +3,10 @@ package com.ebnbin.eb.permission
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
@@ -14,6 +16,7 @@ import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.IntentHelper
 
@@ -40,6 +43,7 @@ class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
     private lateinit var permissions: ArrayList<String>
     private lateinit var extraData: Bundle
 
+    private var hasRequestInstallPackagesPermission: Boolean = false
     private var hasSystemAlertWindowPermission: Boolean = false
     private lateinit var runtimePermissions: List<String>
 
@@ -49,6 +53,7 @@ class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
         extraData = arguments.getBundle(Consts.KEY_EXTRA_DATA) ?: throw RuntimeException()
 
         val validPermissions = LinkedHashSet(permissions)
+        hasRequestInstallPackagesPermission = validPermissions.remove(Manifest.permission.REQUEST_INSTALL_PACKAGES)
         hasSystemAlertWindowPermission = validPermissions.remove(Manifest.permission.SYSTEM_ALERT_WINDOW)
         this.runtimePermissions = ArrayList(validPermissions)
     }
@@ -65,7 +70,22 @@ class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
     //*****************************************************************************************************************
 
     private fun checkPermissions() {
-        checkSystemAlertWindowPermission(true)
+        checkRequestInstallPackagesPermission(true)
+    }
+
+    private fun checkRequestInstallPackagesPermission(firstTime: Boolean) {
+        if (BuildHelper.sdk26O() &&
+            hasRequestInstallPackagesPermission &&
+            !PermissionHelper.isRequestInstallPackagesPermissionGranted()
+        ) {
+            if (firstTime) {
+                requestRequestInstallPackagesPermission()
+            } else {
+                onPermissionsResult(false)
+            }
+        } else {
+            checkSystemAlertWindowPermission(true)
+        }
     }
 
     private fun checkSystemAlertWindowPermission(firstTime: Boolean) {
@@ -123,6 +143,15 @@ class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
 
     //*****************************************************************************************************************
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun requestRequestInstallPackagesPermission() {
+        val extraData = bundleOf(
+            "action" to Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+            "request_code" to REQUEST_CODE_REQUEST_INSTALL_PACKAGES_PERMISSION
+        )
+        startSettingsActivity(R.string.eb_permission_request_install_packages, extraData)
+    }
+
     private fun requestSystemAlertWindowPermission() {
         val extraData = bundleOf(
             "action" to Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -159,6 +188,9 @@ class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
+            REQUEST_CODE_REQUEST_INSTALL_PACKAGES_PERMISSION -> {
+                checkRequestInstallPackagesPermission(false)
+            }
             REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION -> {
                 checkSystemAlertWindowPermission(false)
             }
@@ -194,9 +226,10 @@ class PermissionFragment : EBFragment(), PermissionDialogFragment.Callback {
     //*****************************************************************************************************************
 
     companion object {
-        private const val REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION = 0x1
-        private const val REQUEST_CODE_RUNTIME_PERMISSIONS = 0x2
-        private const val REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER = 0x3
+        private const val REQUEST_CODE_REQUEST_INSTALL_PACKAGES_PERMISSION = 0x1
+        private const val REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION = 0x2
+        private const val REQUEST_CODE_RUNTIME_PERMISSIONS = 0x3
+        private const val REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER = 0x4
 
         fun start(
             fm: FragmentManager,
