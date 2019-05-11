@@ -19,9 +19,10 @@ import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.exception.CameraDisconnectedException
 import com.ebnbin.windowcamera.camera.exception.CameraException
+import com.ebnbin.windowcamera.camera.exception.CameraMediaRecorderStopException
 import com.ebnbin.windowcamera.camera.exception.CameraPermissionException
-import com.ebnbin.windowcamera.camera.exception.CameraStopMediaRecorderException
-import com.ebnbin.windowcamera.camera.exception.CameraStopVideoCaptureStopRepeatingException
+import com.ebnbin.windowcamera.camera.exception.CameraPhotoPreviewStopRepeatingException
+import com.ebnbin.windowcamera.camera.exception.CameraVideoCaptureStopRepeatingException
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -194,7 +195,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                DevHelper.report(CameraPhotoPreviewStopRepeatingException(e))
             }
             try {
                 close()
@@ -339,7 +340,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stop()
             } catch (e: Exception) {
-                DevHelper.report(CameraStopMediaRecorderException(e))
+                DevHelper.report(CameraMediaRecorderStopException(e))
                 error = true
             }
             try {
@@ -363,7 +364,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                DevHelper.report(CameraStopVideoCaptureStopRepeatingException(e))
+                DevHelper.report(CameraVideoCaptureStopRepeatingException(e))
             }
             try {
                 close()
