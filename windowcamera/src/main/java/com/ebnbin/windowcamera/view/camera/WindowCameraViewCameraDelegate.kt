@@ -1,5 +1,6 @@
 package com.ebnbin.windowcamera.view.camera
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.ImageFormat
@@ -10,6 +11,7 @@ import android.media.ImageReader
 import android.media.MediaRecorder
 import android.view.Surface
 import com.ebnbin.eb.dev.DevHelper
+import com.ebnbin.eb.permission.PermissionHelper
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
@@ -17,6 +19,7 @@ import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.exception.CameraDisconnectedException
 import com.ebnbin.windowcamera.camera.exception.CameraException
+import com.ebnbin.windowcamera.camera.exception.CameraPermissionException
 import com.ebnbin.windowcamera.camera.exception.CameraStopVideoCaptureStopRepeatingException
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -93,7 +96,11 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 onCameraError(res.getString(R.string.camera_error_code, error))
             }
         }
-        SystemServices.cameraManager.openCamera(ProfileHelper.device().id, callback, null)
+        if (PermissionHelper.isPermissionsGranted(arrayListOf(Manifest.permission.CAMERA))) {
+            SystemServices.cameraManager.openCamera(ProfileHelper.device().id, callback, null)
+        } else {
+            onCameraError(CameraPermissionException())
+        }
     }
 
     override fun closeCamera() {
