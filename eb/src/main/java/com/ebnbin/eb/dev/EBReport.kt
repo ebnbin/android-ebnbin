@@ -6,6 +6,7 @@ import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DeviceHelper
 import com.ebnbin.eb.util.EBModel
 import com.ebnbin.eb.util.ResHelper
+import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.TimeHelper
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.res
@@ -26,9 +27,9 @@ open class EBReport : EBModel {
 
     val sdk: Int = Build.VERSION.SDK_INT
 
-    val displayRealSize: String = WindowHelper.displayRealSize.run { "${width0}x$height0" }
+    val displayRealSize: RotationSize = WindowHelper.displayRealSize
 
-    val displaySize: String = WindowHelper.displaySize.run { "${width0}x$height0" }
+    val displaySize: RotationSize = WindowHelper.displaySize
 
     val density: Float = ResHelper.density
 

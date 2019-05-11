@@ -12,6 +12,7 @@ import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
+import com.ebnbin.eb.util.EBModel
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
@@ -25,27 +26,7 @@ import com.ebnbin.eb.util.WindowHelper
  *
  * 需要 camera 权限.
  */
-class CameraHelper private constructor() {
-    private fun StringBuilder.append(key: String, value: Any?): StringBuilder {
-        return append("$key:$value,")
-    }
-
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.run {
-            append("{")
-            append("ids", ids.joinToString(",", "[", "]"))
-            append("devices", devices.joinToString(",", "[", "]"))
-            append("backDevice", backDevice?.id)
-            append("frontDevice", frontDevice?.id)
-            delete(length - 1, length)
-            append("}")
-        }
-        return sb.toString()
-    }
-
-    //*****************************************************************************************************************
-
+class CameraHelper private constructor() : EBModel {
     private val ids: List<String> = SystemServices.cameraManager.cameraIdList.toList()
 
     /**
@@ -61,15 +42,28 @@ class CameraHelper private constructor() {
         }
     }
 
+    @Transient
     private var backDevice: Device? = null
+    @Transient
     private var frontDevice: Device? = null
+
+    // For report.
+    private var backDeviceId: String? = null
+    private var frontDeviceId: String? = null
+
     init {
         devices.forEach {
             if (!it.isValid()) return@forEach
             if (it.isFront) {
-                if (frontDevice == null) frontDevice = it
+                if (frontDevice == null) {
+                    frontDevice = it
+                    frontDeviceId = it.id
+                }
             } else {
-                if (backDevice == null) backDevice = it
+                if (backDevice == null) {
+                    backDevice = it
+                    backDeviceId = it.id
+                }
             }
         }
     }
@@ -96,38 +90,17 @@ class CameraHelper private constructor() {
      *
      * @param oldId Camera API id.
      */
-    class Device(val id: String, private val oldId: Int) {
-        override fun toString(): String {
-            val sb = StringBuilder()
-            sb.run {
-                append("{")
-                append("id", id)
-                append("oldId", oldId)
-                append("lensFacing", lensFacingString)
-                append("sensorOrientation", sensorOrientation)
-                append("sensorOrientations", sensorOrientations.joinToString(",", "[", "]"))
-                append("jpegSizes", jpegSizes?.joinToString(",", "[", "]"))
-                append("photoResolutions", photoResolutions.joinToString(",", "[", "]"))
-                append("defaultPhotoResolution", defaultPhotoResolution)
-                append("surfaceTextureSizes", surfaceTextureSizes?.joinToString(",", "[", "]"))
-                append("previewResolutions", previewResolutions.joinToString(",", "[", "]"))
-                append("defaultPreviewResolution", defaultPreviewResolution)
-                append("mediaRecorderSizes", mediaRecorderSizes?.joinToString(",", "[", "]"))
-                append("videoProfiles", videoProfiles.joinToString(",", "[", "]"))
-                append("defaultVideoProfile", defaultVideoProfile)
-                delete(length - 1, length)
-                append("}")
-            }
-            return sb.toString()
-        }
-
+    class Device(val id: String, private val oldId: Int) : EBModel {
+        @Transient
         private val cameraCharacteristics: CameraCharacteristics =
             SystemServices.cameraManager.getCameraCharacteristics(id)
 
         //*************************************************************************************************************
 
+        @Transient
         private val oldCamera: Camera = Camera.open(oldId)
 
+        @Transient
         private val oldParameters: Camera.Parameters = oldCamera.parameters
 
         init {
@@ -136,8 +109,10 @@ class CameraHelper private constructor() {
 
         //*************************************************************************************************************
 
+        @Transient
         private val lensFacing: Int = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) as Int
 
+        // For report.
         private val lensFacingString: String = when (lensFacing) {
             CameraMetadata.LENS_FACING_FRONT -> "FRONT"
             CameraMetadata.LENS_FACING_BACK -> "BACK"
@@ -148,12 +123,14 @@ class CameraHelper private constructor() {
         /**
          * 外置摄像头.
          */
+        @Transient
         private val isExternal: Boolean = lensFacing != CameraMetadata.LENS_FACING_FRONT &&
                 lensFacing != CameraMetadata.LENS_FACING_BACK
 
         /**
          * 后置摄像头和外置摄像头都为 false.
          */
+        @Transient
         val isFront: Boolean = lensFacing == CameraMetadata.LENS_FACING_FRONT
 
         //*************************************************************************************************************
@@ -174,10 +151,17 @@ class CameraHelper private constructor() {
 
         //*************************************************************************************************************
 
+        @Transient
         private val scalerStreamConfigurationMap: StreamConfigurationMap =
             cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) as StreamConfigurationMap
 
+        @Transient
         private val jpegSizes: Array<Size>? = scalerStreamConfigurationMap.getOutputSizes(ImageFormat.JPEG)
+
+        // For report.
+        private val jpegSizeStrings: Array<String>? = jpegSizes
+            ?.map { "${it.width}x${it.height}" }
+            ?.toTypedArray()
 
         val photoResolutions: List<Resolution> = run {
             (jpegSizes ?: emptyArray())
@@ -211,22 +195,26 @@ class CameraHelper private constructor() {
             /**
              * 百万像素.
              */
+            @Transient
             val megapixel: Float = area / 1_000_000f
 
             /**
              * 用于 SharedPreferences.
              */
+            @Transient
             val entryValue: String = "${width}_$height"
-
-            override fun toString(): String {
-                return "{${width}x$height,ratio:${ratioWidth}_$ratioHeight}"
-            }
         }
 
         //*************************************************************************************************************
 
+        @Transient
         private val surfaceTextureSizes: Array<Size>? =
             scalerStreamConfigurationMap.getOutputSizes(SurfaceTexture::class.java)
+
+        // For report.
+        private val surfaceTextureSizeStrings: Array<String>? = surfaceTextureSizes
+            ?.map { "${it.width}x${it.height}" }
+            ?.toTypedArray()
 
         val previewResolutions: List<Resolution> = run {
             val displayRealSize = WindowHelper.displayRealSize
@@ -267,8 +255,14 @@ class CameraHelper private constructor() {
 
         //*************************************************************************************************************
 
+        @Transient
         private val mediaRecorderSizes: Array<Size>? =
             scalerStreamConfigurationMap.getOutputSizes(MediaRecorder::class.java)
+
+        // For report.
+        private val mediaRecorderSizeStrings: Array<String>? = mediaRecorderSizes
+            ?.map { "${it.width}x${it.height}" }
+            ?.toTypedArray()
 
         val videoProfiles: List<VideoProfile> = run {
             CAMCORDER_PROFILE_QUALITIES
@@ -303,85 +297,79 @@ class CameraHelper private constructor() {
         /**
          * 视频配置.
          */
-        open class VideoProfile(val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
+        open class VideoProfile(@Transient val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
             Resolution(camcorderProfile.videoFrameWidth, camcorderProfile.videoFrameHeight, sensorOrientation) {
-            override fun toString(): String {
-                val sb = StringBuilder()
-                sb.run {
-                    append("{")
-                    append("${width}x$height,")
-                    append("ratio", "${ratioWidth}_$ratioHeight")
-                    append("duration", camcorderProfile.duration)
-                    append("quality", camcorderProfile.qualityString)
-                    append("fileFormat", camcorderProfile.fileFormatString)
-                    append("videoCodec", camcorderProfile.videoCodecString)
-                    append("videoBitRate", camcorderProfile.videoBitRate)
-                    append("videoFrameRate", camcorderProfile.videoFrameRate)
-                    append("audioCodec", camcorderProfile.audioCodecString)
-                    append("audioBitRate", camcorderProfile.audioBitRate)
-                    append("audioSampleRate", camcorderProfile.audioSampleRate)
-                    append("audioChannels", camcorderProfile.audioChannels)
-                    delete(length - 1, length)
-                    append("}")
-                }
-                return sb.toString()
+            // For report.
+            private val duration: Int = camcorderProfile.duration
+
+            val qualityString: String = when (camcorderProfile.quality) {
+                CamcorderProfile.QUALITY_LOW -> "low"
+                CamcorderProfile.QUALITY_HIGH -> "high"
+                CamcorderProfile.QUALITY_QCIF -> "QCIF"
+                CamcorderProfile.QUALITY_CIF -> "CIF"
+                CamcorderProfile.QUALITY_480P -> "480P"
+                CamcorderProfile.QUALITY_720P -> "720P"
+                CamcorderProfile.QUALITY_1080P -> "1080P"
+                CamcorderProfile.QUALITY_QVGA -> "QVGA"
+                CamcorderProfile.QUALITY_2160P -> "2160P"
+                else -> "else"
             }
 
-            val qualityString: String = camcorderProfile.qualityString
+            // For report.
+            private val fileFormatString: String = when (camcorderProfile.fileFormat) {
+                MediaRecorder.OutputFormat.DEFAULT -> "default"
+                MediaRecorder.OutputFormat.THREE_GPP -> "THREE_GPP"
+                MediaRecorder.OutputFormat.MPEG_4 -> "MPEG_4"
+                MediaRecorder.OutputFormat.AMR_NB -> "AMR_NB"
+                MediaRecorder.OutputFormat.AMR_WB -> "AMR_WB"
+                MediaRecorder.OutputFormat.AAC_ADTS -> "AAC_ADTS"
+                MediaRecorder.OutputFormat.MPEG_2_TS -> "MPEG_2_TS"
+                MediaRecorder.OutputFormat.WEBM -> "WEBM"
+                else -> "else"
+            }
 
-            private val CamcorderProfile.qualityString: String
-                get() = when (quality) {
-                    CamcorderProfile.QUALITY_LOW -> "low"
-                    CamcorderProfile.QUALITY_HIGH -> "high"
-                    CamcorderProfile.QUALITY_QCIF -> "QCIF"
-                    CamcorderProfile.QUALITY_CIF -> "CIF"
-                    CamcorderProfile.QUALITY_480P -> "480P"
-                    CamcorderProfile.QUALITY_720P -> "720P"
-                    CamcorderProfile.QUALITY_1080P -> "1080P"
-                    CamcorderProfile.QUALITY_QVGA -> "QVGA"
-                    CamcorderProfile.QUALITY_2160P -> "2160P"
-                    else -> "else"
-                }
+            // For report.
+            private val videoCodecString: String = when (camcorderProfile.videoCodec) {
+                MediaRecorder.VideoEncoder.DEFAULT -> "default"
+                MediaRecorder.VideoEncoder.H263 -> "H263"
+                MediaRecorder.VideoEncoder.H264 -> "H264"
+                MediaRecorder.VideoEncoder.MPEG_4_SP -> "MPEG_4_SP"
+                MediaRecorder.VideoEncoder.VP8 -> "VP8"
+                MediaRecorder.VideoEncoder.HEVC -> "HEVC"
+                else -> "else"
+            }
 
-            private val CamcorderProfile.fileFormatString: String
-                get() = when (fileFormat) {
-                    MediaRecorder.OutputFormat.DEFAULT -> "default"
-                    MediaRecorder.OutputFormat.THREE_GPP -> "THREE_GPP"
-                    MediaRecorder.OutputFormat.MPEG_4 -> "MPEG_4"
-                    MediaRecorder.OutputFormat.AMR_NB -> "AMR_NB"
-                    MediaRecorder.OutputFormat.AMR_WB -> "AMR_WB"
-                    MediaRecorder.OutputFormat.AAC_ADTS -> "AAC_ADTS"
-                    MediaRecorder.OutputFormat.MPEG_2_TS -> "MPEG_2_TS"
-                    MediaRecorder.OutputFormat.WEBM -> "WEBM"
-                    else -> "else"
-                }
+            // For report.
+            private val videoBitRate: Int = camcorderProfile.videoBitRate
 
-            private val CamcorderProfile.videoCodecString: String
-                get() = when (videoCodec) {
-                    MediaRecorder.VideoEncoder.DEFAULT -> "default"
-                    MediaRecorder.VideoEncoder.H263 -> "H263"
-                    MediaRecorder.VideoEncoder.H264 -> "H264"
-                    MediaRecorder.VideoEncoder.MPEG_4_SP -> "MPEG_4_SP"
-                    MediaRecorder.VideoEncoder.VP8 -> "VP8"
-                    MediaRecorder.VideoEncoder.HEVC -> "HEVC"
-                    else -> "else"
-                }
+            // For report.
+            private val videoFrameRate: Int = camcorderProfile.videoFrameRate
 
-            private val CamcorderProfile.audioCodecString: String
-                get() = when (audioCodec) {
-                    MediaRecorder.AudioEncoder.DEFAULT -> "default"
-                    MediaRecorder.AudioEncoder.AMR_NB -> "AMR_NB"
-                    MediaRecorder.AudioEncoder.AMR_WB -> "AMR_WB"
-                    MediaRecorder.AudioEncoder.AAC -> "AAC"
-                    MediaRecorder.AudioEncoder.HE_AAC -> "HE_AAC"
-                    MediaRecorder.AudioEncoder.AAC_ELD -> "AAC_ELD"
-                    MediaRecorder.AudioEncoder.VORBIS -> "VORBIS"
-                    else -> "else"
-                }
+            // For report.
+            private val audioCodecString: String = when (camcorderProfile.audioCodec) {
+                MediaRecorder.AudioEncoder.DEFAULT -> "default"
+                MediaRecorder.AudioEncoder.AMR_NB -> "AMR_NB"
+                MediaRecorder.AudioEncoder.AMR_WB -> "AMR_WB"
+                MediaRecorder.AudioEncoder.AAC -> "AAC"
+                MediaRecorder.AudioEncoder.HE_AAC -> "HE_AAC"
+                MediaRecorder.AudioEncoder.AAC_ELD -> "AAC_ELD"
+                MediaRecorder.AudioEncoder.VORBIS -> "VORBIS"
+                else -> "else"
+            }
+
+            // For report.
+            private val audioBitRate: Int = camcorderProfile.audioBitRate
+
+            // For report.
+            private val audioSampleRate: Int = camcorderProfile.audioSampleRate
+
+            // For report.
+            private val audioChannels: Int = camcorderProfile.audioChannels
 
             /**
              * 文件后缀名. 默认 .mp4.
              */
+            @Transient
             val extension: String = when (camcorderProfile.fileFormat) {
                 MediaRecorder.OutputFormat.THREE_GPP -> ".3gp"
                 else -> ".mp4"
