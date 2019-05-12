@@ -105,6 +105,15 @@ class CameraHelper private constructor() : EBModel {
 
         private val oldPreferredPreviewSizeForVideo: Camera.Size? = oldParameters.preferredPreviewSizeForVideo
 
+        // For report.
+        private val oldSupportedPictureSizes: List<Camera.Size>? = oldParameters.supportedPictureSizes
+
+        // For report.
+        private val oldSupportedPreviewSizes: List<Camera.Size>? = oldParameters.supportedPreviewSizes
+
+        // For report.
+        private val oldSupportedVideoSizes: List<Camera.Size>? = oldParameters.supportedVideoSizes
+
         init {
             oldCamera.release()
         }
@@ -374,6 +383,12 @@ class CameraHelper private constructor() : EBModel {
                 else -> ".mp4"
             }
         }
+
+        // For report.
+        private val rawSensorSizeStrings: Array<String>? =
+            scalerStreamConfigurationMap.getOutputSizes(ImageFormat.RAW_SENSOR)
+                ?.map { "${it.width}x${it.height}" }
+                ?.toTypedArray()
 
         //*************************************************************************************************************
 
