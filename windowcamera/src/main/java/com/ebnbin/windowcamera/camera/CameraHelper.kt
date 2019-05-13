@@ -12,6 +12,7 @@ import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
+import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.util.EBModel
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
@@ -37,7 +38,8 @@ class CameraHelper private constructor() : EBModel {
             try {
                 val device = Device(id, index)
                 add(device)
-            } catch (e: Exception) {
+            } catch (throwable: Throwable) {
+                DevHelper.report(throwable)
             }
         }
     }
@@ -98,24 +100,38 @@ class CameraHelper private constructor() : EBModel {
         //*************************************************************************************************************
 
         @Transient
-        private val oldCamera: Camera = Camera.open(oldId)
+        private val oldCamera: Camera? = try {
+            Camera.open(oldId)
+        } catch (e: Exception) {
+            DevHelper.report(e)
+            null
+        }
 
         @Transient
-        private val oldParameters: Camera.Parameters = oldCamera.parameters
+        private val oldParameters: Camera.Parameters? = try {
+            oldCamera?.parameters
+        } catch (e: Exception) {
+            DevHelper.report(e)
+            null
+        }
 
-        private val oldPreferredPreviewSizeForVideo: Camera.Size? = oldParameters.preferredPreviewSizeForVideo
+        private val oldPreferredPreviewSizeForVideo: Camera.Size? = oldParameters?.preferredPreviewSizeForVideo
 
         // For report.
-        private val oldSupportedPictureSizes: List<Camera.Size>? = oldParameters.supportedPictureSizes
+        private val oldSupportedPictureSizes: List<Camera.Size>? = oldParameters?.supportedPictureSizes
 
         // For report.
-        private val oldSupportedPreviewSizes: List<Camera.Size>? = oldParameters.supportedPreviewSizes
+        private val oldSupportedPreviewSizes: List<Camera.Size>? = oldParameters?.supportedPreviewSizes
 
         // For report.
-        private val oldSupportedVideoSizes: List<Camera.Size>? = oldParameters.supportedVideoSizes
+        private val oldSupportedVideoSizes: List<Camera.Size>? = oldParameters?.supportedVideoSizes
 
         init {
-            oldCamera.release()
+            try {
+                oldCamera?.release()
+            } catch (e: Exception) {
+                DevHelper.report(e)
+            }
         }
 
         //*************************************************************************************************************
