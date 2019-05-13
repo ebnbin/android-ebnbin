@@ -110,6 +110,12 @@
     <string name="profile_is_move_enabled_summary_off">禁用</string>
     <string name="profile_is_move_enabled_summary_on">启用</string>
 
+    <string name="profile_is_stop_when_screen_off_enabled" translatable="false">is_stop_when_screen_off_enabled</string>
+    <bool name="profile_is_stop_when_screen_off_enabled_default_value">false</bool>
+    <string name="profile_is_stop_when_screen_off_enabled_title">锁屏时关闭窗口并停止拍摄</string>
+    <string name="profile_is_stop_when_screen_off_enabled_summary_off">禁用</string>
+    <string name="profile_is_stop_when_screen_off_enabled_summary_on">启用</string>
+
     <!-- 相机. -->
     <!-- ********************************************************************************************************** -->
     <eat-comment/>

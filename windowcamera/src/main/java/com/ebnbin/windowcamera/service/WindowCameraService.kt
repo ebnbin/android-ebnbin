@@ -5,8 +5,10 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.PixelFormat
 import android.os.IBinder
 import android.view.Gravity
@@ -18,17 +20,33 @@ import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.view.WindowCameraView
 
 /**
  * 前台服务.
  */
 class WindowCameraService : Service() {
+    private lateinit var broadcastReceiver: BroadcastReceiver
+
     private var windowCameraView: WindowCameraView? = null
 
     override fun onCreate() {
         super.onCreate()
         Libraries.eventBus.post(WindowCameraServiceEvent(true))
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                when (intent?.action) {
+                    Intent.ACTION_SCREEN_OFF -> {
+                        if (ProfileHelper.is_stop_when_screen_off_enabled.value) {
+                            stop(this@WindowCameraService)
+                        }
+                    }
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
 
         startForeground()
 
@@ -70,6 +88,8 @@ class WindowCameraService : Service() {
         }
 
         stopForeground(true)
+
+        unregisterReceiver(broadcastReceiver)
 
         Libraries.eventBus.post(WindowCameraServiceEvent(false))
         super.onDestroy()

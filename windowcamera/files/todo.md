@@ -1,1 +1,1 @@
-* Old camera report
+* 预览分辨率
