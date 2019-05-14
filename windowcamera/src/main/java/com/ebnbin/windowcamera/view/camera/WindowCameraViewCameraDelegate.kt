@@ -47,22 +47,31 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ProfileHelper.is_front.key -> {
-                reopenCamera(false)
+                reopenCamera()
+            }
+            ProfileHelper.is_preview.key -> {
+                reopenCamera(onIsPreviewChanged = true)
             }
             ProfileHelper.is_video.key -> {
-                reopenCamera(true)
+                reopenCamera(onIsVideoChanged = true)
             }
             ProfileHelper.back_photo_resolution.key -> {
-                reopenCamera(false)
+                reopenCamera()
             }
             ProfileHelper.back_video_profile.key -> {
-                reopenCamera(false)
+                reopenCamera()
             }
             ProfileHelper.front_photo_resolution.key -> {
-                reopenCamera(false)
+                reopenCamera()
             }
             ProfileHelper.front_video_profile.key -> {
-                reopenCamera(false)
+                reopenCamera()
+            }
+            ProfileHelper.back_preview_ratio.key -> {
+                reopenCamera()
+            }
+            ProfileHelper.front_preview_ratio.key -> {
+                reopenCamera()
             }
         }
     }
@@ -78,10 +87,14 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val callback = object : CameraDevice.StateCallback() {
             override fun onOpened(camera: CameraDevice) {
                 cameraDevice = camera
-                if (ProfileHelper.is_video.value) {
-                    startVideoPreview()
+                if (ProfileHelper.is_preview.value) {
+                    startPreview()
                 } else {
-                    startPhotoPreview()
+                    if (ProfileHelper.is_video.value) {
+                        startVideoPreview()
+                    } else {
+                        startPhotoPreview()
+                    }
                 }
             }
 
@@ -106,18 +119,18 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     }
 
     override fun closeCamera() {
-        closeCamera(false)
+        closeCamera(onIsPreviewChanged = false, onIsVideoChanged = false)
     }
 
-    private fun closeCamera(isVideoChanged: Boolean) {
-        if (isVideoChanged) {
-            if (ProfileHelper.is_video.value) {
-                stopPhotoPreview()
-            } else {
-                stopVideoPreview()
-            }
+    private fun closeCamera(onIsPreviewChanged: Boolean, onIsVideoChanged: Boolean) {
+        var isPreview = ProfileHelper.is_preview.value
+        var isVideo = ProfileHelper.is_video.value
+        if (onIsPreviewChanged) isPreview = !isPreview
+        if (onIsVideoChanged) isVideo = !isVideo
+        if (isPreview) {
+            stopPreview()
         } else {
-            if (ProfileHelper.is_video.value) {
+            if (isVideo) {
                 stopVideoPreview()
             } else {
                 stopPhotoPreview()
@@ -132,8 +145,8 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         ProfileHelper.cameraState = CameraState.CLOSED
     }
 
-    private fun reopenCamera(isVideoChanged: Boolean) {
-        closeCamera(isVideoChanged)
+    private fun reopenCamera(onIsPreviewChanged: Boolean = false, onIsVideoChanged: Boolean = false) {
+        closeCamera(onIsPreviewChanged, onIsVideoChanged)
         callback.invalidateSizePosition()
         openCamera()
     }
@@ -388,15 +401,72 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
     //*****************************************************************************************************************
 
-    override fun capture() {
-        if (ProfileHelper.is_video.value) {
-            if (isVideoRecording) {
-                stopVideoCapture(true)
-            } else {
-                startVideoCapture()
+    private var previewCameraCaptureSession: CameraCaptureSession? = null
+
+    private fun startPreview() {
+        ProfileHelper.cameraState = CameraState.STARTING_PREVIEW
+
+        val cameraDevice = cameraDevice
+        if (cameraDevice == null) {
+            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            return
+        }
+        val surfaceTextureSurface = Surface(callback.getSurfaceTexture())
+        val outputs = listOf(surfaceTextureSurface)
+        val callback = object : CameraCaptureSession.StateCallback() {
+            override fun onConfigured(session: CameraCaptureSession) {
+                val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
+                if (innerCameraDevice == null) {
+                    onCameraError(CameraException(""))
+                    return
+                }
+                val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                captureRequestBuilder.addTarget(surfaceTextureSurface)
+                val request = captureRequestBuilder.build()
+                session.setRepeatingRequest(request, null, null)
+                previewCameraCaptureSession = session
+
+                ProfileHelper.cameraState = CameraState.PREVIEWING
             }
+
+            override fun onConfigureFailed(session: CameraCaptureSession) {
+                onCameraError(res.getString(R.string.camera_error_preview))
+            }
+        }
+        cameraDevice.createCaptureSession(outputs, callback, null)
+    }
+
+    private fun stopPreview() {
+        previewCameraCaptureSession?.run {
+            previewCameraCaptureSession = null
+            try {
+                stopRepeating()
+            } catch (e: Exception) {
+                DevHelper.report(e)
+            }
+            try {
+                close()
+            } catch (e: Exception) {
+                DevHelper.report(e)
+            }
+        }
+    }
+
+    //*****************************************************************************************************************
+
+    override fun capture() {
+        if (ProfileHelper.is_preview.value) {
+            // Do nothing.
         } else {
-            photoCapture()
+            if (ProfileHelper.is_video.value) {
+                if (isVideoRecording) {
+                    stopVideoCapture(true)
+                } else {
+                    startVideoCapture()
+                }
+            } else {
+                photoCapture()
+            }
         }
     }
 

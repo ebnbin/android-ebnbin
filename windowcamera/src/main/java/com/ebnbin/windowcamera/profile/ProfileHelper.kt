@@ -102,12 +102,33 @@ object ProfileHelper {
         }
     }
 
+    fun previewRatio(): CameraHelper.Device.PreviewRatio {
+        if (!is_preview.value) throw RuntimeException()
+        return if (is_front.value) {
+            CameraHelper.instance.requireFrontDevice().getPreviewRatio(front_preview_ratio.value)
+        } else {
+            CameraHelper.instance.requireBackDevice().getPreviewRatio(back_preview_ratio.value)
+        }
+    }
+
     fun resolution(): CameraHelper.Device.Resolution {
-        return if (is_video.value) videoProfile() else photoResolution()
+        return if (is_preview.value) {
+            previewRatio().resolution
+        } else {
+            if (is_video.value) {
+                videoProfile()
+            } else {
+                photoResolution()
+            }
+        }
     }
 
     fun previewResolution(): CameraHelper.Device.Resolution {
-        return device().getPreviewResolution(resolution())
+        return if (is_preview.value) {
+            previewRatio().resolution
+        } else {
+            device().getPreviewResolution(resolution())
+        }
     }
 
     //*****************************************************************************************************************

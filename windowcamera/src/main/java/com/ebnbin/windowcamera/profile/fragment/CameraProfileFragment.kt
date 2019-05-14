@@ -177,6 +177,7 @@ class CameraProfileFragment : BaseProfileFragment() {
         preferenceScreen?.isEnabled = cameraState == CameraState.CLOSED ||
                 cameraState == CameraState.PREVIEWING_PHOTO ||
                 cameraState == CameraState.PREVIEWING_VIDEO ||
+                cameraState == CameraState.PREVIEWING ||
                 cameraState == CameraState.CAPTURING_VIDEO
     }
 }

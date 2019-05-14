@@ -283,6 +283,10 @@ class CameraHelper private constructor() : EBModel {
                 ?: previewRatios.first()
         }
 
+        fun getPreviewRatio(entryValue: String): PreviewRatio {
+            return previewRatios.first { it.entryValue == entryValue }
+        }
+
         fun getPreviewResolution(captureResolution: Resolution): Resolution {
             return previewResolutions
                 .firstOrNull { it.ratio0 == captureResolution.ratio0 }

@@ -13,6 +13,7 @@
     <string name="camera_error_code">相机异常（%1$d）</string>
     <string name="camera_error_photo_preview">照片预览异常</string>
     <string name="camera_error_video_preview">视频预览异常</string>
+    <string name="camera_error_preview">预览异常</string>
     <string name="camera_error_video_capture">视频拍摄异常</string>
     <string name="camera_error_null">相机空状态异常</string>
     <string name="camera_error_permission">相机权限被拒绝</string>
