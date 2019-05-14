@@ -35,8 +35,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .toTypedArray()
             entries = CameraHelper.instance.requireBackDevice().photoResolutions
                 .map {
-                    getString(R.string.profile_photo_resolution_entry, it.width, it.height, it.ratioWidth,
-                        it.ratioHeight, it.megapixel)
+                    getString(R.string.profile_photo_resolution_entry, it.width, it.height, it.ratio.width,
+                        it.ratio.height, it.megapixel)
                 }
                 .toTypedArray()
             setIcon(R.drawable.profile_resolution)
@@ -59,8 +59,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .toTypedArray()
             entries = CameraHelper.instance.requireBackDevice().videoProfiles
                 .map {
-                    getString(R.string.profile_video_profile_entry, it.width, it.height, it.ratioWidth, it.ratioHeight,
-                        it.megapixel, it.qualityString)
+                    getString(R.string.profile_video_profile_entry, it.width, it.height, it.ratio.width,
+                        it.ratio.height, it.megapixel, it.qualityString)
                 }
                 .toTypedArray()
             setIcon(R.drawable.profile_video_profile)
@@ -83,8 +83,8 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .toTypedArray()
             entries = CameraHelper.instance.requireFrontDevice().photoResolutions
                 .map {
-                    getString(R.string.profile_photo_resolution_entry, it.width, it.height, it.ratioWidth,
-                        it.ratioHeight, it.megapixel)
+                    getString(R.string.profile_photo_resolution_entry, it.width, it.height, it.ratio.width,
+                        it.ratio.height, it.megapixel)
                 }
                 .toTypedArray()
             setIcon(R.drawable.profile_resolution)
@@ -106,13 +106,61 @@ class CameraProfileFragment : BaseProfileFragment() {
                 .toTypedArray()
             entries = CameraHelper.instance.requireFrontDevice().videoProfiles
                 .map {
-                    getString(R.string.profile_video_profile_entry, it.width, it.height, it.ratioWidth, it.ratioHeight,
-                        it.megapixel, it.qualityString)
+                    getString(R.string.profile_video_profile_entry, it.width, it.height, it.ratio.width,
+                        it.ratio.height, it.megapixel, it.qualityString)
                 }
                 .toTypedArray()
             setIcon(R.drawable.profile_video_profile)
             setDialogTitle(R.string.profile_front_video_profile_title)
             setDialogIcon(R.drawable.profile_video_profile)
+        }
+
+        findPreference<SimplePreferenceGroup>(ProfileHelper.is_preview_on.key)?.run {
+            visibleKeysOn = arrayOf(ProfileHelper.is_preview.key)
+        }
+
+        findPreference<SimplePreferenceGroup>(ProfileHelper.back_preview.key)?.run {
+            visibleKeysOff = arrayOf(ProfileHelper.is_front.key)
+        }
+
+        SimpleListPreference(preferenceScreen.context).run {
+            key = ProfileHelper.back_preview_ratio.key
+            setDefaultValue(ProfileHelper.back_preview_ratio.getDefaultValue())
+            findPreference<PreferenceGroup>(ProfileHelper.back_preview.key)?.addPreference(this)
+            setTitle(R.string.profile_back_preview_ratio_title)
+            entryValues = CameraHelper.instance.requireBackDevice().previewRatios
+                .map { it.entryValue }
+                .toTypedArray()
+            entries = CameraHelper.instance.requireBackDevice().previewRatios
+                .map {
+                    getString(R.string.profile_preview_ratio_entry, it.width, it.height)
+                }
+                .toTypedArray()
+            setIcon(R.drawable.profile_preview_ratio)
+            setDialogTitle(R.string.profile_back_preview_ratio_title)
+            setDialogIcon(R.drawable.profile_preview_ratio)
+        }
+
+        findPreference<SimplePreferenceGroup>(ProfileHelper.front_preview.key)?.run {
+            visibleKeysOn = arrayOf(ProfileHelper.is_front.key)
+        }
+
+        SimpleListPreference(preferenceScreen.context).run {
+            key = ProfileHelper.front_preview_ratio.key
+            setDefaultValue(ProfileHelper.front_preview_ratio.getDefaultValue())
+            findPreference<PreferenceGroup>(ProfileHelper.front_preview.key)?.addPreference(this)
+            setTitle(R.string.profile_front_preview_ratio_title)
+            entryValues = CameraHelper.instance.requireFrontDevice().previewRatios
+                .map { it.entryValue }
+                .toTypedArray()
+            entries = CameraHelper.instance.requireFrontDevice().previewRatios
+                .map {
+                    getString(R.string.profile_preview_ratio_entry, it.width, it.height)
+                }
+                .toTypedArray()
+            setIcon(R.drawable.profile_preview_ratio)
+            setDialogTitle(R.string.profile_front_preview_ratio_title)
+            setDialogIcon(R.drawable.profile_preview_ratio)
         }
 
         invalidateCameraState(ProfileHelper.cameraState)

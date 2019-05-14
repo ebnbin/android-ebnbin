@@ -14,6 +14,7 @@ import android.util.Size
 import android.view.Surface
 import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.util.EBModel
+import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
@@ -271,10 +272,30 @@ class CameraHelper private constructor() : EBModel {
                 .toList()
         }
 
+        val previewRatios: List<PreviewRatio> = previewResolutions
+            .map { PreviewRatio(it) }
+            .toSet()
+            .toList()
+
+        fun requireDefaultPreviewRatio(): PreviewRatio {
+            return previewRatios.firstOrNull { it.width == 4 && it.height == 3 }
+                ?: previewRatios.firstOrNull { it.width == 3 && it.height == 4 }
+                ?: previewRatios.first()
+        }
+
         fun getPreviewResolution(captureResolution: Resolution): Resolution {
             return previewResolutions
-                .firstOrNull { it.ratio == captureResolution.ratio }
+                .firstOrNull { it.ratio0 == captureResolution.ratio0 }
                 ?: previewResolutions.first()
+        }
+
+        open class PreviewRatio(@Transient val resolution: Resolution) :
+            Ratio(resolution.ratio.width, resolution.ratio.height) {
+            /**
+             * 用于 SharedPreferences.
+             */
+            @Transient
+            val entryValue: String = "${width}_$height"
         }
 
         //*************************************************************************************************************

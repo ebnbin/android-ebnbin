@@ -118,13 +118,13 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
             if (sizePosition == SizePosition.POSITION) {
                 rotationSize = RotationSize(width, height, displaySize.rotation)
             } else {
-                val ratio = when (ProfileHelper.ratio.value) {
-                    "capture" -> ProfileHelper.resolution().ratio
-                    "screen" -> displaySize.ratio
+                val ratio0 = when (ProfileHelper.ratio.value) {
+                    "capture" -> ProfileHelper.resolution().ratio0
+                    "screen" -> displaySize.ratio0
                     "square" -> Ratio.SQUARE
                     else -> throw RuntimeException()
                 }
-                rotationSize = displaySize.crop(ratio, ProfileHelper.size.value / 100f)
+                rotationSize = displaySize.crop(ratio0, ProfileHelper.size.value / 100f)
                 width = rotationSize.width
                 height = rotationSize.height
             }

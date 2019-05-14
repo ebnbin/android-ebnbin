@@ -82,15 +82,11 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     @Transient
     private val gcd: Int = width gcd height
 
-    val ratioWidth = width / gcd
-
-    val ratioHeight = height / gcd
-
-    /**
-     * 宽高比以旋转方向为 [Surface.ROTATION_0] 时的宽高为准.
-     */
     @Transient
-    val ratio: Ratio = Ratio(width0 / gcd, height0 / gcd)
+    val ratio: Ratio = Ratio(width / gcd, height / gcd)
+
+    @Transient
+    val ratio0: Ratio = Ratio(width0 / gcd, height0 / gcd)
 
     //*****************************************************************************************************************
 
@@ -111,22 +107,22 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     /**
      * 按照指定宽高比裁剪尺寸.
      *
-     * @param ratio 指定宽高比.
+     * @param ratio0 指定宽高比.
      *
      * @param scale 缩放. 必须大于 0f. 值为 1f 时不缩放.
      *
      * @return 裁剪后的新的尺寸. 旋转方向保持不变.
      */
-    fun crop(ratio: Ratio, scale: Float = 1f): RotationSize {
+    fun crop(ratio0: Ratio, scale: Float = 1f): RotationSize {
         if (scale <= 0f) throw RuntimeException()
         var newWidth0: Int
         var newHeight0: Int
-        if (this.ratio < ratio) {
+        if (this.ratio0 < ratio0) {
             newWidth0 = (width0 * scale).roundToInt()
-            newHeight0 = (newWidth0 / ratio.ratio).roundToInt()
+            newHeight0 = (newWidth0 / ratio0.ratio).roundToInt()
         } else {
             newHeight0 = (height0 * scale).roundToInt()
-            newWidth0 = (newHeight0 * ratio.ratio).roundToInt()
+            newWidth0 = (newHeight0 * ratio0.ratio).roundToInt()
         }
         // 宽高不能为 0.
         newWidth0 = max(1, newWidth0)

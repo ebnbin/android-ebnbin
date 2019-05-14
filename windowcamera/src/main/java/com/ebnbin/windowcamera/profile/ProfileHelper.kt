@@ -44,6 +44,11 @@ object ProfileHelper {
     val front_photo_resolution: Sp<String> = ProfileSp(R.string.profile_front_photo_resolution) { CameraHelper.instance.requireFrontDevice().requireDefaultPhotoResolution().entryValue }
     val front_video: Sp<Unit> = ProfileSp(R.string.profile_front_video, Unit)
     val front_video_profile: Sp<String> = ProfileSp(R.string.profile_front_video_profile) { CameraHelper.instance.requireFrontDevice().requireDefaultVideoProfile().entryValue }
+    val is_preview_on: Sp<Unit> = ProfileSp(R.string.profile_is_preview_on, Unit)
+    val back_preview: Sp<Unit> = ProfileSp(R.string.profile_back_preview, Unit)
+    val back_preview_ratio: Sp<String> = ProfileSp(R.string.profile_back_preview_ratio) { CameraHelper.instance.requireBackDevice().requireDefaultPreviewRatio().entryValue }
+    val front_preview: Sp<Unit> = ProfileSp(R.string.profile_front_preview, Unit)
+    val front_preview_ratio: Sp<String> = ProfileSp(R.string.profile_front_preview_ratio) { CameraHelper.instance.requireFrontDevice().requireDefaultPreviewRatio().entryValue }
 
     val path: Sp<Unit> = ProfileSp(R.string.profile_path, Unit)
 

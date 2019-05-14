@@ -44,6 +44,17 @@
 
     </com.ebnbin.eb.preference.SimplePreferenceGroup>
 
+    <com.ebnbin.eb.preference.SimplePreferenceGroup
+        android:key="@string/profile_is_preview_on">
+
+        <com.ebnbin.eb.preference.SimplePreferenceGroup
+            android:key="@string/profile_back_preview"/>
+
+        <com.ebnbin.eb.preference.SimplePreferenceGroup
+            android:key="@string/profile_front_preview"/>
+
+    </com.ebnbin.eb.preference.SimplePreferenceGroup>
+
     <com.ebnbin.eb.preference.FooterPreference/>
 
 </androidx.preference.PreferenceScreen>
