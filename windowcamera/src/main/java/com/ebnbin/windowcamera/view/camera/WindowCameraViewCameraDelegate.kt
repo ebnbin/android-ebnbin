@@ -12,6 +12,7 @@ import android.media.MediaRecorder
 import android.view.Surface
 import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.permission.PermissionHelper
+import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.res
@@ -26,7 +27,6 @@ import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.util.IOHelper
-import com.ebnbin.windowcamera.util.ToastHelper
 import java.io.File
 import java.io.FileOutputStream
 
@@ -163,7 +163,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             fos.write(byteArray)
             fos.close()
             image.close()
-            toast(file)
+            callback.windowToast(file)
         }
         imageReader.setOnImageAvailableListener(onImageAvailableListener, null)
         this.imageReader = imageReader
@@ -349,29 +349,22 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         if (!isVideoRecording) return
         isVideoRecording = false
 
-        var error = false
         mediaRecorder?.run {
             mediaRecorder = null
             try {
                 stop()
             } catch (e: Exception) {
                 DevHelper.report(CameraMediaRecorderStopException(e))
-                error = true
             }
             try {
                 release()
             } catch (e: Exception) {
                 DevHelper.report(e)
-                error = true
             }
         }
         videoFile?.run {
             videoFile = null
-            if (error) {
-                toast(R.string.camera_error_media_recorder_stop)
-            } else {
-                toast(this)
-            }
+            callback.windowToast(this)
         }
 
         videoCaptureCameraCaptureSession?.run {
@@ -409,18 +402,12 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
     //*****************************************************************************************************************
 
-    private fun toast(any: Any?) {
-        ToastHelper.toast(callback.getContext(), any, ToastHelper.Type.SYSTEM_ALERT_WINDOW)
-    }
-
-    //*****************************************************************************************************************
-
     /**
      * 相机异常.
      */
     private fun onCameraError(string: String) {
         DevHelper.report(CameraException(string))
-        toast(string)
+        AppHelper.toast(callback.getContext(), string)
         WindowCameraService.stop(callback.getContext())
     }
 
@@ -430,7 +417,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun onCameraError(exception: CameraException) {
         DevHelper.report(exception)
         if (exception.text.isNotEmpty()) {
-            toast(exception.text)
+            AppHelper.toast(callback.getContext(), exception.text)
         }
         WindowCameraService.stop(callback.getContext())
     }

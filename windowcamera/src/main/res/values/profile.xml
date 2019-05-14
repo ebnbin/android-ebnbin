@@ -81,6 +81,20 @@
     <string name="profile_is_keep_screen_on_enabled_summary_off">禁用</string>
     <string name="profile_is_keep_screen_on_enabled_summary_on">启用</string>
 
+    <string name="profile_toast" translatable="false">toast</string>
+    <string name="profile_toast_default_value" translatable="false">system_alert_window</string>
+    <string name="profile_toast_title">提示弹窗</string>
+    <string-array name="profile_toast_entry_values" translatable="false">
+        <item>system_alert_window</item>
+        <item>system</item>
+        <item>none</item>
+    </string-array>
+    <string-array name="profile_toast_entries">
+        <item>自定义样式。不会被相机窗口遮挡</item>
+        <item>系统默认样式</item>
+        <item>不显示</item>
+    </string-array>
+
     <string name="profile_control" translatable="false">control</string>
     <string name="profile_control_title">控制</string>
 

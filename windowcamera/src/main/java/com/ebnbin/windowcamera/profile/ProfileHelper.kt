@@ -30,6 +30,7 @@ object ProfileHelper {
     val long_press: Sp<Unit> = ProfileSp(R.string.profile_long_press, Unit)
     val is_move_enabled: Sp<Boolean> = ProfileSp(R.string.profile_is_move_enabled, res.getBoolean(R.bool.profile_is_move_enabled_default_value))
     val is_stop_when_screen_off_enabled: Sp<Boolean> = ProfileSp(R.string.profile_is_stop_when_screen_off_enabled, res.getBoolean(R.bool.profile_is_stop_when_screen_off_enabled_default_value))
+    val toast: Sp<String> = ProfileSp(R.string.profile_toast, res.getString(R.string.profile_toast_default_value))
 
     val is_front: Sp<Boolean> = ProfileSp(R.string.profile_is_front, res.getBoolean(R.bool.profile_is_front_default_value))
     val is_video: Sp<Boolean> = ProfileSp(R.string.profile_is_video, res.getBoolean(R.bool.profile_is_video_default_value))

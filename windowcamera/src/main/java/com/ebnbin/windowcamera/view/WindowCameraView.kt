@@ -3,14 +3,18 @@ package com.ebnbin.windowcamera.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.PixelFormat
 import android.graphics.SurfaceTexture
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraCallback
 import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraDelegate
@@ -42,6 +46,62 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 {
     init {
         setWillNotDraw(false)
+    }
+
+    //*****************************************************************************************************************
+
+    @SuppressLint("ShowToast")
+    override fun windowToast(any: Any?, duration: Int, forceSystemAlertWindow: Boolean) {
+        when (if (forceSystemAlertWindow) "system_alert_window" else ProfileHelper.toast.value) {
+            "system_alert_window" -> {
+                val toast = if (any is Int) {
+                    Toast.makeText(context, any, Toast.LENGTH_SHORT)
+                } else {
+                    Toast.makeText(context, any.toString(), Toast.LENGTH_SHORT)
+                }
+                val view = toast.view
+                val params = WindowManager.LayoutParams()
+                params.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                params.type = if (BuildHelper.sdk26O()) {
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                } else {
+                    @Suppress("DEPRECATION")
+                    WindowManager.LayoutParams.TYPE_PHONE
+                }
+                params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                params.format = PixelFormat.TRANSLUCENT
+                SystemServices.windowManager.addView(view, params)
+                val delay = when (duration) {
+                    Toast.LENGTH_SHORT -> 3000L
+                    Toast.LENGTH_LONG -> 6000L
+                    else -> duration.toLong()
+                }
+                view.postDelayed({
+                    try {
+                        SystemServices.windowManager.removeView(view)
+                    } catch (e: Exception) {
+                        // Ignore.
+                    }
+                }, delay)
+            }
+            "system" -> {
+                if (duration != Toast.LENGTH_SHORT && duration != Toast.LENGTH_LONG) throw RuntimeException()
+                if (any is Int) {
+                    Toast.makeText(context, any, duration).show()
+                } else {
+                    Toast.makeText(context, any.toString(), duration).show()
+                }
+            }
+            "none" -> {
+                // Do nothing.
+            }
+            else -> {
+                throw RuntimeException()
+            }
+        }
     }
 
     //*****************************************************************************************************************

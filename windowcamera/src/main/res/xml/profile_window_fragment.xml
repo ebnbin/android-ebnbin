@@ -102,6 +102,16 @@
             android:summaryOn="@string/profile_is_keep_screen_on_enabled_summary_on"
             android:icon="@drawable/profile_is_keep_screen_on_enabled"/>
 
+        <com.ebnbin.eb.preference.SimpleListPreference
+            android:key="@string/profile_toast"
+            android:defaultValue="@string/profile_toast_default_value"
+            android:title="@string/profile_toast_title"
+            android:icon="@drawable/profile_toast"
+            android:entryValues="@array/profile_toast_entry_values"
+            android:entries="@array/profile_toast_entries"
+            android:dialogTitle="@string/profile_toast_title"
+            android:dialogIcon="@drawable/profile_toast"/>
+
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory
