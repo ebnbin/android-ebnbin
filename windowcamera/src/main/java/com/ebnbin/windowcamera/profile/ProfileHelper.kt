@@ -33,6 +33,8 @@ object ProfileHelper {
     val toast: Sp<String> = ProfileSp(R.string.profile_toast, res.getString(R.string.profile_toast_default_value))
 
     val is_front: Sp<Boolean> = ProfileSp(R.string.profile_is_front, res.getBoolean(R.bool.profile_is_front_default_value))
+    val is_preview: Sp<Boolean> = ProfileSp(R.string.profile_is_preview, res.getBoolean(R.bool.profile_is_preview_default_value))
+    val is_preview_off: Sp<Unit> = ProfileSp(R.string.profile_is_preview_off, Unit)
     val is_video: Sp<Boolean> = ProfileSp(R.string.profile_is_video, res.getBoolean(R.bool.profile_is_video_default_value))
     val back_photo: Sp<Unit> = ProfileSp(R.string.profile_back_photo, Unit)
     val back_photo_resolution: Sp<String> = ProfileSp(R.string.profile_back_photo_resolution) { CameraHelper.instance.requireBackDevice().requireDefaultPhotoResolution().entryValue }

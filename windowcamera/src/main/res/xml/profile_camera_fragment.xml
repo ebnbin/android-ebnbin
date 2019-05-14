@@ -12,26 +12,37 @@
         app:ebIconOff="@drawable/profile_is_front_off"
         app:ebIconOn="@drawable/profile_is_front_on"/>
 
-    <com.ebnbin.eb.preference.SimpleSwitchPreference
-        android:key="@string/profile_is_video"
-        android:defaultValue="@bool/profile_is_video_default_value"
-        android:title="@string/profile_is_video_title"
-        android:summaryOff="@string/profile_is_video_summary_off"
-        android:summaryOn="@string/profile_is_video_summary_on"
-        app:ebIconOff="@drawable/profile_is_video_off"
-        app:ebIconOn="@drawable/profile_is_video_on"/>
+    <androidx.preference.CheckBoxPreference
+        android:key="@string/profile_is_preview"
+        android:defaultValue="@bool/profile_is_preview_default_value"
+        android:title="@string/profile_is_preview_title"
+        android:icon="@drawable/profile_is_preview"/>
 
     <com.ebnbin.eb.preference.SimplePreferenceGroup
-        android:key="@string/profile_back_photo"/>
+        android:key="@string/profile_is_preview_off">
 
-    <com.ebnbin.eb.preference.SimplePreferenceGroup
-        android:key="@string/profile_back_video"/>
+        <com.ebnbin.eb.preference.SimpleSwitchPreference
+            android:key="@string/profile_is_video"
+            android:defaultValue="@bool/profile_is_video_default_value"
+            android:title="@string/profile_is_video_title"
+            android:summaryOff="@string/profile_is_video_summary_off"
+            android:summaryOn="@string/profile_is_video_summary_on"
+            app:ebIconOff="@drawable/profile_is_video_off"
+            app:ebIconOn="@drawable/profile_is_video_on"/>
 
-    <com.ebnbin.eb.preference.SimplePreferenceGroup
-        android:key="@string/profile_front_photo"/>
+        <com.ebnbin.eb.preference.SimplePreferenceGroup
+            android:key="@string/profile_back_photo"/>
 
-    <com.ebnbin.eb.preference.SimplePreferenceGroup
-        android:key="@string/profile_front_video"/>
+        <com.ebnbin.eb.preference.SimplePreferenceGroup
+            android:key="@string/profile_back_video"/>
+
+        <com.ebnbin.eb.preference.SimplePreferenceGroup
+            android:key="@string/profile_front_photo"/>
+
+        <com.ebnbin.eb.preference.SimplePreferenceGroup
+            android:key="@string/profile_front_video"/>
+
+    </com.ebnbin.eb.preference.SimplePreferenceGroup>
 
     <com.ebnbin.eb.preference.FooterPreference/>
 

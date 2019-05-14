@@ -146,6 +146,12 @@
     <string name="profile_is_video_summary_off">照片</string>
     <string name="profile_is_video_summary_on">视频</string>
 
+    <string name="profile_is_preview" translatable="false">is_preview</string>
+    <bool name="profile_is_preview_default_value">false</bool>
+    <string name="profile_is_preview_title">仅预览</string>
+
+    <string name="profile_is_preview_off" translatable="false">is_preview_off</string>
+
     <string name="profile_photo_resolution_entry">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素</string>
     <string name="profile_video_profile_entry">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素，%6$s</string>
 

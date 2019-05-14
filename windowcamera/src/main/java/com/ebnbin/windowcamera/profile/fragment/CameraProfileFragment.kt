@@ -17,6 +17,10 @@ class CameraProfileFragment : BaseProfileFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
         setPreferencesFromResource(R.xml.profile_camera_fragment, rootKey)
 
+        findPreference<SimplePreferenceGroup>(ProfileHelper.is_preview_off.key)?.run {
+            visibleKeysOff = arrayOf(ProfileHelper.is_preview.key)
+        }
+
         findPreference<SimplePreferenceGroup>(ProfileHelper.back_photo.key)?.run {
             visibleKeysOff = arrayOf(ProfileHelper.is_front.key, ProfileHelper.is_video.key)
         }
