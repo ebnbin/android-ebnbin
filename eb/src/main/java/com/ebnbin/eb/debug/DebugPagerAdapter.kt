@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.util.ebApp
 
-internal class DebugPagerAdapter(private val fm: FragmentManager) : FragmentPagerAdapter(fm) {
+internal class DebugPagerAdapter(
+    private val fm: FragmentManager
+) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val pages: List<Pair<Class<out BaseDebugPageFragment>, CharSequence>> =
         ArrayList<Pair<Class<out BaseDebugPageFragment>, CharSequence>>().apply {
             ebApp.debugPageFragmentClass?.let {
