@@ -12,7 +12,6 @@ import android.media.MediaRecorder
 import android.view.Surface
 import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.permission.PermissionHelper
-import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.res
@@ -27,6 +26,7 @@ import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.util.IOHelper
+import com.ebnbin.windowcamera.util.ToastHelper
 import java.io.File
 import java.io.FileOutputStream
 
@@ -163,7 +163,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             fos.write(byteArray)
             fos.close()
             image.close()
-            toastFile(file)
+            toast(file)
         }
         imageReader.setOnImageAvailableListener(onImageAvailableListener, null)
         this.imageReader = imageReader
@@ -368,9 +368,9 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         videoFile?.run {
             videoFile = null
             if (error) {
-                AppHelper.toast(callback.getContext(), R.string.camera_error_media_recorder_stop)
+                toast(R.string.camera_error_media_recorder_stop)
             } else {
-                toastFile(this)
+                toast(this)
             }
         }
 
@@ -407,8 +407,10 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         }
     }
 
-    private fun toastFile(file: File) {
-        AppHelper.toast(callback.getContext(), file)
+    //*****************************************************************************************************************
+
+    private fun toast(any: Any?) {
+        ToastHelper.toast(callback.getContext(), any, ToastHelper.Type.SYSTEM_ALERT_WINDOW)
     }
 
     //*****************************************************************************************************************
@@ -418,7 +420,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
      */
     private fun onCameraError(string: String) {
         DevHelper.report(CameraException(string))
-        AppHelper.toast(callback.getContext(), string)
+        toast(string)
         WindowCameraService.stop(callback.getContext())
     }
 
@@ -428,7 +430,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun onCameraError(exception: CameraException) {
         DevHelper.report(exception)
         if (exception.text.isNotEmpty()) {
-            AppHelper.toast(callback.getContext(), exception.text)
+            toast(exception.text)
         }
         WindowCameraService.stop(callback.getContext())
     }
