@@ -21,6 +21,7 @@ object ProfileHelper {
     val out_y: Sp<Int> = ProfileSp(R.string.profile_out_y, res.getInteger(R.integer.profile_out_y_default_value))
     val display: Sp<Unit> = ProfileSp(R.string.profile_display, Unit)
     val alpha: Sp<Int> = ProfileSp(R.string.profile_alpha, res.getInteger(R.integer.profile_alpha_default_value))
+    val is_border_enabled: Sp<Boolean> = ProfileSp(R.string.profile_is_border_enabled, res.getBoolean(R.bool.profile_is_border_enabled_default_value))
     val is_keep_screen_on_enabled: Sp<Boolean> = ProfileSp(R.string.profile_is_keep_screen_on_enabled, res.getBoolean(R.bool.profile_is_keep_screen_on_enabled_default_value))
     val control: Sp<Unit> = ProfileSp(R.string.profile_control, Unit)
     val is_touchable: Sp<Boolean> = ProfileSp(R.string.profile_is_touchable, res.getBoolean(R.bool.profile_is_touchable_default_value))
