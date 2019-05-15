@@ -5,7 +5,9 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.PixelFormat
 import android.graphics.SurfaceTexture
+import android.view.Gravity
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -14,6 +16,7 @@ import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.eb.util.dpToPxRound
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraCallback
@@ -50,10 +53,17 @@ class WindowCameraView(context: Context) : FrameLayout(context),
 
     //*****************************************************************************************************************
 
+    private var lastToastView: View? = null
+
     @SuppressLint("ShowToast")
-    override fun windowToast(any: Any?, duration: Int, forceSystemAlertWindow: Boolean) {
-        when (if (forceSystemAlertWindow) "system_alert_window" else ProfileHelper.toast.value) {
+    override fun toast(any: Any?, long: Boolean) {
+        when (ProfileHelper.toast.value) {
             "system_alert_window" -> {
+                lastToastView?.run {
+                    val runnable = tag as Runnable
+                    removeCallbacks(runnable)
+                    runnable.run()
+                }
                 val toast = if (any is Int) {
                     Toast.makeText(context, any, Toast.LENGTH_SHORT)
                 } else {
@@ -73,22 +83,25 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 params.format = PixelFormat.TRANSLUCENT
+                params.windowAnimations = android.R.style.Animation_Toast
+                params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+                params.y = 24f.dpToPxRound
                 SystemServices.windowManager.addView(view, params)
-                val delay = when (duration) {
-                    Toast.LENGTH_SHORT -> 3000L
-                    Toast.LENGTH_LONG -> 6000L
-                    else -> duration.toLong()
-                }
-                view.postDelayed({
+                lastToastView = view
+                val delay = if (long) 5000L else 2000L
+                val runnable = Runnable {
+                    lastToastView = null
                     try {
                         SystemServices.windowManager.removeView(view)
                     } catch (e: Exception) {
                         // Ignore.
                     }
-                }, delay)
+                }
+                view.tag = runnable
+                view.postDelayed(runnable, delay)
             }
             "system" -> {
-                if (duration != Toast.LENGTH_SHORT && duration != Toast.LENGTH_LONG) throw RuntimeException()
+                val duration = if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
                 if (any is Int) {
                     Toast.makeText(context, any, duration).show()
                 } else {

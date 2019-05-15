@@ -176,7 +176,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             fos.write(byteArray)
             fos.close()
             image.close()
-            callback.windowToast(file)
+            callback.toast(file)
         }
         imageReader.setOnImageAvailableListener(onImageAvailableListener, null)
         this.imageReader = imageReader
@@ -377,7 +377,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         }
         videoFile?.run {
             videoFile = null
-            callback.windowToast(this)
+            callback.toast(this)
         }
 
         videoCaptureCameraCaptureSession?.run {
