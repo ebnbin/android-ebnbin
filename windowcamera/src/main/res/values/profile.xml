@@ -181,20 +181,6 @@
     <string name="profile_front_video_profile" translatable="false">front_video_profile</string>
     <string name="profile_front_video_profile_title">前置摄像头视频配置</string>
 
-    <string name="profile_is_preview_on" translatable="false">is_preview_on</string>
-
-    <string name="profile_preview_ratio_entry">%1$d:%2$d</string>
-
-    <string name="profile_back_preview" translatable="false">back_preview</string>
-
-    <string name="profile_back_preview_ratio" translatable="false">back_preview_ratio</string>
-    <string name="profile_back_preview_ratio_title">后置摄像头预览宽高比</string>
-
-    <string name="profile_front_preview" translatable="false">front_preview</string>
-
-    <string name="profile_front_preview_ratio" translatable="false">front_preview_ratio</string>
-    <string name="profile_front_preview_ratio_title">前置摄像头预览宽高比</string>
-
     <!-- 其他. -->
     <!-- ********************************************************************************************************** -->
     <eat-comment/>

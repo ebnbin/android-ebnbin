@@ -67,12 +67,6 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             ProfileHelper.front_video_profile.key -> {
                 reopenCamera()
             }
-            ProfileHelper.back_preview_ratio.key -> {
-                reopenCamera()
-            }
-            ProfileHelper.front_preview_ratio.key -> {
-                reopenCamera()
-            }
         }
     }
 

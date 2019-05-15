@@ -14,7 +14,6 @@ import android.util.Size
 import android.view.Surface
 import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.util.EBModel
-import com.ebnbin.eb.util.Ratio
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
@@ -116,6 +115,7 @@ class CameraHelper private constructor() : EBModel {
             null
         }
 
+        // For report.
         private val oldPreferredPreviewSizeForVideo: Camera.Size? = oldParameters?.preferredPreviewSizeForVideo
 
         // For report.
@@ -180,6 +180,13 @@ class CameraHelper private constructor() : EBModel {
         //*************************************************************************************************************
 
         @Transient
+        private val sensorInfoPixelArraySize: Size =
+            cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE) as Size
+
+        val sensorResolution: Resolution =
+            Resolution(sensorInfoPixelArraySize.width, sensorInfoPixelArraySize.height, sensorOrientation)
+
+        @Transient
         private val scalerStreamConfigurationMap: StreamConfigurationMap =
             cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) as StreamConfigurationMap
 
@@ -200,11 +207,10 @@ class CameraHelper private constructor() : EBModel {
                 .sortedDescending()
         }
 
-        private var defaultPhotoResolution: Resolution? = null
-        init {
-            if (photoResolutions.isNotEmpty()) {
-                defaultPhotoResolution = photoResolutions.first()
-            }
+        private val defaultPhotoResolution: Resolution? = if (photoResolutions.isEmpty()) {
+            null
+        } else {
+            photoResolutions.first()
         }
 
         fun requireDefaultPhotoResolution(): Resolution {
@@ -246,20 +252,10 @@ class CameraHelper private constructor() : EBModel {
 
         val previewResolutions: List<Resolution> = run {
             val displayRealSize = WindowHelper.displayRealSize
-            val preferredPreviewResolution = oldPreferredPreviewSizeForVideo?.let {
-                Resolution(it.width, it.height, sensorOrientation)
-            }
             val linkedHashSet = LinkedHashSet<Resolution>()
             (surfaceTextureSizes ?: emptyArray())
                 .filter { it.width > 0 && it.height > 0 }
                 .map { Resolution(it.width, it.height, sensorOrientation) }
-                .filter {
-                    if (preferredPreviewResolution == null) {
-                        true
-                    } else {
-                        it.isWidthHeightLessOrEquals(preferredPreviewResolution)
-                    }
-                }
                 .sorted()
                 .run outer@{
                     forEach {
@@ -272,34 +268,16 @@ class CameraHelper private constructor() : EBModel {
                 .toList()
         }
 
-        val previewRatios: List<PreviewRatio> = previewResolutions
-            .map { PreviewRatio(it) }
-            .toSet()
-            .toList()
-
-        fun requireDefaultPreviewRatio(): PreviewRatio {
-            return previewRatios.firstOrNull { it.width == 4 && it.height == 3 }
-                ?: previewRatios.firstOrNull { it.width == 3 && it.height == 4 }
-                ?: previewRatios.first()
-        }
-
-        fun getPreviewRatio(entryValue: String): PreviewRatio {
-            return previewRatios.first { it.entryValue == entryValue }
-        }
-
-        fun getPreviewResolution(captureResolution: Resolution): Resolution {
+        fun getPreviewResolution(resolution: Resolution): Resolution {
             return previewResolutions
-                .firstOrNull { it.ratio0 == captureResolution.ratio0 }
+                .firstOrNull { it.ratio0 == resolution.ratio0 }
                 ?: previewResolutions.first()
         }
 
-        open class PreviewRatio(@Transient val resolution: Resolution) :
-            Ratio(resolution.ratio.width, resolution.ratio.height) {
-            /**
-             * 用于 SharedPreferences.
-             */
-            @Transient
-            val entryValue: String = "${width}_$height"
+        private val defaultPreviewResolution: Resolution? = if (previewResolutions.isEmpty()) {
+            null
+        } else {
+            getPreviewResolution(sensorResolution)
         }
 
         //*************************************************************************************************************
@@ -325,14 +303,13 @@ class CameraHelper private constructor() : EBModel {
                 .sortedDescending()
         }
 
-        private var defaultVideoProfile: VideoProfile? = null
-        init {
-            if (videoProfiles.isNotEmpty()) {
-                defaultVideoProfile = videoProfiles.firstOrNull {
-                    it.camcorderProfile.quality == CamcorderProfile.QUALITY_1080P ||
-                            it.camcorderProfile.quality == CamcorderProfile.QUALITY_HIGH
-                } ?: videoProfiles.first()
-            }
+        private val defaultVideoProfile: VideoProfile? = if (videoProfiles.isEmpty()) {
+            null
+        } else {
+            videoProfiles.firstOrNull {
+                it.camcorderProfile.quality == CamcorderProfile.QUALITY_1080P ||
+                        it.camcorderProfile.quality == CamcorderProfile.QUALITY_HIGH
+            } ?: videoProfiles.first()
         }
 
         fun requireDefaultVideoProfile(): VideoProfile {
