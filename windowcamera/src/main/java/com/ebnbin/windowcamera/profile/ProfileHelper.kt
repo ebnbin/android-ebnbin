@@ -38,13 +38,13 @@ object ProfileHelper {
     val is_preview_off: Sp<Unit> = ProfileSp(R.string.profile_is_preview_off, Unit)
     val is_video: Sp<Boolean> = ProfileSp(R.string.profile_is_video, res.getBoolean(R.bool.profile_is_video_default_value))
     val back_photo: Sp<Unit> = ProfileSp(R.string.profile_back_photo, Unit)
-    val back_photo_resolution: Sp<String> = ProfileSp(R.string.profile_back_photo_resolution) { CameraHelper.instance.requireBackDevice().requireDefaultPhotoResolution().entryValue }
+    val back_photo_resolution: Sp<String> = ProfileSp(R.string.profile_back_photo_resolution) { CameraHelper.getInstance().requireBackDevice().requireDefaultPhotoResolution().entryValue }
     val back_video: Sp<Unit> = ProfileSp(R.string.profile_back_video, Unit)
-    val back_video_profile: Sp<String> = ProfileSp(R.string.profile_back_video_profile) { CameraHelper.instance.requireBackDevice().requireDefaultVideoProfile().entryValue }
+    val back_video_profile: Sp<String> = ProfileSp(R.string.profile_back_video_profile) { CameraHelper.getInstance().requireBackDevice().requireDefaultVideoProfile().entryValue }
     val front_photo: Sp<Unit> = ProfileSp(R.string.profile_front_photo, Unit)
-    val front_photo_resolution: Sp<String> = ProfileSp(R.string.profile_front_photo_resolution) { CameraHelper.instance.requireFrontDevice().requireDefaultPhotoResolution().entryValue }
+    val front_photo_resolution: Sp<String> = ProfileSp(R.string.profile_front_photo_resolution) { CameraHelper.getInstance().requireFrontDevice().requireDefaultPhotoResolution().entryValue }
     val front_video: Sp<Unit> = ProfileSp(R.string.profile_front_video, Unit)
-    val front_video_profile: Sp<String> = ProfileSp(R.string.profile_front_video_profile) { CameraHelper.instance.requireFrontDevice().requireDefaultVideoProfile().entryValue }
+    val front_video_profile: Sp<String> = ProfileSp(R.string.profile_front_video_profile) { CameraHelper.getInstance().requireFrontDevice().requireDefaultVideoProfile().entryValue }
 
     val path: Sp<Unit> = ProfileSp(R.string.profile_path, Unit)
 
@@ -74,27 +74,27 @@ object ProfileHelper {
 
     fun device(): CameraHelper.Device {
         return if (is_front.value) {
-            CameraHelper.instance.requireFrontDevice()
+            CameraHelper.getInstance().requireFrontDevice()
         } else {
-            CameraHelper.instance.requireBackDevice()
+            CameraHelper.getInstance().requireBackDevice()
         }
     }
 
     fun photoResolution(): CameraHelper.Device.Resolution {
         if (is_video.value) throw RuntimeException()
         return if (is_front.value) {
-            CameraHelper.instance.requireFrontDevice().getPhotoResolution(front_photo_resolution.value)
+            CameraHelper.getInstance().requireFrontDevice().getPhotoResolution(front_photo_resolution.value)
         } else {
-            CameraHelper.instance.requireBackDevice().getPhotoResolution(back_photo_resolution.value)
+            CameraHelper.getInstance().requireBackDevice().getPhotoResolution(back_photo_resolution.value)
         }
     }
 
     fun videoProfile(): CameraHelper.Device.VideoProfile {
         if (!is_video.value) throw RuntimeException()
         return if (is_front.value) {
-            CameraHelper.instance.requireFrontDevice().getVideoProfile(front_video_profile.value)
+            CameraHelper.getInstance().requireFrontDevice().getVideoProfile(front_video_profile.value)
         } else {
-            CameraHelper.instance.requireBackDevice().getVideoProfile(back_video_profile.value)
+            CameraHelper.getInstance().requireBackDevice().getVideoProfile(back_video_profile.value)
         }
     }
 

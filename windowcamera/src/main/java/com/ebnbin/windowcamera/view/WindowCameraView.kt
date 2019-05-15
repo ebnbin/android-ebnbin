@@ -15,6 +15,7 @@ import android.widget.Toast
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.IntentHelper
+import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.dpToPxRound
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -64,11 +65,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                     removeCallbacks(runnable)
                     runnable.run()
                 }
-                val toast = if (any is Int) {
-                    Toast.makeText(context, any, Toast.LENGTH_SHORT)
-                } else {
-                    Toast.makeText(context, any.toString(), Toast.LENGTH_SHORT)
-                }
+                val toast = Toast.makeText(context, ResHelper.getString(any), Toast.LENGTH_SHORT)
                 val view = toast.view
                 val params = WindowManager.LayoutParams()
                 params.width = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -101,12 +98,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 view.postDelayed(runnable, delay)
             }
             "system" -> {
-                val duration = if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
-                if (any is Int) {
-                    Toast.makeText(context, any, duration).show()
-                } else {
-                    Toast.makeText(context, any.toString(), duration).show()
-                }
+                AppHelper.toast(context, any, long)
             }
             "none" -> {
                 // Do nothing.

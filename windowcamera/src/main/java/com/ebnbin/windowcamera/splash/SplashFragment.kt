@@ -17,7 +17,6 @@ import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
-import com.ebnbin.windowcamera.camera.exception.CameraInvalidException
 import com.ebnbin.windowcamera.dev.Report
 import com.ebnbin.windowcamera.main.MainActivity
 
@@ -91,10 +90,10 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
         } catch (throwable: Throwable) {
             DevHelper.report(ReportException(throwable))
         }
-        try {
-            if (!CameraHelper.instance.isValid()) throw CameraInvalidException()
-        } catch (throwable: Throwable) {
-            DevHelper.report(throwable)
+        if (CameraHelper.init()) {
+            IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
+            finish()
+        } else {
             SimpleDialogFragment.start(childFragmentManager,
                 SimpleDialogFragment.Builder(
                     message = getString(R.string.splash_camera_message),
@@ -105,10 +104,7 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
                 bundleOf(
                     Consts.KEY_CALLING_ID to "splash_camera"
                 ))
-            return
         }
-        IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
-        finish()
     }
 
     override fun onNewVersion(oldVersion: Int, newVersion: Int) {

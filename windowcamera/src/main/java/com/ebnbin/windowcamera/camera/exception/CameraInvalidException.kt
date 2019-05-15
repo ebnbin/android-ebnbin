@@ -1,3 +1,3 @@
 package com.ebnbin.windowcamera.camera.exception
 
-class CameraInvalidException : CameraException("")
+class CameraInvalidException : RuntimeException()

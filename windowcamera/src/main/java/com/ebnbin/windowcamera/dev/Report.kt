@@ -4,5 +4,5 @@ import com.ebnbin.eb.dev.EBReport
 import com.ebnbin.windowcamera.camera.CameraHelper
 
 class Report : EBReport() {
-    val cameraHelper: CameraHelper = CameraHelper.instance
+    val cameraHelper: CameraHelper = CameraHelper.getInstance()
 }

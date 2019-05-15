@@ -18,4 +18,15 @@ object ResHelper {
         typedArray.recycle()
         return color
     }
+
+    /**
+     * @param any 如果为 Int 则取字符串资源.
+     */
+    fun getString(any: Any?): String {
+        return if (any is Int) {
+            res.getString(any)
+        } else {
+            any.toString()
+        }
+    }
 }

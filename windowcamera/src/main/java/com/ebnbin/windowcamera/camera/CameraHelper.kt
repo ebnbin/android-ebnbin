@@ -17,6 +17,7 @@ import com.ebnbin.eb.util.EBModel
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
+import com.ebnbin.windowcamera.camera.exception.CameraInvalidException
 
 /**
  * 相机帮助类.
@@ -419,7 +420,27 @@ class CameraHelper private constructor() : EBModel {
     }
 
     companion object {
-        val instance: CameraHelper by lazy { CameraHelper() }
+        private var singleton: CameraHelper? = null
+
+        fun init(): Boolean {
+            if (singleton != null) return true
+            try {
+                val cameraHelper = CameraHelper()
+                if (cameraHelper.isValid()) {
+                    singleton = cameraHelper
+                    return true
+                } else {
+                    throw CameraInvalidException()
+                }
+            } catch (throwable: Throwable) {
+                DevHelper.report(throwable)
+            }
+            return false
+        }
+
+        fun getInstance(): CameraHelper {
+            return singleton ?: throw RuntimeException()
+        }
 
         private val CAMCORDER_PROFILE_QUALITIES = listOf(
             CamcorderProfile.QUALITY_2160P,

@@ -1,6 +1,5 @@
 package com.ebnbin.windowcamera.view.camera
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.ImageFormat
@@ -11,18 +10,12 @@ import android.media.ImageReader
 import android.media.MediaRecorder
 import android.view.Surface
 import com.ebnbin.eb.dev.DevHelper
-import com.ebnbin.eb.permission.PermissionHelper
 import com.ebnbin.eb.util.AppHelper
+import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
-import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.camera.exception.CameraDisconnectedException
 import com.ebnbin.windowcamera.camera.exception.CameraException
-import com.ebnbin.windowcamera.camera.exception.CameraMediaRecorderStopException
-import com.ebnbin.windowcamera.camera.exception.CameraPermissionException
-import com.ebnbin.windowcamera.camera.exception.CameraPhotoPreviewStopRepeatingException
-import com.ebnbin.windowcamera.camera.exception.CameraVideoCaptureStopRepeatingException
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -98,17 +91,19 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onDisconnected(camera: CameraDevice) {
-                onCameraError(CameraDisconnectedException())
+                // 通常发生在通过别的应用启动相机时.
+                onCameraError(R.string.camera_error_disconnected, report = false)
             }
 
             override fun onError(camera: CameraDevice, error: Int) {
-                onCameraError(res.getString(R.string.camera_error_code, error))
+                onCameraError(callback.getContext().getString(R.string.camera_error_code, error))
             }
         }
-        if (PermissionHelper.isPermissionsGranted(arrayListOf(Manifest.permission.CAMERA))) {
+        try {
             SystemServices.cameraManager.openCamera(ProfileHelper.device().id, callback, null)
-        } else {
-            onCameraError(CameraPermissionException())
+        } catch (e: Exception) {
+            onCameraError(R.string.camera_error_open, e)
+            return
         }
     }
 
@@ -155,7 +150,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            onCameraError(R.string.camera_error_null)
             return
         }
         val photoResolution = ProfileHelper.photoResolution()
@@ -182,7 +177,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             override fun onConfigured(session: CameraCaptureSession) {
                 val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
                 if (innerCameraDevice == null) {
-                    onCameraError(CameraException(""))
+                    onCameraError("")
                     return
                 }
                 val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
@@ -195,7 +190,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError(res.getString(R.string.camera_error_photo_preview))
+                onCameraError(R.string.camera_error_photo_preview)
             }
         }
         cameraDevice.createCaptureSession(outputs, callback, null)
@@ -207,12 +202,19 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                DevHelper.report(CameraPhotoPreviewStopRepeatingException(e))
+                val report = when (e) {
+                    is IllegalStateException -> {
+                        // 通常发生在 CameraCaptureSession 已关闭时.
+                        false
+                    }
+                    else -> true
+                }
+                onCameraError("", e, report, toast = false, stopService = false)
             }
             try {
                 close()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                onCameraError("", e, toast = false, stopService = false)
             }
         }
 
@@ -221,7 +223,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 close()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                onCameraError("", e, toast = false, stopService = false)
             }
         }
     }
@@ -231,7 +233,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val imageReader = imageReader
         val photoCameraCaptureSession = photoCameraCaptureSession
         if (cameraDevice == null || imageReader == null || photoCameraCaptureSession == null) {
-            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            onCameraError(R.string.camera_error_null)
             return
         }
 
@@ -253,7 +255,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            onCameraError(R.string.camera_error_null)
             return
         }
         val surfaceTextureSurface = Surface(callback.getSurfaceTexture())
@@ -262,7 +264,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             override fun onConfigured(session: CameraCaptureSession) {
                 val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
                 if (innerCameraDevice == null) {
-                    onCameraError(CameraException(""))
+                    onCameraError("")
                     return
                 }
                 val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
@@ -275,7 +277,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError(res.getString(R.string.camera_error_video_preview))
+                onCameraError(R.string.camera_error_video_preview)
             }
         }
         cameraDevice.createCaptureSession(outputs, callback, null)
@@ -289,12 +291,19 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                val report = when (e) {
+                    is IllegalStateException -> {
+                        // 通常发生在 CameraCaptureSession 已关闭时.
+                        false
+                    }
+                    else -> true
+                }
+                onCameraError("", e, report, toast = false, stopService = false)
             }
             try {
                 close()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                onCameraError("", e, toast = false, stopService = false)
             }
         }
     }
@@ -307,10 +316,9 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun startVideoCapture() {
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            onCameraError(R.string.camera_error_null)
             return
         }
-        stopVideoPreview()
         val videoProfile = ProfileHelper.videoProfile()
         val videoFile = IOHelper.nextFile(videoProfile.extension)
         val mediaRecorder = MediaRecorder()
@@ -319,9 +327,17 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         mediaRecorder.setProfile(videoProfile.camcorderProfile)
         mediaRecorder.setOutputFile(videoFile.absolutePath)
         mediaRecorder.setOrientationHint(ProfileHelper.device().sensorOrientations[WindowHelper.displayRotation])
-        mediaRecorder.prepare()
+        try {
+            mediaRecorder.prepare()
+        } catch (e: Exception) {
+            onCameraError(R.string.camera_error_media_recorder_prepare, e)
+            return
+        }
+
         this.videoFile = videoFile
         this.mediaRecorder = mediaRecorder
+
+        stopVideoPreview()
 
         val surfaceTextureSurface = Surface(callback.getSurfaceTexture())
         val mediaRecorderSurface = mediaRecorder.surface
@@ -330,7 +346,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             override fun onConfigured(session: CameraCaptureSession) {
                 val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
                 if (innerCameraDevice == null) {
-                    onCameraError(CameraException(""))
+                    onCameraError("")
                     return
                 }
                 val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
@@ -346,7 +362,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError(res.getString(R.string.camera_error_video_capture))
+                onCameraError(R.string.camera_error_video_capture)
             }
         }
         cameraDevice.createCaptureSession(outputs, callback, null)
@@ -361,13 +377,20 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stop()
             } catch (e: Exception) {
-                DevHelper.report(CameraMediaRecorderStopException(e))
+                val report = when (e) {
+                    is RuntimeException -> {
+                        // 通常发生在停止拍摄和开始拍摄间隔太短时.
+                        false
+                    }
+                    else -> true
+                }
+                onCameraError("", e, report, toast = false, stopService = false)
+                videoFile?.run {
+                    videoFile = null
+                    delete()
+                }
             }
-            try {
-                release()
-            } catch (e: Exception) {
-                DevHelper.report(e)
-            }
+            release()
         }
         videoFile?.run {
             videoFile = null
@@ -379,12 +402,19 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                DevHelper.report(CameraVideoCaptureStopRepeatingException(e))
+                val report = when (e) {
+                    is IllegalStateException -> {
+                        // 通常发生在 CameraCaptureSession 已关闭时.
+                        false
+                    }
+                    else -> true
+                }
+                onCameraError("", e, report, toast = false, stopService = false)
             }
             try {
                 close()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                onCameraError("", e, toast = false, stopService = false)
             }
         }
 
@@ -402,7 +432,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(callback.getContext().getString(R.string.camera_error_null))
+            onCameraError(R.string.camera_error_null)
             return
         }
         val surfaceTextureSurface = Surface(callback.getSurfaceTexture())
@@ -411,7 +441,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             override fun onConfigured(session: CameraCaptureSession) {
                 val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
                 if (innerCameraDevice == null) {
-                    onCameraError(CameraException(""))
+                    onCameraError("")
                     return
                 }
                 val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
@@ -424,7 +454,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError(res.getString(R.string.camera_error_preview))
+                onCameraError(R.string.camera_error_preview)
             }
         }
         cameraDevice.createCaptureSession(outputs, callback, null)
@@ -436,12 +466,19 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                val report = when (e) {
+                    is IllegalStateException -> {
+                        // 通常发生在 CameraCaptureSession 已关闭时.
+                        false
+                    }
+                    else -> true
+                }
+                onCameraError("", e, report, toast = false, stopService = false)
             }
             try {
                 close()
             } catch (e: Exception) {
-                DevHelper.report(e)
+                onCameraError("", e, toast = false, stopService = false)
             }
         }
     }
@@ -469,20 +506,22 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     /**
      * 相机异常.
      */
-    private fun onCameraError(string: String) {
-        DevHelper.report(CameraException(string))
-        AppHelper.toast(callback.getContext(), string)
-        WindowCameraService.stop(callback.getContext())
-    }
-
-    /**
-     * 相机异常.
-     */
-    private fun onCameraError(exception: CameraException) {
-        DevHelper.report(exception)
-        if (exception.text.isNotEmpty()) {
-            AppHelper.toast(callback.getContext(), exception.text)
+    private fun onCameraError(
+        any: Any?,
+        throwable: Throwable? = null,
+        report: Boolean = true,
+        toast: Boolean = true,
+        stopService: Boolean = true
+    ) {
+        val string = ResHelper.getString(any)
+        if (report) {
+            DevHelper.report(CameraException(string, throwable))
         }
-        WindowCameraService.stop(callback.getContext())
+        if (toast) {
+            AppHelper.toast(callback.getContext(), string)
+        }
+        if (stopService) {
+            WindowCameraService.stop(callback.getContext())
+        }
     }
 }
