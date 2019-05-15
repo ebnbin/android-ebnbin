@@ -1,10 +1,11 @@
 package com.ebnbin.eb.library
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import org.greenrobot.eventbus.EventBus
 
 object Libraries {
     val eventBus: EventBus = EventBus.getDefault()
 
-    val gson: Gson = Gson().newBuilder().setPrettyPrinting().create()
+    val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 }

@@ -324,7 +324,7 @@ class CameraHelper private constructor() : EBModel {
         /**
          * 视频配置.
          */
-        open class VideoProfile(@Transient val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
+        class VideoProfile(@Transient val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
             Resolution(camcorderProfile.videoFrameWidth, camcorderProfile.videoFrameHeight, sensorOrientation) {
             // For report.
             private val duration: Int = camcorderProfile.duration
