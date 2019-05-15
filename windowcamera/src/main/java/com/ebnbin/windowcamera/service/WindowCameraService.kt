@@ -110,7 +110,9 @@ class WindowCameraService : Service() {
         val permissions: ArrayList<String> = arrayListOf(
             Manifest.permission.SYSTEM_ALERT_WINDOW,
             Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
         fun start(context: Context) {
