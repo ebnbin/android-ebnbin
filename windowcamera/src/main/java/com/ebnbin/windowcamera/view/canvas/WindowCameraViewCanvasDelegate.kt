@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.dpToPx
+import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -30,7 +31,7 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: CameraStateEvent) {
-        paint.color = colorMap[event.cameraState] ?: Color.TRANSPARENT
+        paint.color = callback.getContext().getColor(COLOR_MAP.getValue(event.cameraState))
         callback.invalidate()
     }
 
@@ -46,18 +47,6 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
 
     //*****************************************************************************************************************
 
-    private val colorMap = mapOf(
-        CameraState.CLOSED to Color.TRANSPARENT,
-        CameraState.OPENING to Color.GRAY,
-        CameraState.STARTING_PHOTO_PREVIEW to Color.GRAY,
-        CameraState.STARTING_VIDEO_PREVIEW to Color.GRAY,
-        CameraState.STARTING_PREVIEW to Color.GRAY,
-        CameraState.PREVIEWING_PHOTO to Color.BLUE,
-        CameraState.PREVIEWING_VIDEO to Color.GREEN,
-        CameraState.PREVIEWING to Color.YELLOW,
-        CameraState.CAPTURING_VIDEO to Color.RED
-    )
-
     private val paint: Paint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = 2f.dpToPx
@@ -69,5 +58,21 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
         if (ProfileHelper.is_border_enabled.value) {
             canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), paint)
         }
+    }
+
+    //*****************************************************************************************************************
+
+    companion object {
+        private val COLOR_MAP = mapOf(
+            CameraState.CLOSED to R.color.eb_transparent,
+            CameraState.OPENING to R.color.eb_material_gray_500,
+            CameraState.STARTING_PHOTO_PREVIEW to R.color.eb_material_gray_500,
+            CameraState.STARTING_VIDEO_PREVIEW to R.color.eb_material_gray_500,
+            CameraState.STARTING_PREVIEW to R.color.eb_material_gray_500,
+            CameraState.PREVIEWING_PHOTO to R.color.eb_material_blue_500,
+            CameraState.PREVIEWING_VIDEO to R.color.eb_material_green_500,
+            CameraState.PREVIEWING to R.color.eb_material_yellow_500,
+            CameraState.CAPTURING_VIDEO to R.color.eb_material_red_500
+        )
     }
 }

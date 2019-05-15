@@ -97,7 +97,6 @@
         <androidx.preference.CheckBoxPreference
             android:key="@string/profile_is_border_enabled"
             android:defaultValue="@bool/profile_is_border_enabled_default_value"
-            android:title="@string/profile_is_border_enabled_title"
             android:summaryOff="@string/profile_is_border_enabled_summary_off"
             android:summaryOn="@string/profile_is_border_enabled_summary_on"
             android:icon="@drawable/profile_is_border_enabled"/>
