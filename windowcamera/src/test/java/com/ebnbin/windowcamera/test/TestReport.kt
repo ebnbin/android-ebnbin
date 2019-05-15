@@ -215,7 +215,7 @@ private fun cameraFrontFirstOldSupportedVideoSize(): Map<String, List<Report>> {
     )
 }
 
-private fun lensFacings(): Map<String, List<Report>> {
+private fun cameraLensFacings(): Map<String, List<Report>> {
     return map(
         {
             val lensFacing0 = it.cameraHelper.substringAfter("oldId:0,lensFacing:", "").substringBefore(",")
@@ -232,6 +232,17 @@ private fun lensFacings(): Map<String, List<Report>> {
             val lensFacing3 = it.cameraHelper.devices.getOrNull(3)?.lensFacingString ?: ""
             val lensFacing4 = it.cameraHelper.devices.getOrNull(4)?.lensFacingString ?: ""
             "$lensFacing0,$lensFacing1,$lensFacing2,$lensFacing3,$lensFacing4"
+        }
+    )
+}
+
+private fun cameraBackFirstPhotoRatio(): Map<String, List<Report>> {
+    return map(
+        { it.cameraHelper.substringAfter("photoResolutions:[{", "").substringAfter(",ratio:", "").substringBefore("}") },
+        {
+            it.cameraHelper.devices.getOrNull(0)?.photoResolutions?.firstOrNull()?.run {
+                "${ratioWidth}_$ratioHeight"
+            } ?: ""
         }
     )
 }
@@ -260,5 +271,6 @@ fun main() {
     val cameraFrontFirstOldSupportedPreviewSize = cameraFrontFirstOldSupportedPreviewSize()
     val cameraBackFirstOldSupportedVideoSize = cameraBackFirstOldSupportedVideoSize()
     val cameraFrontFirstOldSupportedVideoSize = cameraFrontFirstOldSupportedVideoSize()
-    val lensFacings = lensFacings()
+    val cameraLensFacings = cameraLensFacings()
+    val cameraBackFirstPhotoRatio = cameraBackFirstPhotoRatio()
 }
