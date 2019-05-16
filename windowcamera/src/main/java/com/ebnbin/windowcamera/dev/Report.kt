@@ -2,7 +2,6 @@ package com.ebnbin.windowcamera.dev
 
 import com.ebnbin.eb.dev.EBReport
 import com.ebnbin.eb.util.EBModel
-import com.ebnbin.windowcamera.camera.CameraHelper
 
 class Report : EBReport() {
     var camera: Camera? = null
@@ -23,7 +22,8 @@ class Report : EBReport() {
             var sensorOrientation: Int? = null
             var sensorResolution: Resolution? = null
             var surfaceTextureSizes: List<String>? = null
-            var previewResolutions: List<Resolution>? = null
+            var previewNotGreaterResolutions: List<Resolution>? = null
+            var previewLessOrEqualsResolutions: List<Resolution>? = null
             var defaultPreviewResolution: Resolution? = null
             var jpegSizes: List<String>? = null
             var photoResolutions: List<Resolution>? = null
@@ -31,7 +31,6 @@ class Report : EBReport() {
             var mediaRecorderSizes: List<String>? = null
             var videoProfiles: List<VideoProfile>? = null
             var defaultVideoProfile: VideoProfile? = null
-            var rawSensorSizes: List<String>? = null
 
             open class Resolution : EBModel {
                 var entryValue: String? = null
@@ -53,9 +52,9 @@ class Report : EBReport() {
         }
     }
 
-    fun create(cameraHelper: CameraHelper?): Report {
+    fun create(camera: Camera?): Report {
         create()
-        camera = cameraHelper?.report()
+        this.camera = camera
         return this
     }
 }

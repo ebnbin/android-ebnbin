@@ -27,30 +27,21 @@ import com.ebnbin.windowcamera.dev.Report
  * 需要 camera 权限.
  */
 class CameraHelper private constructor() {
-    fun report(): Report.Camera {
-        val camera = Report.Camera()
-        camera.ids = ids
-        camera.devices = devices.map { it.report() }
-        camera.backDevice = backDevice?.id
-        camera.frontDevice = frontDevice?.id
-        return camera
-    }
-
     private val ids: List<String> = SystemServices.cameraManager.cameraIdList.toList()
 
     /**
      * 对所有摄像头进行检测, 但只使用第一个后置摄像头和第一个前置摄像头, 且后置摄像头和前置摄像头都必须存在.
      */
-    private val devices: List<Device> = ArrayList<Device>().apply {
-        ids.forEachIndexed { index, id ->
+    private val devices: List<Device> = ids
+        .mapIndexed { index, id ->
             try {
-                val device = Device(id, index)
-                add(device)
+                Device(id, index)
             } catch (throwable: Throwable) {
                 DevHelper.report(throwable)
+                null
             }
         }
-    }
+        .filterNotNull()
 
     private var backDevice: Device? = null
     private var frontDevice: Device? = null
@@ -78,12 +69,24 @@ class CameraHelper private constructor() {
         return frontDevice ?: throw RuntimeException()
     }
 
-    /**
-     * 在使用 CameraHelper 前必须调用.
-     */
+    //*****************************************************************************************************************
+
     fun isValid(): Boolean {
         return backDevice != null && frontDevice != null
     }
+
+    //*****************************************************************************************************************
+
+    fun report(): Report.Camera {
+        val camera = Report.Camera()
+        camera.ids = ids
+        camera.devices = devices.map { it.report() }
+        camera.backDevice = backDevice?.id
+        camera.frontDevice = frontDevice?.id
+        return camera
+    }
+
+    //*****************************************************************************************************************
 
     /**
      * 摄像头.
@@ -93,66 +96,8 @@ class CameraHelper private constructor() {
      * @param oldId Camera API id.
      */
     class Device(val id: String, private val oldId: Int) {
-        fun report(): Report.Camera.Device {
-            val device = Report.Camera.Device()
-            device.id = id
-            device.oldId = oldId
-            device.oldSupportedPreviewSizes = oldSupportedPreviewSizes?.map { "${it.width}x${it.height}" }
-            device.oldSupportedPictureSizes = oldSupportedPictureSizes?.map { "${it.width}x${it.height}" }
-            device.oldSupportedVideoSizes = oldSupportedVideoSizes?.map { "${it.width}x${it.height}" }
-            device.lensFacing = when (lensFacing) {
-                CameraMetadata.LENS_FACING_FRONT -> "FRONT"
-                CameraMetadata.LENS_FACING_BACK -> "BACK"
-                CameraMetadata.LENS_FACING_EXTERNAL -> "EXTERNAL"
-                else -> "else"
-            }
-            device.sensorOrientation = sensorOrientation
-            device.sensorResolution = sensorResolution.report()
-            device.surfaceTextureSizes = surfaceTextureSizes?.map { "${it.width}x${it.height}" }
-            device.previewResolutions = previewResolutions.map { it.report() }
-            device.defaultPreviewResolution = defaultPreviewResolution?.report()
-            device.jpegSizes = jpegSizes?.map { "${it.width}x${it.height}" }
-            device.photoResolutions = photoResolutions.map { it.report() }
-            device.defaultPhotoResolution = defaultPhotoResolution?.report()
-            device.mediaRecorderSizes = mediaRecorderSizes?.map { "${it.width}x${it.height}" }
-            device.videoProfiles = videoProfiles.map { it.report() }
-            device.defaultVideoProfile = defaultVideoProfile?.report()
-            device.rawSensorSizes = rawSensorSizes?.map { "${it.width}x${it.height}" }
-            return device
-        }
-
         private val cameraCharacteristics: CameraCharacteristics =
             SystemServices.cameraManager.getCameraCharacteristics(id)
-
-        //*************************************************************************************************************
-
-        private val oldCamera: Camera? = try {
-            Camera.open(oldId)
-        } catch (e: Exception) {
-            DevHelper.report(e)
-            null
-        }
-
-        private val oldParameters: Camera.Parameters? = try {
-            oldCamera?.parameters
-        } catch (e: Exception) {
-            DevHelper.report(e)
-            null
-        }
-
-        private val oldSupportedPreviewSizes: List<Camera.Size>? = oldParameters?.supportedPreviewSizes
-
-        private val oldSupportedPictureSizes: List<Camera.Size>? = oldParameters?.supportedPictureSizes
-
-        private val oldSupportedVideoSizes: List<Camera.Size>? = oldParameters?.supportedVideoSizes
-
-        init {
-            try {
-                oldCamera?.release()
-            } catch (e: Exception) {
-                DevHelper.report(e)
-            }
-        }
 
         //*************************************************************************************************************
 
@@ -203,34 +148,41 @@ class CameraHelper private constructor() {
         private val surfaceTextureSizes: Array<Size>? =
             scalerStreamConfigurationMap.getOutputSizes(SurfaceTexture::class.java)
 
-        val previewResolutions: List<Resolution> = run {
+        /**
+         * 宽高不都大于屏幕宽高.
+         */
+        private val previewNotGreaterResolutions: List<Resolution> = run {
             val displayRealSize = WindowHelper.displayRealSize
-            val linkedHashSet = LinkedHashSet<Resolution>()
             (surfaceTextureSizes ?: emptyArray())
                 .filter { it.width > 0 && it.height > 0 }
                 .map { Resolution(it.width, it.height, sensorOrientation) }
-                .sorted()
-                .run outer@{
-                    forEach {
-                        linkedHashSet.add(it)
-                        if (it.isWidthHeightGreaterOrEquals(displayRealSize)) return@outer
-                    }
-                }
-            linkedHashSet
+                .toSet()
+                .filter { !it.isWidthHeightGreater(displayRealSize) }
                 .sortedDescending()
-                .toList()
         }
 
-        fun getPreviewResolution(resolution: Resolution): Resolution {
-            return previewResolutions
-                .firstOrNull { it.ratio0 == resolution.ratio0 }
-                ?: previewResolutions.first()
+        /**
+         * 宽高都小等于屏幕宽高.
+         */
+        private val previewLessOrEqualsResolutions: List<Resolution> = run {
+            val displayRealSize = WindowHelper.displayRealSize
+            (surfaceTextureSizes ?: emptyArray())
+                .filter { it.width > 0 && it.height > 0 }
+                .map { Resolution(it.width, it.height, sensorOrientation) }
+                .toSet()
+                .filter { it.isWidthHeightLessOrEquals(displayRealSize) }
+                .sortedDescending()
         }
 
-        private val defaultPreviewResolution: Resolution? = if (previewResolutions.isEmpty()) {
+        private val defaultPreviewResolution: Resolution? = if (previewLessOrEqualsResolutions.isEmpty()) {
             null
         } else {
             getPreviewResolution(sensorResolution)
+        }
+
+        fun getPreviewResolution(resolution: Resolution): Resolution {
+            return previewLessOrEqualsResolutions.firstOrNull { it.ratio0 == resolution.ratio0 }
+                ?: previewLessOrEqualsResolutions.first()
         }
 
         //*************************************************************************************************************
@@ -242,14 +194,14 @@ class CameraHelper private constructor() {
                 .filter { it.width > 0 && it.height > 0 }
                 .map { Resolution(it.width, it.height, sensorOrientation) }
                 .toSet()
-                .toList()
                 .sortedDescending()
         }
 
         private val defaultPhotoResolution: Resolution? = if (photoResolutions.isEmpty()) {
             null
         } else {
-            photoResolutions.first()
+            photoResolutions.firstOrNull { it.ratio0 == sensorResolution.ratio0 }
+                ?: photoResolutions.first()
         }
 
         fun requireDefaultPhotoResolution(): Resolution {
@@ -258,31 +210,6 @@ class CameraHelper private constructor() {
 
         fun getPhotoResolution(entryValue: String): Resolution {
             return photoResolutions.first { it.entryValue == entryValue }
-        }
-
-        //*************************************************************************************************************
-
-        /**
-         * 照片分辨率, 预览分辨率.
-         */
-        open class Resolution(width: Int, height: Int, sensorOrientation: Int) :
-            RotationSize(width, height, sensorOrientation / 90) {
-            open fun report(): Report.Camera.Device.Resolution {
-                val resolution = Report.Camera.Device.Resolution()
-                resolution.entryValue = entryValue
-                resolution.ratio = "${ratio.width}:${ratio.height}"
-                return resolution
-            }
-
-            /**
-             * 百万像素.
-             */
-            val megapixel: Float = area / 1_000_000f
-
-            /**
-             * 用于 SharedPreferences.
-             */
-            val entryValue: String = "${width}_$height"
         }
 
         //*************************************************************************************************************
@@ -296,9 +223,9 @@ class CameraHelper private constructor() {
                 .filter { CamcorderProfile.hasProfile(oldId, it) }
                 .map { CamcorderProfile.get(oldId, it) }
                 .filter { mediaRecorderSizes?.contains(Size(it.videoFrameWidth, it.videoFrameHeight)) == true }
+                .filter { it.videoFrameWidth > 0 && it.videoFrameHeight > 0 }
                 .map { VideoProfile(it, sensorOrientation) }
                 .toSet()
-                .toList()
                 .sortedDescending()
         }
 
@@ -321,11 +248,130 @@ class CameraHelper private constructor() {
 
         //*************************************************************************************************************
 
+        private val oldCamera: Camera? = try {
+            Camera.open(oldId)
+        } catch (e: Exception) {
+            DevHelper.report(e)
+            null
+        }
+
+        private val oldParameters: Camera.Parameters? = try {
+            oldCamera?.parameters
+        } catch (e: Exception) {
+            DevHelper.report(e)
+            null
+        }
+
+        private val oldSupportedPreviewSizes: List<Camera.Size>? = oldParameters?.supportedPreviewSizes
+
+        private val oldSupportedPictureSizes: List<Camera.Size>? = oldParameters?.supportedPictureSizes
+
+        private val oldSupportedVideoSizes: List<Camera.Size>? = oldParameters?.supportedVideoSizes
+
+        init {
+            try {
+                oldCamera?.release()
+            } catch (e: Exception) {
+                DevHelper.report(e)
+            }
+        }
+
+        //*************************************************************************************************************
+
+        fun isValid(): Boolean {
+            return !isExternal &&
+                    previewLessOrEqualsResolutions.isNotEmpty() &&
+                    photoResolutions.isNotEmpty() &&
+                    videoProfiles.isNotEmpty()
+        }
+
+        //*************************************************************************************************************
+
+        fun report(): Report.Camera.Device {
+            val device = Report.Camera.Device()
+            device.id = id
+            device.oldId = oldId
+            device.oldSupportedPreviewSizes = oldSupportedPreviewSizes?.map { "${it.width}x${it.height}" }
+            device.oldSupportedPictureSizes = oldSupportedPictureSizes?.map { "${it.width}x${it.height}" }
+            device.oldSupportedVideoSizes = oldSupportedVideoSizes?.map { "${it.width}x${it.height}" }
+            device.lensFacing = when (lensFacing) {
+                CameraMetadata.LENS_FACING_FRONT -> "FRONT"
+                CameraMetadata.LENS_FACING_BACK -> "BACK"
+                CameraMetadata.LENS_FACING_EXTERNAL -> "EXTERNAL"
+                else -> "else"
+            }
+            device.sensorOrientation = sensorOrientation
+            device.sensorResolution = sensorResolution.report()
+            device.surfaceTextureSizes = surfaceTextureSizes?.map { "${it.width}x${it.height}" }
+            device.previewNotGreaterResolutions = previewNotGreaterResolutions.map { it.report() }
+            device.previewLessOrEqualsResolutions = previewLessOrEqualsResolutions.map { it.report() }
+            device.defaultPreviewResolution = defaultPreviewResolution?.report()
+            device.jpegSizes = jpegSizes?.map { "${it.width}x${it.height}" }
+            device.photoResolutions = photoResolutions.map { it.report() }
+            device.defaultPhotoResolution = defaultPhotoResolution?.report()
+            device.mediaRecorderSizes = mediaRecorderSizes?.map { "${it.width}x${it.height}" }
+            device.videoProfiles = videoProfiles.map { it.report() }
+            device.defaultVideoProfile = defaultVideoProfile?.report()
+            return device
+        }
+
+        //*************************************************************************************************************
+
+        /**
+         * 照片分辨率, 预览分辨率.
+         */
+        open class Resolution(width: Int, height: Int, sensorOrientation: Int) :
+            RotationSize(width, height, sensorOrientation / 90) {
+            /**
+             * 用于 SharedPreferences.
+             */
+            val entryValue: String = "${width}_$height"
+
+            /**
+             * 百万像素.
+             */
+            val megapixel: Float = area / 1_000_000f
+
+            //*********************************************************************************************************
+
+            open fun report(): Report.Camera.Device.Resolution {
+                val resolution = Report.Camera.Device.Resolution()
+                resolution.entryValue = entryValue
+                resolution.ratio = "${ratio.width}:${ratio.height}"
+                return resolution
+            }
+        }
+
+        //*************************************************************************************************************
+
         /**
          * 视频配置.
          */
         class VideoProfile(val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
             Resolution(camcorderProfile.videoFrameWidth, camcorderProfile.videoFrameHeight, sensorOrientation) {
+            val qualityString: String = when (camcorderProfile.quality) {
+                CamcorderProfile.QUALITY_LOW -> "low"
+                CamcorderProfile.QUALITY_HIGH -> "high"
+                CamcorderProfile.QUALITY_QCIF -> "QCIF"
+                CamcorderProfile.QUALITY_CIF -> "CIF"
+                CamcorderProfile.QUALITY_480P -> "480P"
+                CamcorderProfile.QUALITY_720P -> "720P"
+                CamcorderProfile.QUALITY_1080P -> "1080P"
+                CamcorderProfile.QUALITY_QVGA -> "QVGA"
+                CamcorderProfile.QUALITY_2160P -> "2160P"
+                else -> "else"
+            }
+
+            /**
+             * 文件后缀名. 默认 .mp4.
+             */
+            val extension: String = when (camcorderProfile.fileFormat) {
+                MediaRecorder.OutputFormat.THREE_GPP -> ".3gp"
+                else -> ".mp4"
+            }
+
+            //*********************************************************************************************************
+
             override fun report(): Report.Camera.Device.VideoProfile {
                 val videoProfile = Report.Camera.Device.VideoProfile()
                 val resolution = super.report()
@@ -370,46 +416,17 @@ class CameraHelper private constructor() {
                 videoProfile.audioChannels = camcorderProfile.audioChannels
                 return videoProfile
             }
-
-            val qualityString: String = when (camcorderProfile.quality) {
-                CamcorderProfile.QUALITY_LOW -> "low"
-                CamcorderProfile.QUALITY_HIGH -> "high"
-                CamcorderProfile.QUALITY_QCIF -> "QCIF"
-                CamcorderProfile.QUALITY_CIF -> "CIF"
-                CamcorderProfile.QUALITY_480P -> "480P"
-                CamcorderProfile.QUALITY_720P -> "720P"
-                CamcorderProfile.QUALITY_1080P -> "1080P"
-                CamcorderProfile.QUALITY_QVGA -> "QVGA"
-                CamcorderProfile.QUALITY_2160P -> "2160P"
-                else -> "else"
-            }
-
-            /**
-             * 文件后缀名. 默认 .mp4.
-             */
-            val extension: String = when (camcorderProfile.fileFormat) {
-                MediaRecorder.OutputFormat.THREE_GPP -> ".3gp"
-                else -> ".mp4"
-            }
-        }
-
-        //*************************************************************************************************************
-
-        private val rawSensorSizes: Array<Size>? = scalerStreamConfigurationMap.getOutputSizes(ImageFormat.RAW_SENSOR)
-
-        //*************************************************************************************************************
-
-        fun isValid(): Boolean {
-            return !isExternal &&
-                    photoResolutions.isNotEmpty() &&
-                    previewResolutions.isNotEmpty() &&
-                    videoProfiles.isNotEmpty()
         }
     }
+
+    //*****************************************************************************************************************
 
     companion object {
         private var singleton: CameraHelper? = null
 
+        /**
+         * 即使失败也会尝试回调 cameraHelper 用于 report.
+         */
         fun init(callback: (Boolean, CameraHelper?) -> Unit) {
             if (singleton != null) {
                 callback(true, singleton)

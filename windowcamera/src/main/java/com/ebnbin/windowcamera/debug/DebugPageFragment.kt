@@ -13,7 +13,7 @@ class DebugPageFragment : BaseDebugPageFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addDebugItem("Report") {
-            it.summary = Report().create(CameraHelper.getInstance()).toString()
+            it.summary = Report().create(CameraHelper.getInstance().report()).toString()
         }
     }
 }

@@ -83,10 +83,10 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     //*****************************************************************************************************************
 
     /**
-     * 宽高都大等于指定对象.
+     * 宽高都大于指定对象.
      */
-    fun isWidthHeightGreaterOrEquals(other: RotationSize): Boolean {
-        return width0 >= other.width0 && height0 >= other.height0
+    fun isWidthHeightGreater(other: RotationSize): Boolean {
+        return width0 > other.width0 && height0 > other.height0
     }
 
     /**

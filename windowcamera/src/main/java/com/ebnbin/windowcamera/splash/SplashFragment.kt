@@ -85,7 +85,7 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
 
     private fun onPermissionsGranted() {
         CameraHelper.init { success, cameraHelper ->
-            DevHelper.report { Report().create(cameraHelper) }
+            DevHelper.report { Report().create(cameraHelper?.report()) }
             if (success) {
                 IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
                 finish()

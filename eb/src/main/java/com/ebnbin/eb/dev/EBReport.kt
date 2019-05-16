@@ -15,22 +15,23 @@ open class EBReport : EBModel {
     var androidId: String? = null
     var version: String? = null
     var timestamp: String? = null
-    var sdk: String? = null
+    var sdk: Int? = null
     var manufacturer: String? = null
     var model: String? = null
     var abis: List<String>? = null
     var locales: List<String>? = null
-    var smallestScreenWidthDp: String? = null
-    var density: String? = null
+    var density: Float? = null
     var displayRealSize: String? = null
     var displaySize: String? = null
+    var displayRealWidthDp: Float? = null
+    var displayRealHeightDp: Float? = null
 
     open fun create(): EBReport {
         deviceId = DeviceHelper.DEVICE_ID
         androidId = DeviceHelper.ANDROID_ID
         version = BuildHelper.versionName
         timestamp = TimeHelper.string("yyyy-MM-dd HH:mm:ss:SSS")
-        sdk = Build.VERSION.SDK_INT.toString()
+        sdk = Build.VERSION.SDK_INT
         manufacturer = Build.MANUFACTURER
         model = Build.MODEL
         abis = Build.SUPPORTED_ABIS.toList()
@@ -42,10 +43,11 @@ open class EBReport : EBModel {
             @Suppress("DEPRECATION")
             listOf(res.configuration.locale.toString())
         }
-        smallestScreenWidthDp = res.configuration.smallestScreenWidthDp.toString()
-        density = ResHelper.density.toString()
+        density = ResHelper.density
         displayRealSize = WindowHelper.displayRealSize.run { "${width0}x$height0" }
         displaySize = WindowHelper.displaySize.run { "${width0}x$height0" }
+        displayRealWidthDp = WindowHelper.displayRealSize.width0 / ResHelper.density
+        displayRealHeightDp = WindowHelper.displayRealSize.height0 / ResHelper.density
         return this
     }
 
