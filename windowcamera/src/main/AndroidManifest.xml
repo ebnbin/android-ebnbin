@@ -17,8 +17,7 @@
         tools:replace="android:name">
         <activity
             android:name=".splash.SplashActivity"
-            android:theme="@style/EBTheme.Splash"
-            android:launchMode="singleTask">
+            android:theme="@style/EBTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -27,7 +26,6 @@
 
         <activity
             android:name=".main.MainActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="fullUser"/>
 
         <service android:name=".service.WindowCameraService"/>
