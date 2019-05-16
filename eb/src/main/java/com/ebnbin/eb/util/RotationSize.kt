@@ -14,7 +14,7 @@ import kotlin.math.roundToInt
  * @param rotation 必须为 [Surface.ROTATION_0], [Surface.ROTATION_90], [Surface.ROTATION_180], [Surface.ROTATION_270]
  * 之一.
  */
-open class RotationSize(val width: Int, val height: Int, val rotation: Int): Comparable<RotationSize>, EBModel {
+open class RotationSize(val width: Int, val height: Int, val rotation: Int): Comparable<RotationSize> {
     init {
         if (width <= 0 ||
             height <= 0 ||
@@ -31,7 +31,6 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     /**
      * 指定旋转方向的宽.
      */
-    @Transient
     val widths: IntArray = arrayOf(
         Surface.ROTATION_0,
         Surface.ROTATION_90,
@@ -48,7 +47,6 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     /**
      * 指定旋转方向的高.
      */
-    @Transient
     val heights: IntArray = arrayOf(
         Surface.ROTATION_0,
         Surface.ROTATION_90,
@@ -62,10 +60,8 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
         }
     }.toIntArray()
 
-    @Transient
     val width0: Int = widths[Surface.ROTATION_0]
 
-    @Transient
     val height0: Int = heights[Surface.ROTATION_0]
 
     //*****************************************************************************************************************
@@ -73,19 +69,15 @@ open class RotationSize(val width: Int, val height: Int, val rotation: Int): Com
     /**
      * 面积.
      */
-    @Transient
     val area: Int = width * height
 
     /**
      * 宽高最大公约数.
      */
-    @Transient
     private val gcd: Int = width gcd height
 
-    @Transient
     val ratio: Ratio = Ratio(width / gcd, height / gcd)
 
-    @Transient
     val ratio0: Ratio = Ratio(width0 / gcd, height0 / gcd)
 
     //*****************************************************************************************************************

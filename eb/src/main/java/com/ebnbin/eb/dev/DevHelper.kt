@@ -15,12 +15,12 @@ object DevHelper {
         Crashlytics.logException(throwable)
     }
 
-    fun <T : EBReport> report(report: T) {
+    fun <T : EBReport> report(report: () -> T) {
         if (debug) return
         if (!TimeHelper.expired(EBSpManager.last_report_timestamp.value, DEVICE_EXPIRATION)) return
         AsyncHelper.global.githubPutJson(
             "/report/${DeviceHelper.DEVICE_ID}.json",
-            report,
+            report(),
             null,
             onSuccess = {
                 EBSpManager.last_report_timestamp.value = TimeHelper.long()

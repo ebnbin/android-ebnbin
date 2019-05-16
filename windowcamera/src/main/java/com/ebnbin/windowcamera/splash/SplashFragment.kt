@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.dev.DevHelper
-import com.ebnbin.eb.dev.ReportException
 import com.ebnbin.eb.dialog.Cancel
 import com.ebnbin.eb.dialog.SimpleDialogFragment
 import com.ebnbin.eb.permission.PermissionFragment
@@ -85,25 +84,23 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
     }
 
     private fun onPermissionsGranted() {
-        try {
-            DevHelper.report(Report())
-        } catch (throwable: Throwable) {
-            DevHelper.report(ReportException(throwable))
-        }
-        if (CameraHelper.init()) {
-            IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
-            finish()
-        } else {
-            SimpleDialogFragment.start(childFragmentManager,
-                SimpleDialogFragment.Builder(
-                    message = getString(R.string.splash_camera_message),
-                    positive = getString(R.string.splash_camera_positive),
-                    cancel = Cancel.NOT_CANCELABLE
-                ),
-                "splash_camera",
-                bundleOf(
-                    Consts.KEY_CALLING_ID to "splash_camera"
-                ))
+        CameraHelper.init { success, cameraHelper ->
+            DevHelper.report { Report().create(cameraHelper) }
+            if (success) {
+                IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
+                finish()
+            } else {
+                SimpleDialogFragment.start(childFragmentManager,
+                    SimpleDialogFragment.Builder(
+                        message = getString(R.string.splash_camera_message),
+                        positive = getString(R.string.splash_camera_positive),
+                        cancel = Cancel.NOT_CANCELABLE
+                    ),
+                    "splash_camera",
+                    bundleOf(
+                        Consts.KEY_CALLING_ID to "splash_camera"
+                    ))
+            }
         }
     }
 

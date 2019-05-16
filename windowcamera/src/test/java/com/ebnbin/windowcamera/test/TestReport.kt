@@ -31,7 +31,7 @@ private fun init() {
         }
 }
 
-private fun map(
+private fun mapKey(
     getKey0_1_0: (Report0_1_0) -> String,
     getKey0_2_0: (Report0_2_0) -> String
 ): Map<String, List<Report>> {
@@ -56,36 +56,63 @@ private fun map(
     })
 }
 
+private fun mapKeys(
+    getKeys0_1_0: (Report0_1_0) -> List<String>,
+    getKeys0_2_0: (Report0_2_0) -> List<String>
+): Map<String, List<Report>> {
+    val map = HashMap<String, ArrayList<Report>>()
+    reports.forEach {
+        val keys = when (it.version) {
+            "0.1.0" -> getKeys0_1_0(it as Report0_1_0)
+            "0.2.0" -> getKeys0_2_0(it as Report0_2_0)
+            else -> return@forEach
+        }
+        keys.forEach { key ->
+            map[key] = map.getOrDefault(key, ArrayList()).apply {
+                add(it)
+            }
+        }
+    }
+    return map.toSortedMap(Comparator { o1, o2 ->
+        val compareSize = map.getValue(o2).size - map.getValue(o1).size
+        if (compareSize == 0) {
+            o1.hashCode() - o2.hashCode()
+        } else {
+            compareSize
+        }
+    })
+}
+
 private fun version(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.version },
         { it.version }
     )
 }
 
 private fun sdk(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.sdk.toString() },
         { it.sdk.toString() }
     )
 }
 
 private fun manufacturer(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.manufacturer },
         { it.manufacturer }
     )
 }
 
 private fun model(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.model },
         { it.model }
     )
 }
 
 private fun displayRealSize(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.displayRealSize },
         {
             it.displayRealSize.run {
@@ -98,7 +125,7 @@ private fun displayRealSize(): Map<String, List<Report>> {
 }
 
 private fun displaySize(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.displaySize },
         {
             it.displaySize.run {
@@ -111,112 +138,112 @@ private fun displaySize(): Map<String, List<Report>> {
 }
 
 private fun density(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.density.toString() },
         { it.density.toString() }
     )
 }
 
 private fun displayRealSizeDp(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.displayRealSizeDp },
         { it.displayRealSizeDp }
     )
 }
 
 private fun locale(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.locale },
         { it.locale }
     )
 }
 
 private fun abi(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.abi },
         { it.abi }
     )
 }
 
 private fun cameraIds(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.cameraHelper.substringAfter("ids:", "").substringBefore("]", "") + "]" },
         { it.cameraHelper.ids.joinToString(",", "[", "]") }
     )
 }
 
 private fun cameraBackDeviceId(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.cameraHelper.substringAfter("backDevice:", "").substringBefore(",").substringBefore("}") },
         { it.cameraHelper.backDeviceId ?: "null" }
     )
 }
 
 private fun cameraFrontDeviceId(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.cameraHelper.substringAfter("frontDevice:", "").substringBefore(",").substringBefore("}") },
         { it.cameraHelper.frontDeviceId ?: "null" }
     )
 }
 
 private fun cameraBackOldPreferredPreviewSizeForVideo(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { "0.1.0" },
         { it.cameraHelper.devices.getOrNull(0)?.oldPreferredPreviewSizeForVideo?.run { "${width}x$height" } ?: "null" }
     )
 }
 
 private fun cameraFrontOldPreferredPreviewSizeForVideo(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { "0.1.0" },
         { it.cameraHelper.devices.getOrNull(1)?.oldPreferredPreviewSizeForVideo?.run { "${width}x$height" } ?: "null" }
     )
 }
 
 private fun cameraBackFirstOldSupportedPictureSize(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { "0.1.0" },
         { it.cameraHelper.devices.getOrNull(0)?.oldSupportedPictureSizes?.firstOrNull()?.run { "${width}x$height" } ?: "null" }
     )
 }
 
 private fun cameraFrontFirstOldSupportedPictureSize(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { "0.1.0" },
         { it.cameraHelper.devices.getOrNull(1)?.oldSupportedPictureSizes?.firstOrNull()?.run { "${width}x$height" } ?: "null" }
     )
 }
 
 private fun cameraBackFirstOldSupportedPreviewSize(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { "0.1.0" },
         { it.cameraHelper.devices.getOrNull(0)?.oldSupportedPreviewSizes?.firstOrNull()?.run { "${width}x$height" } ?: "null" }
     )
 }
 
 private fun cameraFrontFirstOldSupportedPreviewSize(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { "0.1.0" },
         { it.cameraHelper.devices.getOrNull(1)?.oldSupportedPreviewSizes?.firstOrNull()?.run { "${width}x$height" } ?: "null" }
     )
 }
 
 private fun cameraBackFirstOldSupportedVideoSize(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { "0.1.0" },
         { it.cameraHelper.devices.getOrNull(0)?.oldSupportedVideoSizes?.firstOrNull()?.run { "${width}x$height" } ?: "null" }
     )
 }
 
 private fun cameraFrontFirstOldSupportedVideoSize(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { "0.1.0" },
         { it.cameraHelper.devices.getOrNull(1)?.oldSupportedVideoSizes?.firstOrNull()?.run { "${width}x$height" } ?: "null" }
     )
 }
 
 private fun cameraLensFacings(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         {
             val lensFacing0 = it.cameraHelper.substringAfter("oldId:0,lensFacing:", "").substringBefore(",")
             val lensFacing1 = it.cameraHelper.substringAfter("oldId:1,lensFacing:", "").substringBefore(",")
@@ -237,10 +264,32 @@ private fun cameraLensFacings(): Map<String, List<Report>> {
 }
 
 private fun cameraBackFirstPhotoRatio(): Map<String, List<Report>> {
-    return map(
+    return mapKey(
         { it.cameraHelper.substringAfter("photoResolutions:[{", "").substringAfter(",ratio:", "").substringBefore("}") },
         {
             it.cameraHelper.devices.getOrNull(0)?.photoResolutions?.firstOrNull()?.run {
+                "${ratioWidth}_$ratioHeight"
+            } ?: ""
+        }
+    )
+}
+
+private fun cameraBackFirstPreviewRatio(): Map<String, List<Report>> {
+    return mapKey(
+        { it.cameraHelper.substringAfter("previewResolutions:[{", "").substringAfter(",ratio:", "").substringBefore("}") },
+        {
+            it.cameraHelper.devices.getOrNull(0)?.previewResolutions?.firstOrNull()?.run {
+                "${ratioWidth}_$ratioHeight"
+            } ?: ""
+        }
+    )
+}
+
+private fun cameraBackFirstVideoRatio(): Map<String, List<Report>> {
+    return mapKey(
+        { it.cameraHelper.substringAfter("videoProfiles:[{", "").substringAfter(",ratio:", "").substringBefore(",") },
+        {
+            it.cameraHelper.devices.getOrNull(0)?.videoProfiles?.firstOrNull()?.run {
                 "${ratioWidth}_$ratioHeight"
             } ?: ""
         }
@@ -273,4 +322,6 @@ fun main() {
     val cameraFrontFirstOldSupportedVideoSize = cameraFrontFirstOldSupportedVideoSize()
     val cameraLensFacings = cameraLensFacings()
     val cameraBackFirstPhotoRatio = cameraBackFirstPhotoRatio()
+    val cameraBackFirstPreviewRatio = cameraBackFirstPreviewRatio()
+    val cameraBackFirstVideoRatio = cameraBackFirstVideoRatio()
 }

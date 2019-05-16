@@ -1,6 +1,7 @@
 package com.ebnbin.windowcamera.test
 
 class Report0_2_0 : Report() {
+    lateinit var timestamp: String
     lateinit var manufacturer: String
     lateinit var model: String
     var sdk: Int = 0

@@ -13,22 +13,29 @@ import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
 import com.ebnbin.eb.dev.DevHelper
-import com.ebnbin.eb.util.EBModel
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.windowcamera.camera.exception.CameraInvalidException
+import com.ebnbin.windowcamera.dev.Report
 
 /**
  * 相机帮助类.
  *
- * 需要 try catch Throwable 避免 ExceptionInInitializerError.
- *
- * 在使用前必须调用 [isValid] 检测有效性.
+ * 在 getInstance 前必须调用 init 检测有效性.
  *
  * 需要 camera 权限.
  */
-class CameraHelper private constructor() : EBModel {
+class CameraHelper private constructor() {
+    fun report(): Report.Camera {
+        val camera = Report.Camera()
+        camera.ids = ids
+        camera.devices = devices.map { it.report() }
+        camera.backDevice = backDevice?.id
+        camera.frontDevice = frontDevice?.id
+        return camera
+    }
+
     private val ids: List<String> = SystemServices.cameraManager.cameraIdList.toList()
 
     /**
@@ -45,14 +52,8 @@ class CameraHelper private constructor() : EBModel {
         }
     }
 
-    @Transient
     private var backDevice: Device? = null
-    @Transient
     private var frontDevice: Device? = null
-
-    // For report.
-    private var backDeviceId: String? = null
-    private var frontDeviceId: String? = null
 
     init {
         devices.forEach {
@@ -60,12 +61,10 @@ class CameraHelper private constructor() : EBModel {
             if (it.isFront) {
                 if (frontDevice == null) {
                     frontDevice = it
-                    frontDeviceId = it.id
                 }
             } else {
                 if (backDevice == null) {
                     backDevice = it
-                    backDeviceId = it.id
                 }
             }
         }
@@ -93,14 +92,40 @@ class CameraHelper private constructor() : EBModel {
      *
      * @param oldId Camera API id.
      */
-    class Device(val id: String, private val oldId: Int) : EBModel {
-        @Transient
+    class Device(val id: String, private val oldId: Int) {
+        fun report(): Report.Camera.Device {
+            val device = Report.Camera.Device()
+            device.id = id
+            device.oldId = oldId
+            device.oldSupportedPreviewSizes = oldSupportedPreviewSizes?.map { "${it.width}x${it.height}" }
+            device.oldSupportedPictureSizes = oldSupportedPictureSizes?.map { "${it.width}x${it.height}" }
+            device.oldSupportedVideoSizes = oldSupportedVideoSizes?.map { "${it.width}x${it.height}" }
+            device.lensFacing = when (lensFacing) {
+                CameraMetadata.LENS_FACING_FRONT -> "FRONT"
+                CameraMetadata.LENS_FACING_BACK -> "BACK"
+                CameraMetadata.LENS_FACING_EXTERNAL -> "EXTERNAL"
+                else -> "else"
+            }
+            device.sensorOrientation = sensorOrientation
+            device.sensorResolution = sensorResolution.report()
+            device.surfaceTextureSizes = surfaceTextureSizes?.map { "${it.width}x${it.height}" }
+            device.previewResolutions = previewResolutions.map { it.report() }
+            device.defaultPreviewResolution = defaultPreviewResolution?.report()
+            device.jpegSizes = jpegSizes?.map { "${it.width}x${it.height}" }
+            device.photoResolutions = photoResolutions.map { it.report() }
+            device.defaultPhotoResolution = defaultPhotoResolution?.report()
+            device.mediaRecorderSizes = mediaRecorderSizes?.map { "${it.width}x${it.height}" }
+            device.videoProfiles = videoProfiles.map { it.report() }
+            device.defaultVideoProfile = defaultVideoProfile?.report()
+            device.rawSensorSizes = rawSensorSizes?.map { "${it.width}x${it.height}" }
+            return device
+        }
+
         private val cameraCharacteristics: CameraCharacteristics =
             SystemServices.cameraManager.getCameraCharacteristics(id)
 
         //*************************************************************************************************************
 
-        @Transient
         private val oldCamera: Camera? = try {
             Camera.open(oldId)
         } catch (e: Exception) {
@@ -108,7 +133,6 @@ class CameraHelper private constructor() : EBModel {
             null
         }
 
-        @Transient
         private val oldParameters: Camera.Parameters? = try {
             oldCamera?.parameters
         } catch (e: Exception) {
@@ -116,16 +140,10 @@ class CameraHelper private constructor() : EBModel {
             null
         }
 
-        // For report.
-        private val oldPreferredPreviewSizeForVideo: Camera.Size? = oldParameters?.preferredPreviewSizeForVideo
-
-        // For report.
-        private val oldSupportedPictureSizes: List<Camera.Size>? = oldParameters?.supportedPictureSizes
-
-        // For report.
         private val oldSupportedPreviewSizes: List<Camera.Size>? = oldParameters?.supportedPreviewSizes
 
-        // For report.
+        private val oldSupportedPictureSizes: List<Camera.Size>? = oldParameters?.supportedPictureSizes
+
         private val oldSupportedVideoSizes: List<Camera.Size>? = oldParameters?.supportedVideoSizes
 
         init {
@@ -138,28 +156,17 @@ class CameraHelper private constructor() : EBModel {
 
         //*************************************************************************************************************
 
-        @Transient
         private val lensFacing: Int = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) as Int
-
-        // For report.
-        private val lensFacingString: String = when (lensFacing) {
-            CameraMetadata.LENS_FACING_FRONT -> "FRONT"
-            CameraMetadata.LENS_FACING_BACK -> "BACK"
-            CameraMetadata.LENS_FACING_EXTERNAL -> "EXTERNAL"
-            else -> "else"
-        }
 
         /**
          * 外置摄像头.
          */
-        @Transient
         private val isExternal: Boolean = lensFacing != CameraMetadata.LENS_FACING_FRONT &&
                 lensFacing != CameraMetadata.LENS_FACING_BACK
 
         /**
          * 后置摄像头和外置摄像头都为 false.
          */
-        @Transient
         val isFront: Boolean = lensFacing == CameraMetadata.LENS_FACING_FRONT
 
         //*************************************************************************************************************
@@ -180,76 +187,21 @@ class CameraHelper private constructor() : EBModel {
 
         //*************************************************************************************************************
 
-        @Transient
         private val sensorInfoPixelArraySize: Size =
             cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE) as Size
 
         val sensorResolution: Resolution =
             Resolution(sensorInfoPixelArraySize.width, sensorInfoPixelArraySize.height, sensorOrientation)
 
-        @Transient
+        //*************************************************************************************************************
+
         private val scalerStreamConfigurationMap: StreamConfigurationMap =
             cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) as StreamConfigurationMap
 
-        @Transient
-        private val jpegSizes: Array<Size>? = scalerStreamConfigurationMap.getOutputSizes(ImageFormat.JPEG)
-
-        // For report.
-        private val jpegSizeStrings: Array<String>? = jpegSizes
-            ?.map { "${it.width}x${it.height}" }
-            ?.toTypedArray()
-
-        val photoResolutions: List<Resolution> = run {
-            (jpegSizes ?: emptyArray())
-                .filter { it.width > 0 && it.height > 0 }
-                .map { Resolution(it.width, it.height, sensorOrientation) }
-                .toSet()
-                .toList()
-                .sortedDescending()
-        }
-
-        private val defaultPhotoResolution: Resolution? = if (photoResolutions.isEmpty()) {
-            null
-        } else {
-            photoResolutions.first()
-        }
-
-        fun requireDefaultPhotoResolution(): Resolution {
-            return defaultPhotoResolution ?: throw RuntimeException()
-        }
-
-        fun getPhotoResolution(entryValue: String): Resolution {
-            return photoResolutions.first { it.entryValue == entryValue }
-        }
-
-        /**
-         * 照片分辨率, 预览分辨率.
-         */
-        open class Resolution(width: Int, height: Int, sensorOrientation: Int) :
-            RotationSize(width, height, sensorOrientation / 90) {
-            /**
-             * 百万像素.
-             */
-            @Transient
-            val megapixel: Float = area / 1_000_000f
-
-            /**
-             * 用于 SharedPreferences.
-             */
-            @Transient
-            val entryValue: String = "${width}_$height"
-        }
-
         //*************************************************************************************************************
 
-        @Transient
         private val surfaceTextureSizes: Array<Size>? =
             scalerStreamConfigurationMap.getOutputSizes(SurfaceTexture::class.java)
-
-        // For report.
-        private val surfaceTextureSizeStrings: Array<String>? = surfaceTextureSizes
-            ?.map { "${it.width}x${it.height}" }
-            ?.toTypedArray()
 
         val previewResolutions: List<Resolution> = run {
             val displayRealSize = WindowHelper.displayRealSize
@@ -283,14 +235,60 @@ class CameraHelper private constructor() : EBModel {
 
         //*************************************************************************************************************
 
-        @Transient
+        private val jpegSizes: Array<Size>? = scalerStreamConfigurationMap.getOutputSizes(ImageFormat.JPEG)
+
+        val photoResolutions: List<Resolution> = run {
+            (jpegSizes ?: emptyArray())
+                .filter { it.width > 0 && it.height > 0 }
+                .map { Resolution(it.width, it.height, sensorOrientation) }
+                .toSet()
+                .toList()
+                .sortedDescending()
+        }
+
+        private val defaultPhotoResolution: Resolution? = if (photoResolutions.isEmpty()) {
+            null
+        } else {
+            photoResolutions.first()
+        }
+
+        fun requireDefaultPhotoResolution(): Resolution {
+            return defaultPhotoResolution ?: throw RuntimeException()
+        }
+
+        fun getPhotoResolution(entryValue: String): Resolution {
+            return photoResolutions.first { it.entryValue == entryValue }
+        }
+
+        //*************************************************************************************************************
+
+        /**
+         * 照片分辨率, 预览分辨率.
+         */
+        open class Resolution(width: Int, height: Int, sensorOrientation: Int) :
+            RotationSize(width, height, sensorOrientation / 90) {
+            open fun report(): Report.Camera.Device.Resolution {
+                val resolution = Report.Camera.Device.Resolution()
+                resolution.entryValue = entryValue
+                resolution.ratio = "${ratio.width}:${ratio.height}"
+                return resolution
+            }
+
+            /**
+             * 百万像素.
+             */
+            val megapixel: Float = area / 1_000_000f
+
+            /**
+             * 用于 SharedPreferences.
+             */
+            val entryValue: String = "${width}_$height"
+        }
+
+        //*************************************************************************************************************
+
         private val mediaRecorderSizes: Array<Size>? =
             scalerStreamConfigurationMap.getOutputSizes(MediaRecorder::class.java)
-
-        // For report.
-        private val mediaRecorderSizeStrings: Array<String>? = mediaRecorderSizes
-            ?.map { "${it.width}x${it.height}" }
-            ?.toTypedArray()
 
         val videoProfiles: List<VideoProfile> = run {
             CAMCORDER_PROFILE_QUALITIES
@@ -321,13 +319,57 @@ class CameraHelper private constructor() : EBModel {
             return videoProfiles.first { it.entryValue == entryValue }
         }
 
+        //*************************************************************************************************************
+
         /**
          * 视频配置.
          */
-        class VideoProfile(@Transient val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
+        class VideoProfile(val camcorderProfile: CamcorderProfile, sensorOrientation: Int) :
             Resolution(camcorderProfile.videoFrameWidth, camcorderProfile.videoFrameHeight, sensorOrientation) {
-            // For report.
-            private val duration: Int = camcorderProfile.duration
+            override fun report(): Report.Camera.Device.VideoProfile {
+                val videoProfile = Report.Camera.Device.VideoProfile()
+                val resolution = super.report()
+                videoProfile.entryValue = resolution.entryValue
+                videoProfile.ratio = resolution.ratio
+                videoProfile.duration = camcorderProfile.duration
+                videoProfile.quality = qualityString
+                videoProfile.fileFormat = when (camcorderProfile.fileFormat) {
+                    MediaRecorder.OutputFormat.DEFAULT -> "default"
+                    MediaRecorder.OutputFormat.THREE_GPP -> "THREE_GPP"
+                    MediaRecorder.OutputFormat.MPEG_4 -> "MPEG_4"
+                    MediaRecorder.OutputFormat.AMR_NB -> "AMR_NB"
+                    MediaRecorder.OutputFormat.AMR_WB -> "AMR_WB"
+                    MediaRecorder.OutputFormat.AAC_ADTS -> "AAC_ADTS"
+                    MediaRecorder.OutputFormat.MPEG_2_TS -> "MPEG_2_TS"
+                    MediaRecorder.OutputFormat.WEBM -> "WEBM"
+                    else -> "else"
+                }
+                videoProfile.videoCodec = when (camcorderProfile.videoCodec) {
+                    MediaRecorder.VideoEncoder.DEFAULT -> "default"
+                    MediaRecorder.VideoEncoder.H263 -> "H263"
+                    MediaRecorder.VideoEncoder.H264 -> "H264"
+                    MediaRecorder.VideoEncoder.MPEG_4_SP -> "MPEG_4_SP"
+                    MediaRecorder.VideoEncoder.VP8 -> "VP8"
+                    MediaRecorder.VideoEncoder.HEVC -> "HEVC"
+                    else -> "else"
+                }
+                videoProfile.videoBitRate = camcorderProfile.videoBitRate
+                videoProfile.videoFrameRate = camcorderProfile.videoFrameRate
+                videoProfile.audioCodec = when (camcorderProfile.audioCodec) {
+                    MediaRecorder.AudioEncoder.DEFAULT -> "default"
+                    MediaRecorder.AudioEncoder.AMR_NB -> "AMR_NB"
+                    MediaRecorder.AudioEncoder.AMR_WB -> "AMR_WB"
+                    MediaRecorder.AudioEncoder.AAC -> "AAC"
+                    MediaRecorder.AudioEncoder.HE_AAC -> "HE_AAC"
+                    MediaRecorder.AudioEncoder.AAC_ELD -> "AAC_ELD"
+                    MediaRecorder.AudioEncoder.VORBIS -> "VORBIS"
+                    else -> "else"
+                }
+                videoProfile.audioBitRate = camcorderProfile.audioBitRate
+                videoProfile.audioSampleRate = camcorderProfile.audioSampleRate
+                videoProfile.audioChannels = camcorderProfile.audioChannels
+                return videoProfile
+            }
 
             val qualityString: String = when (camcorderProfile.quality) {
                 CamcorderProfile.QUALITY_LOW -> "low"
@@ -342,72 +384,18 @@ class CameraHelper private constructor() : EBModel {
                 else -> "else"
             }
 
-            // For report.
-            private val fileFormatString: String = when (camcorderProfile.fileFormat) {
-                MediaRecorder.OutputFormat.DEFAULT -> "default"
-                MediaRecorder.OutputFormat.THREE_GPP -> "THREE_GPP"
-                MediaRecorder.OutputFormat.MPEG_4 -> "MPEG_4"
-                MediaRecorder.OutputFormat.AMR_NB -> "AMR_NB"
-                MediaRecorder.OutputFormat.AMR_WB -> "AMR_WB"
-                MediaRecorder.OutputFormat.AAC_ADTS -> "AAC_ADTS"
-                MediaRecorder.OutputFormat.MPEG_2_TS -> "MPEG_2_TS"
-                MediaRecorder.OutputFormat.WEBM -> "WEBM"
-                else -> "else"
-            }
-
-            // For report.
-            private val videoCodecString: String = when (camcorderProfile.videoCodec) {
-                MediaRecorder.VideoEncoder.DEFAULT -> "default"
-                MediaRecorder.VideoEncoder.H263 -> "H263"
-                MediaRecorder.VideoEncoder.H264 -> "H264"
-                MediaRecorder.VideoEncoder.MPEG_4_SP -> "MPEG_4_SP"
-                MediaRecorder.VideoEncoder.VP8 -> "VP8"
-                MediaRecorder.VideoEncoder.HEVC -> "HEVC"
-                else -> "else"
-            }
-
-            // For report.
-            private val videoBitRate: Int = camcorderProfile.videoBitRate
-
-            // For report.
-            private val videoFrameRate: Int = camcorderProfile.videoFrameRate
-
-            // For report.
-            private val audioCodecString: String = when (camcorderProfile.audioCodec) {
-                MediaRecorder.AudioEncoder.DEFAULT -> "default"
-                MediaRecorder.AudioEncoder.AMR_NB -> "AMR_NB"
-                MediaRecorder.AudioEncoder.AMR_WB -> "AMR_WB"
-                MediaRecorder.AudioEncoder.AAC -> "AAC"
-                MediaRecorder.AudioEncoder.HE_AAC -> "HE_AAC"
-                MediaRecorder.AudioEncoder.AAC_ELD -> "AAC_ELD"
-                MediaRecorder.AudioEncoder.VORBIS -> "VORBIS"
-                else -> "else"
-            }
-
-            // For report.
-            private val audioBitRate: Int = camcorderProfile.audioBitRate
-
-            // For report.
-            private val audioSampleRate: Int = camcorderProfile.audioSampleRate
-
-            // For report.
-            private val audioChannels: Int = camcorderProfile.audioChannels
-
             /**
              * 文件后缀名. 默认 .mp4.
              */
-            @Transient
             val extension: String = when (camcorderProfile.fileFormat) {
                 MediaRecorder.OutputFormat.THREE_GPP -> ".3gp"
                 else -> ".mp4"
             }
         }
 
-        // For report.
-        private val rawSensorSizeStrings: Array<String>? =
-            scalerStreamConfigurationMap.getOutputSizes(ImageFormat.RAW_SENSOR)
-                ?.map { "${it.width}x${it.height}" }
-                ?.toTypedArray()
+        //*************************************************************************************************************
+
+        private val rawSensorSizes: Array<Size>? = scalerStreamConfigurationMap.getOutputSizes(ImageFormat.RAW_SENSOR)
 
         //*************************************************************************************************************
 
@@ -422,20 +410,25 @@ class CameraHelper private constructor() : EBModel {
     companion object {
         private var singleton: CameraHelper? = null
 
-        fun init(): Boolean {
-            if (singleton != null) return true
+        fun init(callback: (Boolean, CameraHelper?) -> Unit) {
+            if (singleton != null) {
+                callback(true, singleton)
+                return
+            }
+            var cameraHelper: CameraHelper? = null
             try {
-                val cameraHelper = CameraHelper()
+                cameraHelper = CameraHelper()
                 if (cameraHelper.isValid()) {
                     singleton = cameraHelper
-                    return true
+                    callback(true, singleton)
+                    return
                 } else {
                     throw CameraInvalidException()
                 }
             } catch (throwable: Throwable) {
                 DevHelper.report(throwable)
             }
-            return false
+            callback(false, cameraHelper)
         }
 
         fun getInstance(): CameraHelper {
