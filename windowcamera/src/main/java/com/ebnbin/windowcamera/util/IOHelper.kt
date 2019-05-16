@@ -7,7 +7,8 @@ import java.io.File
 
 object IOHelper {
     fun getPath(): File {
-        val result = File(Environment.getExternalStorageDirectory(), BuildHelper.applicationId)
+        val result = File(Environment.getExternalStorageDirectory(),
+            "${BuildHelper.applicationId}/${Environment.DIRECTORY_DCIM}/")
         if (!result.exists()) {
             result.mkdirs()
         }
