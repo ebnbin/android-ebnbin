@@ -6,4 +6,12 @@
     <color name="eb_window_background">@color/eb_material_gray_900</color>
     <color name="eb_primary">@color/eb_material_light_blue_200</color>
     <color name="eb_secondary">@color/eb_material_pink_a100</color>
+    <color name="eb_background_floating">@color/eb_material_gray_800</color>
+    <color name="eb_background_floating_inverse">@color/eb_white</color>
+
+    <!-- Base theme. -->
+    <style name="EBTheme" parent="EBBaseTheme">
+        <item name="ebThemeOverlay">@style/ThemeOverlay.MaterialComponents.Dark</item>
+        <item name="ebThemeOverlayInverse">@style/ThemeOverlay.MaterialComponents.Light</item>
+    </style>
 </resources>

@@ -29,6 +29,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
         app:fabAlignmentMode="end"
         app:fabCradleMargin="8dp"
         app:navigationIcon="@drawable/eb_toolbar_more"
-        app:backgroundTint="?attr/colorBackgroundFloating">
+        app:theme="?attr/ebThemeOverlayInverse">
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner"
@@ -45,7 +46,8 @@
             android:layout_gravity="end"
             android:layout_marginEnd="96dp"
             android:background="@drawable/main_spinner_background"
-            android:gravity="end"/>
+            android:gravity="end"
+            app:popupTheme="?attr/ebThemeOverlay"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -54,6 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottom_app_bar"
-        app:tint="?attr/colorBackgroundFloating"/>
+        app:tint="?attr/colorBackgroundFloating"
+        app:backgroundTint="?attr/colorPrimary"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

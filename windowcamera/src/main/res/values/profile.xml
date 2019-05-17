@@ -5,6 +5,29 @@
     <string name="profile_title_default">默认</string>
     <string name="profile_title_custom_1">自定义 1</string>
     <string name="profile_title_custom_2">自定义 2</string>
+    
+    <style name="ProfileTheme" parent="EBTheme"/>
+
+    <style name="ProfileTheme.Red">
+        <item name="colorPrimary">@color/eb_material_red_500</item>
+        <item name="colorPrimaryDark">@color/eb_material_red_500</item>
+        <item name="colorAccent">@color/eb_material_red_500</item>
+        <item name="colorSecondary">@color/eb_material_red_500</item>
+    </style>
+
+    <style name="ProfileTheme.LightBlue">
+        <item name="colorPrimary">@color/eb_material_light_blue_500</item>
+        <item name="colorPrimaryDark">@color/eb_material_light_blue_500</item>
+        <item name="colorAccent">@color/eb_material_light_blue_500</item>
+        <item name="colorSecondary">@color/eb_material_light_blue_500</item>
+    </style>
+
+    <style name="ProfileTheme.Green">
+        <item name="colorPrimary">@color/eb_material_green_500</item>
+        <item name="colorPrimaryDark">@color/eb_material_green_500</item>
+        <item name="colorAccent">@color/eb_material_green_500</item>
+        <item name="colorSecondary">@color/eb_material_green_500</item>
+    </style>
 
     <!-- 窗口. -->
     <!-- ********************************************************************************************************** -->

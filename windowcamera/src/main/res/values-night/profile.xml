@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ProfileTheme.Red">
+        <item name="colorPrimary">@color/eb_material_red_700</item>
+        <item name="colorPrimaryDark">@color/eb_material_red_700</item>
+        <item name="colorAccent">@color/eb_material_red_700</item>
+        <item name="colorSecondary">@color/eb_material_red_700</item>
+    </style>
+
+    <style name="ProfileTheme.LightBlue">
+        <item name="colorPrimary">@color/eb_material_light_blue_700</item>
+        <item name="colorPrimaryDark">@color/eb_material_light_blue_700</item>
+        <item name="colorAccent">@color/eb_material_light_blue_700</item>
+        <item name="colorSecondary">@color/eb_material_light_blue_700</item>
+    </style>
+
+    <style name="ProfileTheme.Green">
+        <item name="colorPrimary">@color/eb_material_green_700</item>
+        <item name="colorPrimaryDark">@color/eb_material_green_700</item>
+        <item name="colorAccent">@color/eb_material_green_700</item>
+        <item name="colorSecondary">@color/eb_material_green_700</item>
+    </style>
+</resources>

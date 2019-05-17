@@ -1,6 +1,5 @@
 package com.ebnbin.windowcamera.main
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.IntentHelper
-import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -43,6 +41,16 @@ class MainFragment : EBFragment(),
         spinner.onItemSelectedListener = this
         tab_layout.setupWithViewPager(view_pager)
         view_pager.addOnPageChangeListener(this)
+
+        view_pager.adapter = MainPagerAdapter(childFragmentManager)
+        view_pager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
+
+        if (savedInstanceState == null) {
+            spinner.setSelection(
+                MainSpinnerAdapter.ITEMS.indexOfFirst { it.first == ProfileHelper.profile.value }, false)
+            view_pager.setCurrentItem(ProfileHelper.page.value, false)
+        }
+
         invalidateWindowCameraServiceEvent()
     }
 
@@ -52,10 +60,9 @@ class MainFragment : EBFragment(),
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (ProfileHelper.profile.value == MainSpinnerAdapter.ITEMS[position].first) return
         ProfileHelper.profile.value = MainSpinnerAdapter.ITEMS[position].first
-        view_pager.adapter = MainPagerAdapter(childFragmentManager)
-        view_pager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
-        view_pager.setCurrentItem(ProfileHelper.page.value, false)
+        requireActivity().recreate()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -87,25 +94,20 @@ class MainFragment : EBFragment(),
     private fun invalidateWindowCameraServiceEvent(
         isWindowCameraServiceRunning: Boolean = WindowCameraService.isRunning()) {
         val imageDrawableId: Int
-        val backgroundTintAttrId: Int
         val onClickListener: View.OnClickListener
         if (isWindowCameraServiceRunning) {
             imageDrawableId = R.drawable.main_stop
-            backgroundTintAttrId = R.attr.colorSecondary
             onClickListener = View.OnClickListener {
                 WindowCameraService.stop(requireContext())
             }
         } else {
             imageDrawableId = R.drawable.main_camera
-            backgroundTintAttrId = R.attr.colorPrimary
             onClickListener = View.OnClickListener {
                 PermissionFragment.start(childFragmentManager, WindowCameraService.permissions)
             }
         }
         floating_action_button.isEnabled = true
         floating_action_button.setImageResource(imageDrawableId)
-        val backgroundTint = ResHelper.getColorAttr(requireContext(), backgroundTintAttrId)
-        floating_action_button.backgroundTintList = ColorStateList.valueOf(backgroundTint)
         floating_action_button.setOnClickListener(onClickListener)
 
         spinner.isEnabled = !isWindowCameraServiceRunning

@@ -56,9 +56,13 @@ open class EBActivity : AppCompatActivity() {
 
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
-        themeStyleId = extras.getInt(KEY_THEME_STYLE_ID, 0)
-        @Suppress("UNCHECKED_CAST")
-        fragmentClass = extras.getSerializable(KEY_FRAGMENT_CLASS) as Class<out Fragment>?
+        if (extras.containsKey(KEY_THEME_STYLE_ID)) {
+            themeStyleId = extras.getInt(KEY_THEME_STYLE_ID, 0)
+        }
+        if (extras.containsKey(KEY_FRAGMENT_CLASS)) {
+            @Suppress("UNCHECKED_CAST")
+            fragmentClass = extras.getSerializable(KEY_FRAGMENT_CLASS) as Class<out Fragment>?
+        }
     }
 
     //*****************************************************************************************************************
