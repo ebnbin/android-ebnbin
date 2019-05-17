@@ -1,6 +1,9 @@
 package com.ebnbin.eb.preference
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.async.AsyncHelper
@@ -12,18 +15,19 @@ import com.ebnbin.eb.library.Libraries
 abstract class EBPreferenceFragment : PreferenceFragmentCompat() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initEventBus()
         initArguments(savedInstanceState)
+    }
+
+    @CallSuper
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        initEventBus()
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onDestroyView() {
         disposeAsyncHelper()
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
         disposeEventBus()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     //*****************************************************************************************************************

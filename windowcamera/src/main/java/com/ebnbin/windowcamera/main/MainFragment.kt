@@ -12,6 +12,8 @@ import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.CameraState
+import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
@@ -25,6 +27,7 @@ class MainFragment : EBFragment(),
     PermissionFragment.Callback
 {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
@@ -43,15 +46,13 @@ class MainFragment : EBFragment(),
         view_pager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
         view_pager.addOnPageChangeListener(this)
 
-        view_pager.adapter = MainPagerAdapter(childFragmentManager)
-
         if (savedInstanceState == null) {
             spinner.setSelection(
                 MainSpinnerAdapter.ITEMS.indexOfFirst { it.first == ProfileHelper.profile.value }, false)
-            view_pager.setCurrentItem(ProfileHelper.page.value, false)
         }
 
-        invalidateWindowCameraServiceEvent()
+        invalidateWindowCameraServiceEvent(WindowCameraService.isRunning())
+        invalidateCameraState(ProfileHelper.cameraState)
     }
 
     override fun onDestroyView() {
@@ -60,9 +61,9 @@ class MainFragment : EBFragment(),
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (ProfileHelper.profile.value == MainSpinnerAdapter.ITEMS[position].first) return
         ProfileHelper.profile.value = MainSpinnerAdapter.ITEMS[position].first
-        requireActivity().recreate()
+        view_pager.adapter = MainPagerAdapter(childFragmentManager)
+        view_pager.setCurrentItem(ProfileHelper.page.value, false)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -80,6 +81,7 @@ class MainFragment : EBFragment(),
 
     override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
         if (granted) {
+            floating_action_button.isEnabled = false
             WindowCameraService.start(requireContext())
         }
     }
@@ -91,13 +93,18 @@ class MainFragment : EBFragment(),
         invalidateWindowCameraServiceEvent(event.isRunning)
     }
 
-    private fun invalidateWindowCameraServiceEvent(
-        isWindowCameraServiceRunning: Boolean = WindowCameraService.isRunning()) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: CameraStateEvent) {
+        invalidateCameraState(event.cameraState)
+    }
+
+    private fun invalidateWindowCameraServiceEvent(isWindowCameraServiceRunning: Boolean) {
         val imageDrawableId: Int
         val onClickListener: View.OnClickListener
         if (isWindowCameraServiceRunning) {
             imageDrawableId = R.drawable.main_stop
             onClickListener = View.OnClickListener {
+                floating_action_button.isEnabled = false
                 WindowCameraService.stop(requireContext())
             }
         } else {
@@ -106,11 +113,18 @@ class MainFragment : EBFragment(),
                 PermissionFragment.start(childFragmentManager, WindowCameraService.permissions)
             }
         }
-        floating_action_button.isEnabled = true
         floating_action_button.setImageResource(imageDrawableId)
         floating_action_button.setOnClickListener(onClickListener)
 
         spinner.isEnabled = !isWindowCameraServiceRunning
+    }
+
+    private fun invalidateCameraState(cameraState: CameraState) {
+        floating_action_button.isEnabled = cameraState == CameraState.CLOSED ||
+                cameraState == CameraState.PREVIEWING_PHOTO ||
+                cameraState == CameraState.PREVIEWING_VIDEO ||
+                cameraState == CameraState.PREVIEWING ||
+                cameraState == CameraState.CAPTURING_VIDEO
     }
 
     override val isDoubleBackFinishEnabled: Boolean = true

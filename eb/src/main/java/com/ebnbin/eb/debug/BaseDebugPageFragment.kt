@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.R
-import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.debug.widget.DebugItemView
+import com.ebnbin.eb.fragment.EBFragment
 import kotlinx.android.synthetic.main.eb_base_debug_page_fragment.*
 
 /**
@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.eb_base_debug_page_fragment.*
  */
 abstract class BaseDebugPageFragment : EBFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.eb_base_debug_page_fragment, container, false)
     }
 

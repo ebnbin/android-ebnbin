@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.eb_debug_fragment.*
  */
 internal class DebugFragment : EBFragment(), Toolbar.OnMenuItemClickListener, ViewPager.OnPageChangeListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.eb_debug_fragment, container, false)
     }
 
