@@ -10,7 +10,7 @@ import kotlin.reflect.KProperty
 internal class SharedPreferencesProperty<T>(
     private val key: String,
     private val getDefaultValue: () -> T,
-    private val getSharedPreferences: () -> SharedPreferences
+    private val getSharedPreferencesNamePostfix: () -> String
 ) : ReadWriteProperty<Any?, T> {
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return getSharedPreferences().get(key, getDefaultValue())
@@ -18,5 +18,9 @@ internal class SharedPreferencesProperty<T>(
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         getSharedPreferences().put(key, value)
+    }
+
+    private fun getSharedPreferences(): SharedPreferences {
+        return SharedPreferencesHelper.get(getSharedPreferencesNamePostfix())
     }
 }

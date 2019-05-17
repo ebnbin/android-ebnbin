@@ -40,10 +40,10 @@ class MainFragment : EBFragment(),
         spinner.adapter = MainSpinnerAdapter(bottom_app_bar.context)
         spinner.onItemSelectedListener = this
         tab_layout.setupWithViewPager(view_pager)
+        view_pager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
         view_pager.addOnPageChangeListener(this)
 
         view_pager.adapter = MainPagerAdapter(childFragmentManager)
-        view_pager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
 
         if (savedInstanceState == null) {
             spinner.setSelection(

@@ -10,6 +10,7 @@ import com.ebnbin.windowcamera.camera.CameraHelper
 
 object ProfileHelper {
     var profile: Sp<String> = Sp("profile", "default")
+    val page: Sp<Int> = Sp("page", 1)
 
     //*****************************************************************************************************************
 
@@ -51,10 +52,6 @@ object ProfileHelper {
     val front_video_profile: Sp<String> = ProfileSp(R.string.profile_front_video_profile) { CameraHelper.getInstance().requireFrontDevice().requireDefaultVideoProfile().entryValue }
 
     val path: Sp<Unit> = ProfileSp(R.string.profile_path, Unit)
-
-    //*****************************************************************************************************************
-
-    val page: Sp<Int> = ProfileSp("page") { 1 }
 
     //*****************************************************************************************************************
 
