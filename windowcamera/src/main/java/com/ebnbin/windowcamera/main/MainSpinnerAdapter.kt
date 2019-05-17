@@ -31,6 +31,7 @@ class MainSpinnerAdapter(context: Context) :
     companion object {
         val ITEMS: List<Pair<String, CharSequence>> = listOf(
             Pair("default", res.getString(R.string.profile_title_default)),
+            Pair("walking", res.getString(R.string.profile_title_walking)),
             Pair("custom_1", res.getString(R.string.profile_title_custom_1)),
             Pair("custom_2", res.getString(R.string.profile_title_custom_2))
         )

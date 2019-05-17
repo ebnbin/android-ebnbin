@@ -3,6 +3,7 @@
     <!-- ********************************************************************************************************** -->
 
     <string name="profile_title_default">默认</string>
+    <string name="profile_title_walking">走路玩手机</string>
     <string name="profile_title_custom_1">自定义 1</string>
     <string name="profile_title_custom_2">自定义 2</string>
 
@@ -10,134 +11,72 @@
     <!-- ********************************************************************************************************** -->
     <eat-comment/>
 
-    <string name="profile_layout" translatable="false">layout</string>
     <string name="profile_layout_title">布局</string>
 
-    <string name="profile_size" translatable="false">size</string>
-    <integer name="profile_size_default_value">50</integer>
     <string name="profile_size_title">窗口大小</string>
     <string name="profile_size_summary">窗口占屏幕大小的百分比</string>
-    <integer name="profile_size_min">1</integer>
-    <integer name="profile_size_max">100</integer>
 
-    <string name="profile_ratio" translatable="false">ratio</string>
-    <string name="profile_ratio_default_value" translatable="false">capture</string>
     <string name="profile_ratio_title">窗口宽高比</string>
-    <string-array name="profile_ratio_entry_values" translatable="false">
-        <item>capture</item>
-        <item>screen</item>
-        <item>square</item>
-    </string-array>
     <string-array name="profile_ratio_entries">
         <item>与拍摄比例相同。所见即所得</item>
         <item>与屏幕比例相同</item>
         <item>正方形</item>
     </string-array>
 
-    <string name="profile_is_out_enabled" translatable="false">is_out_enabled</string>
-    <bool name="profile_is_out_enabled_default_value">false</bool>
     <string name="profile_is_out_enabled_title">是否允许窗口移出屏幕</string>
     <string name="profile_is_out_enabled_summary_off">不允许</string>
     <string name="profile_is_out_enabled_summary_on">允许</string>
 
-    <string name="profile_is_out_enabled_off" translatable="false">is_out_enabled_off</string>
-
-    <string name="profile_in_x" translatable="false">in_x</string>
-    <integer name="profile_in_x_default_value">50</integer>
     <string name="profile_in_x_title">窗口水平位置</string>
     <string name="profile_in_x_summary">窗口在屏幕水平方向位置的百分比</string>
-    <integer name="profile_in_x_min">0</integer>
-    <integer name="profile_in_x_max">100</integer>
 
-    <string name="profile_in_y" translatable="false">in_y</string>
-    <integer name="profile_in_y_default_value">50</integer>
     <string name="profile_in_y_title">窗口垂直位置</string>
     <string name="profile_in_y_summary">窗口在屏幕垂直方向位置的百分比</string>
-    <integer name="profile_in_y_min">0</integer>
-    <integer name="profile_in_y_max">100</integer>
 
-    <string name="profile_is_out_enabled_on" translatable="false">is_out_enabled_on</string>
-
-    <string name="profile_out_x" translatable="false">out_x</string>
-    <integer name="profile_out_x_default_value">50</integer>
     <string name="profile_out_x_title">窗口水平位置</string>
     <string name="profile_out_x_summary">窗口在屏幕水平方向位置的百分比。\n值为 0 时窗口贴边屏幕左侧，值为 100 时窗口贴边屏幕右侧</string>
-    <integer name="profile_out_x_min">-99</integer>
-    <integer name="profile_out_x_max">199</integer>
 
-    <string name="profile_out_y" translatable="false">out_y</string>
-    <integer name="profile_out_y_default_value">50</integer>
     <string name="profile_out_y_title">窗口垂直位置</string>
     <string name="profile_out_y_summary">窗口在屏幕垂直方向位置的百分比。\n值为 0 时窗口贴边屏幕顶部，值为 100 时窗口贴边屏幕底部</string>
-    <integer name="profile_out_y_min">-99</integer>
-    <integer name="profile_out_y_max">199</integer>
 
-    <string name="profile_display" translatable="false">display</string>
     <string name="profile_display_title">显示</string>
 
-    <string name="profile_alpha" translatable="false">alpha</string>
-    <integer name="profile_alpha_default_value">100</integer>
     <string name="profile_alpha_title">窗口不透明度</string>
-    <integer name="profile_alpha_min">1</integer>
-    <integer name="profile_alpha_max">100</integer>
 
-    <string name="profile_is_border_enabled" translatable="false">is_border_enabled</string>
-    <bool name="profile_is_border_enabled_default_value">true</bool>
     <string name="profile_is_border_enabled_title"><Data><![CDATA[窗口边框<br><font color="#2196f3">蓝色：</font>照片预览<br><font color="#4caf50">绿色：</font>视频预览<br><font color="#f44336">红色：</font>视频拍摄<br><font color="#ffeb3b">黄色：</font>仅预览<br><font color="#9e9e9e">灰色：</font>状态切换中]]></Data></string>
     <string name="profile_is_border_enabled_summary_off">禁用</string>
     <string name="profile_is_border_enabled_summary_on">启用</string>
 
-    <string name="profile_is_keep_screen_on_enabled" translatable="false">is_keep_screen_on_enabled</string>
-    <bool name="profile_is_keep_screen_on_enabled_default_value">true</bool>
     <string name="profile_is_keep_screen_on_enabled_title">窗口显示时保持屏幕常量</string>
     <string name="profile_is_keep_screen_on_enabled_summary_off">禁用</string>
     <string name="profile_is_keep_screen_on_enabled_summary_on">启用</string>
 
-    <string name="profile_toast" translatable="false">toast</string>
-    <string name="profile_toast_default_value" translatable="false">system_alert_window</string>
     <string name="profile_toast_title">提示框样式</string>
-    <string-array name="profile_toast_entry_values" translatable="false">
-        <item>system_alert_window</item>
-        <item>system</item>
-        <item>none</item>
-    </string-array>
     <string-array name="profile_toast_entries">
         <item>优化样式。不会被相机窗口遮挡</item>
         <item>系统默认</item>
         <item>不显示</item>
     </string-array>
 
-    <string name="profile_control" translatable="false">control</string>
     <string name="profile_control_title">控制</string>
 
-    <string name="profile_is_touchable" translatable="false">is_touchable</string>
-    <bool name="profile_is_touchable_default_value">true</bool>
     <string name="profile_is_touchable_title">窗口接收触摸事件。\n如果禁用，触摸窗口会直接操控下层的其他应用</string>
     <string name="profile_is_touchable_summary_off">禁用</string>
     <string name="profile_is_touchable_summary_on">启用</string>
 
-    <string name="profile_is_touchable_on" translatable="false">is_touchable_on</string>
-
-    <string name="profile_single_tap" translatable="false">single_tap</string>
     <string name="profile_single_tap_title">单击</string>
     <string name="profile_single_tap_summary">拍摄照片或开始/停止录制视频</string>
 
-    <string name="profile_double_tap" translatable="false">double_tap</string>
     <string name="profile_double_tap_title">双击</string>
     <string name="profile_double_tap_summary">打开应用主界面</string>
 
-    <string name="profile_long_press" translatable="false">long_press</string>
     <string name="profile_long_press_title">长按</string>
     <string name="profile_long_press_summary">关闭窗口并停止拍摄</string>
 
-    <string name="profile_is_move_enabled" translatable="false">is_move_enabled</string>
-    <bool name="profile_is_move_enabled_default_value">true</bool>
     <string name="profile_is_move_enabled_title">通过手势移动窗口</string>
     <string name="profile_is_move_enabled_summary_off">禁用</string>
     <string name="profile_is_move_enabled_summary_on">启用</string>
 
-    <string name="profile_is_stop_when_screen_off_enabled" translatable="false">is_stop_when_screen_off_enabled</string>
-    <bool name="profile_is_stop_when_screen_off_enabled_default_value">false</bool>
     <string name="profile_is_stop_when_screen_off_enabled_title">锁屏时关闭窗口并停止拍摄</string>
     <string name="profile_is_stop_when_screen_off_enabled_summary_off">禁用</string>
     <string name="profile_is_stop_when_screen_off_enabled_summary_on">启用</string>
@@ -146,20 +85,12 @@
     <!-- ********************************************************************************************************** -->
     <eat-comment/>
 
-    <string name="profile_is_front" translatable="false">is_front</string>
-    <bool name="profile_is_front_default_value">false</bool>
     <string name="profile_is_front_title">摄像头</string>
     <string name="profile_is_front_summary_off">后置摄像头</string>
     <string name="profile_is_front_summary_on">前置摄像头</string>
 
-    <string name="profile_is_preview" translatable="false">is_preview</string>
-    <bool name="profile_is_preview_default_value">false</bool>
     <string name="profile_is_preview_title">仅预览</string>
 
-    <string name="profile_is_preview_off" translatable="false">is_preview_off</string>
-
-    <string name="profile_is_video" translatable="false">is_video</string>
-    <bool name="profile_is_video_default_value">false</bool>
     <string name="profile_is_video_title">照片/视频</string>
     <string name="profile_is_video_summary_off">照片</string>
     <string name="profile_is_video_summary_on">视频</string>
@@ -167,30 +98,17 @@
     <string name="profile_photo_resolution_entry">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素</string>
     <string name="profile_video_profile_entry">%1$dx%2$d，%3$d:%4$d，%5$.2f 百万像素，%6$s</string>
 
-    <string name="profile_back_photo" translatable="false">back_photo</string>
-
-    <string name="profile_back_photo_resolution" translatable="false">back_photo_resolution</string>
     <string name="profile_back_photo_resolution_title">后置摄像头照片分辨率</string>
 
-    <string name="profile_back_video" translatable="false">back_video</string>
-
-    <string name="profile_back_video_profile" translatable="false">back_video_profile</string>
     <string name="profile_back_video_profile_title">后置摄像头视频配置</string>
 
-    <string name="profile_front_photo" translatable="false">front_photo</string>
-
-    <string name="profile_front_photo_resolution" translatable="false">front_photo_resolution</string>
     <string name="profile_front_photo_resolution_title">前置摄像头照片分辨率</string>
 
-    <string name="profile_front_video" translatable="false">front_video</string>
-
-    <string name="profile_front_video_profile" translatable="false">front_video_profile</string>
     <string name="profile_front_video_profile_title">前置摄像头视频配置</string>
 
     <!-- 其他. -->
     <!-- ********************************************************************************************************** -->
     <eat-comment/>
 
-    <string name="profile_path" translatable="false">path</string>
     <string name="profile_path_title">存储路径</string>
 </resources>
