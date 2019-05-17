@@ -9,6 +9,10 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 
 object ProfileHelper {
+    var profile: Sp<String> = Sp("profile", "default")
+
+    //*****************************************************************************************************************
+
     val layout: Sp<Unit> = ProfileSp(R.string.profile_layout, Unit)
     val size: Sp<Int> = ProfileSp(R.string.profile_size, res.getInteger(R.integer.profile_size_default_value))
     val ratio: Sp<String> = ProfileSp(R.string.profile_ratio, res.getString(R.string.profile_ratio_default_value))
@@ -116,14 +120,16 @@ object ProfileHelper {
 
     //*****************************************************************************************************************
 
-    const val SHARED_PREFERENCES_NAME_POSTFIX: String = "_profile_default"
+    fun getSharedPreferencesNamePostfix(): String {
+        return "_profile_${profile.value}"
+    }
 
     fun sharedPreferencesRegister(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
-        SharedPreferencesHelper.register(listener, SHARED_PREFERENCES_NAME_POSTFIX)
+        SharedPreferencesHelper.register(listener, getSharedPreferencesNamePostfix())
     }
 
     fun sharedPreferencesUnregister(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
-        SharedPreferencesHelper.unregister(listener, SHARED_PREFERENCES_NAME_POSTFIX)
+        SharedPreferencesHelper.unregister(listener, getSharedPreferencesNamePostfix())
     }
 
     var cameraState: CameraState = CameraState.CLOSED

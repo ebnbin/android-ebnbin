@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ********************************************************************************************************** -->
+
+    <string name="profile_title_default">默认</string>
+    <string name="profile_title_custom_1">自定义 1</string>
+    <string name="profile_title_custom_2">自定义 2</string>
+
     <!-- 窗口. -->
     <!-- ********************************************************************************************************** -->
     <eat-comment/>

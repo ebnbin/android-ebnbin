@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.fragment.EBFragment
@@ -20,12 +21,14 @@ import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFragment.Callback {
+class MainFragment : EBFragment(),
+    AdapterView.OnItemSelectedListener,
+    ViewPager.OnPageChangeListener,
+    PermissionFragment.Callback
+{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
-
-    private lateinit var mainPagerAdapter: MainPagerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,24 +36,29 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
             UpdateFragment.start(childFragmentManager, true)
         }
 
-        mainPagerAdapter = MainPagerAdapter(requireContext(), childFragmentManager)
-        view_pager.adapter = mainPagerAdapter
-        view_pager.offscreenPageLimit = mainPagerAdapter.count - 1
-        view_pager.addOnPageChangeListener(this)
-        tab_layout.setupWithViewPager(view_pager)
         bottom_app_bar.setNavigationOnClickListener {
             IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
         }
+        spinner.adapter = MainSpinnerAdapter(bottom_app_bar.context)
+        spinner.onItemSelectedListener = this
+        tab_layout.setupWithViewPager(view_pager)
+        view_pager.addOnPageChangeListener(this)
         invalidateWindowCameraServiceEvent()
-
-        if (savedInstanceState == null) {
-            view_pager.setCurrentItem(ProfileHelper.page.value, false)
-        }
     }
 
     override fun onDestroyView() {
         view_pager.removeOnPageChangeListener(this)
         super.onDestroyView()
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        ProfileHelper.profile.value = MainSpinnerAdapter.ITEMS[position].first
+        view_pager.adapter = MainPagerAdapter(childFragmentManager)
+        view_pager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
+        view_pager.setCurrentItem(ProfileHelper.page.value, false)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -99,6 +107,8 @@ class MainFragment : EBFragment(), ViewPager.OnPageChangeListener, PermissionFra
         val backgroundTint = ResHelper.getColorAttr(requireContext(), backgroundTintAttrId)
         floating_action_button.backgroundTintList = ColorStateList.valueOf(backgroundTint)
         floating_action_button.setOnClickListener(onClickListener)
+
+        spinner.isEnabled = !isWindowCameraServiceRunning
     }
 
     override val isDoubleBackFinishEnabled: Boolean = true

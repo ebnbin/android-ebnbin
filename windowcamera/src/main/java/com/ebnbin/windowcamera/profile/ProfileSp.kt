@@ -8,7 +8,7 @@ import com.ebnbin.eb.util.res
 open class ProfileSp<T>(key: String, getDefaultValue: () -> T) : Sp<T>(
     key,
     getDefaultValue,
-    { SharedPreferencesHelper.get(ProfileHelper.SHARED_PREFERENCES_NAME_POSTFIX) }
+    { SharedPreferencesHelper.get(ProfileHelper.getSharedPreferencesNamePostfix()) }
 ) {
     constructor(key: String, defaultValue: T) : this(key, { defaultValue })
 
