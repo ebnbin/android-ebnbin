@@ -2,7 +2,6 @@ package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import androidx.core.text.HtmlCompat
-import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import com.ebnbin.eb.preference.FooterPreference
 import com.ebnbin.eb.preference.SimpleCheckBoxPreference
@@ -11,6 +10,7 @@ import com.ebnbin.eb.preference.SimplePreferenceGroup
 import com.ebnbin.eb.preference.SimpleSeekBarPreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.enumeration.ProfileGesture
 import com.ebnbin.windowcamera.profile.enumeration.ProfileRatio
 import com.ebnbin.windowcamera.profile.enumeration.ProfileToast
 
@@ -176,25 +176,34 @@ class WindowProfileFragment : BaseProfileFragment() {
             visibleKeysOn = arrayOf(ProfileHelper.is_touchable.key)
         }
 
-        Preference(preferenceScreen.context).apply {
+        SimpleListPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.single_tap, ProfileHelper.is_touchable_on)
             setTitle(R.string.profile_single_tap_title)
-            setSummary(R.string.profile_single_tap_summary)
             setIcon(R.drawable.profile_single_tap)
+            entryValues = ProfileGesture.entryValues()
+            entries = ProfileGesture.entries()
+            setDialogTitle(R.string.profile_single_tap_title)
+            setDialogIcon(R.drawable.profile_single_tap)
         }
 
-        Preference(preferenceScreen.context).apply {
+        SimpleListPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.double_tap, ProfileHelper.is_touchable_on)
             setTitle(R.string.profile_double_tap_title)
-            setSummary(R.string.profile_double_tap_summary)
             setIcon(R.drawable.profile_double_tap)
+            entryValues = ProfileGesture.entryValues()
+            entries = ProfileGesture.entries()
+            setDialogTitle(R.string.profile_double_tap_title)
+            setDialogIcon(R.drawable.profile_double_tap)
         }
 
-        Preference(preferenceScreen.context).apply {
+        SimpleListPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.long_press, ProfileHelper.is_touchable_on)
             setTitle(R.string.profile_long_press_title)
-            setSummary(R.string.profile_long_press_summary)
             setIcon(R.drawable.profile_long_press)
+            entryValues = ProfileGesture.entryValues()
+            entries = ProfileGesture.entries()
+            setDialogTitle(R.string.profile_long_press_title)
+            setDialogIcon(R.drawable.profile_long_press)
         }
 
         SimpleCheckBoxPreference(preferenceScreen.context).apply {

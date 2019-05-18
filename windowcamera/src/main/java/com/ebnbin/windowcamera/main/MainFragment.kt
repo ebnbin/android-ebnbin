@@ -44,6 +44,7 @@ class MainFragment : EBFragment(),
         spinner.adapter = MainSpinnerAdapter(bottom_app_bar.context)
         spinner.onItemSelectedListener = this
         tab_layout.setupWithViewPager(view_pager)
+        tab_layout.isInlineLabel = true
         view_pager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
         view_pager.addOnPageChangeListener(this)
 
@@ -61,8 +62,16 @@ class MainFragment : EBFragment(),
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val changed = ProfileHelper.profile.value != Profile.get(position).key
         ProfileHelper.profile.value = Profile.get(position).key
+        if (changed) {
+            (spinner.adapter as MainSpinnerAdapter?)?.notifyDataSetChanged()
+        }
         view_pager.adapter = MainPagerAdapter(childFragmentManager)
+        (0 until tab_layout.tabCount).forEach {
+            val tab = tab_layout.getTabAt(it) ?: return@forEach
+            tab.setIcon(MainPagerAdapter.ITEMS[it].third)
+        }
         view_pager.setCurrentItem(ProfileHelper.page.value, false)
     }
 

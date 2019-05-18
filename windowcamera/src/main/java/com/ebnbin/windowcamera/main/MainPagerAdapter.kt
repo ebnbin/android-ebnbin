@@ -25,10 +25,10 @@ class MainPagerAdapter(private val fm: FragmentManager) :
     }
 
     companion object {
-        val ITEMS: List<Pair<Class<out Fragment>, CharSequence>> = listOf(
-            Pair(WindowProfileFragment::class.java, res.getString(R.string.window)),
-            Pair(CameraProfileFragment::class.java, res.getString(R.string.camera)),
-            Pair(OtherProfileFragment::class.java, res.getString(R.string.other))
+        val ITEMS: List<Triple<Class<out Fragment>, CharSequence, Int>> = listOf(
+            Triple(WindowProfileFragment::class.java, res.getString(R.string.window), R.drawable.profile_window),
+            Triple(CameraProfileFragment::class.java, res.getString(R.string.camera), R.drawable.profile_camera),
+            Triple(OtherProfileFragment::class.java, res.getString(R.string.other), R.drawable.profile_other)
         )
     }
 }

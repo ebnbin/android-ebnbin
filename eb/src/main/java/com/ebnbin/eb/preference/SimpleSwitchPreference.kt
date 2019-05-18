@@ -7,6 +7,7 @@ import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
 import androidx.preference.SwitchPreferenceCompat
 import com.ebnbin.eb.R
+import com.ebnbin.eb.sharedpreferences.get
 
 /**
  * 拥有 off/on 图标的 SwitchPreference.
@@ -69,10 +70,13 @@ open class SimpleSwitchPreference(context: Context) :
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        sharedPreferences ?: return
         key ?: return
-        if (this.key == key) {
-            invalidateIcons()
-        }
+        if (this.key != key) return
+        invalidateIcons()
+        val newValue = sharedPreferences.get(key, isChecked)
+        if (isChecked == newValue) return
+        isChecked = newValue
     }
 
     //*****************************************************************************************************************

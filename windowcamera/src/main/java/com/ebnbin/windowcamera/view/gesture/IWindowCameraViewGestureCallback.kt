@@ -1,5 +1,6 @@
 package com.ebnbin.windowcamera.view.gesture
 
+import com.ebnbin.windowcamera.profile.enumeration.ProfileGesture
 import com.ebnbin.windowcamera.view.IWindowCameraViewCallback
 
 interface IWindowCameraViewGestureCallback : IWindowCameraViewCallback {
@@ -22,18 +23,5 @@ interface IWindowCameraViewGestureCallback : IWindowCameraViewCallback {
      */
     fun onMove(layoutX: Int, layoutY: Int)
 
-    /**
-     * 单击手势.
-     */
-    fun onSingleTap()
-
-    /**
-     * 双击手势.
-     */
-    fun onDoubleTap()
-
-    /**
-     * 长按手势.
-     */
-    fun onLongPress()
+    fun onGesture(profileGesture: ProfileGesture)
 }

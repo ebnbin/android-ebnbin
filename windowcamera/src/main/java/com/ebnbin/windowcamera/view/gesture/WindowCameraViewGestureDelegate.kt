@@ -4,6 +4,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.core.view.GestureDetectorCompat
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.enumeration.ProfileGesture
 import kotlin.math.roundToInt
 
 class WindowCameraViewGestureDelegate(private val callback: IWindowCameraViewGestureCallback) :
@@ -74,7 +75,7 @@ class WindowCameraViewGestureDelegate(private val callback: IWindowCameraViewGes
     }
 
     override fun onLongPress(e: MotionEvent?) {
-        callback.onLongPress()
+        callback.onGesture(ProfileGesture.get(ProfileHelper.long_press.value))
     }
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
@@ -84,12 +85,12 @@ class WindowCameraViewGestureDelegate(private val callback: IWindowCameraViewGes
     //*****************************************************************************************************************
 
     override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-        callback.onSingleTap()
+        callback.onGesture(ProfileGesture.get(ProfileHelper.single_tap.value))
         return false
     }
 
     override fun onDoubleTap(e: MotionEvent?): Boolean {
-        callback.onDoubleTap()
+        callback.onGesture(ProfileGesture.get(ProfileHelper.double_tap.value))
         return false
     }
 

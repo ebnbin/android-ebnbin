@@ -4,11 +4,10 @@
 
     <string name="profile_title_default">窗口相机</string>
     <string name="profile_title_walking">走路玩手机</string>
-    <string name="profile_title_selfie">全屏自拍</string>
-    <string name="profile_title_mirror">梳妆镜</string>
+    <string name="profile_title_mirror">自拍镜子</string>
     <string name="profile_title_circle">圆形窗口</string>
-    <string name="profile_title_custom_1">自定义配置 1</string>
-    <string name="profile_title_custom_2">自定义配置 2</string>
+    <string name="profile_title_custom_1">自定义 1</string>
+    <string name="profile_title_custom_2">自定义 2</string>
 
     <!-- 窗口. -->
     <!-- ********************************************************************************************************** -->
@@ -70,14 +69,19 @@
     <string name="profile_is_touchable_summary_off">禁用</string>
     <string name="profile_is_touchable_summary_on">启用</string>
 
+    <string name="profile_gesture_entry_capture">拍摄照片或开始/停止录制视频</string>
+    <string name="profile_gesture_entry_switch_is_front">切换后置/前置摄像头</string>
+    <string name="profile_gesture_entry_switch_is_preview">切换拍摄/仅预览模式</string>
+    <string name="profile_gesture_entry_switch_is_video">切换照片/视频拍摄</string>
+    <string name="profile_gesture_entry_restart_app">打开应用主界面</string>
+    <string name="profile_gesture_entry_close_app">关闭窗口并停止拍摄</string>
+    <string name="profile_gesture_entry_none">什么也不做</string>
+
     <string name="profile_single_tap_title">单击</string>
-    <string name="profile_single_tap_summary">拍摄照片或开始/停止录制视频</string>
 
     <string name="profile_double_tap_title">双击</string>
-    <string name="profile_double_tap_summary">打开应用主界面</string>
 
     <string name="profile_long_press_title">长按</string>
-    <string name="profile_long_press_summary">关闭窗口并停止拍摄</string>
 
     <string name="profile_is_move_enabled_title">通过手势移动窗口</string>
     <string name="profile_is_move_enabled_summary_off">禁用</string>

@@ -18,6 +18,8 @@ import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.dpToPxRound
+import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.enumeration.ProfileGesture
 import com.ebnbin.windowcamera.profile.enumeration.ProfileToast
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraCallback
@@ -176,17 +178,30 @@ class WindowCameraView(context: Context) : CardView(context),
         layoutDelegate.putPosition(layoutParams.width, layoutParams.height, layoutX, layoutY)
     }
 
-    override fun onSingleTap() {
-        cameraDelegate.capture()
-    }
-
-    override fun onDoubleTap() {
-        IntentHelper.restartApp()
-    }
-
-    override fun onLongPress() {
-        AppHelper.vibrate(100L)
-        WindowCameraService.stop(context)
+    override fun onGesture(profileGesture: ProfileGesture) {
+        when (profileGesture) {
+            ProfileGesture.CAPTURE -> {
+                cameraDelegate.capture()
+            }
+            ProfileGesture.SWITCH_IS_FRONT -> {
+                ProfileHelper.is_front.value = !ProfileHelper.is_front.value
+            }
+            ProfileGesture.SWITCH_IS_PREVIEW -> {
+                ProfileHelper.is_preview.value = !ProfileHelper.is_preview.value
+            }
+            ProfileGesture.SWITCH_IS_VIDEO -> {
+                ProfileHelper.is_video.value = !ProfileHelper.is_video.value
+            }
+            ProfileGesture.RESTART_APP -> {
+                IntentHelper.restartApp()
+            }
+            ProfileGesture.CLOSE_APP -> {
+                AppHelper.vibrate(100L)
+                WindowCameraService.stop(context)
+            }
+            ProfileGesture.NONE -> {
+            }
+        }
     }
 
     //*****************************************************************************************************************
