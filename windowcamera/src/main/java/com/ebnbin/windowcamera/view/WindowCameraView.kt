@@ -18,7 +18,7 @@ import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.dpToPxRound
-import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.enumeration.ProfileToast
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraCallback
 import com.ebnbin.windowcamera.view.camera.IWindowCameraViewCameraDelegate
@@ -57,9 +57,9 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     private var lastToastView: View? = null
 
     @SuppressLint("ShowToast")
-    override fun toast(any: Any?, long: Boolean) {
-        when (ProfileHelper.toast.value) {
-            "system_alert_window" -> {
+    override fun toast(any: Any?, long: Boolean, profileToast: ProfileToast) {
+        when (profileToast) {
+            ProfileToast.SYSTEM_ALERT_WINDOW, ProfileToast.SYSTEM_ALERT_WINDOW_CENTER -> {
                 lastToastView?.run {
                     val runnable = tag as Runnable
                     removeCallbacks(runnable)
@@ -81,8 +81,10 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 params.format = PixelFormat.TRANSLUCENT
                 params.windowAnimations = android.R.style.Animation_Toast
-                params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
-                params.y = 24f.dpToPxRound
+                if (profileToast == ProfileToast.SYSTEM_ALERT_WINDOW) {
+                    params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+                    params.y = 24f.dpToPxRound
+                }
                 SystemServices.windowManager.addView(view, params)
                 lastToastView = view
                 val delay = if (long) 5000L else 2000L
@@ -97,14 +99,11 @@ class WindowCameraView(context: Context) : FrameLayout(context),
                 view.tag = runnable
                 view.postDelayed(runnable, delay)
             }
-            "system" -> {
+            ProfileToast.SYSTEM -> {
                 AppHelper.toast(context, any, long)
             }
-            "none" -> {
+            ProfileToast.NONE -> {
                 // Do nothing.
-            }
-            else -> {
-                throw RuntimeException()
             }
         }
     }

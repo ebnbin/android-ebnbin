@@ -7,6 +7,7 @@ import com.ebnbin.eb.util.RotationDetector
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.enumeration.ProfileRatio
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -118,11 +119,10 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
             if (sizePosition == SizePosition.POSITION) {
                 rotationSize = RotationSize(width, height, displaySize.rotation)
             } else {
-                val ratio0 = when (ProfileHelper.ratio.value) {
-                    "capture" -> ProfileHelper.resolution().ratio0
-                    "screen" -> displaySize.ratio0
-                    "square" -> Ratio.SQUARE
-                    else -> throw RuntimeException()
+                val ratio0 = when (ProfileRatio.get()) {
+                    ProfileRatio.CAPTURE -> ProfileHelper.resolution().ratio0
+                    ProfileRatio.SCREEN -> displaySize.ratio0
+                    ProfileRatio.SQUARE -> Ratio.SQUARE
                 }
                 rotationSize = displaySize.crop(ratio0, ProfileHelper.size.value / 100f)
                 width = rotationSize.width

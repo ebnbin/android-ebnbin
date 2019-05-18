@@ -6,7 +6,6 @@ import androidx.preference.PreferenceGroup
 import com.ebnbin.eb.preference.EBPreferenceFragment
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.profile.Profile
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSp
 
@@ -20,7 +19,7 @@ abstract class BaseProfileFragment : EBPreferenceFragment() {
 
     protected fun <T> buildPreference(preference: Preference, sp: ProfileSp<T>, groupSp: ProfileSp<Unit>? = null) {
         preference.key = sp.key
-        val builder = sp.builder(Profile.values().first { it.key == ProfileHelper.profile.value })
+        val builder = sp.builder()
         if (builder.defaultValue != Unit) {
             preference.setDefaultValue(builder.defaultValue)
         }

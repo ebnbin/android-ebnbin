@@ -15,6 +15,7 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.enumeration.Profile
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -47,8 +48,7 @@ class MainFragment : EBFragment(),
         view_pager.addOnPageChangeListener(this)
 
         if (savedInstanceState == null) {
-            spinner.setSelection(
-                MainSpinnerAdapter.ITEMS.indexOfFirst { it.first == ProfileHelper.profile.value }, false)
+            spinner.setSelection(Profile.indexOf(), false)
         }
 
         invalidateWindowCameraServiceEvent(WindowCameraService.isRunning())
@@ -61,7 +61,7 @@ class MainFragment : EBFragment(),
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        ProfileHelper.profile.value = MainSpinnerAdapter.ITEMS[position].first
+        ProfileHelper.profile.value = Profile.get(position).key
         view_pager.adapter = MainPagerAdapter(childFragmentManager)
         view_pager.setCurrentItem(ProfileHelper.page.value, false)
     }

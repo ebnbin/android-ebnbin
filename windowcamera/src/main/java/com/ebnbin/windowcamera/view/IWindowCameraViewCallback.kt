@@ -1,6 +1,7 @@
 package com.ebnbin.windowcamera.view
 
 import android.content.Context
+import com.ebnbin.windowcamera.profile.enumeration.ProfileToast
 
 interface IWindowCameraViewCallback {
     fun getContext(): Context
@@ -8,5 +9,5 @@ interface IWindowCameraViewCallback {
     /**
      * 读取 profile 显示 toast.
      */
-    fun toast(any: Any?, long: Boolean = false)
+    fun toast(any: Any?, long: Boolean = false, profileToast: ProfileToast = ProfileToast.get())
 }

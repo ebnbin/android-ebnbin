@@ -12,6 +12,8 @@ import com.ebnbin.eb.preference.SimplePreferenceGroup
 import com.ebnbin.eb.preference.SimpleSeekBarPreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.enumeration.ProfileRatio
+import com.ebnbin.windowcamera.profile.enumeration.ProfileToast
 
 class WindowProfileFragment : BaseProfileFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -34,12 +36,8 @@ class WindowProfileFragment : BaseProfileFragment() {
             buildPreference(this, ProfileHelper.ratio, ProfileHelper.layout)
             setTitle(R.string.profile_ratio_title)
             setIcon(R.drawable.profile_ratio)
-            entryValues = arrayOf(
-                "capture",
-                "screen",
-                "square"
-            )
-            setEntries(R.array.profile_ratio_entries)
+            entryValues = ProfileRatio.entryValues()
+            entries = ProfileRatio.entries()
             setDialogTitle(R.string.profile_ratio_title)
             setDialogIcon(R.drawable.profile_ratio)
         }
@@ -132,12 +130,8 @@ class WindowProfileFragment : BaseProfileFragment() {
             buildPreference(this, ProfileHelper.toast, ProfileHelper.display)
             setTitle(R.string.profile_toast_title)
             setIcon(R.drawable.profile_toast)
-            entryValues = arrayOf(
-                "system_alert_window",
-                "system",
-                "none"
-            )
-            setEntries(R.array.profile_toast_entries)
+            entryValues = ProfileToast.entryValues()
+            entries = ProfileToast.entries()
             setDialogTitle(R.string.profile_toast_title)
             setDialogIcon(R.drawable.profile_toast)
         }

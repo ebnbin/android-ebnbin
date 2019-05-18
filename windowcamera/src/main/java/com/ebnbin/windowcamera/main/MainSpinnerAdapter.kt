@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.widget.ThemedSpinnerAdapter
-import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.enumeration.Profile
 
 class MainSpinnerAdapter(context: Context) :
-    ArrayAdapter<CharSequence>(context, R.layout.main_spinner_item, ITEMS.map { it.second }) {
+    ArrayAdapter<CharSequence>(context, R.layout.main_spinner_item, Profile.titles()) {
     private val helper = ThemedSpinnerAdapter.Helper(context)
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -26,16 +26,5 @@ class MainSpinnerAdapter(context: Context) :
 
     override fun getDropDownViewTheme(): Resources.Theme? {
         return helper.dropDownViewTheme
-    }
-
-    companion object {
-        val ITEMS: List<Pair<String, CharSequence>> = listOf(
-            Pair("default", res.getString(R.string.profile_title_default)),
-            Pair("walking", res.getString(R.string.profile_title_walking)),
-            Pair("selfie", res.getString(R.string.profile_title_selfie)),
-            Pair("mirror", res.getString(R.string.profile_title_mirror)),
-            Pair("custom_1", res.getString(R.string.profile_title_custom_1)),
-            Pair("custom_2", res.getString(R.string.profile_title_custom_2))
-        )
     }
 }
