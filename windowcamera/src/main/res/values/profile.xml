@@ -50,6 +50,9 @@
     <string name="profile_is_border_enabled_summary_off">禁用</string>
     <string name="profile_is_border_enabled_summary_on">启用</string>
 
+    <string name="profile_border_width_title">窗口边框宽度</string>
+    <string name="profile_border_width_summary">单位：dp</string>
+
     <string name="profile_is_keep_screen_on_enabled_title">窗口显示时保持屏幕常量</string>
     <string name="profile_is_keep_screen_on_enabled_summary_off">禁用</string>
     <string name="profile_is_keep_screen_on_enabled_summary_on">启用</string>

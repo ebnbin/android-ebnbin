@@ -125,6 +125,22 @@ object ProfileHelper {
             else -> ProfileSp.Builder(true)
         }
     }
+    val is_border_enabled_on: ProfileSp<Unit> = ProfileSp("is_border_enabled_on") {
+        when (Profile.get()) {
+            Profile.WALKING -> ProfileSp.Builder(Unit)
+            Profile.SELFIE -> ProfileSp.Builder(Unit)
+            Profile.MIRROR -> ProfileSp.Builder(Unit)
+            else -> ProfileSp.Builder(Unit)
+        }
+    }
+    val border_width: ProfileSp<Int> = ProfileSp("border_width") {
+        when (Profile.get()) {
+            Profile.WALKING -> ProfileSp.Builder(2)
+            Profile.SELFIE -> ProfileSp.Builder(2)
+            Profile.MIRROR -> ProfileSp.Builder(2)
+            else -> ProfileSp.Builder(2)
+        }
+    }
     val is_keep_screen_on_enabled: ProfileSp<Boolean> = ProfileSp("is_keep_screen_on_enabled") {
         when (Profile.get()) {
             Profile.WALKING -> ProfileSp.Builder(false)

@@ -124,7 +124,21 @@ class WindowProfileFragment : BaseProfileFragment() {
                 HtmlCompat.FROM_HTML_MODE_COMPACT)
             setSummaryOff(R.string.profile_is_border_enabled_summary_off)
             setSummaryOn(R.string.profile_is_border_enabled_summary_on)
-            setIcon(R.drawable.profile_is_out_enabled)
+            setIcon(R.drawable.profile_is_border_enabled)
+        }
+
+        SimplePreferenceGroup(preferenceScreen.context).apply {
+            buildPreference(this, ProfileHelper.is_border_enabled_on, ProfileHelper.display)
+            visibleKeysOn = arrayOf(ProfileHelper.is_border_enabled.key)
+        }
+
+        SimpleSeekBarPreference(preferenceScreen.context).apply {
+            buildPreference(this, ProfileHelper.border_width, ProfileHelper.is_border_enabled_on)
+            setTitle(R.string.profile_border_width_title)
+            setSummary(R.string.profile_border_width_summary)
+            setIcon(R.drawable.profile_border_width)
+            min = 1
+            max = 32
         }
 
         CheckBoxPreference(preferenceScreen.context).apply {
