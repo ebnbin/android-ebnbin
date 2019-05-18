@@ -9,15 +9,14 @@ import android.view.ViewConfiguration
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
 import com.ebnbin.eb.R
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesProperty
+import com.ebnbin.eb.sharedpreferences.Sp
 import com.ebnbin.eb.util.AppHelper
 import kotlin.math.abs
 
 class PreferenceLockDelegate(private val callback: Callback) : View.OnTouchListener {
     fun onBindViewHolder(holder: PreferenceViewHolder?) {
         holder ?: return
-        holder.itemView.foreground = if (isLocked) {
+        holder.itemView.foreground = if (isLockedSp.value) {
             callback.getContext().getDrawable(R.drawable.eb_preference_locked_foreground)
         } else {
             null
@@ -32,12 +31,10 @@ class PreferenceLockDelegate(private val callback: Callback) : View.OnTouchListe
         view.setOnTouchListener(this)
         if (isLockable) {
             view.setOnLongClickListener {
-                val cancelEvent = MotionEvent.obtain(
-                    SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-                    MotionEvent.ACTION_CANCEL, 0f, 0f, 0
-                )
+                val cancelEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+                    MotionEvent.ACTION_CANCEL, 0f, 0f, 0)
                 it.dispatchTouchEvent(cancelEvent)
-                isLocked = true
+                isLockedSp.value = true
                 true
             }
         } else {
@@ -49,7 +46,7 @@ class PreferenceLockDelegate(private val callback: Callback) : View.OnTouchListe
 
     private val unlockRunnable: Runnable = Runnable {
         AppHelper.vibrate(50L)
-        isLocked = false
+        isLockedSp.value = false
         isClick = false
     }
 
@@ -63,7 +60,7 @@ class PreferenceLockDelegate(private val callback: Callback) : View.OnTouchListe
         v ?: return false
         event ?: return false
         if (!isLockable) return false
-        if (!isLocked) return false
+        if (!isLockedSp.value) return false
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
                 downX = event.x
@@ -100,30 +97,10 @@ class PreferenceLockDelegate(private val callback: Callback) : View.OnTouchListe
             callback.notifyChanged()
         }
 
-    fun setIsLockedDefaultValue(isLocked: Boolean) {
-        val key = callback.getKey()
-        val preferenceManager = callback.getPreferenceManager()
-        if (key != null && preferenceManager != null) {
-            if (!SharedPreferencesHelper.getSharedPreferences(preferenceManager.sharedPreferencesName)
-                    .contains("${key}_is_locked")) {
-                this.isLocked = isLocked
-            }
-        }
-    }
-
-    var isLocked: Boolean by SharedPreferencesProperty(
-        {
-            callback.getKey()?.let { "${it}_is_locked" }
-        },
+    val isLockedSp: Sp<Boolean> = Sp(
+        { callback.getKey()?.let { "${it}_is_locked" } },
         { false },
-        {
-            val preferenceManager = callback.getPreferenceManager()
-            if (preferenceManager == null) {
-                null
-            } else {
-                SharedPreferencesHelper.getSharedPreferences(preferenceManager.sharedPreferencesName)
-            }
-        },
+        { callback.getPreferenceManager()?.sharedPreferencesName },
         { _, _ ->
             callback.notifyChanged()
             false

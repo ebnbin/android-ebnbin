@@ -1,20 +1,22 @@
 package com.ebnbin.windowcamera.profile
 
+import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb.sharedpreferences.Sp
 
 open class ProfileSp<T>(
-    key: String,
+    val key: String,
     val builder: () -> Builder<T>
 ) : Sp<T>(
-    key,
+    { key },
     { builder().defaultValue },
-    { ProfileHelper.getSharedPreferencesNamePostfix() }
+    { SharedPreferencesHelper.getName(ProfileHelper.getSharedPreferencesNamePostfix()) },
+    null
 ) {
     class Builder<T>(
         val defaultValue: T,
-        val isVisible: Boolean = true,
-        val isEnabled: Boolean = true,
-        val isLockable: Boolean = true,
-        val isLockedDefaultValue: Boolean = false
+        val isVisible: Boolean? = null,
+        val isEnabled: Boolean? = null,
+        val isLockable: Boolean? = null,
+        val isLockedDefaultValue: Boolean? = null
     )
 }

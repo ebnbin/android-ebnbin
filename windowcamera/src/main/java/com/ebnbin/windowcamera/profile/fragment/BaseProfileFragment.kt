@@ -30,11 +30,11 @@ abstract class BaseProfileFragment : EBPreferenceFragment() {
             findPreference<PreferenceGroup>(groupSp.key) ?: throw RuntimeException()
         }
         preferenceGroup.addPreference(preference)
-        preference.isVisible = builder.isVisible
-        preference.isEnabled = builder.isEnabled
+        builder.isVisible?.let { preference.isVisible = it }
+        builder.isEnabled?.let { preference.isEnabled = it }
         if (preference is LockablePreference) {
-            preference.getLockDelegate().isLockable = builder.isLockable
-            preference.getLockDelegate().setIsLockedDefaultValue(!builder.isEnabled || builder.isLockedDefaultValue)
+            builder.isLockable?.let { preference.getLockDelegate().isLockable = it }
+            builder.isLockedDefaultValue?.let { preference.getLockDelegate().isLockedSp.setDefaultValue(it) }
         }
     }
 }
