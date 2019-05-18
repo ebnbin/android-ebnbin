@@ -12,6 +12,7 @@ import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import kotlin.math.min
 
 class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanvasCallback) :
     IWindowCameraViewCanvasDelegate,
@@ -39,6 +40,9 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
+            ProfileHelper.radius.key -> {
+                callback.invalidate()
+            }
             ProfileHelper.is_border_enabled.key -> {
                 callback.invalidate()
             }
@@ -56,7 +60,9 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
         if (ProfileHelper.is_border_enabled.value) {
-            canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), paint)
+            val radius = min(canvas.width, canvas.height) * ProfileHelper.radius.value / 200f -
+                    (paint.strokeWidth) / 2f
+            canvas.drawRoundRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), radius, radius, paint)
         }
     }
 

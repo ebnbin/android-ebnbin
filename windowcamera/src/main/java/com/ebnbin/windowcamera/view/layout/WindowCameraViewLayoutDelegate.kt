@@ -25,6 +25,7 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
         RotationDetector.register(this)
         invalidateSizePosition(SizePosition.ALL)
         invalidateAlpha()
+        invalidateRadius()
         invalidateIsKeepScreenOnEnabled()
         invalidateIsTouchable()
     }
@@ -61,6 +62,9 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
             }
             ProfileHelper.alpha.key -> {
                 invalidateAlpha()
+            }
+            ProfileHelper.radius.key -> {
+                invalidateRadius()
             }
             ProfileHelper.is_keep_screen_on_enabled.key -> {
                 invalidateIsKeepScreenOnEnabled()
@@ -177,6 +181,9 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
             }
             y = calcPosition(yRange, yPercent, yOffset)
         }
+        if (sizePosition != SizePosition.POSITION) {
+            invalidateRadius()
+        }
     }
 
     override fun putPosition(layoutWidth: Int, layoutHeight: Int, layoutX: Int, layoutY: Int) {
@@ -258,6 +265,11 @@ class WindowCameraViewLayoutDelegate(private val callback: IWindowCameraViewLayo
         callback.updateLayoutParams {
             alpha = ProfileHelper.alpha.value / 100f
         }
+    }
+
+    private fun invalidateRadius() {
+        val radius = min(callback.getLayoutWidth(), callback.getLayoutHeight()) * ProfileHelper.radius.value / 200f
+        callback.setRadius(radius)
     }
 
     private fun invalidateIsKeepScreenOnEnabled() {

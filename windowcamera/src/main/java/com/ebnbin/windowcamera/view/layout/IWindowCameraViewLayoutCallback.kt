@@ -8,4 +8,10 @@ interface IWindowCameraViewLayoutCallback : IWindowCameraViewCallback {
      * 更新 WindowCameraView LayoutParams.
      */
     fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit)
+
+    fun getLayoutWidth(): Int
+
+    fun getLayoutHeight(): Int
+
+    fun setRadius(radius: Float)
 }

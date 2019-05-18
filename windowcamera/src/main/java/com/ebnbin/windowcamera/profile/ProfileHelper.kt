@@ -109,6 +109,14 @@ object ProfileHelper {
             else -> ProfileSp.Builder(100)
         }
     }
+    val radius: ProfileSp<Int> = ProfileSp("radius") {
+        when (Profile.get()) {
+            Profile.WALKING -> ProfileSp.Builder(0, isEnabled = false)
+            Profile.SELFIE -> ProfileSp.Builder(0, isEnabled = false)
+            Profile.MIRROR -> ProfileSp.Builder(0, isEnabled = false)
+            else -> ProfileSp.Builder(0)
+        }
+    }
     val is_border_enabled: ProfileSp<Boolean> = ProfileSp("is_border_enabled") {
         when (Profile.get()) {
             Profile.WALKING -> ProfileSp.Builder(false)

@@ -10,8 +10,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.IntentHelper
@@ -41,7 +41,7 @@ import com.ebnbin.windowcamera.view.surfacetexture.WindowCameraViewSurfaceDelega
  *
  * TextureView 不支持 onDraw 或 onDrawForeground, 使用 FrameLayout 包装, 在 onDrawForeground 绘制自定义内容.
  */
-class WindowCameraView(context: Context) : FrameLayout(context),
+class WindowCameraView(context: Context) : CardView(context),
     IWindowCameraViewCameraCallback,
     IWindowCameraViewLayoutCallback,
     IWindowCameraViewSurfaceCallback,
@@ -49,7 +49,7 @@ class WindowCameraView(context: Context) : FrameLayout(context),
     IWindowCameraViewCanvasCallback
 {
     init {
-        setWillNotDraw(false)
+        cardElevation = 0f
     }
 
     //*****************************************************************************************************************
@@ -128,6 +128,14 @@ class WindowCameraView(context: Context) : FrameLayout(context),
         val params = layoutParams as WindowManager.LayoutParams
         block(params)
         SystemServices.windowManager.updateViewLayout(this, params)
+    }
+
+    override fun getLayoutWidth(): Int {
+        return layoutParams.width
+    }
+
+    override fun getLayoutHeight(): Int {
+        return layoutParams.height
     }
 
     //*****************************************************************************************************************

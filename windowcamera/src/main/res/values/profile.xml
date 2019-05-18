@@ -43,6 +43,9 @@
 
     <string name="profile_alpha_title">窗口不透明度</string>
 
+    <string name="profile_radius_title">窗口圆角</string>
+    <string name="profile_radius_summary">窗口矩形圆角百分比。\n值为 0 时窗口不显示圆角，值为 100 时窗口显示为胶囊形或圆形</string>
+
     <string name="profile_is_border_enabled_title"><Data><![CDATA[窗口边框<br><font color="#2196f3">蓝色：</font>照片预览<br><font color="#4caf50">绿色：</font>视频预览<br><font color="#f44336">红色：</font>视频拍摄<br><font color="#ffeb3b">黄色：</font>仅预览<br><font color="#9e9e9e">灰色：</font>状态切换中]]></Data></string>
     <string name="profile_is_border_enabled_summary_off">禁用</string>
     <string name="profile_is_border_enabled_summary_on">启用</string>

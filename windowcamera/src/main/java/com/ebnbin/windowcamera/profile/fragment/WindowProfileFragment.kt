@@ -109,6 +109,15 @@ class WindowProfileFragment : BaseProfileFragment() {
             max = 100
         }
 
+        SimpleSeekBarPreference(preferenceScreen.context).apply {
+            buildPreference(this, ProfileHelper.radius, ProfileHelper.display)
+            setTitle(R.string.profile_radius_title)
+            setSummary(R.string.profile_radius_summary)
+            setIcon(R.drawable.profile_radius)
+            min = 0
+            max = 100
+        }
+
         CheckBoxPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.is_border_enabled, ProfileHelper.display)
             title = HtmlCompat.fromHtml(getString(R.string.profile_is_border_enabled_title),
