@@ -18,4 +18,21 @@
     <string name="camera_error_null">相机空状态异常</string>
     <string name="camera_error_open">相机打开异常</string>
     <string name="camera_error_media_recorder_prepare">视频拍摄异常</string>
+    
+    <string name="main_tip_ok">知道啦</string>
+    <string name="main_tip_title">【小提示】\n</string>
+
+    <string-array name="main_tips">
+        <item>设置“窗口宽高比”为“正方形”，再设置“窗口圆角”为“100”，可以得到圆形窗口哦！</item>
+        <item>如果预设的配置不能满足需求，可以使用自定义配置。</item>
+        <item>长按一项偏好可以将其锁定，再次长按解锁。</item>
+        <item>选择前置摄像头与“仅预览”模式可以用来“照镜子”。</item>
+        <item>虽然提供了“走路玩手机”模式，走路还是不要玩手机哦！</item>
+        <item>“窗口边框”可以用来快速查看当前相机状态。</item>
+        <item>如果内容被窗口遮挡，可以下拉通知栏“点击关闭窗口相机”。</item>
+        <item>禁用“窗口接收触摸事件”功能，会直接操作窗口下层的其他应用。</item>
+        <item>虽然可以自定义，但通常将“长按”设置为“关闭窗口并停止拍摄”总是有用的。</item>
+        <item>在视频拍摄中切换拍摄模式或者关闭窗口，视频文件会自动保存。</item>
+        <item>如果在屏幕上找不到窗口了，下拉通知栏查看“窗口相机”是否正在运行。</item>
+    </string-array>
 </resources>

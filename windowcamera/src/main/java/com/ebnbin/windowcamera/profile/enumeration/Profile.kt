@@ -9,7 +9,6 @@ enum class Profile(val key: String, val title: CharSequence, @DrawableRes val ic
     DEFAULT("default", res.getString(R.string.profile_title_default), R.drawable.profile_default),
     WALKING("walking", res.getString(R.string.profile_title_walking), R.drawable.profile_walking),
     MIRROR("mirror", res.getString(R.string.profile_title_mirror), R.drawable.profile_mirror),
-    CIRCLE("circle", res.getString(R.string.profile_title_circle), R.drawable.profile_circle),
     CUSTOM_1("custom_1", res.getString(R.string.profile_title_custom_1), R.drawable.profile_custom),
     CUSTOM_2("custom_2", res.getString(R.string.profile_title_custom_2), R.drawable.profile_custom);
 

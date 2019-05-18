@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.update.UpdateFragment
 import com.ebnbin.eb.util.IntentHelper
+import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.CameraStateEvent
@@ -18,9 +20,11 @@ import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.enumeration.Profile
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import kotlin.random.Random
 
 class MainFragment : EBFragment(),
     AdapterView.OnItemSelectedListener,
@@ -54,6 +58,10 @@ class MainFragment : EBFragment(),
 
         invalidateWindowCameraServiceEvent(WindowCameraService.isRunning())
         invalidateCameraState(ProfileHelper.cameraState)
+
+        if (savedInstanceState == null) {
+            showTip()
+        }
     }
 
     override fun onDestroyView() {
@@ -136,5 +144,32 @@ class MainFragment : EBFragment(),
                 cameraState == CameraState.CAPTURING_VIDEO
     }
 
+    //*****************************************************************************************************************
+
+    private fun showTip() {
+        if (tipShown) return
+        tipShown = true
+        floating_action_button.post {
+            val tip = "${getString(R.string.main_tip_title)}${TIPS[Random.nextInt(TIPS.size)]}"
+            val snackbar = Snackbar.make(floating_action_button, tip, Snackbar.LENGTH_INDEFINITE)
+                .setAnchorView(floating_action_button)
+            snackbar.setAction(R.string.main_tip_ok) {
+                snackbar.dismiss()
+            }
+            snackbar.view.findViewById<TextView>(R.id.snackbar_text).maxLines = 4
+            snackbar.show()
+        }
+    }
+
+    //*****************************************************************************************************************
+
     override val isDoubleBackFinishEnabled: Boolean = true
+
+    //*****************************************************************************************************************
+
+    companion object {
+        private val TIPS: Array<String> = res.getStringArray(R.array.main_tips)
+
+        private var tipShown: Boolean = false
+    }
 }
