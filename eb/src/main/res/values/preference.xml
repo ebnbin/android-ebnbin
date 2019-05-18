@@ -3,16 +3,6 @@
     <attr name="ebSimplePreferenceGroupStyle" format="reference"/>
     <attr name="ebFooterPreferenceStyle" format="reference"/>
 
-    <declare-styleable name="EBSimplePreferenceGroup">
-        <attr name="ebVisibleKeysOff" format="reference"/>
-        <attr name="ebVisibleKeysOn" format="reference"/>
-    </declare-styleable>
-
-    <declare-styleable name="EBSimpleSwitchPreference">
-        <attr name="ebIconOff" format="reference"/>
-        <attr name="ebIconOn" format="reference"/>
-    </declare-styleable>
-
     <style name="EBPreferenceTheme" parent="PreferenceThemeOverlay.v14.Material">
         <item name="singleLineTitle">false</item>
         <item name="preferenceCategoryStyle">@style/EBPreferenceCategoryStyle</item>
@@ -47,4 +37,6 @@
         <item name="showSeekBarValue">true</item>
         <item name="updatesContinuously">true</item>
     </style>
+
+    <string name="eb_preference_locked">偏好被锁定，长按解锁</string>
 </resources>

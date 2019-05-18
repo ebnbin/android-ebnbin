@@ -7,5 +7,6 @@ open class Sp<T>(
 ) {
     constructor(key: String, defaultValue: T) : this(key, { defaultValue })
 
-    var value: T by SharedPreferencesProperty(key, getDefaultValue, getSharedPreferencesNamePostfix)
+    var value: T by SharedPreferencesProperty({ key }, getDefaultValue,
+        { SharedPreferencesHelper.get(getSharedPreferencesNamePostfix()) })
 }

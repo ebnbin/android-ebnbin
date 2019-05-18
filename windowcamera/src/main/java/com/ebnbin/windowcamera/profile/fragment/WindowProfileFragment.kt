@@ -2,12 +2,11 @@ package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import androidx.core.text.HtmlCompat
-import androidx.preference.CheckBoxPreference
-import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import androidx.preference.SeekBarPreference
 import com.ebnbin.eb.preference.FooterPreference
+import com.ebnbin.eb.preference.SimpleCheckBoxPreference
 import com.ebnbin.eb.preference.SimpleListPreference
+import com.ebnbin.eb.preference.SimplePreference
 import com.ebnbin.eb.preference.SimplePreferenceGroup
 import com.ebnbin.eb.preference.SimpleSeekBarPreference
 import com.ebnbin.windowcamera.R
@@ -23,7 +22,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_layout_title)
         }
 
-        SeekBarPreference(preferenceScreen.context).apply {
+        SimpleSeekBarPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.size, ProfileHelper.layout)
             setTitle(R.string.profile_size_title)
             setSummary(R.string.profile_size_summary)
@@ -42,7 +41,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_ratio)
         }
 
-        CheckBoxPreference(preferenceScreen.context).apply {
+        SimpleCheckBoxPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.is_out_enabled, ProfileHelper.layout)
             setTitle(R.string.profile_is_out_enabled_title)
             setSummaryOff(R.string.profile_is_out_enabled_summary_off)
@@ -118,7 +117,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             max = 100
         }
 
-        CheckBoxPreference(preferenceScreen.context).apply {
+        SimpleCheckBoxPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.is_border_enabled, ProfileHelper.display)
             title = HtmlCompat.fromHtml(getString(R.string.profile_is_border_enabled_title),
                 HtmlCompat.FROM_HTML_MODE_COMPACT)
@@ -141,7 +140,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             max = 32
         }
 
-        CheckBoxPreference(preferenceScreen.context).apply {
+        SimpleCheckBoxPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.is_keep_screen_on_enabled, ProfileHelper.display)
             setTitle(R.string.profile_is_keep_screen_on_enabled_title)
             setSummaryOff(R.string.profile_is_keep_screen_on_enabled_summary_off)
@@ -164,7 +163,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_control_title)
         }
 
-        CheckBoxPreference(preferenceScreen.context).apply {
+        SimpleCheckBoxPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.is_touchable, ProfileHelper.control)
             setTitle(R.string.profile_is_touchable_title)
             setSummaryOff(R.string.profile_is_touchable_summary_off)
@@ -177,28 +176,28 @@ class WindowProfileFragment : BaseProfileFragment() {
             visibleKeysOn = arrayOf(ProfileHelper.is_touchable.key)
         }
 
-        Preference(preferenceScreen.context).apply {
+        SimplePreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.single_tap, ProfileHelper.is_touchable_on)
             setTitle(R.string.profile_single_tap_title)
             setSummary(R.string.profile_single_tap_summary)
             setIcon(R.drawable.profile_single_tap)
         }
 
-        Preference(preferenceScreen.context).apply {
+        SimplePreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.double_tap, ProfileHelper.is_touchable_on)
             setTitle(R.string.profile_double_tap_title)
             setSummary(R.string.profile_double_tap_summary)
             setIcon(R.drawable.profile_double_tap)
         }
 
-        Preference(preferenceScreen.context).apply {
+        SimplePreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.long_press, ProfileHelper.is_touchable_on)
             setTitle(R.string.profile_long_press_title)
             setSummary(R.string.profile_long_press_summary)
             setIcon(R.drawable.profile_long_press)
         }
 
-        CheckBoxPreference(preferenceScreen.context).apply {
+        SimpleCheckBoxPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.is_move_enabled, ProfileHelper.is_touchable_on)
             setTitle(R.string.profile_is_move_enabled_title)
             setSummaryOff(R.string.profile_is_move_enabled_summary_off)
@@ -206,7 +205,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setIcon(R.drawable.profile_is_move_enabled)
         }
 
-        CheckBoxPreference(preferenceScreen.context).apply {
+        SimpleCheckBoxPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.is_stop_when_screen_off_enabled, ProfileHelper.control)
             setTitle(R.string.profile_is_stop_when_screen_off_enabled_title)
             setSummaryOff(R.string.profile_is_stop_when_screen_off_enabled_summary_off)

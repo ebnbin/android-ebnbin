@@ -10,5 +10,11 @@ open class ProfileSp<T>(
     { builder().defaultValue },
     { ProfileHelper.getSharedPreferencesNamePostfix() }
 ) {
-    class Builder<T>(val defaultValue: T, val isVisible: Boolean = true, val isEnabled: Boolean = true)
+    class Builder<T>(
+        val defaultValue: T,
+        val isVisible: Boolean = true,
+        val isEnabled: Boolean = true,
+        val isLockable: Boolean = true,
+        val isLockedDefaultValue: Boolean = false
+    )
 }

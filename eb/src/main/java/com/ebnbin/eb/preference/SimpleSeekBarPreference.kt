@@ -2,7 +2,8 @@ package com.ebnbin.eb.preference
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.AttributeSet
+import androidx.preference.PreferenceManager
+import androidx.preference.PreferenceViewHolder
 import androidx.preference.SeekBarPreference
 import com.ebnbin.eb.R
 import com.ebnbin.eb.sharedpreferences.get
@@ -10,12 +11,11 @@ import com.ebnbin.eb.sharedpreferences.get
 /**
  * 当偏好的值发生变化时自动更新.
  */
-open class SimpleSeekBarPreference @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.seekBarPreferenceStyle,
-    defStyleRes: Int = 0
-) : SeekBarPreference(context, attrs, defStyleAttr, defStyleRes), SharedPreferences.OnSharedPreferenceChangeListener {
+open class SimpleSeekBarPreference(context: Context) : SeekBarPreference(context, null, R.attr.seekBarPreferenceStyle),
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    PreferenceLockDelegate.Callback,
+    LockablePreference
+{
     override fun onAttached() {
         super.onAttached()
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
@@ -33,5 +33,27 @@ open class SimpleSeekBarPreference @JvmOverloads constructor(
         val newValue = sharedPreferences.get(key, value)
         if (value == newValue) return
         value = newValue
+    }
+
+    //*****************************************************************************************************************
+
+    private var preferenceLockDelegate: PreferenceLockDelegate? = null
+
+    override fun getLockDelegate(): PreferenceLockDelegate {
+        return preferenceLockDelegate ?: throw RuntimeException()
+    }
+
+    override fun onAttachedToHierarchy(preferenceManager: PreferenceManager?) {
+        super.onAttachedToHierarchy(preferenceManager)
+        preferenceLockDelegate = PreferenceLockDelegate(this)
+    }
+
+    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+        super.onBindViewHolder(holder)
+        preferenceLockDelegate?.onBindViewHolder(holder)
+    }
+
+    override fun notifyChanged() {
+        super.notifyChanged()
     }
 }

@@ -1,8 +1,8 @@
 package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
-import androidx.preference.CheckBoxPreference
 import com.ebnbin.eb.preference.FooterPreference
+import com.ebnbin.eb.preference.SimpleCheckBoxPreference
 import com.ebnbin.eb.preference.SimpleListPreference
 import com.ebnbin.eb.preference.SimplePreferenceGroup
 import com.ebnbin.eb.preference.SimpleSwitchPreference
@@ -26,7 +26,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             iconOn = R.drawable.profile_is_front_on
         }
 
-        CheckBoxPreference(preferenceScreen.context).apply {
+        SimpleCheckBoxPreference(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.is_preview)
             setTitle(R.string.profile_is_preview_title)
             setIcon(R.drawable.profile_is_preview)

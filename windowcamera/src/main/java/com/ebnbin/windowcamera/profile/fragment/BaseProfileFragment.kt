@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
 import com.ebnbin.eb.preference.EBPreferenceFragment
+import com.ebnbin.eb.preference.LockablePreference
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -31,5 +32,9 @@ abstract class BaseProfileFragment : EBPreferenceFragment() {
         preferenceGroup.addPreference(preference)
         preference.isVisible = builder.isVisible
         preference.isEnabled = builder.isEnabled
+        if (preference is LockablePreference) {
+            preference.getLockDelegate().isLockable = builder.isLockable
+            preference.getLockDelegate().setIsLockedDefaultValue(!builder.isEnabled || builder.isLockedDefaultValue)
+        }
     }
 }
