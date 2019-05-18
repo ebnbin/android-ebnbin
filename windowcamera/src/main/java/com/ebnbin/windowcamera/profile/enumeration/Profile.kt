@@ -9,6 +9,7 @@ enum class Profile(val key: String, val title: CharSequence) {
     WALKING("walking", res.getString(R.string.profile_title_walking)),
     SELFIE("selfie", res.getString(R.string.profile_title_selfie)),
     MIRROR("mirror", res.getString(R.string.profile_title_mirror)),
+    CIRCLE("circle", res.getString(R.string.profile_title_circle)),
     CUSTOM_1("custom_1", res.getString(R.string.profile_title_custom_1)),
     CUSTOM_2("custom_2", res.getString(R.string.profile_title_custom_2));
 

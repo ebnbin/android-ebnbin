@@ -2,10 +2,11 @@
 <resources>
     <!-- ********************************************************************************************************** -->
 
-    <string name="profile_title_default">默认配置</string>
+    <string name="profile_title_default">窗口相机</string>
     <string name="profile_title_walking">走路玩手机</string>
-    <string name="profile_title_selfie">自拍</string>
-    <string name="profile_title_mirror">镜子</string>
+    <string name="profile_title_selfie">全屏自拍</string>
+    <string name="profile_title_mirror">梳妆镜</string>
+    <string name="profile_title_circle">圆形窗口</string>
     <string name="profile_title_custom_1">自定义配置 1</string>
     <string name="profile_title_custom_2">自定义配置 2</string>
 
