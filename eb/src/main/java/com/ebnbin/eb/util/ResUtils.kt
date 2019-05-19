@@ -9,10 +9,21 @@ val res: Resources
 //*********************************************************************************************************************
 
 val Float.dpToPx: Float
-    get() = this * ebApp.resources.displayMetrics.density
+    get() = this * ResHelper.density
 
 val Float.dpToPxRound: Int
     get() = dpToPx.roundToInt()
 
+@Deprecated("使用 dpToPxRound", ReplaceWith(""))
 val Float.dpToPxInt: Int
     get() = dpToPx.toInt()
+
+val Float.spToPx: Float
+    get() = this * ResHelper.scaledDensity
+
+val Float.spToPxRound: Int
+    get() = spToPx.roundToInt()
+
+@Deprecated("使用 spToPxRound", ReplaceWith(""))
+val Float.spToPxInt: Int
+    get() = spToPx.toInt()

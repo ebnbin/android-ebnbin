@@ -40,7 +40,7 @@ class AboutFragment : EBFragment() {
             finish()
         }
         eb_toolbar.setOnLongClickListener {
-            AppHelper.clip(DeviceHelper.DEVICE_ID)
+            AppHelper.copy(DeviceHelper.DEVICE_ID)
             AppHelper.toast(requireContext(), R.string.eb_about_device_id_copied)
             true
         }

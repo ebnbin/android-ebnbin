@@ -56,8 +56,8 @@ open class EBActivity : AppCompatActivity() {
 
     @CallSuper
     protected open fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
-        if (extras.containsKey(KEY_THEME_STYLE_ID)) {
-            themeStyleId = extras.getInt(KEY_THEME_STYLE_ID, 0)
+        if (extras.containsKey(KEY_THEME_ID)) {
+            themeId = extras.getInt(KEY_THEME_ID, 0)
         }
         if (extras.containsKey(KEY_FRAGMENT_CLASS)) {
             @Suppress("UNCHECKED_CAST")
@@ -67,11 +67,11 @@ open class EBActivity : AppCompatActivity() {
 
     //*****************************************************************************************************************
 
-    private var themeStyleId: Int = 0
+    private var themeId: Int = 0
 
     private fun initTheme() {
-        if (themeStyleId == 0) return
-        setTheme(themeStyleId)
+        if (themeId == 0) return
+        setTheme(themeId)
     }
 
     //*****************************************************************************************************************
@@ -119,7 +119,7 @@ open class EBActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_FINISH = "finish"
-        const val KEY_THEME_STYLE_ID = "theme_style_id"
+        const val KEY_THEME_ID = "theme_id"
         const val KEY_FRAGMENT_CLASS = "fragment_class"
     }
 }

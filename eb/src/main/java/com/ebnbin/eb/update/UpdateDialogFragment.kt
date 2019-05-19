@@ -61,7 +61,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
             }
             alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
                 IntentHelper.startBrowser(requireContext(), update.url)
-                AppHelper.clip(update.url)
+                AppHelper.copy(update.url)
                 AppHelper.toast(requireContext(), R.string.eb_update_copied)
             }
             alertDialog.findViewById<TextView>(R.id.eb_message_text_view)?.text = update.message

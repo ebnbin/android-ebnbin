@@ -45,7 +45,7 @@ object AppHelper {
         Toast.makeText(context, ResHelper.getString(any), duration).show()
     }
 
-    fun clip(text: CharSequence, label: CharSequence = BuildHelper.applicationId) {
+    fun copy(text: CharSequence, label: CharSequence = BuildHelper.applicationId) {
         SystemServices.clipboardManager.primaryClip = ClipData.newPlainText(label, text)
     }
 
