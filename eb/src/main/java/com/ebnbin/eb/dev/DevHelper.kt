@@ -19,7 +19,7 @@ object DevHelper {
         if (debug) return
         if (!TimeHelper.expired(EBSpManager.last_report_timestamp.value, DEVICE_EXPIRATION)) return
         AsyncHelper.global.githubPutJson(
-            "/report/${DeviceHelper.DEVICE_ID}.json",
+            "/report/${DeviceHelper.DEVICE_ID.substring(0, 2)}/${DeviceHelper.DEVICE_ID}.json",
             report(),
             null,
             onSuccess = {
