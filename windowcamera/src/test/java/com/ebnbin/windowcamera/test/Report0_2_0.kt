@@ -1,17 +1,17 @@
 package com.ebnbin.windowcamera.test
 
 class Report0_2_0 : Report() {
-    lateinit var timestamp: String
-    lateinit var manufacturer: String
-    lateinit var model: String
+    var timestamp: String? = null
+    var manufacturer: String? = null
+    var model: String? = null
     var sdk: Int = 0
-    lateinit var displayRealSize: RotationSize
-    lateinit var displaySize: RotationSize
+    var displayRealSize: RotationSize? = null
+    var displaySize: RotationSize? = null
     var density: Float = 0f
-    lateinit var displayRealSizeDp: String
-    lateinit var locale: String
-    lateinit var abi: String
-    lateinit var cameraHelper: CameraHelper
+    var displayRealSizeDp: String? = null
+    var locale: String? = null
+    var abi: String? = null
+    var cameraHelper: CameraHelper? = null
 
     open class RotationSize {
         var width: Int = 0
@@ -22,28 +22,28 @@ class Report0_2_0 : Report() {
     }
 
     class CameraHelper {
-        lateinit var ids: List<String>
-        lateinit var devices: List<Device>
+        var ids: List<String>? = null
+        var devices: List<Device>? = null
         var backDeviceId: String? = null
         var frontDeviceId: String? = null
 
         class Device {
-            lateinit var id: String
+            var id: String? = null
             var oldId: Int = 0
             var oldPreferredPreviewSizeForVideo: Size? = null
             var oldSupportedPictureSizes: List<Size>? = null
             var oldSupportedPreviewSizes: List<Size>? = null
             var oldSupportedVideoSizes: List<Size>? = null
-            lateinit var lensFacingString: String
+            var lensFacingString: String? = null
             var sensorOrientation: Int = 0
-            lateinit var sensorOrientations: List<Int>
+            var sensorOrientations: List<Int>? = null
             var jpegSizeStrings: List<String>? = null
-            lateinit var photoResolutions: List<Resolution>
+            var photoResolutions: List<Resolution>? = null
             var defaultPhotoResolution: Resolution? = null
             var surfaceTextureSizeStrings: List<String>? = null
-            lateinit var previewResolutions: List<Resolution>
+            var previewResolutions: List<Resolution>? = null
             var mediaRecorderSizeStrings: List<String>? = null
-            lateinit var videoProfiles: List<VideoProfile>
+            var videoProfiles: List<VideoProfile>? = null
             var defaultVideoProfile: VideoProfile? = null
             var rawSensorSizeStrings: List<String>? = null
 
@@ -56,12 +56,12 @@ class Report0_2_0 : Report() {
 
             class VideoProfile : Resolution() {
                 var duration: Int = 0
-                lateinit var qualityString: String
-                lateinit var fileFormatString: String
-                lateinit var videoCodecString: String
+                var qualityString: String? = null
+                var fileFormatString: String? = null
+                var videoCodecString: String? = null
                 var videoBitRate: Int = 0
                 var videoFrameRate: Int = 0
-                lateinit var audioCodecString: String
+                var audioCodecString: String? = null
                 var audioBitRate: Int = 0
                 var audioSampleRate: Int = 0
                 var audioChannels: Int = 0
