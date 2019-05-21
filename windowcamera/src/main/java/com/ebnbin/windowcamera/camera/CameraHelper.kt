@@ -209,7 +209,7 @@ class CameraHelper private constructor() {
         }
 
         fun getPhotoResolution(entryValue: String): Resolution {
-            return photoResolutions.first { it.entryValue == entryValue }
+            return photoResolutions.firstOrNull { it.entryValue == entryValue } ?: requireDefaultPhotoResolution()
         }
 
         //*************************************************************************************************************
@@ -243,7 +243,7 @@ class CameraHelper private constructor() {
         }
 
         fun getVideoProfile(entryValue: String): VideoProfile {
-            return videoProfiles.first { it.entryValue == entryValue }
+            return videoProfiles.firstOrNull { it.entryValue == entryValue } ?: requireDefaultVideoProfile()
         }
 
         //*************************************************************************************************************
@@ -251,14 +251,13 @@ class CameraHelper private constructor() {
         private val oldCamera: Camera? = try {
             Camera.open(oldId)
         } catch (e: Exception) {
-            DevHelper.report(e)
+            // Camera2 检测超过两个 id.
             null
         }
 
         private val oldParameters: Camera.Parameters? = try {
             oldCamera?.parameters
         } catch (e: Exception) {
-            DevHelper.report(e)
             null
         }
 
@@ -272,7 +271,6 @@ class CameraHelper private constructor() {
             try {
                 oldCamera?.release()
             } catch (e: Exception) {
-                DevHelper.report(e)
             }
         }
 
@@ -425,31 +423,34 @@ class CameraHelper private constructor() {
         private var singleton: CameraHelper? = null
 
         /**
-         * 即使失败也会尝试回调 cameraHelper 用于 report.
+         * 即使失败也会尝试返回 cameraHelper 用于 report.
          */
-        fun init(callback: (Boolean, CameraHelper?) -> Unit) {
+        fun init(): Pair<Boolean, CameraHelper?> {
             if (singleton != null) {
-                callback(true, singleton)
-                return
+                return Pair(true, singleton)
             }
             var cameraHelper: CameraHelper? = null
             try {
                 cameraHelper = CameraHelper()
                 if (cameraHelper.isValid()) {
                     singleton = cameraHelper
-                    callback(true, singleton)
-                    return
+                    return Pair(true, singleton)
                 } else {
                     throw CameraInvalidException()
                 }
             } catch (throwable: Throwable) {
                 DevHelper.report(throwable)
             }
-            callback(false, cameraHelper)
+            return Pair(false, cameraHelper)
         }
 
         fun getInstance(): CameraHelper {
-            return singleton ?: throw RuntimeException()
+            val pair = init()
+            return if (pair.first) {
+                pair.second ?: throw RuntimeException()
+            } else {
+                throw RuntimeException()
+            }
         }
 
         private val CAMCORDER_PROFILE_QUALITIES = listOf(

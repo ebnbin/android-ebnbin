@@ -84,23 +84,22 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
     }
 
     private fun onPermissionsGranted() {
-        CameraHelper.init { success, cameraHelper ->
-            DevHelper.report { Report().create(cameraHelper?.report()) }
-            if (success) {
-                IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
-                finish()
-            } else {
-                SimpleDialogFragment.start(childFragmentManager,
-                    SimpleDialogFragment.Builder(
-                        message = getString(R.string.splash_camera_message),
-                        positive = getString(R.string.splash_camera_positive),
-                        cancel = Cancel.NOT_CANCELABLE
-                    ),
-                    "splash_camera",
-                    bundleOf(
-                        Consts.KEY_CALLING_ID to "splash_camera"
-                    ))
-            }
+        val pair = CameraHelper.init()
+        DevHelper.report { Report().create(pair.second?.report()) }
+        if (pair.first) {
+            IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
+            finish()
+        } else {
+            SimpleDialogFragment.start(childFragmentManager,
+                SimpleDialogFragment.Builder(
+                    message = getString(R.string.splash_camera_message),
+                    positive = getString(R.string.splash_camera_positive),
+                    cancel = Cancel.NOT_CANCELABLE
+                ),
+                "splash_camera",
+                bundleOf(
+                    Consts.KEY_CALLING_ID to "splash_camera"
+                ))
         }
     }
 
