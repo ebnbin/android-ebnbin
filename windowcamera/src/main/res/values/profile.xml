@@ -2,11 +2,25 @@
 <resources>
     <!-- ********************************************************************************************************** -->
 
-    <string name="profile_title_default">窗口相机</string>
-    <string name="profile_title_walking">走路玩手机</string>
-    <string name="profile_title_mirror">自拍镜子</string>
-    <string name="profile_title_custom_1">自定义 1</string>
-    <string name="profile_title_custom_2">自定义 2</string>
+    <string name="profile_default_title">窗口相机</string>
+    <string name="profile_default_toast"/>
+    <string name="profile_default_help">窗口相机默认配置。展示浮动窗口在其他应用上层使用相机。</string>
+
+    <string name="profile_walking_title">走路玩手机</string>
+    <string name="profile_walking_toast">下拉通知栏可以“点击关闭窗口相机”</string>
+    <string name="profile_walking_help">半透明显示后置摄像头实时图像，不影响使用其他应用。\n下拉通知栏可以“点击关闭窗口相机”。\n走路时不要玩手机哦！</string>
+
+    <string name="profile_mirror_title">镜子</string>
+    <string name="profile_mirror_toast">长按窗口可以关闭</string>
+    <string name="profile_mirror_help">全屏镜子。\n长按窗口可以关闭。</string>
+
+    <string name="profile_custom_1_title">自定义 1</string>
+    <string name="profile_custom_1_toast"/>
+    <string name="profile_custom_1_help">自定义配置。</string>
+
+    <string name="profile_custom_2_title">自定义 2</string>
+    <string name="profile_custom_2_toast"/>
+    <string name="profile_custom_2_help">自定义配置。</string>
 
     <!-- 窗口. -->
     <!-- ********************************************************************************************************** -->

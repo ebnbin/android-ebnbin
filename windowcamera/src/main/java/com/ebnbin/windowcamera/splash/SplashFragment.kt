@@ -10,7 +10,6 @@ import com.ebnbin.eb.dialog.SimpleDialogFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.PermissionHelper
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
-import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.eb.splash.EBSplashFragment
 import com.ebnbin.eb.util.Consts
 import com.ebnbin.eb.util.IntentHelper
@@ -105,14 +104,10 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
 
     override fun onNewVersion(oldVersion: Int, newVersion: Int) {
         super.onNewVersion(oldVersion, newVersion)
-        when (oldVersion) {
-            in 0..19999 -> {
-                val sp = SharedPreferencesHelper.get("_profile_default")
-                if (sp.get("ratio", "capture") == "raw") {
-                    sp.edit {
-                        remove("ratio")
-                    }
-                }
+        if (oldVersion < 40000) {
+            val sp = SharedPreferencesHelper.get("_profile_default")
+            sp.edit {
+                clear()
             }
         }
     }

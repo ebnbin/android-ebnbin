@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.widget.ThemedSpinnerAdapter
+import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.dpToPxRound
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.enumeration.Profile
 
 class MainSpinnerAdapter(context: Context) :
@@ -29,7 +31,16 @@ class MainSpinnerAdapter(context: Context) :
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = getItem(position)
         textView.compoundDrawablePadding = 8f.dpToPxRound
-        textView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, Profile.get(position).iconId, 0)
+        val drawable = context.getDrawable(Profile.get(position).iconId)
+        if (drawable != null) {
+            val attrId = if (Profile.get(position).key == ProfileHelper.profile.value) {
+                R.attr.colorPrimary
+            } else {
+                android.R.attr.colorControlNormal
+            }
+            drawable.setTint(ResHelper.getColorAttr(context, attrId))
+            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, drawable, null)
+        }
         return view
     }
 

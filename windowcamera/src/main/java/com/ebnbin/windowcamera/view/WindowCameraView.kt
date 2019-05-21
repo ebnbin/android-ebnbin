@@ -18,7 +18,9 @@ import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.dpToPxRound
+import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
+import com.ebnbin.windowcamera.profile.enumeration.Profile
 import com.ebnbin.windowcamera.profile.enumeration.ProfileGesture
 import com.ebnbin.windowcamera.profile.enumeration.ProfileToast
 import com.ebnbin.windowcamera.service.WindowCameraService
@@ -222,6 +224,18 @@ class WindowCameraView(context: Context) : CardView(context),
         surfaceDelegate.init()
         gestureDelegate.init()
         canvasDelegate.init()
+
+        val toastId = when (Profile.get(ProfileHelper.profile.value)) {
+            Profile.DEFAULT -> R.string.profile_default_toast
+            Profile.WALKING -> R.string.profile_walking_toast
+            Profile.MIRROR -> R.string.profile_mirror_toast
+            Profile.CUSTOM_1 -> R.string.profile_custom_1_toast
+            Profile.CUSTOM_2 -> R.string.profile_custom_2_toast
+        }
+        val toast = context.getString(toastId)
+        if (toast.isNotEmpty()) {
+            toast(toast, profileToast = ProfileToast.SYSTEM_ALERT_WINDOW_CENTER)
+        }
     }
 
     override fun onDetachedFromWindow() {
