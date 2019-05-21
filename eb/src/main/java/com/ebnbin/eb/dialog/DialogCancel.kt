@@ -3,7 +3,7 @@ package com.ebnbin.eb.dialog
 /**
  * 对话框关闭类型.
  */
-enum class Cancel {
+enum class DialogCancel {
     /**
      * 可通过按返回键或点击空白处关闭.
      */

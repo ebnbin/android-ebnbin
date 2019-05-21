@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.dev.DevHelper
-import com.ebnbin.eb.dialog.Cancel
+import com.ebnbin.eb.dialog.DialogCancel
 import com.ebnbin.eb.dialog.SimpleDialogFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.PermissionHelper
@@ -30,7 +30,7 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
                         message = getString(R.string.splash_permission_message),
                         positive = getString(R.string.splash_permission_positive),
                         negative = getString(R.string.splash_permission_negative),
-                        cancel = Cancel.NOT_CANCELABLE
+                        dialogCancel = DialogCancel.NOT_CANCELABLE
                     ),
                     "splash_permission",
                     bundleOf(
@@ -93,7 +93,7 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback, Permis
                 SimpleDialogFragment.Builder(
                     message = getString(R.string.splash_camera_message),
                     positive = getString(R.string.splash_camera_positive),
-                    cancel = Cancel.NOT_CANCELABLE
+                    dialogCancel = DialogCancel.NOT_CANCELABLE
                 ),
                 "splash_camera",
                 bundleOf(

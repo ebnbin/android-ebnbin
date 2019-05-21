@@ -42,7 +42,7 @@ class SimpleDialogFragment : EBDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        isCancelable = builder.cancel != Cancel.NOT_CANCELABLE
+        isCancelable = builder.dialogCancel != DialogCancel.NOT_CANCELABLE
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
             .setTitle(builder.title)
             .setMessage(builder.message)
@@ -68,7 +68,7 @@ class SimpleDialogFragment : EBDialogFragment() {
                 }
             }
         }
-        dialog.setCanceledOnTouchOutside(builder.cancel == Cancel.CANCELABLE)
+        dialog.setCanceledOnTouchOutside(builder.dialogCancel == DialogCancel.CANCELABLE)
         return dialog
     }
 
@@ -83,7 +83,7 @@ class SimpleDialogFragment : EBDialogFragment() {
         val positive: CharSequence? = null,
         val negative: CharSequence? = null,
         val neutral: CharSequence? = null,
-        val cancel: Cancel = Cancel.CANCELABLE
+        val dialogCancel: DialogCancel = DialogCancel.CANCELABLE
     ) : Serializable
 
     companion object {

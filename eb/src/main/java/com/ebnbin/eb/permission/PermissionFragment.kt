@@ -11,7 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.dev.DevHelper
-import com.ebnbin.eb.dialog.Cancel
+import com.ebnbin.eb.dialog.DialogCancel
 import com.ebnbin.eb.dialog.SimpleDialogFragment
 import com.ebnbin.eb.exception.WTFException
 import com.ebnbin.eb.fragment.EBFragment
@@ -179,7 +179,7 @@ class PermissionFragment : EBFragment(), SimpleDialogFragment.Callback {
             message = getString(messageStringId),
             positive = getString(R.string.eb_permission_dialog_positive),
             negative = getString(R.string.eb_permission_dialog_negative),
-            cancel = Cancel.NOT_CANCELABLE
+            dialogCancel = DialogCancel.NOT_CANCELABLE
         ), "permission", extraData)
     }
 
