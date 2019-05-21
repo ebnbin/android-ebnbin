@@ -15,14 +15,7 @@ object ProfileHelper {
 
     //*****************************************************************************************************************
 
-    val layout: ProfileSp<Unit> = ProfileSp("layout") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val layout: ProfileSp<Unit> = ProfileSp("layout") { ProfileSp.Builder(Unit) }
     val size: ProfileSp<Int> = ProfileSp("size") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(35)
@@ -47,14 +40,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(false)
         }
     }
-    val is_out_enabled_off: ProfileSp<Unit> = ProfileSp("is_out_enabled_off") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val is_out_enabled_off: ProfileSp<Unit> = ProfileSp("is_out_enabled_off") { ProfileSp.Builder(Unit) }
     val in_x: ProfileSp<Int> = ProfileSp("in_x") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(95)
@@ -71,14 +57,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(50)
         }
     }
-    val is_out_enabled_on: ProfileSp<Unit> = ProfileSp("is_out_enabled_on") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val is_out_enabled_on: ProfileSp<Unit> = ProfileSp("is_out_enabled_on") { ProfileSp.Builder(Unit) }
     val out_x: ProfileSp<Int> = ProfileSp("out_x") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(50, isEnabled = false, isLockedDefaultValue = true)
@@ -95,14 +74,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(50)
         }
     }
-    val display: ProfileSp<Unit> = ProfileSp("display") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val display: ProfileSp<Unit> = ProfileSp("display") { ProfileSp.Builder(Unit) }
     val alpha: ProfileSp<Int> = ProfileSp("alpha") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(100)
@@ -127,14 +99,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(true)
         }
     }
-    val is_border_enabled_on: ProfileSp<Unit> = ProfileSp("is_border_enabled_on") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val is_border_enabled_on: ProfileSp<Unit> = ProfileSp("is_border_enabled_on") { ProfileSp.Builder(Unit) }
     val border_width: ProfileSp<Int> = ProfileSp("border_width") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(2)
@@ -154,19 +119,12 @@ object ProfileHelper {
     val toast: ProfileSp<String> = ProfileSp("toast") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder("system_alert_window")
-            Profile.WALKING -> ProfileSp.Builder("none")
+            Profile.WALKING -> ProfileSp.Builder("system_alert_window")
             Profile.MIRROR -> ProfileSp.Builder("system_alert_window")
             else -> ProfileSp.Builder("system_alert_window")
         }
     }
-    val control: ProfileSp<Unit> = ProfileSp("control") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val control: ProfileSp<Unit> = ProfileSp("control") { ProfileSp.Builder(Unit) }
     val is_touchable: ProfileSp<Boolean> = ProfileSp("is_touchable") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(true)
@@ -175,14 +133,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(true)
         }
     }
-    val is_touchable_on: ProfileSp<Unit> = ProfileSp("is_touchable_on") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val is_touchable_on: ProfileSp<Unit> = ProfileSp("is_touchable_on") { ProfileSp.Builder(Unit) }
     val single_tap: ProfileSp<String> = ProfileSp("single_tap") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(ProfileGesture.CAPTURE.entryValue)
@@ -242,14 +193,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(false)
         }
     }
-    val is_preview_off: ProfileSp<Unit> = ProfileSp("is_preview_off") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val is_preview_off: ProfileSp<Unit> = ProfileSp("is_preview_off") { ProfileSp.Builder(Unit) }
     val is_video: ProfileSp<Boolean> = ProfileSp("profile_is_video") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(false)
@@ -258,14 +202,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(false)
         }
     }
-    val back_photo: ProfileSp<Unit> = ProfileSp("back_photo") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val back_photo: ProfileSp<Unit> = ProfileSp("back_photo") { ProfileSp.Builder(Unit) }
     val back_photo_resolution: ProfileSp<String> = ProfileSp("back_photo_resolution") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultPhotoResolution().entryValue)
@@ -274,14 +211,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultPhotoResolution().entryValue)
         }
     }
-    val back_video: ProfileSp<Unit> = ProfileSp("back_video") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val back_video: ProfileSp<Unit> = ProfileSp("back_video") { ProfileSp.Builder(Unit) }
     val back_video_profile: ProfileSp<String> = ProfileSp("back_video_profile") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultVideoProfile().entryValue)
@@ -290,14 +220,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultVideoProfile().entryValue)
         }
     }
-    val front_photo: ProfileSp<Unit> = ProfileSp("front_photo") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val front_photo: ProfileSp<Unit> = ProfileSp("front_photo") { ProfileSp.Builder(Unit) }
     val front_photo_resolution: ProfileSp<String> = ProfileSp("front_photo_resolution") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultPhotoResolution().entryValue)
@@ -306,14 +229,7 @@ object ProfileHelper {
             else -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultPhotoResolution().entryValue)
         }
     }
-    val front_video: ProfileSp<Unit> = ProfileSp("front_video") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val front_video: ProfileSp<Unit> = ProfileSp("front_video") { ProfileSp.Builder(Unit) }
     val front_video_profile: ProfileSp<String> = ProfileSp("front_video_profile") {
         when (Profile.get()) {
             Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultVideoProfile().entryValue)
@@ -325,14 +241,7 @@ object ProfileHelper {
 
     //*****************************************************************************************************************
 
-    val path: ProfileSp<Unit> = ProfileSp("path") {
-        when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(Unit)
-            Profile.WALKING -> ProfileSp.Builder(Unit, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(Unit)
-            else -> ProfileSp.Builder(Unit)
-        }
-    }
+    val path: ProfileSp<Unit> = ProfileSp("path") { ProfileSp.Builder(Unit) }
 
     //*****************************************************************************************************************
 

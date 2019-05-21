@@ -4,7 +4,6 @@ package com.ebnbin.windowcamera.camera
 
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
-import android.hardware.Camera
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraMetadata
 import android.hardware.camera2.params.StreamConfigurationMap
@@ -248,34 +247,6 @@ class CameraHelper private constructor() {
 
         //*************************************************************************************************************
 
-        private val oldCamera: Camera? = try {
-            Camera.open(oldId)
-        } catch (e: Exception) {
-            // Camera2 检测超过两个 id.
-            null
-        }
-
-        private val oldParameters: Camera.Parameters? = try {
-            oldCamera?.parameters
-        } catch (e: Exception) {
-            null
-        }
-
-        private val oldSupportedPreviewSizes: List<Camera.Size>? = oldParameters?.supportedPreviewSizes
-
-        private val oldSupportedPictureSizes: List<Camera.Size>? = oldParameters?.supportedPictureSizes
-
-        private val oldSupportedVideoSizes: List<Camera.Size>? = oldParameters?.supportedVideoSizes
-
-        init {
-            try {
-                oldCamera?.release()
-            } catch (e: Exception) {
-            }
-        }
-
-        //*************************************************************************************************************
-
         fun isValid(): Boolean {
             return !isExternal &&
                     previewLessOrEqualsResolutions.isNotEmpty() &&
@@ -289,9 +260,6 @@ class CameraHelper private constructor() {
             val device = Report.Camera.Device()
             device.id = id
             device.oldId = oldId
-            device.oldSupportedPreviewSizes = oldSupportedPreviewSizes?.map { "${it.width}x${it.height}" }
-            device.oldSupportedPictureSizes = oldSupportedPictureSizes?.map { "${it.width}x${it.height}" }
-            device.oldSupportedVideoSizes = oldSupportedVideoSizes?.map { "${it.width}x${it.height}" }
             device.lensFacing = when (lensFacing) {
                 CameraMetadata.LENS_FACING_FRONT -> "FRONT"
                 CameraMetadata.LENS_FACING_BACK -> "BACK"

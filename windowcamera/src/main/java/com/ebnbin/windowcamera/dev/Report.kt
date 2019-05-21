@@ -15,9 +15,6 @@ class Report : EBReport() {
         class Device : EBModel {
             var id: String? = null
             var oldId: Int? = null
-            var oldSupportedPreviewSizes: List<String>? = null
-            var oldSupportedPictureSizes: List<String>? = null
-            var oldSupportedVideoSizes: List<String>? = null
             var lensFacing: String? = null
             var sensorOrientation: Int? = null
             var sensorResolution: Resolution? = null
