@@ -58,10 +58,10 @@ class MainFragment : EBFragment(),
 
         invalidateWindowCameraServiceEvent(WindowCameraService.isRunning())
         invalidateCameraState(ProfileHelper.cameraState)
-
-        if (savedInstanceState == null) {
-            showTip()
-        }
+//
+//        if (savedInstanceState == null) {
+//            showTip()
+//        }
     }
 
     override fun onDestroyView() {
