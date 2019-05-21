@@ -5,16 +5,13 @@
     <color name="eb_white">#fff</color>
 
     <color name="eb_material_red_500">#f44336</color>
-    <color name="eb_material_red_700">#d32f2f</color>
     <color name="eb_material_red_900">#b71c1c</color>
     <color name="eb_material_pink_a100">#ff80ab</color>
     <color name="eb_material_pink_a200">#ff4081</color>
     <color name="eb_material_blue_500">#2196f3</color>
     <color name="eb_material_light_blue_200">#81d4fa</color>
     <color name="eb_material_light_blue_500">#03a9f4</color>
-    <color name="eb_material_light_blue_700">#0288d1</color>
     <color name="eb_material_green_500">#4caf50</color>
-    <color name="eb_material_green_700">#388e3c</color>
     <color name="eb_material_yellow_500">#ffeb3b</color>
     <color name="eb_material_gray_50">#fafafa</color>
     <color name="eb_material_gray_500">#9e9e9e</color>
