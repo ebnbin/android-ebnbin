@@ -32,8 +32,8 @@ class WindowCameraViewSurfaceDelegate(private val callback: IWindowCameraViewSur
         callback.getViewGroup().addView(this)
     }
 
-    override fun getSurfaceTexture(): SurfaceTexture {
-        return textureView.surfaceTexture ?: throw RuntimeException()
+    override fun getSurfaceTexture(): SurfaceTexture? {
+        return textureView.surfaceTexture
     }
 
     //*****************************************************************************************************************
@@ -64,6 +64,8 @@ class WindowCameraViewSurfaceDelegate(private val callback: IWindowCameraViewSur
     //*****************************************************************************************************************
 
     private fun invalidateTransform() {
+        val surfaceTexture = getSurfaceTexture() ?: return
+
         val displayRotation = WindowHelper.displayRotation
         val previewResolution = ProfileHelper.previewResolution()
 
@@ -84,7 +86,7 @@ class WindowCameraViewSurfaceDelegate(private val callback: IWindowCameraViewSur
         val bufferBottom = bufferTop + bufferHeight
         val bufferRectF = RectF(bufferLeft, bufferTop, bufferRight, bufferBottom)
 
-        getSurfaceTexture().setDefaultBufferSize(previewResolution.width, previewResolution.height)
+        surfaceTexture.setDefaultBufferSize(previewResolution.width, previewResolution.height)
 
         val matrix = Matrix()
 

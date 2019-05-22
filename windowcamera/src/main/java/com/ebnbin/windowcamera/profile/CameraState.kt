@@ -2,12 +2,9 @@ package com.ebnbin.windowcamera.profile
 
 enum class CameraState {
     CLOSED,
-    OPENING,
-    STARTING_PHOTO_PREVIEW,
-    STARTING_VIDEO_PREVIEW,
-    STARTING_PREVIEW,
+    STATING,
     PREVIEWING_PHOTO,
     PREVIEWING_VIDEO,
-    PREVIEWING,
+    PREVIEWING_ONLY,
     CAPTURING_VIDEO,
 }

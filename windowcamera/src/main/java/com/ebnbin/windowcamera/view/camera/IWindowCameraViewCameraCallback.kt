@@ -7,7 +7,7 @@ interface IWindowCameraViewCameraCallback : IWindowCameraViewCallback {
     /**
      * 返回 TextureView.surfaceTexture.
      */
-    fun getSurfaceTexture(): SurfaceTexture
+    fun getSurfaceTexture(): SurfaceTexture?
 
     /**
      * 更新大小位置, 不会更新 is_out_enabled.

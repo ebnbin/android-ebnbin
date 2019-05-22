@@ -9,16 +9,19 @@
 
     <string name="window_camera_service_stop">点击关闭窗口相机</string>
 
-    <string name="camera_error_disconnected">相机已断开连接</string>
-    <string name="camera_error_code">相机异常（%1$d）</string>
-    <string name="camera_error_photo_preview">照片预览异常</string>
-    <string name="camera_error_video_preview">视频预览异常</string>
-    <string name="camera_error_preview">预览异常</string>
-    <string name="camera_error_video_capture">视频拍摄异常</string>
-    <string name="camera_error_null">相机空状态异常</string>
-    <string name="camera_error_open">相机打开异常</string>
-    <string name="camera_error_media_recorder_prepare">视频拍摄异常</string>
-    
+    <string name="camera_error_open">发生错误：相机打开失败</string>
+    <string name="camera_error_disconnected">发生错误：相机已断开连接</string>
+    <string name="camera_error_code">发生错误：相机异常（%1$d）</string>
+    <string name="camera_error_camera_device_null">发生错误：相机已关闭</string>
+    <string name="camera_error_surface_texture_null">发生错误：窗口已关闭</string>
+    <string name="camera_error_create_capture_session">发生错误：预览启动失败</string>
+    <string name="camera_error_camera_capture_session_configure_failed">发生错误：预览配置失败</string>
+    <string name="camera_error_state">发生错误：状态异常</string>
+    <string name="camera_error_photo_capture_init">发生错误：照片拍摄异常</string>
+    <string name="camera_error_video_capture_init">发生错误：视频拍摄异常</string>
+    <string name="camera_error_stop_repeating">发生错误：预览停止失败</string>
+    <string name="camera_error_video_stop">发生错误：视频停止失败</string>
+
     <string name="main_tip_ok">知道啦</string>
     <string name="main_tip_title">【小提示】\n</string>
 

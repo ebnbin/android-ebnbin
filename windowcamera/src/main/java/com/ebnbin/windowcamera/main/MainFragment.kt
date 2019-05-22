@@ -56,8 +56,8 @@ class MainFragment : EBFragment(),
             spinner.setSelection(Profile.indexOf(), false)
         }
 
-        invalidateWindowCameraServiceEvent(WindowCameraService.isRunning())
-        invalidateCameraState(ProfileHelper.cameraState)
+        onEvent(WindowCameraServiceEvent)
+        onEvent(CameraStateEvent)
 //
 //        if (savedInstanceState == null) {
 //            showTip()
@@ -107,41 +107,32 @@ class MainFragment : EBFragment(),
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: WindowCameraServiceEvent) {
-        invalidateWindowCameraServiceEvent(event.isRunning)
+        val imageId: Int
+        val listener: View.OnClickListener
+        val isEnabled: Boolean
+        if (WindowCameraService.isRunning()) {
+            imageId = R.drawable.main_stop
+            listener = View.OnClickListener {
+                floating_action_button.isEnabled = false
+                WindowCameraService.stop(requireContext())
+            }
+            isEnabled = false
+        } else {
+            imageId = R.drawable.main_camera
+            listener = View.OnClickListener {
+                PermissionFragment.start(childFragmentManager, WindowCameraService.permissions)
+            }
+            isEnabled = true
+        }
+
+        floating_action_button.setImageResource(imageId)
+        floating_action_button.setOnClickListener(listener)
+        spinner.isEnabled = isEnabled
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: CameraStateEvent) {
-        invalidateCameraState(event.cameraState)
-    }
-
-    private fun invalidateWindowCameraServiceEvent(isWindowCameraServiceRunning: Boolean) {
-        val imageDrawableId: Int
-        val onClickListener: View.OnClickListener
-        if (isWindowCameraServiceRunning) {
-            imageDrawableId = R.drawable.main_stop
-            onClickListener = View.OnClickListener {
-                floating_action_button.isEnabled = false
-                WindowCameraService.stop(requireContext())
-            }
-        } else {
-            imageDrawableId = R.drawable.main_camera
-            onClickListener = View.OnClickListener {
-                PermissionFragment.start(childFragmentManager, WindowCameraService.permissions)
-            }
-        }
-        floating_action_button.setImageResource(imageDrawableId)
-        floating_action_button.setOnClickListener(onClickListener)
-
-        spinner.isEnabled = !isWindowCameraServiceRunning
-    }
-
-    private fun invalidateCameraState(cameraState: CameraState) {
-        floating_action_button.isEnabled = cameraState == CameraState.CLOSED ||
-                cameraState == CameraState.PREVIEWING_PHOTO ||
-                cameraState == CameraState.PREVIEWING_VIDEO ||
-                cameraState == CameraState.PREVIEWING ||
-                cameraState == CameraState.CAPTURING_VIDEO
+        floating_action_button.isEnabled = ProfileHelper.cameraState != CameraState.STATING
     }
 
     //*****************************************************************************************************************

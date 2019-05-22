@@ -7,5 +7,5 @@ interface IWindowCameraViewSurfaceDelegate : IWindowCameraViewDelegate {
     /**
      * 返回 TextureView.surfaceTexture. 调用时不应该为空.
      */
-    fun getSurfaceTexture(): SurfaceTexture
+    fun getSurfaceTexture(): SurfaceTexture?
 }

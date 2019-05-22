@@ -140,21 +140,13 @@ class CameraProfileFragment : BaseProfileFragment() {
             preferenceScreen.addPreference(this)
         }
 
-        invalidateCameraState(ProfileHelper.cameraState)
+        onEvent(CameraStateEvent)
     }
 
     override val isEventBusEnabled: Boolean = true
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: CameraStateEvent) {
-        invalidateCameraState(event.cameraState)
-    }
-
-    private fun invalidateCameraState(cameraState: CameraState) {
-        preferenceScreen?.isEnabled = cameraState == CameraState.CLOSED ||
-                cameraState == CameraState.PREVIEWING_PHOTO ||
-                cameraState == CameraState.PREVIEWING_VIDEO ||
-                cameraState == CameraState.PREVIEWING ||
-                cameraState == CameraState.CAPTURING_VIDEO
+        preferenceScreen?.isEnabled = ProfileHelper.cameraState != CameraState.STATING
     }
 }

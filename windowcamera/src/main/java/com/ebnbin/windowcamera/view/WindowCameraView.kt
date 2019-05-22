@@ -116,7 +116,7 @@ class WindowCameraView(context: Context) : CardView(context),
 
     private val cameraDelegate: IWindowCameraViewCameraDelegate = WindowCameraViewCameraDelegate(this)
 
-    override fun getSurfaceTexture(): SurfaceTexture {
+    override fun getSurfaceTexture(): SurfaceTexture? {
         return surfaceDelegate.getSurfaceTexture()
     }
 

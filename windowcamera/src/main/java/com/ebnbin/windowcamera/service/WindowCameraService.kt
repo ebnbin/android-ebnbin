@@ -33,7 +33,7 @@ class WindowCameraService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Libraries.eventBus.post(WindowCameraServiceEvent(true))
+        Libraries.eventBus.post(WindowCameraServiceEvent)
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -91,7 +91,7 @@ class WindowCameraService : Service() {
 
         unregisterReceiver(broadcastReceiver)
 
-        Libraries.eventBus.post(WindowCameraServiceEvent(false))
+        Libraries.eventBus.post(WindowCameraServiceEvent)
         super.onDestroy()
     }
 

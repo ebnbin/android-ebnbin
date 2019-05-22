@@ -325,6 +325,6 @@ object ProfileHelper {
         set(value) {
             if (field == value) return
             field = value
-            Libraries.eventBus.post(CameraStateEvent(field))
+            Libraries.eventBus.post(CameraStateEvent)
         }
 }

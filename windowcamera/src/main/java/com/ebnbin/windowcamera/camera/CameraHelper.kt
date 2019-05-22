@@ -92,7 +92,7 @@ class CameraHelper private constructor() {
      *
      * @param id Camera2 API id.
      *
-     * @param oldId Camera API id.
+     * @param oldId Camera API id. 不能保证有效.
      */
     class Device(val id: String, private val oldId: Int) {
         private val cameraCharacteristics: CameraCharacteristics =
