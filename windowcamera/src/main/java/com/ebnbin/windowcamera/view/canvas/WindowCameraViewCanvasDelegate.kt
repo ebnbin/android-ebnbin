@@ -54,6 +54,7 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
 
     private val paint: Paint = Paint().apply {
         style = Paint.Style.STROKE
+        isAntiAlias = true
     }
 
     override fun onDraw(canvas: Canvas?) {
