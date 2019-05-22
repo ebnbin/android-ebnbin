@@ -19,6 +19,7 @@ import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.dpToPxRound
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.enumeration.Profile
 import com.ebnbin.windowcamera.profile.enumeration.ProfileGesture
@@ -183,16 +184,24 @@ class WindowCameraView(context: Context) : CardView(context),
     override fun onGesture(profileGesture: ProfileGesture) {
         when (profileGesture) {
             ProfileGesture.CAPTURE -> {
-                cameraDelegate.capture()
+                if (ProfileHelper.cameraState != CameraState.STATING) {
+                    cameraDelegate.capture()
+                }
             }
             ProfileGesture.SWITCH_IS_FRONT -> {
-                ProfileHelper.is_front.value = !ProfileHelper.is_front.value
+                if (ProfileHelper.cameraState != CameraState.STATING) {
+                    ProfileHelper.is_front.value = !ProfileHelper.is_front.value
+                }
             }
             ProfileGesture.SWITCH_IS_PREVIEW -> {
-                ProfileHelper.is_preview.value = !ProfileHelper.is_preview.value
+                if (ProfileHelper.cameraState != CameraState.STATING) {
+                    ProfileHelper.is_preview.value = !ProfileHelper.is_preview.value
+                }
             }
             ProfileGesture.SWITCH_IS_VIDEO -> {
-                ProfileHelper.is_video.value = !ProfileHelper.is_video.value
+                if (ProfileHelper.cameraState != CameraState.STATING) {
+                    ProfileHelper.is_video.value = !ProfileHelper.is_video.value
+                }
             }
             ProfileGesture.RESTART_APP -> {
                 IntentHelper.restartApp()
