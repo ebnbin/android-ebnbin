@@ -3,7 +3,6 @@ package com.ebnbin.windowcamera.debug
 import android.os.Bundle
 import android.view.View
 import com.ebnbin.eb.debug.BaseDebugPageFragment
-import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.dev.Report
 
 /**
@@ -13,7 +12,7 @@ class DebugPageFragment : BaseDebugPageFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addDebugItem("Report") {
-            it.summary = Report().create(CameraHelper.getInstance().report()).toString()
+            it.summary = Report().create().toString()
         }
     }
 }

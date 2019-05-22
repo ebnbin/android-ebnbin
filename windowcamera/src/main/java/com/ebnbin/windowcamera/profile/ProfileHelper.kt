@@ -205,37 +205,37 @@ object ProfileHelper {
     val back_photo: ProfileSp<Unit> = ProfileSp("back_photo") { ProfileSp.Builder(Unit) }
     val back_photo_resolution: ProfileSp<String> = ProfileSp("back_photo_resolution") {
         when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultPhotoResolution().entryValue)
-            Profile.WALKING -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultPhotoResolution().entryValue, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultPhotoResolution().entryValue)
-            else -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultPhotoResolution().entryValue)
+            Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.requireBackDevice().requireDefaultPhotoResolution().entryValue)
+            Profile.WALKING -> ProfileSp.Builder(CameraHelper.requireBackDevice().requireDefaultPhotoResolution().entryValue, isEnabled = false, isLockedDefaultValue = true)
+            Profile.MIRROR -> ProfileSp.Builder(CameraHelper.requireBackDevice().requireDefaultPhotoResolution().entryValue)
+            else -> ProfileSp.Builder(CameraHelper.requireBackDevice().requireDefaultPhotoResolution().entryValue)
         }
     }
     val back_video: ProfileSp<Unit> = ProfileSp("back_video") { ProfileSp.Builder(Unit) }
     val back_video_profile: ProfileSp<String> = ProfileSp("back_video_profile") {
         when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultVideoProfile().entryValue)
-            Profile.WALKING -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultVideoProfile().entryValue, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultVideoProfile().entryValue)
-            else -> ProfileSp.Builder(CameraHelper.getInstance().requireBackDevice().requireDefaultVideoProfile().entryValue)
+            Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.requireBackDevice().requireDefaultVideoProfile().entryValue)
+            Profile.WALKING -> ProfileSp.Builder(CameraHelper.requireBackDevice().requireDefaultVideoProfile().entryValue, isEnabled = false, isLockedDefaultValue = true)
+            Profile.MIRROR -> ProfileSp.Builder(CameraHelper.requireBackDevice().requireDefaultVideoProfile().entryValue)
+            else -> ProfileSp.Builder(CameraHelper.requireBackDevice().requireDefaultVideoProfile().entryValue)
         }
     }
     val front_photo: ProfileSp<Unit> = ProfileSp("front_photo") { ProfileSp.Builder(Unit) }
     val front_photo_resolution: ProfileSp<String> = ProfileSp("front_photo_resolution") {
         when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultPhotoResolution().entryValue)
-            Profile.WALKING -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultPhotoResolution().entryValue, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultPhotoResolution().entryValue)
-            else -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultPhotoResolution().entryValue)
+            Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.requireFrontDevice().requireDefaultPhotoResolution().entryValue)
+            Profile.WALKING -> ProfileSp.Builder(CameraHelper.requireFrontDevice().requireDefaultPhotoResolution().entryValue, isEnabled = false, isLockedDefaultValue = true)
+            Profile.MIRROR -> ProfileSp.Builder(CameraHelper.requireFrontDevice().requireDefaultPhotoResolution().entryValue)
+            else -> ProfileSp.Builder(CameraHelper.requireFrontDevice().requireDefaultPhotoResolution().entryValue)
         }
     }
     val front_video: ProfileSp<Unit> = ProfileSp("front_video") { ProfileSp.Builder(Unit) }
     val front_video_profile: ProfileSp<String> = ProfileSp("front_video_profile") {
         when (Profile.get()) {
-            Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultVideoProfile().entryValue)
-            Profile.WALKING -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultVideoProfile().entryValue, isEnabled = false, isLockedDefaultValue = true)
-            Profile.MIRROR -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultVideoProfile().entryValue)
-            else -> ProfileSp.Builder(CameraHelper.getInstance().requireFrontDevice().requireDefaultVideoProfile().entryValue)
+            Profile.DEFAULT -> ProfileSp.Builder(CameraHelper.requireFrontDevice().requireDefaultVideoProfile().entryValue)
+            Profile.WALKING -> ProfileSp.Builder(CameraHelper.requireFrontDevice().requireDefaultVideoProfile().entryValue, isEnabled = false, isLockedDefaultValue = true)
+            Profile.MIRROR -> ProfileSp.Builder(CameraHelper.requireFrontDevice().requireDefaultVideoProfile().entryValue)
+            else -> ProfileSp.Builder(CameraHelper.requireFrontDevice().requireDefaultVideoProfile().entryValue)
         }
     }
 
@@ -265,27 +265,27 @@ object ProfileHelper {
 
     fun device(): CameraHelper.Device {
         return if (is_front.value) {
-            CameraHelper.getInstance().requireFrontDevice()
+            CameraHelper.requireFrontDevice()
         } else {
-            CameraHelper.getInstance().requireBackDevice()
+            CameraHelper.requireBackDevice()
         }
     }
 
     fun photoResolution(): CameraHelper.Device.Resolution {
         if (is_video.value) throw RuntimeException()
         return if (is_front.value) {
-            CameraHelper.getInstance().requireFrontDevice().getPhotoResolution(front_photo_resolution.value)
+            CameraHelper.requireFrontDevice().getPhotoResolution(front_photo_resolution.value)
         } else {
-            CameraHelper.getInstance().requireBackDevice().getPhotoResolution(back_photo_resolution.value)
+            CameraHelper.requireBackDevice().getPhotoResolution(back_photo_resolution.value)
         }
     }
 
     fun videoProfile(): CameraHelper.Device.VideoProfile {
         if (!is_video.value) throw RuntimeException()
         return if (is_front.value) {
-            CameraHelper.getInstance().requireFrontDevice().getVideoProfile(front_video_profile.value)
+            CameraHelper.requireFrontDevice().getVideoProfile(front_video_profile.value)
         } else {
-            CameraHelper.getInstance().requireBackDevice().getVideoProfile(back_video_profile.value)
+            CameraHelper.requireBackDevice().getVideoProfile(back_video_profile.value)
         }
     }
 

@@ -2,6 +2,7 @@ package com.ebnbin.windowcamera.dev
 
 import com.ebnbin.eb.dev.EBReport
 import com.ebnbin.eb.util.EBModel
+import com.ebnbin.windowcamera.camera.CameraHelper
 
 class Report : EBReport() {
     var camera: Camera? = null
@@ -49,9 +50,9 @@ class Report : EBReport() {
         }
     }
 
-    fun create(camera: Camera?): Report {
-        create()
-        this.camera = camera
+    override fun create(): Report {
+        super.create()
+        this.camera = CameraHelper.report()
         return this
     }
 }

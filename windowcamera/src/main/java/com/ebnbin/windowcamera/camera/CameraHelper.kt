@@ -15,17 +15,26 @@ import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.util.RotationSize
 import com.ebnbin.eb.util.SystemServices
 import com.ebnbin.eb.util.WindowHelper
-import com.ebnbin.windowcamera.camera.exception.CameraInvalidException
 import com.ebnbin.windowcamera.dev.Report
 
 /**
  * 相机帮助类.
  *
- * 在 getInstance 前必须调用 init 检测有效性.
- *
- * 需要 camera 权限.
+ * 在使用前必须检测有效性.
  */
-class CameraHelper private constructor() {
+object CameraHelper {
+    private val CAMCORDER_PROFILE_QUALITIES = listOf(
+        CamcorderProfile.QUALITY_2160P,
+        CamcorderProfile.QUALITY_1080P,
+        CamcorderProfile.QUALITY_720P,
+        CamcorderProfile.QUALITY_480P,
+        CamcorderProfile.QUALITY_CIF,
+        CamcorderProfile.QUALITY_QVGA,
+        CamcorderProfile.QUALITY_QCIF,
+        CamcorderProfile.QUALITY_HIGH,
+        CamcorderProfile.QUALITY_LOW
+    )
+
     private val ids: List<String> = SystemServices.cameraManager.cameraIdList.toList()
 
     /**
@@ -383,54 +392,5 @@ class CameraHelper private constructor() {
                 return videoProfile
             }
         }
-    }
-
-    //*****************************************************************************************************************
-
-    companion object {
-        private var singleton: CameraHelper? = null
-
-        /**
-         * 即使失败也会尝试返回 cameraHelper 用于 report.
-         */
-        fun init(): Pair<Boolean, CameraHelper?> {
-            if (singleton != null) {
-                return Pair(true, singleton)
-            }
-            var cameraHelper: CameraHelper? = null
-            try {
-                cameraHelper = CameraHelper()
-                if (cameraHelper.isValid()) {
-                    singleton = cameraHelper
-                    return Pair(true, singleton)
-                } else {
-                    throw CameraInvalidException()
-                }
-            } catch (throwable: Throwable) {
-                DevHelper.report(throwable)
-            }
-            return Pair(false, cameraHelper)
-        }
-
-        fun getInstance(): CameraHelper {
-            val pair = init()
-            return if (pair.first) {
-                pair.second ?: throw RuntimeException()
-            } else {
-                throw RuntimeException()
-            }
-        }
-
-        private val CAMCORDER_PROFILE_QUALITIES = listOf(
-            CamcorderProfile.QUALITY_2160P,
-            CamcorderProfile.QUALITY_1080P,
-            CamcorderProfile.QUALITY_720P,
-            CamcorderProfile.QUALITY_480P,
-            CamcorderProfile.QUALITY_CIF,
-            CamcorderProfile.QUALITY_QVGA,
-            CamcorderProfile.QUALITY_QCIF,
-            CamcorderProfile.QUALITY_HIGH,
-            CamcorderProfile.QUALITY_LOW
-        )
     }
 }
