@@ -1,5 +1,6 @@
 package com.ebnbin.windowcamera.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import com.ebnbin.eb.permission.PermissionHelper
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.IntentHelper
@@ -65,6 +67,7 @@ class WindowCameraView(context: Context) : CardView(context),
     override fun toast(any: Any?, long: Boolean, profileToast: ProfileToast) {
         when (profileToast) {
             ProfileToast.SYSTEM_ALERT_WINDOW, ProfileToast.SYSTEM_ALERT_WINDOW_CENTER -> {
+                if (!PermissionHelper.isPermissionsGranted(listOf(Manifest.permission.SYSTEM_ALERT_WINDOW))) return
                 lastToastView?.run {
                     val runnable = tag as Runnable
                     removeCallbacks(runnable)
