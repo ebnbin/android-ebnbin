@@ -6,6 +6,7 @@
     <string name="eb_update_title_force">应用版本太低，请更新后使用</string>
     <string name="eb_update_download">立即下载</string>
     <string name="eb_update_install">立即安装</string>
+    <string name="eb_update_market">去应用商店更新</string>
     <string name="eb_update_ignore">暂不更新</string>
     <string name="eb_update_close">退出应用</string>
     <string name="eb_update_browser">打开浏览器下载</string>

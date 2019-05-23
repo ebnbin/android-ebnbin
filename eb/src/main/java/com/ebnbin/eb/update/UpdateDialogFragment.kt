@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.R
 import com.ebnbin.eb.dialog.EBDialogFragment
 import com.ebnbin.eb.fragment.FragmentHelper
@@ -47,11 +48,26 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
             .setTitle(titleStringId)
             .setPositiveButton(R.string.eb_update_download, null)
             .setNegativeButton(negativeStringId, null)
-            .setNeutralButton(R.string.eb_update_browser, null)
             .setView(R.layout.eb_update_dialog_fragment)
+        if (BuildConfig.FLAVOR == "google") {
+            builder.setNeutralButton(null, null)
+        } else {
+            builder.setNeutralButton(R.string.eb_update_browser, null)
+        }
         val dialog = builder.create()
         dialog.setOnShowListener {
             val alertDialog = it as AlertDialog
+            if (BuildConfig.FLAVOR == "google") {
+                val positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                if (positiveButton != null) {
+                    positiveButton.setText(R.string.eb_update_market)
+                    positiveButton.setOnClickListener {
+                        IntentHelper.startMarket(requireContext())
+                    }
+                }
+            } else {
+                invalidatePositiveButton()
+            }
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
                 if (hasForceUpdate) {
                     IntentHelper.finishApp()
@@ -59,13 +75,14 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
                     dismissAllowingStateLoss()
                 }
             }
-            alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
-                IntentHelper.startBrowser(requireContext(), update.url)
-                AppHelper.copy(update.url)
-                AppHelper.toast(requireContext(), R.string.eb_update_copied)
+            if (BuildConfig.FLAVOR != "google") {
+                alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
+                    IntentHelper.startBrowser(requireContext(), update.url)
+                    AppHelper.copy(update.url)
+                    AppHelper.toast(requireContext(), R.string.eb_update_copied)
+                }
             }
             alertDialog.findViewById<TextView>(R.id.eb_message_text_view)?.text = update.message
-            invalidatePositiveButton()
         }
         return dialog
     }
