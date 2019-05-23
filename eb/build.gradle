@@ -12,22 +12,29 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        buildConfigField "long", "BUILD_TIMESTAMP", "${buildTimestamp}L"
-        buildConfigField "String", "GITHUB_API_TOKEN", "\"${localProperties['githubApiToken']}\""
+        buildConfigField 'long', 'BUILD_TIMESTAMP', "${buildTimestamp}L"
+        buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${localProperties['githubApiToken']}\""
         setConsumerProguardFiles fileTree('proguard/')
     }
     buildTypes {
         release {
-            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: "true"]
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: 'true']
         }
         prerelease {
             debuggable true
-            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: "false"]
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: 'false']
         }
         debug {
-            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: "false"]
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: 'false']
         }
 
+    }
+    flavorDimensions 'flavor'
+    productFlavors {
+        github.dimension 'flavor'
+        coding.dimension 'flavor'
+        google.dimension 'flavor'
+        coolapk.dimension 'flavor'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

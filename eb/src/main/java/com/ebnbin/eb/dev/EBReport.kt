@@ -1,6 +1,7 @@
 package com.ebnbin.eb.dev
 
 import android.os.Build
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DeviceHelper
@@ -14,6 +15,7 @@ open class EBReport : EBModel {
     var deviceId: String? = null
     var androidId: String? = null
     var version: String? = null
+    var flavor: String? = null
     var timestamp: String? = null
     var sdk: Int? = null
     var manufacturer: String? = null
@@ -30,6 +32,7 @@ open class EBReport : EBModel {
         deviceId = DeviceHelper.DEVICE_ID
         androidId = DeviceHelper.ANDROID_ID
         version = BuildHelper.versionName
+        flavor = BuildConfig.FLAVOR
         timestamp = TimeHelper.string("yyyy-MM-dd HH:mm:ss:SSS")
         sdk = Build.VERSION.SDK_INT
         manufacturer = Build.MANUFACTURER

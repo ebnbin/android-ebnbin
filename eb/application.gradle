@@ -49,6 +49,13 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    flavorDimensions 'flavor'
+    productFlavors {
+        github.dimension 'flavor'
+        coding.dimension 'flavor'
+        google.dimension 'flavor'
+        coolapk.dimension 'flavor'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
