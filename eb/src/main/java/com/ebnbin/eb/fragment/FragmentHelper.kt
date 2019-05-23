@@ -24,6 +24,11 @@ object FragmentHelper {
         return fragment
     }
 
+    fun remove(fm: FragmentManager, tag: String) {
+        val fragment = fm.findFragmentByTag(tag) ?: return
+        fm.beginTransaction().remove(fragment).commitAllowingStateLoss()
+    }
+
     /**
      * 需要在 EBActivity 和 EBFragment 的 onBackPressed 中调用.
      *

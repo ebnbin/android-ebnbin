@@ -35,7 +35,7 @@
         android:layout_gravity="bottom"
         app:fabAlignmentMode="end"
         app:fabCradleMargin="8dp"
-        app:navigationIcon="@drawable/eb_toolbar_more"
+        app:navigationIcon="@drawable/eb_toolbar_menu"
         app:backgroundTint="?attr/colorBackgroundFloating">
 
         <androidx.appcompat.widget.AppCompatSpinner

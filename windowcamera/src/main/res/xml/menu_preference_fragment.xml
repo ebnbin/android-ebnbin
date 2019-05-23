@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.preference.Preference
+        android:title="title1"/>
+
+    <androidx.preference.Preference
+        android:title="title2"/>
+
+    <androidx.preference.Preference
+        android:title="title3"/>
+
+    <androidx.preference.SwitchPreference
+        android:key="@string/menu_is_night_mode"
+        android:defaultValue="false"
+        android:title="@string/menu_is_night_mode_title"
+        android:summaryOff="@string/menu_is_night_mode_summary_off"
+        android:summaryOn="@string/menu_is_night_mode_summary_on"
+        android:icon="@drawable/menu_is_night_mode"/>
+
+    <androidx.preference.Preference
+        android:key="@string/menu_about"
+        android:title="@string/menu_about_title"
+        android:icon="@drawable/menu_about"/>
+
+</androidx.preference.PreferenceScreen>

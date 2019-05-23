@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
-import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.update.UpdateFragment
-import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.res
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.menu.MenuFragment
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -43,7 +42,7 @@ class MainFragment : EBFragment(),
         }
 
         bottom_app_bar.setNavigationOnClickListener {
-            IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
+            MenuFragment.start(childFragmentManager)
         }
         spinner.adapter = MainSpinnerAdapter(bottom_app_bar.context)
         spinner.onItemSelectedListener = this
