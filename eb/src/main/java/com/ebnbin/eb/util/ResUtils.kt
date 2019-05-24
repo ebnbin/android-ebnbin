@@ -27,3 +27,9 @@ val Float.spToPxRound: Int
 @Deprecated("使用 spToPxRound", ReplaceWith(""))
 val Float.spToPxInt: Int
     get() = spToPx.toInt()
+
+val Float.pxToDp: Float
+    get() = this / ResHelper.density
+
+val Int.pxToDp: Float
+    get() = toFloat().pxToDp

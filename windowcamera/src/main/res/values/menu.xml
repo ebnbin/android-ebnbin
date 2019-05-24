@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="menu_album" translatable="false">album</string>
+    <string name="menu_album_title">相册</string>
+
     <string name="menu_is_night_mode" translatable="false">is_night_mode</string>
     <string name="menu_is_night_mode_title">夜间模式</string>
     <string name="menu_is_night_mode_summary_off">关闭</string>

@@ -94,7 +94,8 @@ class AboutFragment : EBFragment() {
             Pair("RxJava", "https://github.com/ReactiveX/RxJava"),
             Pair("RxAndroid", "https://github.com/ReactiveX/RxAndroid"),
             Pair("okhttp", "https://github.com/square/okhttp"),
-            Pair("retrofit", "https://github.com/square/retrofit")
+            Pair("retrofit", "https://github.com/square/retrofit"),
+            Pair("glide", "https://github.com/bumptech/glide")
         )
 
         fun intent(openSources: ArrayList<Pair<String, String>> = arrayListOf()): Intent {

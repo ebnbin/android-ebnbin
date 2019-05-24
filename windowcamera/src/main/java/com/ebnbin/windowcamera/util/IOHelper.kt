@@ -20,4 +20,18 @@ object IOHelper {
         val fileName = "${TimeHelper.string("yyyy_MM_dd_HH_mm_ss_SSS")}$extension"
         return File(path, fileName)
     }
+
+    val files: ArrayList<File> = ArrayList()
+
+    fun refreshFiles() {
+        files.clear()
+        getPath()
+            .listFiles { _, name ->
+                name.endsWith(".jpg", true) || name.endsWith(".mp4", true) || name.endsWith(".3gp", true)
+            }
+            .reversed()
+            .forEach {
+                files.add(it)
+            }
+    }
 }
