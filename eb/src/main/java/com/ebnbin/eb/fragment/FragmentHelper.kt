@@ -6,8 +6,9 @@ import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.util.ebApp
 
 object FragmentHelper {
-    fun <T : Fragment> instantiate(fm: FragmentManager, fragmentClass: Class<T>): T {
+    fun <T : Fragment> instantiate(fm: FragmentManager, fragmentClass: Class<T>, arguments: Bundle? = null): T {
         val fragment = fm.fragmentFactory.instantiate(ebApp.classLoader, fragmentClass.name)
+        fragment.arguments = arguments
         return fragmentClass.cast(fragment) as T
     }
 
@@ -18,8 +19,7 @@ object FragmentHelper {
         tag: String = fragmentClass.name,
         arguments: Bundle? = null
     ): T {
-        val fragment = instantiate(fm, fragmentClass)
-        fragment.arguments = arguments
+        val fragment = instantiate(fm, fragmentClass, arguments)
         fm.beginTransaction().add(containerViewId, fragment, tag).commitAllowingStateLoss()
         return fragment
     }

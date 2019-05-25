@@ -12,8 +12,9 @@
 
     <application
         android:name=".AppApplication"
+        android:label="@string/eb_label"
         android:largeHeap="true"
-        tools:replace="android:name">
+        tools:replace="android:name, android:label">
         <activity
             android:name=".splash.SplashActivity"
             android:theme="@style/EBTheme.Splash">
@@ -26,6 +27,10 @@
         <activity
             android:name=".main.MainActivity"
             android:screenOrientation="fullUser"/>
+
+        <activity
+            android:name=".imagevideo.ImageVideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <service android:name=".service.WindowCameraService"/>
 

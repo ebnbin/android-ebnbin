@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ebnbin.eb.fragment.EBFragment
+import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.pxToDp
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.imagevideo.ImageVideo
+import com.ebnbin.windowcamera.imagevideo.ImageVideoActivity
 import com.ebnbin.windowcamera.util.IOHelper
 import kotlinx.android.synthetic.main.album_fragment.*
 
@@ -24,8 +27,24 @@ class AlbumFragment : EBFragment() {
         super.onViewCreated(view, savedInstanceState)
         IOHelper.refreshFiles()
 
+        val imageVideos = ArrayList<ImageVideo>()
+        IOHelper.files.forEach {
+            val type = when (it.name.substringAfterLast(".", "")) {
+                "jpg" -> ImageVideo.Type.IMAGE
+                "mp4", "3gp" -> ImageVideo.Type.VIDEO
+                else -> return@forEach
+            }
+            imageVideos.add(ImageVideo(type, it.absolutePath))
+        }
+
         adapter = AlbumAdapter()
         recycler_view.adapter = adapter
+        adapter.listener = object : AlbumAdapter.Listener {
+            override fun onItemClick(position: Int) {
+                IntentHelper.startActivityFromFragment(this@AlbumFragment,
+                    ImageVideoActivity.intent(requireContext(), imageVideos, position))
+            }
+        }
 
         view.doOnLayout {
             val spanCount = (it.width.pxToDp / 90f).toInt()

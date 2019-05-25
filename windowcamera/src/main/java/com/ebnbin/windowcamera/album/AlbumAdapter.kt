@@ -17,9 +17,21 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumViewHolder>() {
         Glide.with(holder.itemView)
             .load(IOHelper.files[position])
             .into(holder.imageView)
+
+        if (listener != null) {
+            holder.itemView.setOnClickListener {
+                listener?.onItemClick(position)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return IOHelper.files.size
+    }
+
+    var listener: Listener? = null
+
+    interface Listener {
+        fun onItemClick(position: Int)
     }
 }

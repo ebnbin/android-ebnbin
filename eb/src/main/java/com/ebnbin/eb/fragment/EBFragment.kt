@@ -98,7 +98,7 @@ abstract class EBFragment : Fragment() {
     /**
      * @return 是否已经处理了 back 事件.
      */
-    fun onBackPressed(): Boolean {
+    open fun onBackPressed(): Boolean {
         if (FragmentHelper.onBackPressed(childFragmentManager)) return true
         if (onBackFinish()) return true
         if (onDoubleBackFinish()) return true
