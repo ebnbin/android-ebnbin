@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.ebnbin.windowcamera.R
 import kotlinx.android.synthetic.main.image_page_fragment.*
 
@@ -15,6 +16,8 @@ class ImagePageFragment : BaseImageVideoPageFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        simple_image_view.setUrl(imageVideo.url)
+        Glide.with(this)
+            .load(imageVideo.url)
+            .into(simple_image_view)
     }
 }
