@@ -95,7 +95,10 @@ class AboutFragment : EBFragment() {
             Pair("RxAndroid", "https://github.com/ReactiveX/RxAndroid"),
             Pair("okhttp", "https://github.com/square/okhttp"),
             Pair("retrofit", "https://github.com/square/retrofit"),
-            Pair("glide", "https://github.com/bumptech/glide")
+            Pair("glide", "https://github.com/bumptech/glide"),
+            Pair("BaseRecyclerViewAdapterHelper", "https://github.com/CymChad/BaseRecyclerViewAdapterHelper"),
+            Pair("PhotoView", "https://github.com/chrisbanes/PhotoView"),
+            Pair("GSYVideoPlayer", "https://github.com/CarGuo/GSYVideoPlayer")
         )
 
         fun intent(openSources: ArrayList<Pair<String, String>> = arrayListOf()): Intent {
