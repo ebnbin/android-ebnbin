@@ -2,6 +2,8 @@
 <resources>
     <color name="eb_transparent">#0000</color>
     <color name="eb_black">#000</color>
+    <color name="eb_black_25">#3f000000</color>
+    <color name="eb_black_50">#7f000000</color>
     <color name="eb_white">#fff</color>
 
     <color name="eb_material_red_500">#f44336</color>

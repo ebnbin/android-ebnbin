@@ -15,8 +15,8 @@ class ImageVideoFragment : EBFragment() {
     @Suppress("UNCHECKED_CAST")
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        imageVideos = activityExtras.getSerializable("image_videos") as ArrayList<ImageVideo>
-        index = activityExtras.getInt("index", 0)
+        imageVideos = activityExtras.getSerializable(ImageVideoActivity.KEY_IMAGE_VIDEOS) as ArrayList<ImageVideo>
+        index = activityExtras.getInt(ImageVideoActivity.KEY_INDEX, 0)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,6 +26,9 @@ class ImageVideoFragment : EBFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
 
         val imageVideosPagerAdapter = ImageVideoPagerAdapter(childFragmentManager, imageVideos)
         view_pager.adapter = imageVideosPagerAdapter

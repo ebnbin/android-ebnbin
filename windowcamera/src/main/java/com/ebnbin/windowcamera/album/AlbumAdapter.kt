@@ -1,6 +1,7 @@
 package com.ebnbin.windowcamera.album
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -20,7 +21,7 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumViewHolder>() {
 
         if (listener != null) {
             holder.itemView.setOnClickListener {
-                listener?.onItemClick(position)
+                listener?.onItemClick(position, holder.itemView)
             }
         }
     }
@@ -32,6 +33,6 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumViewHolder>() {
     var listener: Listener? = null
 
     interface Listener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int, itemView: View)
     }
 }

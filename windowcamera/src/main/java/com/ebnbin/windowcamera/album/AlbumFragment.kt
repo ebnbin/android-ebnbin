@@ -28,19 +28,19 @@ class AlbumFragment : EBFragment() {
         IOHelper.refreshFiles()
 
         val imageVideos = ArrayList<ImageVideo>()
-        IOHelper.files.forEach {
-            val type = when (it.name.substringAfterLast(".", "")) {
+        IOHelper.files.forEachIndexed { index, file ->
+            val type = when (file.name.substringAfterLast(".", "")) {
                 "jpg" -> ImageVideo.Type.IMAGE
                 "mp4", "3gp" -> ImageVideo.Type.VIDEO
-                else -> return@forEach
+                else -> return@forEachIndexed
             }
-            imageVideos.add(ImageVideo(type, it.absolutePath))
+            imageVideos.add(ImageVideo(type, file.absolutePath, index))
         }
 
         adapter = AlbumAdapter()
         recycler_view.adapter = adapter
         adapter.listener = object : AlbumAdapter.Listener {
-            override fun onItemClick(position: Int) {
+            override fun onItemClick(position: Int, itemView: View) {
                 IntentHelper.startActivityFromFragment(this@AlbumFragment,
                     ImageVideoActivity.intent(requireContext(), imageVideos, position))
             }

@@ -30,6 +30,7 @@
 
         <activity
             android:name=".imagevideo.ImageVideoActivity"
+            android:theme="@style/EBTheme.ImageVideo"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <service android:name=".service.WindowCameraService"/>
