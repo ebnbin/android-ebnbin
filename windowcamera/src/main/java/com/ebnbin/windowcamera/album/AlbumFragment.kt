@@ -38,13 +38,13 @@ class AlbumFragment : EBFragment() {
         }
 
         adapter = AlbumAdapter()
-        recycler_view.adapter = adapter
-        adapter.listener = object : AlbumAdapter.Listener {
-            override fun onItemClick(position: Int, itemView: View) {
-                IntentHelper.startActivityFromFragment(this@AlbumFragment,
-                    ImageVideoActivity.intent(requireContext(), imageVideos, position))
-            }
+        adapter.setOnItemClickListener { _, _, position ->
+            IntentHelper.startActivityFromFragment(this@AlbumFragment,
+                ImageVideoActivity.intent(requireContext(), imageVideos, position))
         }
+
+        adapter.setNewData(imageVideos)
+        recycler_view.adapter = adapter
 
         view.doOnLayout {
             val spanCount = (it.width.pxToDp / 90f).toInt()

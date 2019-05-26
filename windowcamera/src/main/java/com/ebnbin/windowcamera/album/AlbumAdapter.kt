@@ -1,38 +1,31 @@
 package com.ebnbin.windowcamera.album
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.util.IOHelper
+import com.ebnbin.windowcamera.imagevideo.ImageVideo
 
-class AlbumAdapter : RecyclerView.Adapter<AlbumViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.album_item, parent, false)
-        return AlbumViewHolder(itemView)
+class AlbumAdapter : BaseMultiItemQuickAdapter<ImageVideo, BaseViewHolder>(null) {
+    init {
+        addItemType(ImageVideo.Type.IMAGE.ordinal, R.layout.album_item_image)
+        addItemType(ImageVideo.Type.VIDEO.ordinal, R.layout.album_item_video)
     }
 
-    override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        Glide.with(holder.itemView)
-            .load(IOHelper.files[position])
-            .into(holder.imageView)
-
-        if (listener != null) {
-            holder.itemView.setOnClickListener {
-                listener?.onItemClick(position, holder.itemView)
+    override fun convert(helper: BaseViewHolder?, item: ImageVideo?) {
+        helper ?: return
+        item ?: return
+        when (helper.itemViewType) {
+            ImageVideo.Type.IMAGE.ordinal -> {
+                Glide.with(helper.itemView)
+                    .load(item.url)
+                    .into(helper.getView(R.id.image_view))
+            }
+            ImageVideo.Type.VIDEO.ordinal -> {
+                Glide.with(helper.itemView)
+                    .load(item.url)
+                    .into(helper.getView(R.id.image_view))
             }
         }
-    }
-
-    override fun getItemCount(): Int {
-        return IOHelper.files.size
-    }
-
-    var listener: Listener? = null
-
-    interface Listener {
-        fun onItemClick(position: Int, itemView: View)
     }
 }
