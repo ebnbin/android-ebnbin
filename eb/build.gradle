@@ -64,6 +64,7 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46' // https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     api 'com.github.chrisbanes:PhotoView:2.3.0' // https://github.com/chrisbanes/PhotoView
     api 'com.shuyu:gsyVideoPlayer-java:7.0.1' // https://github.com/CarGuo/GSYVideoPlayer
+    api 'com.shuyu:GSYVideoPlayer-exo2:7.0.1'
     api 'com.shuyu:gsyVideoPlayer-armv7a:7.0.1'
 //    api 'com.shuyu:gsyVideoPlayer-x86:7.0.1'
 }
