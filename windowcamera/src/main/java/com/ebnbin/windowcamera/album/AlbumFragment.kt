@@ -27,20 +27,52 @@ class AlbumFragment : EBFragment() {
         super.onViewCreated(view, savedInstanceState)
         IOHelper.refreshFiles()
 
-        val imageVideos = ArrayList<ImageVideo>()
+        val imageVideos = ArrayList<AlbumItem>()
         IOHelper.files.forEachIndexed { index, file ->
             val type = when (file.name.substringAfterLast(".", "")) {
                 "jpg" -> ImageVideo.Type.IMAGE
                 "mp4", "3gp" -> ImageVideo.Type.VIDEO
                 else -> return@forEachIndexed
             }
-            imageVideos.add(ImageVideo(type, file.absolutePath, index))
+            imageVideos.add(AlbumItem(type, file, index))
         }
 
         adapter = AlbumAdapter()
         adapter.setOnItemClickListener { _, _, position ->
-            IntentHelper.startActivityFromFragment(this@AlbumFragment,
-                ImageVideoActivity.intent(requireContext(), imageVideos, position))
+            when (adapter.data[position].multiSelect) {
+                MultiSelect.NORMAL -> {
+                    IntentHelper.startActivityFromFragment(this@AlbumFragment,
+                        ImageVideoActivity.intent(requireContext(), imageVideos, position))
+                }
+                MultiSelect.UNSELECTED -> {
+                    adapter.data[position].multiSelect = MultiSelect.SELECTED
+                    adapter.notifyItemChanged(position)
+                }
+                MultiSelect.SELECTED -> {
+                    adapter.data[position].multiSelect = MultiSelect.UNSELECTED
+                    adapter.notifyItemChanged(position)
+                }
+            }
+
+        }
+        adapter.setOnItemLongClickListener { _, _, position ->
+            when (adapter.data[position].multiSelect) {
+                MultiSelect.NORMAL -> {
+                    adapter.data
+                        .filterIndexed { index, _ -> index != position }
+                        .forEach { it.multiSelect = MultiSelect.UNSELECTED }
+                    adapter.data[position].multiSelect = MultiSelect.SELECTED
+                    adapter.notifyDataSetChanged()
+                }
+                MultiSelect.UNSELECTED -> {
+                    adapter.data[position].multiSelect = MultiSelect.SELECTED
+                    adapter.notifyItemChanged(position)
+                }
+                MultiSelect.SELECTED -> {
+                    // Do nothing.
+                }
+            }
+            true
         }
 
         adapter.setNewData(imageVideos)

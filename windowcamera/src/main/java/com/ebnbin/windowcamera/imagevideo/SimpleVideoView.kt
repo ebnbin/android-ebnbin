@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.ebnbin.windowcamera.R
 import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoView
+import java.io.File
 
 open class SimpleVideoView @JvmOverloads constructor(
     context: Context,
@@ -19,11 +20,11 @@ open class SimpleVideoView @JvmOverloads constructor(
         mIsTouchWigetFull = false
     }
 
-    fun setUrl(url: String) {
-        setUp(url, true, mTitle)
+    fun setFile(file: File) {
+        setUp(file.absolutePath, true, mTitle)
         findViewById<ImageView>(R.id.thumb_image_view)?.let {
             Glide.with(this)
-                .load(url)
+                .load(file)
                 .into(it)
         }
     }

@@ -15,7 +15,7 @@ class VideoPageFragment : BaseImageVideoPageFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        simple_video_view.setUrl(imageVideo.url)
+        simple_video_view.setFile(imageVideo.file)
     }
 
     override fun onPause() {

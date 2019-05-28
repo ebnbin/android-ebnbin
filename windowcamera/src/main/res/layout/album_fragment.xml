@@ -16,8 +16,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorBackgroundFloating"
             app:title="@string/album"
-            app:navigationIcon="@drawable/eb_toolbar_close"
-            app:layout_scrollFlags="scroll|snap|enterAlways"/>
+            app:navigationIcon="@drawable/eb_toolbar_close"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

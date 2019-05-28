@@ -9,7 +9,7 @@ class ImageVideoActivity : EBActivity() {
         const val KEY_IMAGE_VIDEOS = "image_videos"
         const val KEY_INDEX = "index"
 
-        fun intent(context: Context, imageVideos: ArrayList<ImageVideo>, index: Int): Intent {
+        fun intent(context: Context, imageVideos: ArrayList<out ImageVideo>, index: Int): Intent {
             return Intent(context, ImageVideoActivity::class.java)
                 .putExtra(KEY_FRAGMENT_CLASS, ImageVideoFragment::class.java)
                 .putExtra(KEY_IMAGE_VIDEOS, imageVideos)
