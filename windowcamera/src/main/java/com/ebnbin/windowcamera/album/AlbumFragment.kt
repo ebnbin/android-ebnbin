@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.ResHelper
+import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.eb.util.pxToDp
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.imagevideo.ImageVideo
@@ -38,6 +38,11 @@ class AlbumFragment : EBFragment() {
             imageVideos.add(AlbumItem(type, file, index))
         }
 
+        val width = WindowHelper.getDisplaySize(requireContext()).width
+        val spanCount = (width.pxToDp / 90f).toInt()
+        val layoutManager = GridLayoutManager(requireContext(), spanCount)
+        recycler_view.layoutManager = layoutManager
+
         adapter = AlbumAdapter()
         adapter.setOnItemClickListener { _, _, position ->
             when (adapter.data[position].multiSelect) {
@@ -46,13 +51,11 @@ class AlbumFragment : EBFragment() {
                         ImageVideoActivity.intent(requireContext(), imageVideos, position))
                 }
                 MultiSelect.UNSELECTED -> {
-                    adapter.data[position].multiSelect = MultiSelect.SELECTED
-                    adapter.notifyItemChanged(position)
+                    multiSelect(position, true)
                     invalidateActionMode()
                 }
                 MultiSelect.SELECTED -> {
-                    adapter.data[position].multiSelect = MultiSelect.UNSELECTED
-                    adapter.notifyItemChanged(position)
+                    multiSelect(position, false)
                     invalidateActionMode()
                 }
             }
@@ -61,11 +64,11 @@ class AlbumFragment : EBFragment() {
         adapter.setOnItemLongClickListener { _, _, position ->
             when (adapter.data[position].multiSelect) {
                 MultiSelect.NORMAL -> {
-                    enterActionMode(position)
+                    multiSelectEnter(position)
+                    enterActionMode()
                 }
                 MultiSelect.UNSELECTED -> {
-                    adapter.data[position].multiSelect = MultiSelect.SELECTED
-                    adapter.notifyItemChanged(position)
+                    multiSelect(position, true)
                     invalidateActionMode()
                 }
                 MultiSelect.SELECTED -> {
@@ -74,21 +77,15 @@ class AlbumFragment : EBFragment() {
             }
             true
         }
-
         adapter.setNewData(imageVideos)
         recycler_view.adapter = adapter
 
-        exitActionMode(true)
-
-        view.doOnLayout {
-            val spanCount = (it.width.pxToDp / 90f).toInt()
-            val layoutManager = GridLayoutManager(requireContext(), spanCount)
-            recycler_view.layoutManager = layoutManager
-        }
+        exitActionMode()
     }
 
     override fun onBackPressed(): Boolean {
         if (isActionMode()) {
+            multiSelectNormal()
             exitActionMode()
             return true
         }
@@ -99,12 +96,12 @@ class AlbumFragment : EBFragment() {
         return toolbar.tag == true
     }
 
-    private fun enterActionMode(position: Int = -1) {
-        if (isActionMode()) return
+    private fun enterActionMode() {
         toolbar.tag = true
 
         toolbar.setNavigationIcon(R.drawable.album_close)
         toolbar.setNavigationOnClickListener {
+            multiSelectNormal()
             exitActionMode()
         }
         toolbar.setTitleTextColor(ResHelper.getColorAttr(requireContext(), R.attr.colorPrimary))
@@ -113,6 +110,7 @@ class AlbumFragment : EBFragment() {
         toolbar.setOnMenuItemClickListener {
             when (it?.itemId) {
                 R.id.delete -> {
+                    multiSelectNormal()
                     exitActionMode()
                     true
                 }
@@ -120,19 +118,16 @@ class AlbumFragment : EBFragment() {
             }
         }
 
-        adapter.data
-            .filterIndexed { index, _ -> index != position }
-            .forEach { it.multiSelect = MultiSelect.UNSELECTED }
-        if (position != -1) {
-            adapter.data[position].multiSelect = MultiSelect.SELECTED
-        }
-        adapter.notifyDataSetChanged()
-
         invalidateActionMode()
     }
 
-    private fun exitActionMode(isInit: Boolean = false) {
-        if (!isActionMode() && !isInit) return
+    private fun invalidateActionMode() {
+        if (!isActionMode()) return
+        val selectedCount = adapter.data.filter { it.multiSelect == MultiSelect.SELECTED }.size
+        toolbar.title = getString(R.string.album_selected, selectedCount)
+    }
+
+    private fun exitActionMode() {
         toolbar.tag = false
 
         toolbar.setNavigationIcon(R.drawable.eb_toolbar_back)
@@ -146,24 +141,61 @@ class AlbumFragment : EBFragment() {
         toolbar.setOnMenuItemClickListener {
             when (it?.itemId) {
                 R.id.multi_select -> {
+                    multiSelectEnter()
                     enterActionMode()
                     true
                 }
                 else -> false
             }
         }
+    }
 
-        if (!isInit) {
-            adapter.data.forEach {
-                it.multiSelect = MultiSelect.NORMAL
-            }
-            adapter.notifyDataSetChanged()
+    private fun multiSelectEnter(position: Int = -1) {
+        adapter.data.forEachIndexed { index, albumItem ->
+            albumItem.multiSelect = if (position == index) MultiSelect.SELECTED else MultiSelect.UNSELECTED
+        }
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun multiSelect(position: Int, selected: Boolean) {
+        adapter.data.getOrNull(position)?.let {
+            it.multiSelect = if (selected) MultiSelect.SELECTED else MultiSelect.UNSELECTED
+            adapter.notifyItemChanged(position)
         }
     }
 
-    private fun invalidateActionMode() {
-        if (!isActionMode()) return
-        val selectedCount = adapter.data.filter { it.multiSelect == MultiSelect.SELECTED }.size
-        toolbar.title = getString(R.string.album_selected, selectedCount)
+    private fun multiSelectNormal() {
+        adapter.data.forEach {
+            it.multiSelect = MultiSelect.NORMAL
+        }
+        adapter.notifyDataSetChanged()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState ?: return
+        val multiSelects = savedInstanceState.getSerializable("multi_selects") as ArrayList<MultiSelect>?
+        if (multiSelects != null && multiSelects.size == adapter.data.size) {
+            // 数量一致时才恢复状态.
+            toolbar.tag = savedInstanceState.getBoolean("tag", false)
+            multiSelects.forEachIndexed { index, multiSelect ->
+                adapter.data[index].multiSelect = multiSelect
+            }
+            adapter.notifyDataSetChanged()
+            if (isActionMode()) {
+                enterActionMode()
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("tag", toolbar.tag as? Boolean? ?: false)
+        val multiSelects = ArrayList<MultiSelect>()
+        adapter.data.forEach {
+            multiSelects.add(it.multiSelect)
+        }
+        outState.putSerializable("multi_selects", multiSelects)
+        super.onSaveInstanceState(outState)
     }
 }

@@ -27,7 +27,10 @@ object IOHelper {
         files.clear()
         getPath()
             .listFiles { _, name ->
-                name.endsWith(".jpg", true) || name.endsWith(".mp4", true) || name.endsWith(".3gp", true)
+                when (name.substringAfterLast(".")) {
+                    "jpg", "mp4", "3gp" -> true
+                    else -> false
+                }
             }
             .reversed()
             .forEach {

@@ -1,5 +1,6 @@
 package com.ebnbin.eb.util
 
+import android.content.Context
 import android.graphics.Point
 import android.view.Display
 
@@ -25,4 +26,9 @@ object WindowHelper {
             display.getRealSize(outSize)
             return RotationSize(outSize.x, outSize.y, display.rotation)
         }
+
+    fun getDisplaySize(context: Context): RotationSize {
+        val displayMetrics = context.resources.displayMetrics
+        return RotationSize(displayMetrics.widthPixels, displayMetrics.heightPixels, displayRotation)
+    }
 }
