@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.ebnbin.eb.dialog.SimpleDialogFragment
 import com.ebnbin.eb.fragment.EBFragment
+import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.WindowHelper
@@ -16,7 +18,7 @@ import com.ebnbin.windowcamera.imagevideo.ImageVideoActivity
 import com.ebnbin.windowcamera.util.IOHelper
 import kotlinx.android.synthetic.main.album_fragment.*
 
-class AlbumFragment : EBFragment() {
+class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.album_fragment, container, false)
@@ -26,18 +28,6 @@ class AlbumFragment : EBFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        IOHelper.refreshFiles()
-
-        val imageVideos = ArrayList<AlbumItem>()
-        IOHelper.files.forEachIndexed { index, file ->
-            val type = when (file.name.substringAfterLast(".", "")) {
-                "jpg" -> ImageVideo.Type.IMAGE
-                "mp4", "3gp" -> ImageVideo.Type.VIDEO
-                else -> return@forEachIndexed
-            }
-            imageVideos.add(AlbumItem(type, file, index))
-        }
-
         val width = WindowHelper.getDisplaySize(requireContext()).width
         val spanCount = (width.pxToDp / 90f).toInt()
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
@@ -48,7 +38,7 @@ class AlbumFragment : EBFragment() {
             when (adapter.data[position].multiSelect) {
                 MultiSelect.NORMAL -> {
                     IntentHelper.startActivityFromFragment(this@AlbumFragment,
-                        ImageVideoActivity.intent(requireContext(), imageVideos, position))
+                        ImageVideoActivity.intent(requireContext(), ArrayList(adapter.data), position))
                 }
                 MultiSelect.UNSELECTED -> {
                     multiSelect(position, true)
@@ -77,10 +67,24 @@ class AlbumFragment : EBFragment() {
             }
             true
         }
-        adapter.setNewData(imageVideos)
         recycler_view.adapter = adapter
 
+        invalidateAlbumItems()
         exitActionMode()
+    }
+
+    private fun invalidateAlbumItems() {
+        IOHelper.refreshFiles()
+        val albumItems = ArrayList<AlbumItem>()
+        IOHelper.files.forEachIndexed { index, file ->
+            val type = when (file.name.substringAfterLast(".", "")) {
+                "jpg" -> ImageVideo.Type.IMAGE
+                "mp4", "3gp" -> ImageVideo.Type.VIDEO
+                else -> return@forEachIndexed
+            }
+            albumItems.add(AlbumItem(type, file, index))
+        }
+        adapter.setNewData(albumItems)
     }
 
     override fun onBackPressed(): Boolean {
@@ -110,8 +114,17 @@ class AlbumFragment : EBFragment() {
         toolbar.setOnMenuItemClickListener {
             when (it?.itemId) {
                 R.id.delete -> {
-                    multiSelectNormal()
-                    exitActionMode()
+                    if (adapter.data.none { albumItem -> albumItem.multiSelect == MultiSelect.SELECTED }) {
+                        AppHelper.toast(requireContext(), R.string.album_selected_empty)
+                    } else {
+                        SimpleDialogFragment.start(
+                            childFragmentManager, SimpleDialogFragment.Builder(
+                                message = getString(R.string.album_delete_message),
+                                positive = getString(R.string.album_delete_position),
+                                negative = getString(R.string.album_delete_negative)
+                            ), "delete"
+                        )
+                    }
                     true
                 }
                 else -> false
@@ -140,6 +153,10 @@ class AlbumFragment : EBFragment() {
         toolbar.inflateMenu(R.menu.album_toolbar)
         toolbar.setOnMenuItemClickListener {
             when (it?.itemId) {
+                R.id.refresh -> {
+                    invalidateAlbumItems()
+                    true
+                }
                 R.id.multi_select -> {
                     multiSelectEnter()
                     enterActionMode()
@@ -197,5 +214,27 @@ class AlbumFragment : EBFragment() {
         }
         outState.putSerializable("multi_selects", multiSelects)
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onDialogPositive(extraData: Bundle): Boolean {
+        adapter.data
+            .filter { it.multiSelect == MultiSelect.SELECTED }
+            .forEach { it.file.delete() }
+        invalidateAlbumItems()
+
+        multiSelectNormal()
+        exitActionMode()
+        return true
+    }
+
+    override fun onDialogNegative(extraData: Bundle): Boolean {
+        return true
+    }
+
+    override fun onDialogNeutral(extraData: Bundle): Boolean {
+        return true
+    }
+
+    override fun onDialogDismiss(extraData: Bundle) {
     }
 }

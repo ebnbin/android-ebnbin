@@ -21,20 +21,20 @@ object IOHelper {
         return File(path, fileName)
     }
 
-    val files: ArrayList<File> = ArrayList()
+    var files: List<File> = ArrayList()
+        private set
 
     fun refreshFiles() {
-        files.clear()
-        getPath()
+        files = getPath()
             .listFiles { _, name ->
                 when (name.substringAfterLast(".")) {
                     "jpg", "mp4", "3gp" -> true
                     else -> false
                 }
             }
-            .reversed()
-            .forEach {
-                files.add(it)
-            }
+            .toSortedSet(Comparator { file1, file2 ->
+                compareValuesBy(file2, file1, File::lastModified, File::getName)
+            })
+            .toList()
     }
 }
