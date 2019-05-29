@@ -13,6 +13,7 @@
     <color name="eb_material_blue_500">#2196f3</color>
     <color name="eb_material_light_blue_200">#81d4fa</color>
     <color name="eb_material_light_blue_500">#03a9f4</color>
+    <color name="eb_material_light_blue_700">#0288d1</color>
     <color name="eb_material_green_500">#4caf50</color>
     <color name="eb_material_yellow_500">#ffeb3b</color>
     <color name="eb_material_gray_50">#fafafa</color>
