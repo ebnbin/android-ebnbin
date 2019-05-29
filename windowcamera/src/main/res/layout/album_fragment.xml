@@ -14,9 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorBackgroundFloating"
-            app:title="@string/album"
-            app:navigationIcon="@drawable/eb_toolbar_close"/>
+            android:background="?attr/colorBackgroundFloating"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

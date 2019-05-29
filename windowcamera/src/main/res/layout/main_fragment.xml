@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="96dp"
+            android:minWidth="192dp"
             android:background="@drawable/main_spinner_background"
             android:gravity="end"/>
 

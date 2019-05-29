@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="album">相册</string>
+    <string name="album_selected">已选择%1$d项</string>
+    <string name="album_multi_select">选择</string>
+    <string name="album_delete">删除</string>
 </resources>
