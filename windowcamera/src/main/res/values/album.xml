@@ -5,7 +5,7 @@
     <string name="album_refresh">刷新</string>
     <string name="album_multi_select">选择</string>
     <string name="album_delete">删除</string>
-    <string name="album_delete_message">删除选中的照片/视频？</string>
+    <string name="album_delete_message">永久删除选中的照片/视频？</string>
     <string name="album_delete_position">确定</string>
     <string name="album_delete_negative">取消</string>
     <string name="album_selected_empty">没有选中的照片/视频</string>

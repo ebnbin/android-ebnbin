@@ -3,10 +3,13 @@
     <string name="menu_album" translatable="false">album</string>
     <string name="menu_album_title">相册</string>
 
-    <string name="menu_is_night_mode" translatable="false">is_night_mode</string>
+    <string name="menu_is_tip_enabled_title">应用启动时显示小提示</string>
+    <string name="menu_is_tip_enabled_summary_off">禁用</string>
+    <string name="menu_is_tip_enabled_summary_on">启用</string>
+
     <string name="menu_is_night_mode_title">夜间模式</string>
-    <string name="menu_is_night_mode_summary_off">关闭</string>
-    <string name="menu_is_night_mode_summary_on">开启</string>
+    <string name="menu_is_night_mode_summary_off">禁用</string>
+    <string name="menu_is_night_mode_summary_on">启用</string>
 
     <string name="menu_about" translatable="false">about</string>
     <string name="menu_about_title">关于</string>

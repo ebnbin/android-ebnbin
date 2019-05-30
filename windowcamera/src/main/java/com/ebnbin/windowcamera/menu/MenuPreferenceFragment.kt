@@ -13,6 +13,7 @@ import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.album.AlbumFragment
+import com.ebnbin.windowcamera.util.SpManager
 
 class MenuPreferenceFragment : EBPreferenceFragment(), PermissionFragment.Callback {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -26,7 +27,7 @@ class MenuPreferenceFragment : EBPreferenceFragment(), PermissionFragment.Callba
             }
         }
 
-        findPreference<SwitchPreference>(getString(R.string.menu_is_night_mode))?.apply {
+        findPreference<SwitchPreference>(SpManager.is_night_mode.requireKey())?.apply {
             setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
                 AppHelper.setNightMode(
@@ -41,8 +42,8 @@ class MenuPreferenceFragment : EBPreferenceFragment(), PermissionFragment.Callba
 
         findPreference<Preference>(getString(R.string.menu_about))?.apply {
             setOnPreferenceClickListener {
+                IntentHelper.startFragmentFromActivity(requireActivity(), AboutFragment.intent())
                 Libraries.eventBus.post(MenuDismissEvent)
-                IntentHelper.startFragmentFromFragment(this@MenuPreferenceFragment, AboutFragment.intent())
                 false
             }
         }
@@ -50,8 +51,8 @@ class MenuPreferenceFragment : EBPreferenceFragment(), PermissionFragment.Callba
 
     override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
         if (granted) {
+            IntentHelper.startFragmentFromActivity(requireActivity(), AlbumFragment::class.java)
             Libraries.eventBus.post(MenuDismissEvent)
-            IntentHelper.startFragmentFromFragment(this@MenuPreferenceFragment, AlbumFragment::class.java)
         }
     }
 }

@@ -19,6 +19,7 @@ import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.enumeration.Profile
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
+import com.ebnbin.windowcamera.util.SpManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
@@ -57,10 +58,10 @@ class MainFragment : EBFragment(),
 
         onEvent(WindowCameraServiceEvent)
         onEvent(CameraStateEvent)
-//
-//        if (savedInstanceState == null) {
-//            showTip()
-//        }
+
+        if (savedInstanceState == null) {
+            showTip()
+        }
     }
 
     override fun onDestroyView() {
@@ -137,6 +138,7 @@ class MainFragment : EBFragment(),
     //*****************************************************************************************************************
 
     private fun showTip() {
+        if (!SpManager.is_tip_enabled.value) return
         if (tipShown) return
         tipShown = true
         floating_action_button.post {

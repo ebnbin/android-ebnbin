@@ -7,15 +7,17 @@
         android:title="@string/menu_album_title"
         android:icon="@drawable/menu_album"/>
 
-    <androidx.preference.Preference
-        android:title="title2"/>
-
-    <androidx.preference.Preference
-        android:title="title3"/>
+    <androidx.preference.SwitchPreference
+        android:key="@string/sp_is_tip_enabled"
+        android:defaultValue="@bool/sp_is_tip_enabled_default_value"
+        android:title="@string/menu_is_tip_enabled_title"
+        android:summaryOff="@string/menu_is_tip_enabled_summary_off"
+        android:summaryOn="@string/menu_is_tip_enabled_summary_on"
+        android:icon="@drawable/menu_is_tip_enabled"/>
 
     <androidx.preference.SwitchPreference
-        android:key="@string/menu_is_night_mode"
-        android:defaultValue="false"
+        android:key="@string/sp_is_night_mode"
+        android:defaultValue="@bool/sp_is_night_mode_default_value"
         android:title="@string/menu_is_night_mode_title"
         android:summaryOff="@string/menu_is_night_mode_summary_off"
         android:summaryOn="@string/menu_is_night_mode_summary_on"

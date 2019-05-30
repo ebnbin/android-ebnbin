@@ -1,6 +1,8 @@
 package com.ebnbin.eb.sharedpreferences
 
 import android.content.SharedPreferences
+import androidx.annotation.StringRes
+import com.ebnbin.eb.util.res
 
 open class Sp<T>(
     val getKey: () -> String?,
@@ -9,6 +11,8 @@ open class Sp<T>(
     private val onChanged: ((oldValue: T?, newValue: T) -> Boolean)? = null
 ) {
     constructor(key: String, defaultValue: T) : this({ key }, { defaultValue })
+
+    constructor(@StringRes keyId: Int, defaultValue: T) : this(res.getString(keyId), defaultValue)
 
     var value: T
         get() {
