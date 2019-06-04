@@ -60,6 +60,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    applicationVariants.all { applicationVariant ->
+        applicationVariant.outputs.all {
+            def applicationId = project.ext.applicationId
+            def versionName = project.ext.version
+            def flavor = applicationVariant.flavorName
+            def buildType = applicationVariant.buildType.name
+            outputFileName = "$applicationId-$versionName-$flavor${"release" == buildType ? "" : "-$buildType"}.apk"
+        }
+    }
 }
 
 dependencies {
