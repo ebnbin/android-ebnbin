@@ -22,8 +22,7 @@
     <string name="camera_error_stop_repeating">发生错误：预览停止失败</string>
     <string name="camera_error_video_stop">发生错误：视频停止失败</string>
 
-    <string name="main_tip_ok">知道啦</string>
-    <string name="main_tip_title">【小提示】\n</string>
+    <string name="main_tip_title">【小提示】（右滑关闭）\n</string>
 
     <string-array name="main_tips">
         <item>设置“窗口宽高比”为“正方形”，再设置“窗口圆角”为“100”，可以得到圆形窗口哦！</item>

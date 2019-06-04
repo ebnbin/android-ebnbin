@@ -60,7 +60,7 @@ class MainFragment : EBFragment(),
         onEvent(CameraStateEvent)
 
         if (savedInstanceState == null) {
-            showTip()
+//            showTip()
         }
     }
 
@@ -145,9 +145,6 @@ class MainFragment : EBFragment(),
             val tip = "${getString(R.string.main_tip_title)}${TIPS[Random.nextInt(TIPS.size)]}"
             val snackbar = Snackbar.make(floating_action_button, tip, Snackbar.LENGTH_INDEFINITE)
                 .setAnchorView(floating_action_button)
-            snackbar.setAction(R.string.main_tip_ok) {
-                snackbar.dismiss()
-            }
             snackbar.view.findViewById<TextView>(R.id.snackbar_text).maxLines = 4
             snackbar.show()
         }

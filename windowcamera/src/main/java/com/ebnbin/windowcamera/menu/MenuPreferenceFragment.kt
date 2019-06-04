@@ -27,7 +27,7 @@ class MenuPreferenceFragment : EBPreferenceFragment(), PermissionFragment.Callba
             }
         }
 
-        findPreference<SwitchPreference>(SpManager.is_night_mode.requireKey())?.apply {
+        findPreference<SwitchPreference>(SpManager.is_night_mode_enabled.requireKey())?.apply {
             setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
                 AppHelper.setNightMode(

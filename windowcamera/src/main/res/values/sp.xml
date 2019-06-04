@@ -3,6 +3,6 @@
     <string name="sp_is_tip_enabled" translatable="false">is_tip_enabled</string>
     <bool name="sp_is_tip_enabled_default_value">true</bool>
 
-    <string name="sp_is_night_mode" translatable="false">is_night_mode</string>
-    <bool name="sp_is_night_mode_default_value">false</bool>
+    <string name="sp_is_night_mode_enabled" translatable="false">is_night_mode_enabled</string>
+    <bool name="sp_is_night_mode_enabled_default_value">false</bool>
 </resources>
