@@ -10,6 +10,7 @@ import android.media.ImageReader
 import android.media.MediaRecorder
 import android.media.MediaScannerConnection
 import android.view.Surface
+import androidx.core.os.bundleOf
 import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.AppHelper
@@ -95,11 +96,19 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
             override fun onDisconnected(camera: CameraDevice) {
                 // 通常发生在通过别的应用启动相机时.
-                onCameraError(R.string.camera_error_disconnected)
+                onCameraError(R.string.camera_error_disconnected, report = false)
+                DevHelper.report("camera_error", bundleOf(
+                    "message" to "disconnected",
+                    "cause" to ""
+                ))
             }
 
             override fun onError(camera: CameraDevice, error: Int) {
-                onCameraError(callback.getContext().getString(R.string.camera_error_code, error))
+                onCameraError(callback.getContext().getString(R.string.camera_error_code, error), report = false)
+                DevHelper.report("camera_error", bundleOf(
+                    "message" to "error_$error",
+                    "cause" to ""
+                ))
             }
         }
         try {
