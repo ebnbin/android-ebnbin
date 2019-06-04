@@ -30,7 +30,7 @@ object DevHelper {
         )
     }
 
-    fun report(name: String, params: Bundle) {
+    fun report(name: String, params: Bundle = Bundle.EMPTY) {
         if (debug) return
         Libraries.firebaseAnalytics.logEvent(name, params)
     }

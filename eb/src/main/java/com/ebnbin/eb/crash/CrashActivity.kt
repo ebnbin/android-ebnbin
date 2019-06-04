@@ -25,7 +25,11 @@ internal class CrashActivity : AppCompatActivity() {
             finish()
             return
         }
-        val caocConfig = CustomActivityOnCrash.getConfigFromIntent(intent)
+        val caocConfig = try {
+            CustomActivityOnCrash.getConfigFromIntent(intent)
+        } catch (e: Exception) {
+            null
+        }
         if (caocConfig == null) {
             finish()
             return
