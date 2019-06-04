@@ -8,8 +8,10 @@ import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.media.MediaRecorder
+import android.media.MediaScannerConnection
 import android.view.Surface
 import com.ebnbin.eb.dev.DevHelper
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.SystemServices
@@ -174,6 +176,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             file.writeBytes(byteArray)
             image.close()
             callback.toast(file)
+            scanFile(file)
         }
         imageReader.setOnImageAvailableListener(listener, null)
         val imageReaderSurface = imageReader.surface
@@ -429,6 +432,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             videoFile?.run {
                 videoFile = null
                 callback.toast(this)
+                scanFile(this)
             }
         }
 
@@ -516,6 +520,14 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             } else {
                 photoCapture()
             }
+        }
+    }
+
+    //*****************************************************************************************************************
+
+    private fun scanFile(file: File) {
+        MediaScannerConnection.scanFile(callback.getContext(), arrayOf(file.absolutePath), null) { _, _ ->
+            Libraries.eventBus.post(ScanFileEvent)
         }
     }
 

@@ -16,7 +16,10 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.imagevideo.ImageVideo
 import com.ebnbin.windowcamera.imagevideo.ImageVideoActivity
 import com.ebnbin.windowcamera.util.IOHelper
+import com.ebnbin.windowcamera.view.camera.ScanFileEvent
 import kotlinx.android.synthetic.main.album_fragment.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -236,5 +239,12 @@ class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
     }
 
     override fun onDialogDismiss(extraData: Bundle) {
+    }
+
+    override val isEventBusEnabled: Boolean = true
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: ScanFileEvent) {
+        invalidateAlbumItems()
     }
 }
