@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.viewpager.widget.ViewPager
+import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.update.UpdateFragment
@@ -21,6 +23,7 @@ import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.util.SpManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -74,6 +77,9 @@ class MainFragment : EBFragment(),
         ProfileHelper.profile.value = Profile.get(position).key
         if (changed) {
             (spinner.adapter as MainSpinnerAdapter?)?.notifyDataSetChanged()
+            DevHelper.report("profile_spinner", bundleOf(
+                FirebaseAnalytics.Param.VALUE to ProfileHelper.profile.value
+            ))
         }
         view_pager.adapter = MainPagerAdapter(childFragmentManager)
         (0 until tab_layout.tabCount).forEach {
@@ -115,12 +121,18 @@ class MainFragment : EBFragment(),
             listener = View.OnClickListener {
                 floating_action_button.isEnabled = false
                 WindowCameraService.stop(requireContext())
+                DevHelper.report("window_camera_service_fab", bundleOf(
+                    FirebaseAnalytics.Param.VALUE to "stop"
+                ))
             }
             isEnabled = false
         } else {
             imageId = R.drawable.main_camera
             listener = View.OnClickListener {
                 PermissionFragment.start(childFragmentManager, WindowCameraService.permissions)
+                DevHelper.report("window_camera_service_fab", bundleOf(
+                    FirebaseAnalytics.Param.VALUE to "start"
+                ))
             }
             isEnabled = true
         }
