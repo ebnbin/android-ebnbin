@@ -55,6 +55,8 @@ android {
         coding.dimension 'flavor'
         google.dimension 'flavor'
         coolapk.dimension 'flavor'
+        qq.dimension 'flavor'
+        mi.dimension 'flavor'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
