@@ -45,7 +45,7 @@ object CameraHelper {
             try {
                 Device(id, index)
             } catch (throwable: Throwable) {
-                DevHelper.report(throwable)
+                DevHelper.reportThrowable(throwable)
                 null
             }
         }

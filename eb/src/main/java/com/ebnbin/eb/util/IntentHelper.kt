@@ -21,7 +21,7 @@ object IntentHelper {
             context.startActivity(intent)
             true
         } catch (e: ActivityNotFoundException) {
-            DevHelper.report(e)
+            DevHelper.reportThrowable(e)
             false
         }
     }
@@ -40,7 +40,7 @@ object IntentHelper {
             activity.startActivityForResult(intent, requestCode)
             true
         } catch (e: ActivityNotFoundException) {
-            DevHelper.report(e)
+            DevHelper.reportThrowable(e)
             false
         }
     }
@@ -59,7 +59,7 @@ object IntentHelper {
             fragment.startActivityForResult(intent, requestCode)
             true
         } catch (e: ActivityNotFoundException) {
-            DevHelper.report(e)
+            DevHelper.reportThrowable(e)
             false
         }
     }

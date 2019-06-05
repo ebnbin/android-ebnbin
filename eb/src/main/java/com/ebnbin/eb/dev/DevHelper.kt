@@ -12,7 +12,7 @@ import com.ebnbin.eb.util.TimeHelper
 object DevHelper {
     private const val REPORT_EXPIRATION = 24 * 60 * 60 * 1000L
 
-    fun report(throwable: Throwable) {
+    fun reportThrowable(throwable: Throwable) {
         if (debug) return
         Crashlytics.logException(throwable)
     }
@@ -30,7 +30,7 @@ object DevHelper {
         )
     }
 
-    fun report(name: String, params: Bundle = Bundle.EMPTY) {
+    fun reportEvent(name: String, params: Bundle = Bundle.EMPTY) {
         if (debug) return
         Libraries.firebaseAnalytics.logEvent(name, params)
     }

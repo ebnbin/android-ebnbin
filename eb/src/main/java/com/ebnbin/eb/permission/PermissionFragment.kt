@@ -10,10 +10,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.R
-import com.ebnbin.eb.dev.DevHelper
 import com.ebnbin.eb.dialog.DialogCancel
 import com.ebnbin.eb.dialog.SimpleDialogFragment
-import com.ebnbin.eb.exception.WTFException
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.fragment.removeSelf
@@ -225,8 +223,7 @@ class PermissionFragment : EBFragment(), SimpleDialogFragment.Callback {
         when (requestCode) {
             REQUEST_CODE_RUNTIME_PERMISSIONS -> {
                 if (grantResults.isEmpty()) {
-                    // 正常情况下不应该发生.
-                    DevHelper.report(WTFException("grantResults isEmpty"))
+                    // 正常情况下不应该发生. 忽略即可.
                 } else {
                     checkRuntimePermissions(CheckRuntimePermissions.REQUEST_RESULT)
                 }

@@ -43,4 +43,8 @@ object TimeHelper {
     fun expired(lastTimestamp: Long, expiration: Long): Boolean {
         return long() - lastTimestamp >= expiration
     }
+
+    fun duration(startTimestamp: Long): Long {
+        return long() - startTimestamp
+    }
 }

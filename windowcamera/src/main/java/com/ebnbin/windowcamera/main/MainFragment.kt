@@ -77,7 +77,7 @@ class MainFragment : EBFragment(),
         ProfileHelper.profile.value = Profile.get(position).key
         if (changed) {
             (spinner.adapter as MainSpinnerAdapter?)?.notifyDataSetChanged()
-            DevHelper.report("profile_spinner", bundleOf(
+            DevHelper.reportEvent("profile_spinner", bundleOf(
                 FirebaseAnalytics.Param.VALUE to ProfileHelper.profile.value
             ))
         }
@@ -121,7 +121,7 @@ class MainFragment : EBFragment(),
             listener = View.OnClickListener {
                 floating_action_button.isEnabled = false
                 WindowCameraService.stop(requireContext())
-                DevHelper.report("window_camera_service_fab", bundleOf(
+                DevHelper.reportEvent("window_camera_service_fab", bundleOf(
                     FirebaseAnalytics.Param.VALUE to "stop"
                 ))
             }
@@ -130,7 +130,7 @@ class MainFragment : EBFragment(),
             imageId = R.drawable.main_camera
             listener = View.OnClickListener {
                 PermissionFragment.start(childFragmentManager, WindowCameraService.permissions)
-                DevHelper.report("window_camera_service_fab", bundleOf(
+                DevHelper.reportEvent("window_camera_service_fab", bundleOf(
                     FirebaseAnalytics.Param.VALUE to "start"
                 ))
             }

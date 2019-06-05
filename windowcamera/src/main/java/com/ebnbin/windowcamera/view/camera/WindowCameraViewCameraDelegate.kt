@@ -16,6 +16,7 @@ import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.ResHelper
 import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.eb.util.TimeHelper
 import com.ebnbin.eb.util.WindowHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.exception.CameraReportException
@@ -96,25 +97,18 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
             override fun onDisconnected(camera: CameraDevice) {
                 // 通常发生在通过别的应用启动相机时.
-                onCameraError(R.string.camera_error_disconnected, report = false)
-                DevHelper.report("camera_error", bundleOf(
-                    "message" to "disconnected",
-                    "cause" to ""
-                ))
+                onCameraError("disconnected", toast = R.string.camera_error_disconnected)
             }
 
             override fun onError(camera: CameraDevice, error: Int) {
-                onCameraError(callback.getContext().getString(R.string.camera_error_code, error), report = false)
-                DevHelper.report("camera_error", bundleOf(
-                    "message" to "error_$error",
-                    "cause" to ""
-                ))
+                onCameraError("error_$error",
+                    toast = callback.getContext().getString(R.string.camera_error_error, error))
             }
         }
         try {
             SystemServices.cameraManager.openCamera(ProfileHelper.device().id, callback, null)
         } catch (e: Exception) {
-            onCameraError(R.string.camera_error_open, e)
+            onCameraError("open_camera", cause = e, toast = R.string.camera_error_open_camera)
             return
         }
     }
@@ -163,13 +157,14 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun startPhotoPreview() {
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(R.string.camera_error_camera_device_null)
+            onCameraError("camera_device_null_start_photo_preview", toast = R.string.camera_error_camera_device_null)
             return
         }
 
         val surfaceTexture = callback.getSurfaceTexture()
         if (surfaceTexture == null) {
-            onCameraError(R.string.camera_error_surface_texture_null)
+            onCameraError("surface_texture_null_start_photo_preview",
+                toast = R.string.camera_error_surface_texture_null)
             return
         }
         val surface = Surface(surfaceTexture)
@@ -194,14 +189,10 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val outputs = listOf(surface, imageReaderSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
-                if (ProfileHelper.is_preview.value || ProfileHelper.is_video.value) {
-                    onCameraError(R.string.camera_error_state, toast = false, stopService = false)
-                    return
-                }
-
                 val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
                 if (innerCameraDevice == null) {
-                    onCameraError(R.string.camera_error_camera_device_null)
+                    onCameraError("inner_camera_device_null_start_photo_preview",
+                        toast = R.string.camera_error_camera_device_null)
                     return
                 }
 
@@ -215,13 +206,15 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError(R.string.camera_error_camera_capture_session_configure_failed)
+                onCameraError("configure_failed_start_photo_preview",
+                    toast = R.string.camera_error_camera_capture_session_configure_failed)
             }
         }
         try {
             cameraDevice.createCaptureSession(outputs, callback, null)
         } catch (e: Exception) {
-            onCameraError(R.string.camera_error_create_capture_session, e)
+            onCameraError("create_capture_session_start_photo_preview", cause = e,
+                toast = R.string.camera_error_create_capture_session)
         }
     }
 
@@ -231,7 +224,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                onCameraError(R.string.camera_error_stop_repeating, e, toast = false, stopService = false)
+                onCameraError("stop_repeating_stop_photo_preview", cause = e, stopService = false)
             }
             close()
         }
@@ -245,19 +238,20 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun photoCapture() {
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(R.string.camera_error_camera_device_null)
+            onCameraError("camera_device_null_photo_capture", toast = R.string.camera_error_camera_device_null)
             return
         }
 
         val cameraCaptureSession = cameraCaptureSession
         if (cameraCaptureSession == null) {
-            onCameraError(R.string.camera_error_photo_capture_init)
+            onCameraError("camera_capture_session_null_photo_capture",
+                toast = R.string.camera_error_photo_capture_init)
             return
         }
 
         val imageReader = imageReader
         if (imageReader == null) {
-            onCameraError(R.string.camera_error_photo_capture_init)
+            onCameraError("image_reader_null_photo_capture", toast = R.string.camera_error_photo_capture_init)
             return
         }
         val imageReaderSurface = imageReader.surface
@@ -275,13 +269,14 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun startVideoPreview() {
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(R.string.camera_error_camera_device_null)
+            onCameraError("camera_device_null_start_video_preview", toast = R.string.camera_error_camera_device_null)
             return
         }
 
         val surfaceTexture = callback.getSurfaceTexture()
         if (surfaceTexture == null) {
-            onCameraError(R.string.camera_error_surface_texture_null)
+            onCameraError("surface_texture_null_start_video_preview",
+                toast = R.string.camera_error_surface_texture_null)
             return
         }
         val surface = Surface(surfaceTexture)
@@ -289,14 +284,10 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val outputs = listOf(surface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
-                if (ProfileHelper.is_preview.value || !ProfileHelper.is_video.value) {
-                    onCameraError(R.string.camera_error_state, toast = false, stopService = false)
-                    return
-                }
-
                 val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
                 if (innerCameraDevice == null) {
-                    onCameraError(R.string.camera_error_camera_device_null)
+                    onCameraError("inner_camera_device_null_start_video_preview",
+                        toast = R.string.camera_error_camera_device_null)
                     return
                 }
 
@@ -310,13 +301,15 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError(R.string.camera_error_camera_capture_session_configure_failed)
+                onCameraError("configure_failed_start_video_preview",
+                    toast = R.string.camera_error_camera_capture_session_configure_failed)
             }
         }
         try {
             cameraDevice.createCaptureSession(outputs, callback, null)
         } catch (e: Exception) {
-            onCameraError(R.string.camera_error_create_capture_session, e)
+            onCameraError("create_capture_session_start_video_preview", cause = e,
+                toast = R.string.camera_error_create_capture_session)
         }
     }
 
@@ -328,7 +321,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                onCameraError(R.string.camera_error_stop_repeating, e, toast = false, stopService = false)
+                onCameraError("stop_repeating_stop_video_preview", cause = e, stopService = false)
             }
             close()
         }
@@ -337,19 +330,22 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private var mediaRecorder: MediaRecorder? = null
     private var videoFile: File? = null
     private var isVideoRecording: Boolean = false
+    private var videoStartTimestamp: Long? = null
 
     private fun startVideoCapture() {
         stopVideoPreview()
 
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(R.string.camera_error_camera_device_null)
+            onCameraError("surface_texture_null_start_video_capture",
+                toast = R.string.camera_error_surface_texture_null)
             return
         }
 
         val surfaceTexture = callback.getSurfaceTexture()
         if (surfaceTexture == null) {
-            onCameraError(R.string.camera_error_surface_texture_null)
+            onCameraError("surface_texture_null_start_video_capture",
+                toast = R.string.camera_error_surface_texture_null)
             return
         }
         val surface = Surface(surfaceTexture)
@@ -366,7 +362,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             mediaRecorder.prepare()
             mediaRecorder.surface ?: throw NullPointerException()
         } catch (e: Exception) {
-            onCameraError(R.string.camera_error_video_capture_init, e)
+            onCameraError("media_recorder_init", cause = e, toast = R.string.camera_error_video_capture_init)
             return
         }
         this.mediaRecorder = mediaRecorder
@@ -375,14 +371,10 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val outputs = listOf(surface, mediaRecorderSurface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
-                if (ProfileHelper.is_preview.value || !ProfileHelper.is_video.value) {
-                    onCameraError(R.string.camera_error_state, toast = false, stopService = false)
-                    return
-                }
-
                 val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
                 if (innerCameraDevice == null) {
-                    onCameraError(R.string.camera_error_camera_device_null)
+                    onCameraError("inner_camera_device_null_start_video_capture",
+                        toast = R.string.camera_error_camera_device_null)
                     return
                 }
 
@@ -393,20 +385,28 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 session.setRepeatingRequest(request, null, null)
                 cameraCaptureSession = session
 
-                mediaRecorder.start()
-                isVideoRecording = true
+                try {
+                    mediaRecorder.start()
+                } catch (e: Exception) {
+                    onCameraError("media_recorder_start", cause = e, toast = R.string.camera_error_video_start)
+                    return
+                }
 
+                videoStartTimestamp = TimeHelper.long()
+                isVideoRecording = true
                 ProfileHelper.cameraState = CameraState.CAPTURING_VIDEO
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError(R.string.camera_error_camera_capture_session_configure_failed)
+                onCameraError("configure_failed_start_video_capture",
+                    toast = R.string.camera_error_camera_capture_session_configure_failed)
             }
         }
         try {
             cameraDevice.createCaptureSession(outputs, callback, null)
         } catch (e: Exception) {
-            onCameraError(R.string.camera_error_create_capture_session, e)
+            onCameraError("create_capture_session_start_video_capture", cause = e,
+                toast = R.string.camera_error_create_capture_session)
         }
     }
 
@@ -419,17 +419,20 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                 try {
                     stopRepeating()
                 } catch (e: Exception) {
-                    onCameraError(R.string.camera_error_stop_repeating, e, toast = false, stopService = false)
+                    onCameraError("stop_repeating_stop_video_capture", cause = e, stopService = false)
                 }
                 close()
             }
 
             mediaRecorder?.run {
                 mediaRecorder = null
+                val videoDuration = videoStartTimestamp?.let { TimeHelper.duration(it) } ?: 0L
+                videoStartTimestamp = null
                 try {
                     stop()
                 } catch (e: Exception) {
-                    onCameraError(R.string.camera_error_video_stop, e, toast = false, stopService = false)
+                    onCameraError("media_recorder_stop", cause = e, extra = videoDuration.toString(),
+                        stopService = false)
                     videoFile?.run {
                         videoFile = null
                         delete()
@@ -455,13 +458,15 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     private fun startOnlyPreview() {
         val cameraDevice = cameraDevice
         if (cameraDevice == null) {
-            onCameraError(R.string.camera_error_camera_device_null)
+            onCameraError("surface_texture_null_start_only_preview",
+                toast = R.string.camera_error_surface_texture_null)
             return
         }
 
         val surfaceTexture = callback.getSurfaceTexture()
         if (surfaceTexture == null) {
-            onCameraError(R.string.camera_error_surface_texture_null)
+            onCameraError("surface_texture_null_start_only_preview",
+                toast = R.string.camera_error_surface_texture_null)
             return
         }
         val surface = Surface(surfaceTexture)
@@ -469,14 +474,10 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         val outputs = listOf(surface)
         val callback = object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
-                if (!ProfileHelper.is_preview.value) {
-                    onCameraError(R.string.camera_error_state, toast = false, stopService = false)
-                    return
-                }
-
                 val innerCameraDevice = this@WindowCameraViewCameraDelegate.cameraDevice
                 if (innerCameraDevice == null) {
-                    onCameraError(R.string.camera_error_camera_device_null)
+                    onCameraError("inner_camera_device_null_start_only_preview",
+                        toast = R.string.camera_error_camera_device_null)
                     return
                 }
 
@@ -490,13 +491,15 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
 
             override fun onConfigureFailed(session: CameraCaptureSession) {
-                onCameraError(R.string.camera_error_camera_capture_session_configure_failed)
+                onCameraError("configure_failed_start_only_preview",
+                    toast = R.string.camera_error_camera_capture_session_configure_failed)
             }
         }
         try {
             cameraDevice.createCaptureSession(outputs, callback, null)
         } catch (e: Exception) {
-            onCameraError(R.string.camera_error_create_capture_session, e)
+            onCameraError("create_capture_session_start_only_preview", cause = e,
+                toast = R.string.camera_error_create_capture_session)
         }
     }
 
@@ -506,7 +509,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             try {
                 stopRepeating()
             } catch (e: Exception) {
-                onCameraError(R.string.camera_error_stop_repeating, e, toast = false, stopService = false)
+                onCameraError("stop_repeating_stop_only_preview", cause = e, stopService = false)
             }
             close()
         }
@@ -543,21 +546,36 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     //*****************************************************************************************************************
 
     /**
-     * 相机异常.
+     * @param message 用于 reportEvent 和 reportThrowable.
+     *
+     * @param cause 用于 reportEvent 和 reportThrowable.
+     *
+     * @param extra 用于 reportEvent 和 reportThrowable.
+     *
+     * @param reportThrowable 是否 reportThrowable.
+     *
+     * @param toast 如果不为空则 toast.
+     *
+     * @param stopService 是否停止 WindowCameraService.
      */
     private fun onCameraError(
-        any: Any?,
-        throwable: Throwable? = null,
-        report: Boolean = true,
-        toast: Boolean = true,
+        message: String,
+        cause: Throwable? = null,
+        extra: String? = null,
+        reportThrowable: Boolean = false,
+        toast: Any? = null,
         stopService: Boolean = true
     ) {
-        val string = ResHelper.getString(any)
-        if (report) {
-            DevHelper.report(CameraReportException(string, throwable))
+        DevHelper.reportEvent("camera_error", bundleOf(
+            "message" to message,
+            "cause" to cause.toString(),
+            "extra" to extra.toString()
+        ))
+        if (reportThrowable) {
+            DevHelper.reportThrowable(CameraReportException(message, cause, extra))
         }
-        if (toast) {
-            AppHelper.toast(callback.getContext(), string)
+        if (toast != null) {
+            AppHelper.toast(callback.getContext(), ResHelper.getString(toast))
         }
         if (stopService) {
             WindowCameraService.stop(callback.getContext())
