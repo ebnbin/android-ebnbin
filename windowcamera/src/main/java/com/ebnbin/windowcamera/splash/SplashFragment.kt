@@ -27,7 +27,7 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback {
                 finish()
                 return
             } else {
-                throw CameraInvalidException()
+                throw CameraInvalidException(CameraHelper.getInvalidString())
             }
         } catch (throwable: Throwable) {
             DevHelper.reportThrowable(throwable)

@@ -83,6 +83,11 @@ object CameraHelper {
         return backDevice != null && frontDevice != null
     }
 
+    fun getInvalidString(): String {
+        if (isValid()) return ""
+        return devices.joinToString(",") { it.getInvalidString() }
+    }
+
     //*****************************************************************************************************************
 
     fun report(): Report.Camera {
@@ -261,6 +266,11 @@ object CameraHelper {
                     previewLessOrEqualsResolutions.isNotEmpty() &&
                     photoResolutions.isNotEmpty() &&
                     videoProfiles.isNotEmpty()
+        }
+
+        fun getInvalidString(): String {
+            if (isValid()) return "{$id}"
+            return "{$id,$isExternal,${previewLessOrEqualsResolutions.size},${photoResolutions.size},${videoProfiles.size}}"
         }
 
         //*************************************************************************************************************
