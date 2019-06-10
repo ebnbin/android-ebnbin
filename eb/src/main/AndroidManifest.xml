@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ebnbin.eb">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
@@ -15,7 +16,9 @@
         android:theme="@style/EBTheme"
         android:icon="@mipmap/eb_icon"
         android:roundIcon="@mipmap/eb_icon"
-        android:logo="@drawable/eb_logo_198">
+        android:logo="@drawable/eb_logo_198"
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="29">
         <activity
             android:name=".crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>

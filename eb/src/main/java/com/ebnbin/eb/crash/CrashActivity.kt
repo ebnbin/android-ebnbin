@@ -41,7 +41,7 @@ internal class CrashActivity : AppCompatActivity() {
             val log = getLog(intent)
             eb_copy_view.setOnClickListener {
                 val clipboardManager = getSystemService<ClipboardManager>() ?: return@setOnClickListener
-                clipboardManager.primaryClip = ClipData.newPlainText(CrashActivity::class.java.name, log)
+                clipboardManager.setPrimaryClip(ClipData.newPlainText(CrashActivity::class.java.name, log))
                 Toast.makeText(this, R.string.eb_crash_copied, Toast.LENGTH_SHORT).show()
             }
             eb_log_text_view.text = log
