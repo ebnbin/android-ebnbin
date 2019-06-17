@@ -52,7 +52,11 @@ class Report : EBReport() {
 
     override fun create(): Report {
         super.create()
-        this.camera = CameraHelper.report()
+        this.camera = try {
+            CameraHelper.report()
+        } catch (throwable: Throwable) {
+            null
+        }
         return this
     }
 }

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="eb_splash_signature_message">应用签名异常，请通过浏览器下载安装包，卸载并重新安装应用。</string>
+    <string name="eb_splash_signature_positive">打开浏览器下载</string>
+    <string name="eb_splash_signature_negative">退出应用</string>
+    <string name="eb_splash_signature_toast">应用签名异常</string>
+    <string name="eb_splash_signature_copied">已复制下载链接</string>
+
     <!-- 闪屏主题. -->
     <style name="EBTheme.Splash">
         <item name="android:windowBackground">@drawable/eb_splash_window_background</item>

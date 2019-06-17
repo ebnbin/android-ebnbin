@@ -7,5 +7,5 @@ object DeviceHelper {
     @SuppressLint("HardwareIds")
     val ANDROID_ID: String = Settings.Secure.getString(ebApp.contentResolver, Settings.Secure.ANDROID_ID).toString()
 
-    val DEVICE_ID: String = DataHelper.md5(ANDROID_ID)
+    val DEVICE_ID: String = DataHelper.md5ToString(ANDROID_ID)
 }

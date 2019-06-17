@@ -16,7 +16,7 @@ object GitHubApi {
                 it.proceed(it.request()
                     .newBuilder()
                     .addHeader("Authorization",
-                        "Basic ${DataHelper.base64Encode("${BuildConfig.GITHUB_API_TOKEN}:x-oauth-basic")}")
+                        "Basic ${DataHelper.base64EncodeToString("${BuildConfig.GITHUB_API_TOKEN}:x-oauth-basic")}")
                     .build())
             }
             .build())

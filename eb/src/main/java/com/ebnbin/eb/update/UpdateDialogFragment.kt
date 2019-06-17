@@ -215,7 +215,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
     private fun invalidatePositiveButton(): Boolean {
         val positiveButton = (dialog as AlertDialog?)?.getButton(AlertDialog.BUTTON_POSITIVE) ?: return false
         val file = getFile()
-        val canInstall = file.exists() && DataHelper.md5(file) == update.md5
+        val canInstall = file.exists() && DataHelper.md5ToString(file) == update.md5
         if (canInstall) {
             positiveButton.setText(R.string.eb_update_install)
             positiveButton.setOnClickListener {

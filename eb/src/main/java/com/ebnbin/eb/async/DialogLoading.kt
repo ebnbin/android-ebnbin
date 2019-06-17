@@ -6,7 +6,7 @@ import com.ebnbin.eb.R
 import com.ebnbin.eb.dialog.DialogCancel
 import io.reactivex.disposables.Disposable
 
-internal class DialogLoading<T>(private val context: Context, private val dialogCancel: DialogCancel) : Loading<T> {
+class DialogLoading<T>(private val context: Context, private val dialogCancel: DialogCancel) : Loading<T> {
     private var dialog: AppCompatDialog? = null
 
     override fun onStart(key: String, loadings: LinkedHashMap<String, Loading<*>>, disposable: Disposable) {

@@ -1,5 +1,6 @@
 package com.ebnbin.eb.util
 
+import android.content.pm.PackageManager
 import android.os.Build
 
 object BuildHelper {
@@ -25,6 +26,27 @@ object BuildHelper {
             val packageInfo = ebApp.packageManager.getPackageInfo(applicationId, 0)
             return packageInfo.versionName
         }
+
+    val signatureMD5: String
+        get() {
+            val signature = if (sdk28P()) {
+                val signingInfo = ebApp.packageManager
+                    .getPackageInfo(applicationId, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
+                if (signingInfo.hasMultipleSigners()) {
+                    signingInfo.apkContentsSigners
+                } else {
+                    signingInfo.signingCertificateHistory
+                }
+            } else {
+                @Suppress("DEPRECATION")
+                ebApp.packageManager.getPackageInfo(applicationId, PackageManager.GET_SIGNATURES).signatures
+            }[0]
+            return DataHelper.md5ToString(signature.toByteArray())
+        }
+
+    fun isSignatureValid(): Boolean {
+        return signatureMD5 == "f19d826f5e45fdd1389f0b6b9878c263"
+    }
 
     /**
      * 判断 sdk 版本.

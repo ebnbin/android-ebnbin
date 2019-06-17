@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.dev.DevHelper
+import com.ebnbin.eb.dev.EBReport
 import com.ebnbin.eb.dialog.DialogCancel
 import com.ebnbin.eb.dialog.SimpleDialogFragment
 import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
@@ -16,12 +17,10 @@ import com.ebnbin.windowcamera.camera.exception.CameraInvalidException
 import com.ebnbin.windowcamera.dev.Report
 import com.ebnbin.windowcamera.main.MainActivity
 
-class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class SplashFragment : EBSplashFragment() {
+    override fun onInit(savedInstanceState: Bundle?) {
+        super.onInit(savedInstanceState)
         try {
-            CameraHelper
-            DevHelper.report { Report().create() }
             if (CameraHelper.isValid()) {
                 IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
                 finish()
@@ -46,27 +45,18 @@ class SplashFragment : EBSplashFragment(), SimpleDialogFragment.Callback {
         )
     }
 
+    override fun createReport(): EBReport {
+        return Report().create()
+    }
+
     override fun onDialogPositive(extraData: Bundle): Boolean {
         when (extraData.getString(Consts.KEY_CALLING_ID)) {
             "splash_camera" -> {
                 finish()
                 return true
             }
-            else -> {
-                return true
-            }
+            else -> return super.onDialogPositive(extraData)
         }
-    }
-
-    override fun onDialogNegative(extraData: Bundle): Boolean {
-        return true
-    }
-
-    override fun onDialogNeutral(extraData: Bundle): Boolean {
-        return true
-    }
-
-    override fun onDialogDismiss(extraData: Bundle) {
     }
 
     override fun onNewVersion(oldVersion: Int, newVersion: Int) {

@@ -117,7 +117,7 @@ class AsyncHelper {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
-                val content = DataHelper.base64Decode(it.content)
+                val content = DataHelper.base64DecodeToString(it.content)
                 val t = Libraries.gson.fromJson<T>(content, classOfT)
                 t
             }
@@ -160,7 +160,7 @@ class AsyncHelper {
                 val putContentsRequest = PutContentsRequest()
                 putContentsRequest.message =
                     "${BuildHelper.simpleApplicationId} ${BuildHelper.versionName} ${DeviceHelper.DEVICE_ID}"
-                putContentsRequest.content = DataHelper.base64Encode(Libraries.gson.toJson(t))
+                putContentsRequest.content = DataHelper.base64EncodeToString(Libraries.gson.toJson(t))
                 putContentsRequest.sha = it.firstOrNull { content -> content.name == name }?.sha
                 GitHubApi.api.putContents("${BuildHelper.simpleApplicationId}$path", putContentsRequest)
             }
