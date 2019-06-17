@@ -159,7 +159,7 @@ class AsyncHelper {
             .flatMap {
                 val putContentsRequest = PutContentsRequest()
                 putContentsRequest.message =
-                    "${BuildHelper.simpleApplicationId} ${BuildHelper.versionName} ${DeviceHelper.DEVICE_ID}"
+                    "${BuildHelper.simpleApplicationId} ${BuildHelper.versionCode} ${DeviceHelper.DEVICE_ID}"
                 putContentsRequest.content = DataHelper.base64EncodeToString(Libraries.gson.toJson(t))
                 putContentsRequest.sha = it.firstOrNull { content -> content.name == name }?.sha
                 GitHubApi.api.putContents("${BuildHelper.simpleApplicationId}$path", putContentsRequest)

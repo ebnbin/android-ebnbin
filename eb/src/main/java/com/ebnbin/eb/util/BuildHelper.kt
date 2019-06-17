@@ -1,6 +1,7 @@
 package com.ebnbin.eb.util
 
 import android.content.pm.PackageManager
+import android.content.pm.Signature
 import android.os.Build
 
 object BuildHelper {
@@ -27,25 +28,22 @@ object BuildHelper {
             return packageInfo.versionName
         }
 
-    val signatureMD5: String
-        get() {
-            val signature = if (sdk28P()) {
-                val signingInfo = ebApp.packageManager
-                    .getPackageInfo(applicationId, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
-                if (signingInfo.hasMultipleSigners()) {
-                    signingInfo.apkContentsSigners
-                } else {
-                    signingInfo.signingCertificateHistory
-                }
+    val signatures: List<Signature>
+        get() = if (sdk28P()) {
+            val signingInfo = ebApp.packageManager
+                .getPackageInfo(applicationId, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
+            if (signingInfo.hasMultipleSigners()) {
+                signingInfo.apkContentsSigners
             } else {
-                @Suppress("DEPRECATION")
-                ebApp.packageManager.getPackageInfo(applicationId, PackageManager.GET_SIGNATURES).signatures
-            }[0]
-            return DataHelper.md5ToString(signature.toByteArray())
-        }
+                signingInfo.signingCertificateHistory
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            ebApp.packageManager.getPackageInfo(applicationId, PackageManager.GET_SIGNATURES).signatures
+        }.toList()
 
     fun isSignatureValid(): Boolean {
-        return signatureMD5 == "f19d826f5e45fdd1389f0b6b9878c263"
+        return DataHelper.md5ToString(signatures[0].toByteArray()) == "f19d826f5e45fdd1389f0b6b9878c263"
     }
 
     /**

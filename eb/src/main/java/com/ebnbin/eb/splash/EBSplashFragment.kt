@@ -3,6 +3,7 @@ package com.ebnbin.eb.splash
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.R
 import com.ebnbin.eb.async.DialogLoading
 import com.ebnbin.eb.dev.DevHelper
@@ -21,7 +22,7 @@ open class EBSplashFragment : EBFragment(), SimpleDialogFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DevHelper.report { createReport() }
-        if (BuildHelper.isSignatureValid()) {
+        if (BuildConfig.FLAVOR == "google" || BuildHelper.isSignatureValid()) {
             onInit(savedInstanceState)
         } else {
             asyncHelper.githubGetJson(
