@@ -1,6 +1,6 @@
 ext {
     applicationId = 'windowcamera'
-    versionName = '0.5.1-1'
+    versionName = '0.5.1'
 }
 
 apply from: file('../eb/application.gradle')
