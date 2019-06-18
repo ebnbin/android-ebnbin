@@ -7,4 +7,6 @@ import com.ebnbin.windowcamera.R
 object SpManager {
     val is_night_mode_enabled: Sp<Boolean> = Sp(R.string.sp_is_night_mode_enabled, res.getBoolean(R.bool.sp_is_night_mode_enabled_default_value))
     val is_tip_enabled: Sp<Boolean> = Sp(R.string.sp_is_tip_enabled, res.getBoolean(R.bool.sp_is_tip_enabled_default_value))
+
+    val v60000_path: Sp<Boolean> = Sp("v60000_path", false)
 }
