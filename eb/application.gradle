@@ -59,7 +59,9 @@ android {
         google.dimension 'flavor'
         coolapk.dimension 'flavor'
         qq.dimension 'flavor'
+        uc.dimension 'flavor'
         mi.dimension 'flavor'
+        huawei.dimension 'flavor'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
