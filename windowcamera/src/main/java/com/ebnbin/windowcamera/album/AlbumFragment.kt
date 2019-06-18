@@ -70,6 +70,7 @@ class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
             }
             true
         }
+        adapter.setEmptyView(R.layout.album_empty, recycler_view)
         recycler_view.adapter = adapter
 
         invalidateAlbumItems()
