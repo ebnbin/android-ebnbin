@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.media.MediaRecorder
+import android.media.MediaScannerConnection
 import android.view.Surface
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.dev.DevHelper
@@ -176,10 +177,6 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             val byteArray = ByteArray(byteBuffer.remaining())
             byteBuffer.get(byteArray)
             val file = IOHelper.nextFile(".jpg")
-            if (file == null) {
-                onCameraError("file_null_photo", toast = R.string.camera_error_file_null)
-                return@OnImageAvailableListener
-            }
             file.writeBytes(byteArray)
             image.close()
             callback.toast(file)
@@ -387,10 +384,6 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
         val videoProfile = ProfileHelper.videoProfile()
         val videoFile = IOHelper.nextFile(videoProfile.extension)
-        if (videoFile == null) {
-            onCameraError("file_null_video", toast = R.string.camera_error_file_null)
-            return
-        }
         val mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
@@ -601,7 +594,9 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
     //*****************************************************************************************************************
 
     private fun scanFile(file: File) {
-        Libraries.eventBus.post(ScanFileEvent)
+        MediaScannerConnection.scanFile(callback.getContext(), arrayOf(file.absolutePath), null) { _, _ ->
+            Libraries.eventBus.post(ScanFileEvent)
+        }
     }
 
     //*****************************************************************************************************************

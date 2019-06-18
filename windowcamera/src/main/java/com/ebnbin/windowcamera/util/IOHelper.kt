@@ -1,21 +1,22 @@
 package com.ebnbin.windowcamera.util
 
 import android.os.Environment
+import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.TimeHelper
-import com.ebnbin.eb.util.ebApp
 import java.io.File
 
 object IOHelper {
-    fun getPath(): File? {
-        val result = ebApp.getExternalFilesDir(Environment.DIRECTORY_DCIM) ?: return null
+    fun getPath(): File {
+        val result = File(Environment.getExternalStorageDirectory(),
+            "${BuildHelper.applicationId}/${Environment.DIRECTORY_DCIM}/")
         if (!result.exists()) {
             result.mkdirs()
         }
         return result
     }
 
-    fun nextFile(extension: String): File? {
-        val path = getPath() ?: return null
+    fun nextFile(extension: String): File {
+        val path = getPath()
         val fileName = "${TimeHelper.string("yyyy_MM_dd_HH_mm_ss_SSS")}$extension"
         return File(path, fileName)
     }
@@ -25,16 +26,15 @@ object IOHelper {
 
     fun refreshFiles() {
         files = getPath()
-            ?.listFiles { _, name ->
+            .listFiles { _, name ->
                 when (name.substringAfterLast(".")) {
                     "jpg", "mp4", "3gp" -> true
                     else -> false
                 }
             }
-            ?.toSortedSet(Comparator { file1, file2 ->
+            .toSortedSet(Comparator { file1, file2 ->
                 compareValuesBy(file2, file1, File::lastModified, File::getName)
             })
-            ?.toList()
-            ?: ArrayList()
+            .toList()
     }
 }
