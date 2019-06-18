@@ -23,6 +23,7 @@
     <string name="camera_error_video_start">发生错误：视频拍摄开始失败</string>
     <string name="camera_error_set_repeating_request">发生错误：相机配置异常</string>
     <string name="camera_error_create_capture_request">发生错误：相机配置异常</string>
+    <string name="camera_error_file_null">发生错误：无法保存文件</string>
 
     <string name="main_tip_title">【小提示】（右滑关闭）\n</string>
 
