@@ -24,6 +24,7 @@ open class EBApplication : Application() {
 
     private fun initCaoc() {
         CaocConfig.Builder.create()
+            .enabled(debug)
             .errorActivity(CrashActivity::class.java)
             .apply()
     }
