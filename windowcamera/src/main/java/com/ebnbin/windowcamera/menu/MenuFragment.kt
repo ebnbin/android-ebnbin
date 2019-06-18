@@ -15,7 +15,13 @@ import org.greenrobot.eventbus.ThreadMode
 class MenuFragment : EBDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(R.layout.menu_fragment)
+        try {
+            dialog.setContentView(R.layout.menu_fragment)
+        } catch (e: IllegalArgumentException) {
+            // 发生在 MenuFragment 还没关闭再次打开导致 MenuPreferenceFragment 被重复添加.
+            dismissAllowingStateLoss()
+            return dialog
+        }
         dialog.behavior.skipCollapsed = true
         dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         return dialog

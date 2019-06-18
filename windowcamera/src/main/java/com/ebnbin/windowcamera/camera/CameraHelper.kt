@@ -84,7 +84,7 @@ object CameraHelper {
     }
 
     fun getInvalidString(): String {
-        if (isValid()) return ""
+        if (isValid()) return "Valid"
         return devices.joinToString(",") { it.getInvalidString() }
     }
 

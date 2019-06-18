@@ -12,7 +12,7 @@ object DataHelper {
     }
 
     fun md5ToString(string: String): String {
-        return md5ToString(string.toByteArray())
+        return md5ToString(string.toByteArray(Charsets.UTF_8))
     }
 
     fun md5ToString(file: File): String {

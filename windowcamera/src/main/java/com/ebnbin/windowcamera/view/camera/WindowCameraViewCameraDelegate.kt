@@ -196,10 +196,23 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                     return
                 }
 
-                val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+
+                val captureRequestBuilder = try {
+                    innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                } catch (e: Exception) {
+                    onCameraError("create_capture_request_start_photo_preview", cause = e,
+                        toast = R.string.camera_error_create_capture_request)
+                    return
+                }
                 captureRequestBuilder.addTarget(surface)
                 val request = captureRequestBuilder.build()
-                session.setRepeatingRequest(request, null, null)
+                try {
+                    session.setRepeatingRequest(request, null, null)
+                } catch (e: Exception) {
+                    onCameraError("set_repeating_request_start_photo_preview", cause = e,
+                        toast = R.string.camera_error_set_repeating_request)
+                    return
+                }
                 cameraCaptureSession = session
 
                 ProfileHelper.cameraState = CameraState.PREVIEWING_PHOTO
@@ -256,7 +269,14 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
         }
         val imageReaderSurface = imageReader.surface
 
-        val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
+
+        val captureRequestBuilder = try {
+            cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
+        } catch (e: Exception) {
+            onCameraError("create_capture_request_photo_capture", cause = e,
+                toast = R.string.camera_error_create_capture_request)
+            return
+        }
         captureRequestBuilder.addTarget(imageReaderSurface)
         captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION,
             ProfileHelper.device().sensorOrientations[WindowHelper.displayRotation])
@@ -291,10 +311,22 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                     return
                 }
 
-                val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                val captureRequestBuilder = try {
+                    innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                } catch (e: Exception) {
+                    onCameraError("create_capture_request_start_video_preview", cause = e,
+                        toast = R.string.camera_error_create_capture_request)
+                    return
+                }
                 captureRequestBuilder.addTarget(surface)
                 val request = captureRequestBuilder.build()
-                session.setRepeatingRequest(request, null, null)
+                try {
+                    session.setRepeatingRequest(request, null, null)
+                } catch (e: Exception) {
+                    onCameraError("set_repeating_request_start_video_preview", cause = e,
+                        toast = R.string.camera_error_set_repeating_request)
+                    return
+                }
                 cameraCaptureSession = session
 
                 ProfileHelper.cameraState = CameraState.PREVIEWING_VIDEO
@@ -378,11 +410,23 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                     return
                 }
 
-                val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
+                val captureRequestBuilder = try {
+                    innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
+                } catch (e: Exception) {
+                    onCameraError("create_capture_request_start_video_capture", cause = e,
+                        toast = R.string.camera_error_create_capture_request)
+                    return
+                }
                 captureRequestBuilder.addTarget(surface)
                 captureRequestBuilder.addTarget(mediaRecorderSurface)
                 val request = captureRequestBuilder.build()
-                session.setRepeatingRequest(request, null, null)
+                try {
+                    session.setRepeatingRequest(request, null, null)
+                } catch (e: Exception) {
+                    onCameraError("set_repeating_request_start_video_capture", cause = e,
+                        toast = R.string.camera_error_set_repeating_request)
+                    return
+                }
                 cameraCaptureSession = session
 
                 try {
@@ -481,10 +525,22 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
                     return
                 }
 
-                val captureRequestBuilder = innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                val captureRequestBuilder = try {
+                    innerCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                } catch (e: Exception) {
+                    onCameraError("create_capture_request_start_only_preview", cause = e,
+                        toast = R.string.camera_error_create_capture_request)
+                    return
+                }
                 captureRequestBuilder.addTarget(surface)
                 val request = captureRequestBuilder.build()
-                session.setRepeatingRequest(request, null, null)
+                try {
+                    session.setRepeatingRequest(request, null, null)
+                } catch (e: Exception) {
+                    onCameraError("set_repeating_request_start_only_preview", cause = e,
+                        toast = R.string.camera_error_set_repeating_request)
+                    return
+                }
                 cameraCaptureSession = session
 
                 ProfileHelper.cameraState = CameraState.PREVIEWING_ONLY

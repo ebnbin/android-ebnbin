@@ -185,7 +185,8 @@ class PermissionFragment : EBFragment(), SimpleDialogFragment.Callback {
         val action = extraData.getString("action") ?: throw RuntimeException()
         val requestCode = extraData.getInt("request_code")
         if (!IntentHelper.startSettingsFromFragment(this, action, requestCode)) {
-            onPermissionsResult(false)
+            AppHelper.toast(requireContext(), R.string.eb_permission_start_settings)
+            onPermissionsResult(false, toast = false)
         }
         return true
     }
@@ -234,8 +235,8 @@ class PermissionFragment : EBFragment(), SimpleDialogFragment.Callback {
 
     //*****************************************************************************************************************
 
-    private fun onPermissionsResult(granted: Boolean) {
-        if (!granted) AppHelper.toast(requireContext(), R.string.eb_permission_denied)
+    private fun onPermissionsResult(granted: Boolean, toast: Boolean = true) {
+        if (!granted && toast) AppHelper.toast(requireContext(), R.string.eb_permission_denied)
         callback.onPermissionsResult(permissions, granted, extraData)
         removeSelf()
     }
