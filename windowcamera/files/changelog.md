@@ -61,3 +61,8 @@ Initial release.
 
 * 一些小优化
 * Bugfix
+
+# v0.5.2 2019-06-19
+
+* 一些小优化
+* Bugfix

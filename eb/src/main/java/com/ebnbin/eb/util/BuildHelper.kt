@@ -42,10 +42,6 @@ object BuildHelper {
             ebApp.packageManager.getPackageInfo(applicationId, PackageManager.GET_SIGNATURES).signatures
         }.toList()
 
-    fun isSignatureValid(): Boolean {
-        return DataHelper.md5ToString(signatures[0].toByteArray()) == "f19d826f5e45fdd1389f0b6b9878c263"
-    }
-
     /**
      * 判断 sdk 版本.
      */
