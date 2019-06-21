@@ -12,7 +12,7 @@ import com.ebnbin.eb.preference.EBPreferenceFragment
 import com.ebnbin.eb.util.AppHelper
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.album.AlbumFragment
+import com.ebnbin.windowcamera.album.AlbumActivity
 import com.ebnbin.windowcamera.util.SpManager
 
 class MenuPreferenceFragment : EBPreferenceFragment(), PermissionFragment.Callback {
@@ -51,7 +51,7 @@ class MenuPreferenceFragment : EBPreferenceFragment(), PermissionFragment.Callba
 
     override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
         if (granted) {
-            IntentHelper.startFragmentFromActivity(requireActivity(), AlbumFragment::class.java)
+            IntentHelper.startActivityFromActivity(requireActivity(), AlbumActivity::class.java)
             Libraries.eventBus.post(MenuDismissEvent)
         }
     }

@@ -59,11 +59,11 @@ class OtherProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_shortcut_title)
             setOnPreferenceClickListener {
                 if (BuildHelper.sdk25N1()) {
-                    val shortcutInfo = ShortcutInfoCompat.Builder(requireContext(), "shortcut_1")
+                    val shortcutInfo = ShortcutInfoCompat.Builder(requireContext(), "shortcut_profile_1")
                         .setShortLabel(Profile.get().title)
                         .setIcon(IconCompat.createWithResource(requireContext(), Profile.get().iconId))
                         .setIntent(Intent(requireContext(), MainActivity::class.java)
-                            .setAction("${BuildHelper.applicationId}.shortcut_1"))
+                            .setAction("${BuildHelper.applicationId}.shortcut_profile_1"))
                         .build()
                         .toShortcutInfo()
                     SystemServices.shortcutManager.addDynamicShortcuts(listOf(shortcutInfo))
@@ -78,11 +78,11 @@ class OtherProfileFragment : BaseProfileFragment() {
             setOnPreferenceClickListener {
                 if (BuildHelper.sdk26O()) {
                     if (SystemServices.shortcutManager.isRequestPinShortcutSupported) {
-                        val shortcutInfo = ShortcutInfoCompat.Builder(requireContext(), "shortcut_pinned_1")
+                        val shortcutInfo = ShortcutInfoCompat.Builder(requireContext(), "pinned_shortcut_profile_1")
                             .setShortLabel(Profile.get().title)
                             .setIcon(IconCompat.createWithResource(requireContext(), Profile.get().iconId))
                             .setIntent(Intent(requireContext(), MainActivity::class.java)
-                                .setAction("${BuildHelper.applicationId}.shortcut_pinned_1"))
+                                .setAction("${BuildHelper.applicationId}.pinned_shortcut_profile_1"))
                             .build()
                             .toShortcutInfo()
                         val intent = SystemServices.shortcutManager.createShortcutResultIntent(shortcutInfo)
