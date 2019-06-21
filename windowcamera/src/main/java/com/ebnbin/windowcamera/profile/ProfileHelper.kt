@@ -241,7 +241,19 @@ object ProfileHelper {
 
     //*****************************************************************************************************************
 
+    val personalization: ProfileSp<Unit> = ProfileSp("personalization") { ProfileSp.Builder(Unit) }
+
+    val title: ProfileSp<String> = ProfileSp("title") { ProfileSp.Builder("") }
+
+    val file: ProfileSp<Unit> = ProfileSp("file") { ProfileSp.Builder(Unit) }
+
     val path: ProfileSp<Unit> = ProfileSp("path") { ProfileSp.Builder(Unit) }
+
+    val quick: ProfileSp<Unit> = ProfileSp("quick") { ProfileSp.Builder(Unit) }
+
+    val shortcut: ProfileSp<Unit> = ProfileSp("shortcut") { ProfileSp.Builder(Unit) }
+
+    val pinned_shortcut: ProfileSp<Unit> = ProfileSp("pinned_shortcut") { ProfileSp.Builder(Unit) }
 
     //*****************************************************************************************************************
 

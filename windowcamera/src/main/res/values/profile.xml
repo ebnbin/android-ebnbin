@@ -133,5 +133,15 @@
     <!-- ********************************************************************************************************** -->
     <eat-comment/>
 
+    <string name="profile_personalization_title">个性化</string>
+
+    <string name="profile_file_title">文件</string>
+
     <string name="profile_path_title">存储路径</string>
+    
+    <string name="profile_quick_title">快捷</string>
+
+    <string name="profile_shortcut_title">快捷方式</string>
+
+    <string name="profile_pinned_shortcut_title">固定快捷方式</string>
 </resources>
