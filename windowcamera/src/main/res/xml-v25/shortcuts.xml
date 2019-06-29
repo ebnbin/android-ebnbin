@@ -2,7 +2,7 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:shortcutId="album"
-        android:icon="@drawable/menu_album"
+        android:icon="@mipmap/shortcut_album"
         android:shortcutShortLabel="@string/album">
         <intent
             android:action="com.ebnbin.windowcamera.shortcut_album"

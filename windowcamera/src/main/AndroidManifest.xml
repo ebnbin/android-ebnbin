@@ -34,6 +34,18 @@
 
         <activity android:name=".album.AlbumActivity"/>
 
+        <activity android:name=".album.AlbumShortcutActivity"/>
+
+        <activity-alias
+            android:name="AlbumShortcutActivity"
+            android:icon="@mipmap/shortcut_album"
+            android:label="@string/album"
+            android:targetActivity=".album.AlbumShortcutActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+            </intent-filter>
+        </activity-alias>
+
         <activity
             android:name=".imagevideo.ImageVideoActivity"
             android:theme="@style/EBTheme.ImageVideo"

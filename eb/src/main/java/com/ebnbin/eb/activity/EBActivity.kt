@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.MotionEvent
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.debug.DebugSwipeDetector
 import com.ebnbin.eb.fragment.FragmentHelper
 import com.ebnbin.eb.library.Libraries
+import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.util.Consts
 
 /**
  * Base Activity.
  */
-open class EBActivity : AppCompatActivity() {
+open class EBActivity : AppCompatActivity(), PermissionFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 直接关闭.
@@ -63,6 +66,9 @@ open class EBActivity : AppCompatActivity() {
             @Suppress("UNCHECKED_CAST")
             fragmentClass = extras.getSerializable(KEY_FRAGMENT_CLASS) as Class<out Fragment>?
         }
+        if (extras.containsKey(KEY_FRAGMENT_PERMISSIONS)) {
+            fragmentPermissions = extras.getStringArrayList(KEY_FRAGMENT_PERMISSIONS)
+        }
     }
 
     //*****************************************************************************************************************
@@ -79,10 +85,35 @@ open class EBActivity : AppCompatActivity() {
     var fragmentClass: Class<out Fragment>? = null
         private set
 
+    var fragmentPermissions: ArrayList<String>? = null
+        private set
+
     private fun initFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) return
         val fragmentClass = fragmentClass ?: return
-        FragmentHelper.add(supportFragmentManager, fragmentClass, android.R.id.content)
+        val fragmentPermissions = fragmentPermissions
+        if (fragmentPermissions == null) {
+            FragmentHelper.add(supportFragmentManager, fragmentClass, android.R.id.content)
+        } else {
+            PermissionFragment.start(supportFragmentManager, fragmentPermissions, bundleOf(
+                Consts.KEY_CALLING_ID to EBActivity::class.java.name,
+                KEY_FRAGMENT_CLASS to fragmentClass
+            ))
+        }
+    }
+
+    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
+        when (extraData.getString(Consts.KEY_CALLING_ID)) {
+            EBActivity::class.java.name -> {
+                if (granted) {
+                    @Suppress("UNCHECKED_CAST")
+                    val fragmentClass = extraData.getSerializable(KEY_FRAGMENT_CLASS) as Class<out Fragment>
+                    FragmentHelper.add(supportFragmentManager, fragmentClass, android.R.id.content)
+                } else {
+                    finish()
+                }
+            }
+        }
     }
 
     //*****************************************************************************************************************
@@ -121,5 +152,6 @@ open class EBActivity : AppCompatActivity() {
         const val KEY_FINISH = "finish"
         const val KEY_THEME_ID = "theme_id"
         const val KEY_FRAGMENT_CLASS = "fragment_class"
+        const val KEY_FRAGMENT_PERMISSIONS = "fragment_permissions"
     }
 }
