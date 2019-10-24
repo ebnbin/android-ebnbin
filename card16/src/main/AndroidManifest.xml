@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ebnbin.card16">
     <application
-        android:label="Card16"
+        android:label="@string/eb_label"
         tools:replace="android:label">
         <activity android:name=".MainActivity">
             <intent-filter>
