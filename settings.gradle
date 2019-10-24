@@ -1,1 +1,1 @@
-include ':eb', ':windowcamera'
+include ':eb', ':windowcamera', ':card16'
