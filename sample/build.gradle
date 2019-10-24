@@ -1,0 +1,6 @@
+ext {
+    applicationId = 'sample'
+    versionName = '0.1.0-1'
+}
+
+apply from: file('../eb/application.gradle')
