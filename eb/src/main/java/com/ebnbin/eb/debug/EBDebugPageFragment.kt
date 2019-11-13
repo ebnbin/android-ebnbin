@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.async.DialogLoading
+import com.ebnbin.eb.dev.EBReport
 import com.ebnbin.eb.dialog.DialogCancel
 import com.ebnbin.eb.exception.CrashException
 import com.ebnbin.eb.update.UpdateFragment
@@ -25,6 +26,10 @@ internal class EBDebugPageFragment : BaseDebugPageFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addDebugItem("Calling Activity", callingActivity)
+
+        addDebugItem("EB Report") {
+            it.summary = EBReport().create().toString()
+        }
 
         addDebugItem("About") {
             IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
