@@ -1,5 +1,6 @@
 package com.ebnbin.eb.async
 
+import com.ebnbin.eb.debug.log
 import com.ebnbin.eb.githubapi.GitHubApi
 import com.ebnbin.eb.githubapi.model.PutContentsRequest
 import com.ebnbin.eb.library.Libraries
@@ -12,6 +13,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AsyncHelper {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -187,6 +192,17 @@ class AsyncHelper {
                     onStart?.invoke(it)
                 }
             )
+    }
+
+    fun coroutines() {
+        GlobalScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                val content = GitHubApi.api
+                    .coroutinesGetContentsFile("${BuildHelper.simpleApplicationId}/sample.json")
+                val json = DataHelper.base64DecodeToString(content.content)
+                log(json)
+            }
+        }
     }
 
     companion object {

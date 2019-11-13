@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ebnbin.sample">
     <application
+        android:name=".AppApplication"
         android:label="@string/eb_label"
-        tools:replace="android:label">
+        tools:replace="android:name, android:label">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

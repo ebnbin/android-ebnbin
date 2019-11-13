@@ -13,6 +13,9 @@ interface GitHubApiService {
     fun getContentsFile(@Path("path") path: String): Observable<Content>
 
     @GET("$PREFIX/{path}")
+    suspend fun coroutinesGetContentsFile(@Path("path") path: String): Content
+
+    @GET("$PREFIX/{path}")
     fun getContentsDirectory(@Path("path") path: String): Observable<List<Content>>
 
     @PUT("$PREFIX/{path}")
