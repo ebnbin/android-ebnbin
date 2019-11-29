@@ -57,6 +57,8 @@ dependencies {
     api 'androidx.appcompat:appcompat:1.1.0' // https://dl.google.com/dl/android/maven2/index.html
     api 'androidx.core:core-ktx:1.1.0'
     api 'androidx.preference:preference-ktx:1.1.0'
+    api 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
     api 'com.google.android.material:material:1.1.0-beta02'
     api 'com.google.firebase:firebase-analytics:17.2.1' // https://firebase.google.com/docs/android/setup
     api 'com.crashlytics.sdk.android:crashlytics:2.10.1'
