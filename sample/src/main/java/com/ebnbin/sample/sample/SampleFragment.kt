@@ -4,27 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.ebnbin.eb.fragment.EBDataBindingFragment
 import com.ebnbin.sample.R
 import com.ebnbin.sample.databinding.SampleFragmentBinding
 
-class SampleFragment : Fragment() {
+class SampleFragment : EBDataBindingFragment<SampleFragmentBinding>() {
     private val viewModel: SampleViewModel by lazy {
         ViewModelProviders.of(this).get(SampleViewModel::class.java)
     }
 
-    private lateinit var viewDataBinding: SampleFragmentBinding
+    override val layoutId: Int = R.layout.sample_fragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.sample_fragment, container, false)
-        viewDataBinding.lifecycleOwner = this
+        val result = super.onCreateView(inflater, container, savedInstanceState)
         viewDataBinding.vm = viewModel
-        return viewDataBinding.root
+        return result
     }
 }
