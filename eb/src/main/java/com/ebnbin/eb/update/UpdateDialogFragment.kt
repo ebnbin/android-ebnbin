@@ -196,7 +196,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val uri = if (BuildHelper.sdk24N()) {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                FileProvider.getUriForFile(requireContext(), "com.ebnbin.eb.fileprovider", file)
+                FileProvider.getUriForFile(requireContext(), "${BuildHelper.applicationId}.fileprovider", file)
             } else {
                 Uri.fromFile(file)
             }

@@ -54,5 +54,15 @@
         <service android:name=".service.WindowCameraService"/>
 
         <receiver android:name=".service.StopWindowCameraServiceBroadcastReceiver"/>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.ebnbin.windowcamera.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/eb_file_paths"/>
+        </provider>
     </application>
 </manifest>
