@@ -1,6 +1,0 @@
-ext {
-    applicationId = 'wanandroid'
-    versionName = '0.1.0-1'
-}
-
-apply from: file('../eb2/application.gradle')

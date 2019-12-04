@@ -1,11 +1,12 @@
 *.iml
 .DS_Store
-/*/.externalNativeBuild/
-/*/build/
-/*/google-services.json
 /.gradle/
 /.idea/
 /build/
-/captures/
+/eb2/build/
+/sample/build/
+/sample/google-services.json
+/windowcamera/build/
+/windowcamera/google-services.json
 /local.properties
 gitignore/

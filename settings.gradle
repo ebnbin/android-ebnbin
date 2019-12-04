@@ -1,1 +1,1 @@
-include ':eb2', ':sample', ':windowcamera', ':card16', ':wanandroid'
+include ':eb2', ':sample', ':windowcamera'
