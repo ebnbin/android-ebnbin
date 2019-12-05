@@ -1,4 +1,4 @@
 include ':eb'
 include ':sample'
-include ':windowcamera'
-include ':eb2'
+//include ':windowcamera'
+//include ':eb2'
