@@ -12,12 +12,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
-        // https://github.com/JetBrains/kotlin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        // https://firebase.google.com/docs/android/setup
-        classpath 'com.google.gms:google-services:4.3.3'
-        // https://firebase.google.com/docs/crashlytics/get-started?platform=android
-        classpath 'io.fabric.tools:gradle:1.31.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion" // https://github.com/JetBrains/kotlin
+        classpath 'com.google.gms:google-services:4.3.3' // https://firebase.google.com/docs/android/setup
+        classpath 'io.fabric.tools:gradle:1.31.2' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
     }
 }
 

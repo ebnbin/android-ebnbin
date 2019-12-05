@@ -44,10 +44,9 @@ android {
 }
 
 dependencies {
-    // https://github.com/JetBrains/kotlin
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    // https://firebase.google.com/docs/android/setup
-    api 'com.google.firebase:firebase-analytics:17.2.1'
-    // https://firebase.google.com/docs/crashlytics/get-started?platform=android
-    api 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion" // https://github.com/JetBrains/kotlin
+    api 'androidx.appcompat:appcompat:1.2.0-alpha01' // https://maven.google.com/web/index.html https://developer.android.com/jetpack/androidx/versions
+    api 'com.google.android.material:material:1.2.0-alpha02' // https://material.io/develop/android/docs/getting-started/
+    api 'com.google.firebase:firebase-analytics:17.2.1' // https://firebase.google.com/docs/android/setup
+    api 'com.crashlytics.sdk.android:crashlytics:2.10.1' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
 }

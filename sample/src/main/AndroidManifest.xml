@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ebnbin.sample">
     <application android:label="Sample">
-        <activity android:name="android.app.Activity">
+        <activity
+            android:name="androidx.appcompat.app.AppCompatActivity"
+            android:theme="@style/Theme.MaterialComponents">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
