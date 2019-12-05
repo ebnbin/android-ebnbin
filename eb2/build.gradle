@@ -9,10 +9,10 @@ def localProperties = new Properties()
 localProperties.load(new FileReader(rootProject.file('local.properties')))
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 28
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 23
+        targetSdkVersion 28
         buildConfigField 'long', 'BUILD_TIMESTAMP', "${buildTimestamp}L"
         buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${localProperties['githubApiToken']}\""
         setConsumerProguardFiles fileTree('proguard/')

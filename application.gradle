@@ -5,29 +5,25 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
-def localProperties = new Properties()
-localProperties.load(new FileReader(rootProject.file('local.properties')))
-
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.ebnbin.${project.ext.applicationId}"
-        minSdkVersion 23
-        targetSdkVersion 28
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         def versionNameSplit = project.ext.versionName.split('-')
         def majorMinorPatch = versionNameSplit[0].split('\\.')
         def major = majorMinorPatch[0].toInteger()
         def minor = majorMinorPatch[1].toInteger()
         def patch = majorMinorPatch[2].toInteger()
-        def preRelease = versionNameSplit.size() < 2 ? 0 : versionNameSplit[1].toInteger() - 100
-        versionCode 1000000 * major + 10000 * minor + 100 * patch + preRelease
+        def prerelease = versionNameSplit.size() < 2 ? 0 : versionNameSplit[1].toInteger() - 100
+        versionCode 1000000 * major + 10000 * minor + 100 * patch + prerelease
         versionName project.ext.versionName
-        ndk {
-            abiFilters 'armeabi-v7a'
-        }
     }
     signingConfigs {
         release {
+            def localProperties = new Properties()
+            localProperties.load(new FileInputStream(rootProject.file('local.properties')))
             def signingPassword = localProperties['signingPassword']
             storeFile rootProject.file('gitignore/ebnbin.jks')
             storePassword signingPassword
@@ -39,14 +35,12 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-            setProguardFiles fileTree('proguard/')
-            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+            def files = file('proguard/').listFiles()
+            if (files != null) proguardFiles files
         }
         prerelease {
-            signingConfig signingConfigs.release
-            minifyEnabled true
-            setProguardFiles fileTree('proguard/')
-            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            initWith release
             debuggable true
         }
         debug {
@@ -56,32 +50,28 @@ android {
     flavorDimensions 'flavor'
     productFlavors {
         github.dimension 'flavor'
-        coding.dimension 'flavor'
         google.dimension 'flavor'
-        coolapk.dimension 'flavor'
-        qq.dimension 'flavor'
-        uc.dimension 'flavor'
-        mi.dimension 'flavor'
-        huawei.dimension 'flavor'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    applicationVariants.all { applicationVariant ->
-        applicationVariant.outputs.all {
-            def applicationId = project.ext.applicationId
-            def versionName = project.ext.versionName
-            def flavor = applicationVariant.flavorName
-            def buildType = applicationVariant.buildType.name
-            outputFileName = "$applicationId-$versionName-$flavor${"release" == buildType ? "" : "-$buildType"}.apk"
-        }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
     dataBinding {
         enabled true
     }
+    applicationVariants.all { applicationVariant ->
+        applicationVariant.outputs.all {
+            outputFileName = "$applicationId" +
+                    "-${project.ext.versionName}" +
+                    "-${applicationVariant.flavorName}" +
+                    "-${applicationVariant.buildType.name}.apk"
+        }
+    }
 }
 
 dependencies {
-    implementation project(':eb2')
+    implementation project(':eb')
 }
