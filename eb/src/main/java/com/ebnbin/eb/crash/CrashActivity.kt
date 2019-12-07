@@ -10,14 +10,15 @@ import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import com.ebnbin.eb.R
-import com.ebnbin.eb.databinding.CrashActivityBinding
+import com.ebnbin.eb.databinding.EbCrashActivityBinding
 
 /**
  * 自定义崩溃页面.
  */
 internal class CrashActivity : AppCompatActivity() {
     private val viewModel: CrashActivityViewModel by viewModels()
-    private lateinit var binding: CrashActivityBinding
+
+    private lateinit var binding: EbCrashActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data class=".databinding.CrashActivityBinding">
+    <data>
 
         <import type="android.view.View"/>
 
@@ -35,7 +35,7 @@
             android:orientation="vertical">
 
             <ScrollView
-                android:id="@+id/scroll_view"
+                android:id="@+id/eb_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -95,7 +95,7 @@
                             android:onClick="@{copyOnClick}"/>
 
                         <TextView
-                            android:id="@+id/log_text_view"
+                            android:id="@+id/eb_log_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@{viewModel.log}"
