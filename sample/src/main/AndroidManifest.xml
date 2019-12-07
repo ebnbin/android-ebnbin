@@ -5,7 +5,6 @@
     package="com.ebnbin.sample">
     <application
         android:name=".AppApplication"
-        android:label="Sample"
         tools:replace="android:name">
         <activity android:name=".MainActivity">
             <intent-filter>
