@@ -3,7 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ebnbin.eb">
     <uses-permission android:name="android.permission.INTERNET"/>
-    <application android:name=".EBApplication">
+    <application
+        android:name=".EBApplication"
+        android:theme="@style/EBTheme"
+        android:icon="@mipmap/eb_icon"
+        android:roundIcon="@mipmap/eb_icon"
+        android:logo="@drawable/eb_logo">
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${firebaseCrashlyticsCollectionEnabled}"/>
