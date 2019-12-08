@@ -28,7 +28,7 @@ open class EBDebugFragment : EBViewFragment<EbDebugFragmentBinding>() {
 
     @CallSuper
     protected open fun onAddDebugItems() {
-        addDebugItem("EB Debug")
+        addDebugItem("Calling activity", arguments?.getString(KEY_CALLING_ACTIVITY).toString())
     }
 
     protected fun addDebugItem(
@@ -48,5 +48,9 @@ open class EBDebugFragment : EBViewFragment<EbDebugFragmentBinding>() {
         return DebugItem(title, data, summary, onClick).also {
             adapter.debugItems.add(it)
         }
+    }
+
+    companion object {
+        internal const val KEY_CALLING_ACTIVITY: String = "calling_activity"
     }
 }

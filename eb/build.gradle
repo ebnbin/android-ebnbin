@@ -55,4 +55,5 @@ dependencies {
     api 'com.google.firebase:firebase-analytics:17.2.1' // https://firebase.google.com/docs/android/setup
     api 'com.crashlytics.sdk.android:crashlytics:2.10.1' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
     api 'cat.ereza:customactivityoncrash:2.2.0' // https://github.com/Ereza/CustomActivityOnCrash
+    api 'com.jeremyliao:live-event-bus-x:1.5.7' // https://github.com/JeremyLiao/LiveEventBus
 }

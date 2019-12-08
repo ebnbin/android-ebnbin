@@ -2,6 +2,7 @@ package com.ebnbin.eb.extension
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 
 fun Activity.startActivityByActivity(
@@ -19,11 +20,16 @@ fun Activity.startActivityByActivity(activityClass: Class<out Activity>, request
 fun Activity.startFragmentByActivity(
     intent: Intent,
     fragmentClass: Class<out Fragment>? = null,
+    fragmentArguments: Bundle? = null,
     requestCode: Int = 0
 ) {
-    startActivityForResult(createStartFragmentIntent(intent, fragmentClass), requestCode)
+    startActivityForResult(createStartFragmentIntent(intent, fragmentClass, fragmentArguments), requestCode)
 }
 
-fun Activity.startFragmentByActivity(fragmentClass: Class<out Fragment>, requestCode: Int = 0) {
-    startActivityForResult(createStartFragmentIntent(null, fragmentClass), requestCode)
+fun Activity.startFragmentByActivity(
+    fragmentClass: Class<out Fragment>,
+    fragmentArguments: Bundle? = null,
+    requestCode: Int = 0
+) {
+    startActivityForResult(createStartFragmentIntent(null, fragmentClass, fragmentArguments), requestCode)
 }
