@@ -18,19 +18,19 @@ ext {
 }
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
-        applicationId "com.ebnbin.${project.ext.applicationId}"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        def versionNameSplit = project.ext.versionName.split('-')
+        applicationId "com.ebnbin.${project.applicationId}"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        def versionNameSplit = project.versionName.split('-')
         def majorMinorPatch = versionNameSplit[0].split('\\.')
         def major = majorMinorPatch[0].toInteger()
         def minor = majorMinorPatch[1].toInteger()
         def patch = majorMinorPatch[2].toInteger()
         def preRelease = versionNameSplit.size() < 2 ? 0 : versionNameSplit[1].toInteger() - 100
         versionCode 1000000 * major + 10000 * minor + 100 * patch + preRelease
-        versionName project.ext.versionName
+        versionName project.versionName
         ndk {
             abiFilters 'armeabi-v7a'
         }
@@ -97,8 +97,8 @@ android {
     }
 //    applicationVariants.all { applicationVariant ->
 //        applicationVariant.outputs.all {
-//            def applicationId = project.ext.applicationId
-//            def versionName = project.ext.versionName
+//            def applicationId = project.applicationId
+//            def versionName = project.versionName
 //            def flavor = applicationVariant.flavorName
 //            def buildType = applicationVariant.buildType.name
 //            outputFileName = "$applicationId-$versionName-$flavor${"release" == buildType ? "" : "-$buildType"}.apk"
@@ -107,7 +107,7 @@ android {
     applicationVariants.all { applicationVariant ->
         applicationVariant.outputs.all {
             outputFileName = "$applicationId" +
-                    "-${project.ext.versionName}" +
+                    "-${project.versionName}" +
                     "-${applicationVariant.flavorName}" +
                     "-${applicationVariant.buildType.name}.apk"
         }

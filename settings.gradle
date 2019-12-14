@@ -1,1 +1,3 @@
-include ':windowcamera', ':eb', ':sample'
+include ':eb'
+include ':sample'
+include ':windowcamera'

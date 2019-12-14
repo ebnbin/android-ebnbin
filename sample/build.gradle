@@ -1,6 +1,6 @@
 ext {
     applicationId = 'sample'
-    applicationVersion = '0.1'
+    versionName = '0.1'
 }
 
 apply from: rootProject.file('application.gradle')

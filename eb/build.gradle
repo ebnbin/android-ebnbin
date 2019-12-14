@@ -1,18 +1,16 @@
+apply from: rootProject.file('util.gradle.kts')
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        def files = file('proguard/').listFiles()
-        if (files != null) consumerProguardFiles files
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        consumerProguardFiles rootProject.util.proguardFiles
         buildConfigField 'long', 'BUILD_TIMESTAMP', "${System.currentTimeMillis()}L"
-        def localProperties = new Properties()
-        localProperties.load(new FileInputStream(rootProject.file('local.properties')))
-        buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${localProperties['githubApiToken']}\""
+        buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${rootProject.util.localProperties['githubApiToken']}\""
     }
     buildTypes {
         release {
