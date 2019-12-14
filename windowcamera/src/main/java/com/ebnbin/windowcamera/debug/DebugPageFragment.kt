@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera.debug
 
 import android.os.Bundle
 import android.view.View
-import com.ebnbin.eb.debug.BaseDebugPageFragment
+import com.ebnbin.eb2.debug.BaseDebugPageFragment
 import com.ebnbin.windowcamera.dev.Report
 
 /**

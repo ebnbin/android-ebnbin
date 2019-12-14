@@ -27,10 +27,10 @@
         tools:targetApi="q"
         tools:replace="android:name, android:label">
         <activity
-            android:name="com.ebnbin.eb.crash.CrashActivity"
+            android:name="com.ebnbin.eb2.crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>
 
-        <activity android:name="com.ebnbin.eb.activity.EBActivity"/>
+        <activity android:name="com.ebnbin.eb2.activity.EBActivity"/>
 
         <activity
             android:name=".splash.SplashActivity"

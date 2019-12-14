@@ -1,7 +1,7 @@
 package com.ebnbin.windowcamera.splash
 
 import android.os.Bundle
-import com.ebnbin.eb.activity.EBActivity
+import com.ebnbin.eb2.activity.EBActivity
 
 class SplashActivity : EBActivity() {
     override fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {

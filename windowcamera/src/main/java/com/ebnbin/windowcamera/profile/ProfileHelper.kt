@@ -1,9 +1,9 @@
 package com.ebnbin.windowcamera.profile
 
 import android.content.SharedPreferences
-import com.ebnbin.eb.library.Libraries
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
-import com.ebnbin.eb.sharedpreferences.Sp
+import com.ebnbin.eb2.library.Libraries
+import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
+import com.ebnbin.eb2.sharedpreferences.Sp
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.enumeration.Profile
 import com.ebnbin.windowcamera.profile.enumeration.ProfileGesture

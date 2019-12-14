@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera.album
 
 import android.Manifest
 import android.os.Bundle
-import com.ebnbin.eb.activity.EBActivity
+import com.ebnbin.eb2.activity.EBActivity
 
 class AlbumActivity : EBActivity() {
     override fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {

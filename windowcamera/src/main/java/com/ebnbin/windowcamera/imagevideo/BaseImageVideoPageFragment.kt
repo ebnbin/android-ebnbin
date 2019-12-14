@@ -3,8 +3,8 @@ package com.ebnbin.windowcamera.imagevideo
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.fragment.EBFragment
-import com.ebnbin.eb.fragment.FragmentHelper
+import com.ebnbin.eb2.fragment.EBFragment
+import com.ebnbin.eb2.fragment.FragmentHelper
 
 abstract class BaseImageVideoPageFragment : EBFragment() {
     protected lateinit var imageVideo: ImageVideo

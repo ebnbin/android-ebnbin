@@ -8,11 +8,11 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.viewpager.widget.ViewPager
-import com.ebnbin.eb.dev.DevHelper
-import com.ebnbin.eb.fragment.EBFragment
-import com.ebnbin.eb.permission.PermissionFragment
-import com.ebnbin.eb.update.UpdateFragment
-import com.ebnbin.eb.util.res
+import com.ebnbin.eb2.dev.DevHelper
+import com.ebnbin.eb2.fragment.EBFragment
+import com.ebnbin.eb2.permission.PermissionFragment
+import com.ebnbin.eb2.update.UpdateFragment
+import com.ebnbin.eb2.util.res
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.menu.MenuFragment
 import com.ebnbin.windowcamera.profile.CameraState

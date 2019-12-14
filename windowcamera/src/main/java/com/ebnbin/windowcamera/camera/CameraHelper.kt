@@ -11,10 +11,10 @@ import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
-import com.ebnbin.eb.dev.DevHelper
-import com.ebnbin.eb.util.RotationSize
-import com.ebnbin.eb.util.SystemServices
-import com.ebnbin.eb.util.WindowHelper
+import com.ebnbin.eb2.dev.DevHelper
+import com.ebnbin.eb2.util.RotationSize
+import com.ebnbin.eb2.util.SystemServices
+import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.dev.Report
 
 /**

@@ -14,11 +14,11 @@ import android.os.IBinder
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
-import com.ebnbin.eb.library.Libraries
-import com.ebnbin.eb.permission.PermissionHelper
-import com.ebnbin.eb.util.AppHelper
-import com.ebnbin.eb.util.BuildHelper
-import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.eb2.library.Libraries
+import com.ebnbin.eb2.permission.PermissionHelper
+import com.ebnbin.eb2.util.AppHelper
+import com.ebnbin.eb2.util.BuildHelper
+import com.ebnbin.eb2.util.SystemServices
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.view.WindowCameraView

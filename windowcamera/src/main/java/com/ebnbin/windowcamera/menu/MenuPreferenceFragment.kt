@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
-import com.ebnbin.eb.about.AboutFragment
-import com.ebnbin.eb.library.Libraries
-import com.ebnbin.eb.preference.EBPreferenceFragment
-import com.ebnbin.eb.util.AppHelper
-import com.ebnbin.eb.util.IntentHelper
+import com.ebnbin.eb2.about.AboutFragment
+import com.ebnbin.eb2.library.Libraries
+import com.ebnbin.eb2.preference.EBPreferenceFragment
+import com.ebnbin.eb2.util.AppHelper
+import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.album.AlbumActivity
 import com.ebnbin.windowcamera.util.SpManager

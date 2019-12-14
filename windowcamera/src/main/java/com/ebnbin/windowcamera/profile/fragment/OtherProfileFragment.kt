@@ -7,9 +7,9 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import com.ebnbin.eb.preference.FooterPreference
-import com.ebnbin.eb.util.BuildHelper
-import com.ebnbin.eb.util.SystemServices
+import com.ebnbin.eb2.preference.FooterPreference
+import com.ebnbin.eb2.util.BuildHelper
+import com.ebnbin.eb2.util.SystemServices
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.main.MainActivity
 import com.ebnbin.windowcamera.profile.ProfileHelper

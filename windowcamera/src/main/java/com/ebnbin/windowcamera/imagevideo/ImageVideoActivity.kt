@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera.imagevideo
 
 import android.content.Context
 import android.content.Intent
-import com.ebnbin.eb.activity.EBActivity
+import com.ebnbin.eb2.activity.EBActivity
 
 class ImageVideoActivity : EBActivity() {
     companion object {

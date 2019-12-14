@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ebnbin.eb.fragment.EBFragment
+import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.windowcamera.R
 import kotlinx.android.synthetic.main.image_video_fragment.*
 

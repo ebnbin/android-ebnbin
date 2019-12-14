@@ -2,10 +2,10 @@ package com.ebnbin.windowcamera.view.layout
 
 import android.content.SharedPreferences
 import android.view.WindowManager
-import com.ebnbin.eb.util.Ratio
-import com.ebnbin.eb.util.RotationDetector
-import com.ebnbin.eb.util.RotationSize
-import com.ebnbin.eb.util.WindowHelper
+import com.ebnbin.eb2.util.Ratio
+import com.ebnbin.eb2.util.RotationDetector
+import com.ebnbin.eb2.util.RotationSize
+import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.enumeration.ProfileRatio
 import kotlin.math.max

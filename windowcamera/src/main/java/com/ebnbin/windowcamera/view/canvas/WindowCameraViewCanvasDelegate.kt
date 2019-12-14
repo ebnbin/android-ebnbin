@@ -3,8 +3,8 @@ package com.ebnbin.windowcamera.view.canvas
 import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Paint
-import com.ebnbin.eb.library.Libraries
-import com.ebnbin.eb.util.dpToPx
+import com.ebnbin.eb2.library.Libraries
+import com.ebnbin.eb2.util.dpToPx
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.CameraStateEvent

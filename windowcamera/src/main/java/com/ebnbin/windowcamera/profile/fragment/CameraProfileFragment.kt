@@ -1,11 +1,11 @@
 package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
-import com.ebnbin.eb.preference.FooterPreference
-import com.ebnbin.eb.preference.SimpleCheckBoxPreference
-import com.ebnbin.eb.preference.SimpleListPreference
-import com.ebnbin.eb.preference.SimplePreferenceGroup
-import com.ebnbin.eb.preference.SimpleSwitchPreference
+import com.ebnbin.eb2.preference.FooterPreference
+import com.ebnbin.eb2.preference.SimpleCheckBoxPreference
+import com.ebnbin.eb2.preference.SimpleListPreference
+import com.ebnbin.eb2.preference.SimplePreferenceGroup
+import com.ebnbin.eb2.preference.SimpleSwitchPreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.CameraState

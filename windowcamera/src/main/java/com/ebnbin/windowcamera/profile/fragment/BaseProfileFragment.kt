@@ -3,9 +3,9 @@ package com.ebnbin.windowcamera.profile.fragment
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
-import com.ebnbin.eb.preference.EBPreferenceFragment
-import com.ebnbin.eb.preference.LockablePreference
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
+import com.ebnbin.eb2.preference.EBPreferenceFragment
+import com.ebnbin.eb2.preference.LockablePreference
+import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSp

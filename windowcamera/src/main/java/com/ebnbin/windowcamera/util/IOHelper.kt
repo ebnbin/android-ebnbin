@@ -1,8 +1,8 @@
 package com.ebnbin.windowcamera.util
 
 import android.os.Environment
-import com.ebnbin.eb.util.BuildHelper
-import com.ebnbin.eb.util.TimeHelper
+import com.ebnbin.eb2.util.BuildHelper
+import com.ebnbin.eb2.util.TimeHelper
 import java.io.File
 
 object IOHelper {

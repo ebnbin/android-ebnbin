@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
-import com.ebnbin.eb.activity.EBActivity
+import com.ebnbin.eb2.activity.EBActivity
 import com.ebnbin.windowcamera.R
 
 class AlbumShortcutActivity : EBActivity() {

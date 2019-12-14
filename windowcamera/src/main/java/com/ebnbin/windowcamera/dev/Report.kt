@@ -1,7 +1,7 @@
 package com.ebnbin.windowcamera.dev
 
-import com.ebnbin.eb.dev.EBReport
-import com.ebnbin.eb.util.EBModel
+import com.ebnbin.eb2.dev.EBReport
+import com.ebnbin.eb2.util.EBModel
 import com.ebnbin.windowcamera.camera.CameraHelper
 
 class Report : EBReport() {

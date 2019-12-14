@@ -1,7 +1,7 @@
 package com.ebnbin.windowcamera.util
 
-import com.ebnbin.eb.sharedpreferences.Sp
-import com.ebnbin.eb.util.res
+import com.ebnbin.eb2.sharedpreferences.Sp
+import com.ebnbin.eb2.util.res
 import com.ebnbin.windowcamera.R
 
 object SpManager {

@@ -5,7 +5,7 @@ import androidx.core.view.doOnLayout
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.ebnbin.eb.util.dpToPxRound
+import com.ebnbin.eb2.util.dpToPxRound
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.imagevideo.ImageVideo
 

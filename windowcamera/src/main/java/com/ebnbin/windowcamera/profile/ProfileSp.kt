@@ -1,7 +1,7 @@
 package com.ebnbin.windowcamera.profile
 
-import com.ebnbin.eb.sharedpreferences.SharedPreferencesHelper
-import com.ebnbin.eb.sharedpreferences.Sp
+import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
+import com.ebnbin.eb2.sharedpreferences.Sp
 
 open class ProfileSp<T>(
     val key: String,

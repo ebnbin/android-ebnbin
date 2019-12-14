@@ -4,8 +4,8 @@ import android.graphics.Matrix
 import android.graphics.RectF
 import android.graphics.SurfaceTexture
 import android.view.TextureView
-import com.ebnbin.eb.util.RotationDetector
-import com.ebnbin.eb.util.WindowHelper
+import com.ebnbin.eb2.util.RotationDetector
+import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import kotlin.math.max
 
