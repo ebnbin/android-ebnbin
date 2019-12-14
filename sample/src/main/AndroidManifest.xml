@@ -2,7 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ebnbin.sample">
-    <application android:label="Sample">
+    <application>
         <activity android:name="android.app.Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
