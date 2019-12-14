@@ -1,4 +1,1 @@
-include ':eb3'
-
 include ':windowcamera'
-include ':eb'
