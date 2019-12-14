@@ -16,7 +16,7 @@ import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DeviceHelper
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.TimeHelper
-import com.ebnbin.windowcamera.BuildConfig
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.windowcamera.R
 import kotlinx.android.synthetic.main.eb_about_fragment.*
 
