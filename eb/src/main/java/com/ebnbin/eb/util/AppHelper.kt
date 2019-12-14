@@ -46,7 +46,7 @@ object AppHelper {
     }
 
     fun copy(text: CharSequence, label: CharSequence = BuildHelper.applicationId) {
-        SystemServices.clipboardManager.primaryClip = ClipData.newPlainText(label, text)
+        SystemServices.clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
     }
 
     val mainHandler: Handler = Handler(Looper.getMainLooper())
