@@ -5,19 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.fragment.app.Fragment
-import com.ebnbin.windowcamera.R
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.TimeHelper
+import com.ebnbin.windowcamera.R
 
 /**
  * Base Fragment.
  *
  * 功能大部分同步给 EBDialogFragment 和 EBPreferenceFragment.
  */
-abstract class EBFragment : Fragment() {
+abstract class EBFragment : com.ebnbin.eb.fragment.EBFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initArguments(savedInstanceState)

@@ -3,7 +3,6 @@ package com.ebnbin.eb2.activity
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.annotation.CallSuper
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb2.debug.DebugSwipeDetector
@@ -15,7 +14,7 @@ import com.ebnbin.eb2.util.Consts
 /**
  * Base Activity.
  */
-open class EBActivity : AppCompatActivity(), PermissionFragment.Callback {
+open class EBActivity : com.ebnbin.eb.activity.EBActivity(), PermissionFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 直接关闭.

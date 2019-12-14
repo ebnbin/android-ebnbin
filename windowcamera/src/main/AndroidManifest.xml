@@ -25,7 +25,7 @@
         android:theme="@style/EBTheme"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="q"
-        tools:replace="android:name, android:label">
+        tools:replace="android:name, android:label, android:theme">
         <activity
             android:name="com.ebnbin.eb2.crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>
