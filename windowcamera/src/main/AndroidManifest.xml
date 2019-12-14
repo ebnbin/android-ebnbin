@@ -3,6 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ebnbin.windowcamera">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
@@ -14,7 +22,19 @@
         android:name=".AppApplication"
         android:label="@string/eb_label"
         android:largeHeap="true"
+        android:theme="@style/EBTheme"
+        android:icon="@mipmap/eb_icon"
+        android:roundIcon="@mipmap/eb_icon"
+        android:logo="@drawable/eb_logo_198"
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="q"
         tools:replace="android:name, android:label">
+        <activity
+            android:name="com.ebnbin.eb.crash.CrashActivity"
+            android:theme="@style/EBCrashTheme"/>
+
+        <activity android:name="com.ebnbin.eb.activity.EBActivity"/>
+
         <activity
             android:name=".splash.SplashActivity"
             android:theme="@style/EBTheme.Splash">
@@ -64,5 +84,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/eb_file_paths"/>
         </provider>
+
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${firebaseCrashlyticsCollectionEnabled}"/>
     </application>
 </manifest>

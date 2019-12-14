@@ -1,6 +1,153 @@
+//ext {
+//    applicationId = 'windowcamera'
+//    versionName = '0.6.0-1'
+//}
+//
+//apply from: rootProject.file('application.gradle')
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
 ext {
     applicationId = 'windowcamera'
     versionName = '0.6.0-1'
 }
 
-apply from: rootProject.file('application.gradle')
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.ebnbin.${project.ext.applicationId}"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        def versionNameSplit = project.ext.versionName.split('-')
+        def majorMinorPatch = versionNameSplit[0].split('\\.')
+        def major = majorMinorPatch[0].toInteger()
+        def minor = majorMinorPatch[1].toInteger()
+        def patch = majorMinorPatch[2].toInteger()
+        def preRelease = versionNameSplit.size() < 2 ? 0 : versionNameSplit[1].toInteger() - 100
+        versionCode 1000000 * major + 10000 * minor + 100 * patch + preRelease
+        versionName project.ext.versionName
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+        buildConfigField 'long', 'BUILD_TIMESTAMP', "${System.currentTimeMillis()}L"
+        def localProperties = new Properties()
+        localProperties.load(new FileInputStream(rootProject.file('local.properties')))
+        buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${localProperties['githubApiToken']}\""
+    }
+    signingConfigs {
+        release {
+            def localProperties = new Properties()
+            localProperties.load(new FileInputStream(rootProject.file('local.properties')))
+            def signingPassword = localProperties['signingPassword']
+            storeFile rootProject.file('gitignore/ebnbin.jks')
+            storePassword signingPassword
+            keyAlias 'ebnbin'
+            keyPassword signingPassword
+        }
+    }
+    buildTypes {
+        release {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: true]
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            def files = file('proguard/').listFiles()
+            if (files != null) consumerProguardFiles files
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+        }
+        prerelease {
+            initWith release
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: false]
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            def files = file('proguard/').listFiles()
+            if (files != null) consumerProguardFiles files
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            debuggable true
+        }
+        debug {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: false]
+            signingConfig signingConfigs.release
+        }
+    }
+    flavorDimensions 'flavor'
+    productFlavors {
+        github.dimension 'flavor'
+//        coding.dimension 'flavor'
+        google.dimension 'flavor'
+//        coolapk.dimension 'flavor'
+//        qq.dimension 'flavor'
+//        uc.dimension 'flavor'
+//        mi.dimension 'flavor'
+//        huawei.dimension 'flavor'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    dataBinding {
+        enabled true
+    }
+//    applicationVariants.all { applicationVariant ->
+//        applicationVariant.outputs.all {
+//            def applicationId = project.ext.applicationId
+//            def versionName = project.ext.versionName
+//            def flavor = applicationVariant.flavorName
+//            def buildType = applicationVariant.buildType.name
+//            outputFileName = "$applicationId-$versionName-$flavor${"release" == buildType ? "" : "-$buildType"}.apk"
+//        }
+//    }
+    applicationVariants.all { applicationVariant ->
+        applicationVariant.outputs.all {
+            outputFileName = "$applicationId" +
+                    "-${project.ext.versionName}" +
+                    "-${applicationVariant.flavorName}" +
+                    "-${applicationVariant.buildType.name}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation project(':eb')
+
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion" // https://github.com/JetBrains/kotlin
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2' // https://github.com/Kotlin/kotlinx.coroutines
+    api 'androidx.appcompat:appcompat:1.2.0-alpha01' // https://maven.google.com/web/index.html https://developer.android.com/jetpack/androidx/versions
+    api 'com.google.android.material:material:1.2.0-alpha02' // https://material.io/develop/android/docs/getting-started/
+    api 'androidx.core:core-ktx:1.2.0-rc01'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03'
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03'
+    api 'androidx.activity:activity-ktx:1.1.0-rc03'
+    api 'androidx.fragment:fragment-ktx:1.2.0-rc03'
+    api 'androidx.recyclerview:recyclerview:1.1.0'
+
+    api 'androidx.preference:preference-ktx:1.1.0'
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc03'
+    api 'com.google.firebase:firebase-analytics:17.2.1' // https://firebase.google.com/docs/android/setup
+    api 'com.crashlytics.sdk.android:crashlytics:2.10.1' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
+    api 'cat.ereza:customactivityoncrash:2.2.0' // https://github.com/Ereza/CustomActivityOnCrash
+    api 'org.greenrobot:eventbus:3.1.1' // https://github.com/greenrobot/EventBus
+    api 'com.google.code.gson:gson:2.8.5' // https://github.com/google/gson
+    api 'io.reactivex.rxjava2:rxjava:2.2.12' // https://github.com/ReactiveX/RxJava
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1' // https://github.com/ReactiveX/RxAndroid
+    api 'com.squareup.okhttp3:okhttp:3.14.1' // https://github.com/square/okhttp
+    api 'com.squareup.retrofit2:retrofit:2.6.1' // https://github.com/square/retrofit
+    api 'com.squareup.retrofit2:converter-gson:2.6.1'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    api 'com.github.bumptech.glide:glide:4.9.0' // https://github.com/bumptech/glide
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46' // https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+    api 'com.github.chrisbanes:PhotoView:2.3.0' // https://github.com/chrisbanes/PhotoView
+    api 'com.shuyu:gsyVideoPlayer-java:7.0.1' // https://github.com/CarGuo/GSYVideoPlayer
+    api 'com.shuyu:GSYVideoPlayer-exo2:7.0.1'
+    api 'com.shuyu:gsyVideoPlayer-armv7a:7.0.1'
+//    api 'com.shuyu:gsyVideoPlayer-x86:7.0.1'
+
+    api 'com.jeremyliao:live-event-bus-x:1.5.7' // https://github.com/JeremyLiao/LiveEventBus
+}

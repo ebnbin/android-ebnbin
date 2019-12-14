@@ -1,6 +1,0 @@
-ext {
-    applicationId = 'sample'
-    versionName = '0.1.0-1'
-}
-
-apply from: rootProject.file('application.gradle')

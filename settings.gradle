@@ -1,5 +1,4 @@
 include ':eb3'
-include ':sample'
 
 include ':windowcamera'
 include ':eb'

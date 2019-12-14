@@ -3,30 +3,4 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ebnbin.eb">
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-
-    <application
-        android:name=".EBApplication"
-        android:label="@string/eb_label"
-        android:theme="@style/EBTheme"
-        android:icon="@mipmap/eb_icon"
-        android:roundIcon="@mipmap/eb_icon"
-        android:logo="@drawable/eb_logo_198"
-        android:requestLegacyExternalStorage="true"
-        tools:targetApi="q">
-        <activity
-            android:name=".crash.CrashActivity"
-            android:theme="@style/EBCrashTheme"/>
-
-        <activity android:name=".activity.EBActivity"/>
-
-        <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="${firebaseCrashlyticsCollectionEnabled}"/>
-    </application>
 </manifest>
