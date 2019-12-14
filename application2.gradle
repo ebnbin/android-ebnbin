@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.ebnbin.${project.ext.applicationId}"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        def versionNameSplit = project.ext.versionName.split('-')
+        def majorMinorPatch = versionNameSplit[0].split('\\.')
+        def major = majorMinorPatch[0].toInteger()
+        def minor = majorMinorPatch[1].toInteger()
+        def patch = majorMinorPatch[2].toInteger()
+        def prerelease = versionNameSplit.size() < 2 ? 0 : versionNameSplit[1].toInteger() - 100
+        versionCode 1000000 * major + 10000 * minor + 100 * patch + prerelease
+        versionName project.ext.versionName
+    }
+    signingConfigs {
+        release {
+            def localProperties = new Properties()
+            localProperties.load(new FileInputStream(rootProject.file('local.properties')))
+            def signingPassword = localProperties['signingPassword']
+            storeFile rootProject.file('gitignore/ebnbin.jks')
+            storePassword signingPassword
+            keyAlias 'ebnbin'
+            keyPassword signingPassword
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+            def files = file('proguard/').listFiles()
+            if (files != null) proguardFiles files
+        }
+        prerelease {
+            initWith release
+            debuggable true
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    flavorDimensions 'flavor'
+    productFlavors {
+        github.dimension 'flavor'
+        google.dimension 'flavor'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    dataBinding {
+        enabled true
+    }
+    applicationVariants.all { applicationVariant ->
+        applicationVariant.outputs.all {
+            outputFileName = "$applicationId" +
+                    "-${project.ext.versionName}" +
+                    "-${applicationVariant.flavorName}" +
+                    "-${applicationVariant.buildType.name}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation project(':eb3')
+}

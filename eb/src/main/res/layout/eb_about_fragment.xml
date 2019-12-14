@@ -1,27 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.ebnbin.eb.about.AboutFragmentViewModel"/>
-
-        <variable
-            name="backOnClick"
-            type="android.view.View.OnClickListener"/>
-
-        <variable
-            name="iconOnLongClick"
-            type="android.view.View.OnLongClickListener"/>
-
-        <variable
-            name="versionOnClick"
-            type="android.view.View.OnClickListener"/>
-
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,68 +14,119 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.MaterialToolbar
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/eb_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorBackgroundFloating"
                 app:title="@string/eb_about"
-                app:navigationIcon="@drawable/eb_material_arrow_back"
-                navigationOnClickListener="@{backOnClick}"/>
+                app:navigationIcon="@drawable/eb_toolbar_back"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
+            android:id="@+id/eb_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="88dp">
+                android:paddingBottom="88dp"
+                android:clipToPadding="false"
+                android:clipChildren="false">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingTop="32dp"
-                    android:paddingBottom="32dp">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/eb_icon"
+                    android:layout_width="118dp"
+                    android:layout_height="118dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="53dp"
+                    android:layout_marginBottom="5dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:outlineProvider="none"
+                    app:cardCornerRadius="59dp">
 
                     <ImageView
                         android:layout_width="128dp"
                         android:layout_height="128dp"
-                        android:src="@drawable/eb_icon"
-                        android:onLongClickListener="@{iconOnLongClick}"/>
+                        android:src="@drawable/eb_icon_128"
+                        android:layout_marginStart="-5dp"
+                        android:layout_marginTop="-5dp"/>
 
-                    <TextView
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/eb_label"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:maxLines="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/eb_slogan"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/eb_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:minHeight="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:maxLines="1"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/eb_update"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/eb_label"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textStyle="bold"/>
+                        android:text="@string/eb_about_update"
+                        android:textColor="?attr/colorAccent"
+                        app:rippleColor="?attr/colorAccent"/>
 
-                    <TextView
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/eb_open_market"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/eb_label"
-                        android:textSize="12sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:minHeight="48dp"
-                        android:gravity="center"
-                        android:text="@{viewModel.version}"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:onClick="@{versionOnClick}"/>
+                        android:text="@string/eb_about_open_market"
+                        android:textColor="?attr/colorAccent"
+                        app:rippleColor="?attr/colorAccent"/>
 
                 </LinearLayout>
 
@@ -102,14 +135,16 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginTop="48dp"
                     android:background="@color/eb_black"
                     android:backgroundTint="?android:attr/colorControlHighlight"/>
 
                 <LinearLayout
+                    android:id="@+id/eb_open_source_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"/>
 
             </LinearLayout>
 
@@ -117,4 +152,12 @@
 
     </LinearLayout>
 
-</layout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        app:tint="?attr/colorBackgroundFloating"/>
+
+</FrameLayout>

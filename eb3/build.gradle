@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        def files = file('proguard/').listFiles()
+        if (files != null) consumerProguardFiles files
+        buildConfigField 'long', 'BUILD_TIMESTAMP', "${System.currentTimeMillis()}L"
+    }
+    buildTypes {
+        release {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: true]
+        }
+        prerelease {
+            initWith release
+            debuggable true
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: false]
+        }
+        debug {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: false]
+        }
+    }
+    flavorDimensions 'flavor'
+    productFlavors {
+        github.dimension 'flavor'
+        google.dimension 'flavor'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    dataBinding {
+        enabled = true
+    }
+    resourcePrefix 'eb'
+}
+
+dependencies {
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion" // https://github.com/JetBrains/kotlin
+    api 'androidx.appcompat:appcompat:1.2.0-alpha01' // https://maven.google.com/web/index.html https://developer.android.com/jetpack/androidx/versions
+    api 'com.google.android.material:material:1.2.0-alpha02' // https://material.io/develop/android/docs/getting-started/
+    api 'androidx.core:core-ktx:1.2.0-rc01'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03'
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03'
+    api 'androidx.activity:activity-ktx:1.1.0-rc03'
+    api 'androidx.fragment:fragment-ktx:1.2.0-rc03'
+    api 'androidx.recyclerview:recyclerview:1.1.0'
+    api 'com.google.firebase:firebase-analytics:17.2.1' // https://firebase.google.com/docs/android/setup
+    api 'com.crashlytics.sdk.android:crashlytics:2.10.1' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
+    api 'cat.ereza:customactivityoncrash:2.2.0' // https://github.com/Ereza/CustomActivityOnCrash
+    api 'com.jeremyliao:live-event-bus-x:1.5.7' // https://github.com/JeremyLiao/LiveEventBus
+}

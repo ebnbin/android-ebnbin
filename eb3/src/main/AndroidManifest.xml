@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ebnbin.eb">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:name=".EBApplication"
+        android:label="@string/eb_label"
+        android:theme="@style/EBTheme"
+        android:icon="@mipmap/eb_icon"
+        android:roundIcon="@mipmap/eb_icon"
+        android:logo="@drawable/eb_logo">
+        <activity
+            android:name=".crash.CrashActivity"
+            android:theme="@style/EBCrashTheme"/>
+
+        <activity android:name=".activity.EBFragmentActivity"/>
+
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${firebaseCrashlyticsCollectionEnabled}"/>
+    </application>
+</manifest>

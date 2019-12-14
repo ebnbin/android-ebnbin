@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="eb_about">关于</string>
-    <string name="eb_about_device_id_copied">已复制设备 id</string>
-    <string name="eb_about_version">v%1$s%2$s&#160;&#160;&#160;&#160;%3$s</string>
-    <string name="eb_about_update">检查更新</string>
-    <string name="eb_about_open_market">在应用商店中查看</string>
-</resources>

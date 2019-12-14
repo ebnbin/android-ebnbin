@@ -2,24 +2,22 @@ package com.ebnbin.eb.crash
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
-import androidx.databinding.DataBindingUtil
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.R
-import com.ebnbin.eb.databinding.EbCrashActivityBinding
+import com.ebnbin.eb.dev.EBReport
+import kotlinx.android.synthetic.main.eb_crash_activity.*
 
 /**
- * 自定义崩溃页面.
+ * 崩溃页面.
  */
 internal class CrashActivity : AppCompatActivity() {
-    private val viewModel: CrashActivityViewModel by viewModels()
-
-    private lateinit var binding: EbCrashActivityBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = intent
@@ -27,35 +25,47 @@ internal class CrashActivity : AppCompatActivity() {
             finish()
             return
         }
-        val caocConfig = runCatching {
+        val caocConfig = try {
             CustomActivityOnCrash.getConfigFromIntent(intent)
-        }.getOrNull()
+        } catch (e: Exception) {
+            null
+        }
         if (caocConfig == null) {
             finish()
             return
         }
-        binding = DataBindingUtil.setContentView(this, R.layout.eb_crash_activity)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.setCopyOnClick {
-            val clipboardManager = getSystemService<ClipboardManager>() ?: return@setCopyOnClick
-            clipboardManager.setPrimaryClip(ClipData.newPlainText(CrashActivity::class.java.name, viewModel.log.value))
-            Toast.makeText(this, R.string.eb_crash_copied, Toast.LENGTH_SHORT).show()
+        setContentView(R.layout.eb_crash_activity)
+        eb_icon.setOnLongClickListener {
+            eb_icon.setOnLongClickListener(null)
+            eb_log_view.visibility = View.VISIBLE
+            val log = getLog(intent)
+            eb_copy_view.setOnClickListener {
+                val clipboardManager = getSystemService<ClipboardManager>() ?: return@setOnClickListener
+                clipboardManager.primaryClip = ClipData.newPlainText(CrashActivity::class.java.name, log)
+                Toast.makeText(this, R.string.eb_crash_copied, Toast.LENGTH_SHORT).show()
+            }
+            eb_log_text_view.text = log
+            true
         }
-        binding.setCloseOnClick {
+        eb_title_text_view.text = getString(R.string.eb_crash_title, getString(R.string.eb_label))
+        eb_close_view.setOnClickListener {
             CustomActivityOnCrash.closeApplication(this, caocConfig)
         }
-        binding.setRestartOnClick {
+        eb_restart_view.setOnClickListener {
             CustomActivityOnCrash.restartApplication(this, caocConfig)
         }
-        if (viewModel.log.value == null) {
-            viewModel.log.value = CustomActivityOnCrash.getStackTraceFromIntent(intent)
+        if (BuildConfig.DEBUG) {
+            eb_icon.performLongClick()
         }
     }
 
-    override fun onDestroy() {
-        binding.unbind()
-        super.onDestroy()
+    private fun getLog(intent: Intent): CharSequence {
+        val ebReport = try {
+            EBReport().create().toString()
+        } catch (throwable: Throwable) {
+            "ERROR"
+        }
+        return "$ebReport\n\nStack trace:\n${CustomActivityOnCrash.getStackTraceFromIntent(intent)}"
     }
 
     override fun onBackPressed() {
