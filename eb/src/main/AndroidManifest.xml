@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".EBApp"
         android:label="@string/eb_label"
         android:icon="@mipmap/eb_icon"
         android:roundIcon="@mipmap/eb_icon"

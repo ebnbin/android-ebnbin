@@ -1,9 +1,9 @@
 package com.ebnbin.eb2
 
-import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.crashlytics.android.Crashlytics
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb2.crash.CrashActivity
 import com.ebnbin.eb2.debug.BaseDebugPageFragment
 import com.ebnbin.eb2.debug.debug
@@ -13,7 +13,7 @@ import com.ebnbin.eb2.util.DeviceHelper
 /**
  * Base Application.
  */
-open class EBApplication : Application() {
+open class EBApplication : EBApp() {
     override fun onCreate() {
         super.onCreate()
         instance = this
