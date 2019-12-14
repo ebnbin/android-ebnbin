@@ -1,7 +1,7 @@
 package com.ebnbin.eb.dev
 
 import android.os.Build
-import com.ebnbin.eb.BuildConfig
+import com.ebnbin.windowcamera.BuildConfig
 import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DataHelper

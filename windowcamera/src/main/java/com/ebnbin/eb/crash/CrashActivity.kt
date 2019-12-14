@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
-import com.ebnbin.eb.BuildConfig
+import com.ebnbin.windowcamera.BuildConfig
 import com.ebnbin.windowcamera.R
 import com.ebnbin.eb.dev.EBReport
 import kotlinx.android.synthetic.main.eb_crash_activity.*

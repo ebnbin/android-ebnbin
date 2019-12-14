@@ -1,8 +1,8 @@
 package com.ebnbin.eb.githubapi
 
-import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.DataHelper
+import com.ebnbin.windowcamera.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

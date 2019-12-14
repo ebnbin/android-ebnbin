@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.ebnbin.${project.ext.applicationId}"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        def applicationVersionSplit = project.ext.applicationVersion.split("\\.") + '0' + '0'
+        versionCode 1000000 * applicationVersionSplit[0].toInteger() +
+                10000 * applicationVersionSplit[1].toInteger() +
+                100 * applicationVersionSplit[2].toInteger() +
+                applicationVersionSplit[3].toInteger()
+        versionName project.ext.applicationVersion
+    }
+    signingConfigs {
+        release {
+            def localProperties = new Properties()
+            localProperties.load(new FileInputStream(rootProject.file('local.properties')))
+            def signingPassword = localProperties['signingPassword']
+            storeFile rootProject.file('gitignore/ebnbin.jks')
+            storePassword signingPassword
+            keyAlias 'ebnbin'
+            keyPassword signingPassword
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+            def files = file('proguard/').listFiles()
+            if (files != null) proguardFiles(files)
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    flavorDimensions 'flavor'
+    productFlavors {
+        github.dimension 'flavor'
+        google.dimension 'flavor'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    dataBinding {
+        enabled true
+    }
+    applicationVariants.all { applicationVariant ->
+        applicationVariant.outputs.all {
+            outputFileName = "$applicationId" +
+                    "-$versionName" +
+                    "-${applicationVariant.flavorName}" +
+                    "-${applicationVariant.buildType.name}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation project(':eb')
+}

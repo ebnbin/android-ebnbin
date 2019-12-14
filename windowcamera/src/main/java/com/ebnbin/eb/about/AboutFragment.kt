@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ebnbin.eb.BuildConfig
-import com.ebnbin.windowcamera.R
 import com.ebnbin.eb.activity.EBActivity
 import com.ebnbin.eb.debug.debug
 import com.ebnbin.eb.fragment.EBFragment
@@ -18,6 +16,8 @@ import com.ebnbin.eb.util.BuildHelper
 import com.ebnbin.eb.util.DeviceHelper
 import com.ebnbin.eb.util.IntentHelper
 import com.ebnbin.eb.util.TimeHelper
+import com.ebnbin.windowcamera.BuildConfig
+import com.ebnbin.windowcamera.R
 import kotlinx.android.synthetic.main.eb_about_fragment.*
 
 class AboutFragment : EBFragment() {

@@ -1,7 +1,7 @@
 package com.ebnbin.eb.debug
 
 import android.util.Log
-import com.ebnbin.eb.BuildConfig
+import com.ebnbin.windowcamera.BuildConfig
 
 /**
  * Debug 模式.

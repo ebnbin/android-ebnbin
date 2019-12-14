@@ -17,7 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.BuildConfig
+import com.ebnbin.windowcamera.BuildConfig
 import com.ebnbin.windowcamera.R
 import com.ebnbin.eb.dialog.EBDialogFragment
 import com.ebnbin.eb.fragment.FragmentHelper

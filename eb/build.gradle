@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        def files = file('proguard/').listFiles()
+        if (files != null) consumerProguardFiles files
+        buildConfigField 'long', 'BUILD_TIMESTAMP', "${System.currentTimeMillis()}L"
+        def localProperties = new Properties()
+        localProperties.load(new FileInputStream(rootProject.file('local.properties')))
+        buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${localProperties['githubApiToken']}\""
+    }
+    buildTypes {
+        release {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: true]
+        }
+        debug {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: false]
+        }
+    }
+    flavorDimensions 'flavor'
+    productFlavors {
+        github.dimension 'flavor'
+        google.dimension 'flavor'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    dataBinding {
+        enabled true
+    }
+    resourcePrefix 'eb'
+}
+
+dependencies {
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion" // https://github.com/JetBrains/kotlin
+    api 'com.google.firebase:firebase-analytics:17.2.1' // https://firebase.google.com/docs/android/setup
+    api 'com.crashlytics.sdk.android:crashlytics:2.10.1' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
+}

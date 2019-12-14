@@ -56,7 +56,7 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             def files = file('proguard/').listFiles()
-            if (files != null) consumerProguardFiles files
+            if (files != null) proguardFiles files
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
         }
         prerelease {
@@ -65,7 +65,7 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             def files = file('proguard/').listFiles()
-            if (files != null) consumerProguardFiles files
+            if (files != null) proguardFiles files
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             debuggable true
         }
