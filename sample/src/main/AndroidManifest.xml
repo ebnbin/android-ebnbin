@@ -5,12 +5,23 @@
     package="com.ebnbin.sample">
     <application
         android:name=".AppApplication"
-        tools:replace="android:name">
+        android:label="@string/eb_label"
+        tools:replace="android:name, android:label">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.ebnbin.sample.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/eb_file_paths"/>
+        </provider>
     </application>
 </manifest>
