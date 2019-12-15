@@ -24,7 +24,7 @@ class DevItemView(
         onClick.value?.invoke(this)
     }
 
-    private val binding: EbDevItemViewBinding = DataBindingUtil.inflate<EbDevItemViewBinding>(
+    val binding: EbDevItemViewBinding = DataBindingUtil.inflate<EbDevItemViewBinding>(
         LayoutInflater.from(this.context), R.layout.eb_dev_item_view, this, true).also {
         it.view = this
     }

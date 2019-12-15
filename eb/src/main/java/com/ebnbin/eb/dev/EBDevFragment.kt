@@ -32,6 +32,7 @@ open class EBDevFragment : EBViewFragment<EbDevFragmentBinding>() {
         onClick: ((DevItemView) -> Unit)? = null
     ): DevItemView {
         return DevItemView(requireContext(), title, summary, onClick).also {
+            it.binding.lifecycleOwner = viewLifecycleOwner
             binding.ebLinearLayout.addView(it)
         }
     }

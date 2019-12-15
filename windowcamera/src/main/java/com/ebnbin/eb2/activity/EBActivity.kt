@@ -1,11 +1,9 @@
 package com.ebnbin.eb2.activity
 
 import android.os.Bundle
-import android.view.MotionEvent
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb2.debug.DebugSwipeDetector
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.permission.PermissionFragment
@@ -120,16 +118,6 @@ open class EBActivity : com.ebnbin.eb.activity.EBActivity(), PermissionFragment.
     override fun onBackPressed() {
         if (FragmentHelper.onBackPressed(supportFragmentManager)) return
         super.onBackPressed()
-    }
-
-    //*****************************************************************************************************************
-
-    @Suppress("LeakingThis")
-    private val debugSwipeDetector: DebugSwipeDetector = DebugSwipeDetector(this)
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (debugSwipeDetector.dispatchTouchEvent(ev)) return true
-        return super.dispatchTouchEvent(ev)
     }
 
     //*****************************************************************************************************************
