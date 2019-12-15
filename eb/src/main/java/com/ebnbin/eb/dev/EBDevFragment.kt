@@ -3,11 +3,11 @@ package com.ebnbin.eb.dev
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.core.os.bundleOf
 import com.ebnbin.eb.R
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.dialog.AlertDialogFragment
+import com.ebnbin.eb.extension.openAlertDialog
 import com.ebnbin.eb.fragment.EBViewFragment
 
 /**
@@ -29,31 +29,23 @@ open class EBDevFragment : EBViewFragment<EbDevFragmentBinding>() {
         addDevItem("Calling Activity", activity?.callingActivity?.className.toString())
 
         addDevItem("AlertDialogFragment", "isMaterial = false") {
-            parentFragmentManager.beginTransaction()
-                .add(AlertDialogFragment::class.java, bundleOf(
-                    AlertDialogFragment.KEY_BUILDER to AlertDialogFragment.Builder(
-                        isMaterial = false,
-                        title = "Title",
-                        message = "Message",
-                        positiveButtonText = "Positive",
-                        negativeButtonText = "Negative"
-                    )
-                ), null)
-                .commitAllowingStateLoss()
+            parentFragmentManager.openAlertDialog(AlertDialogFragment.Builder(
+                isMaterial = false,
+                title = "Title",
+                message = "Message",
+                positiveButtonText = "Positive",
+                negativeButtonText = "Negative"
+            ))
         }
 
         addDevItem("AlertDialogFragment", "isMaterial = true") {
-            parentFragmentManager.beginTransaction()
-                .add(AlertDialogFragment::class.java, bundleOf(
-                    AlertDialogFragment.KEY_BUILDER to AlertDialogFragment.Builder(
-                        isMaterial = true,
-                        title = "Title",
-                        message = "Message",
-                        positiveButtonText = "Positive",
-                        negativeButtonText = "Negative"
-                    )
-                ), null)
-                .commitAllowingStateLoss()
+            parentFragmentManager.openAlertDialog(AlertDialogFragment.Builder(
+                isMaterial = true,
+                title = "Title",
+                message = "Message",
+                positiveButtonText = "Positive",
+                negativeButtonText = "Negative"
+            ))
         }
 
         addDevItem("Crash") {
