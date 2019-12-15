@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/eb_icon"
         android:logo="@drawable/eb_logo"
         android:theme="@style/EBTheme">
+        <activity android:name=".activity.EBFragmentActivity"/>
+
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${firebaseCrashlyticsCollectionEnabled}"/>
