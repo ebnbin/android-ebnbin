@@ -7,7 +7,7 @@ import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.fragment.EBViewFragment
 
 /**
- * 开发者选项页面.
+ * Dev 页面.
  */
 open class EBDevFragment : EBViewFragment<EbDevFragmentBinding>() {
     override val layoutId: Int = R.layout.eb_dev_fragment
