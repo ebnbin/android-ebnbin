@@ -1,16 +1,15 @@
 package com.ebnbin.eb2.dev
 
 import android.os.Build
-import com.ebnbin.windowcamera.BuildConfig
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.DataHelper
 import com.ebnbin.eb2.util.DeviceHelper
 import com.ebnbin.eb2.util.EBModel
-import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.eb2.util.WindowHelper
-import com.ebnbin.eb2.util.res
+import com.ebnbin.windowcamera.BuildConfig
 
 open class EBReport : EBModel {
     var deviceId: String? = null
@@ -44,18 +43,18 @@ open class EBReport : EBModel {
         model = Build.MODEL
         abis = Build.SUPPORTED_ABIS.toList()
         locales = if (BuildHelper.sdk24N()) {
-            res.configuration.locales.run {
+            EBApp.instance.resources.configuration.locales.run {
                 (0 until size()).map { get(it).toString() }
             }
         } else {
             @Suppress("DEPRECATION")
-            listOf(res.configuration.locale.toString())
+            listOf(EBApp.instance.resources.configuration.locale.toString())
         }
-        density = ResHelper.density
+        density = EBApp.instance.resources.displayMetrics.density
         displayRealSize = WindowHelper.displayRealSize.run { "${width0}x$height0" }
         displaySize = WindowHelper.displaySize.run { "${width0}x$height0" }
-        displayRealWidthDp = WindowHelper.displayRealSize.width0 / ResHelper.density
-        displayRealHeightDp = WindowHelper.displayRealSize.height0 / ResHelper.density
+        displayRealWidthDp = WindowHelper.displayRealSize.width0 / EBApp.instance.resources.displayMetrics.density
+        displayRealHeightDp = WindowHelper.displayRealSize.height0 / EBApp.instance.resources.displayMetrics.density
         return this
     }
 

@@ -2,7 +2,7 @@ package com.ebnbin.eb2.sharedpreferences
 
 import android.content.SharedPreferences
 import androidx.annotation.StringRes
-import com.ebnbin.eb2.util.res
+import com.ebnbin.eb.EBApp
 
 open class Sp<T>(
     val getKey: () -> String?,
@@ -12,7 +12,7 @@ open class Sp<T>(
 ) {
     constructor(key: String, defaultValue: T) : this({ key }, { defaultValue })
 
-    constructor(@StringRes keyId: Int, defaultValue: T) : this(res.getString(keyId), defaultValue)
+    constructor(@StringRes keyId: Int, defaultValue: T) : this(EBApp.instance.resources.getString(keyId), defaultValue)
 
     var value: T
         get() {

@@ -13,13 +13,13 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import com.ebnbin.eb.extension.dpToPxRound
 import com.ebnbin.eb2.permission.PermissionHelper
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.SystemServices
-import com.ebnbin.eb2.util.dpToPxRound
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -91,7 +91,7 @@ class WindowCameraView(context: Context) : CardView(context),
                 params.windowAnimations = android.R.style.Animation_Toast
                 if (profileToast == ProfileToast.SYSTEM_ALERT_WINDOW) {
                     params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
-                    params.y = 24f.dpToPxRound
+                    params.y = context.dpToPxRound(24f)
                 }
                 SystemServices.windowManager.addView(view, params)
                 lastToastView = view

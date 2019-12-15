@@ -5,7 +5,8 @@ import androidx.core.view.doOnLayout
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.ebnbin.eb2.util.dpToPxRound
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.extension.dpToPxRound
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.imagevideo.ImageVideo
 
@@ -42,8 +43,8 @@ class AlbumAdapter : BaseMultiItemQuickAdapter<AlbumItem, BaseViewHolder>(null) 
                     MultiSelect.SELECTED -> {
                         helper.itemView.foreground = helper.itemView.context.getDrawable(R.drawable.album_selected)
                         helper.getView<View>(R.id.image_view).doOnLayout {
-                            it.scaleX = (it.width - 16f.dpToPxRound).toFloat() / it.width
-                            it.scaleY = (it.height - 16f.dpToPxRound).toFloat() / it.height
+                            it.scaleX = (it.width - EBApp.instance.dpToPxRound(16f)).toFloat() / it.width
+                            it.scaleY = (it.height - EBApp.instance.dpToPxRound(16f)).toFloat() / it.height
                         }
                     }
                 }

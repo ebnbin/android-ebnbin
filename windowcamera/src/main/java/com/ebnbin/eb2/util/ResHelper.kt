@@ -1,21 +1,12 @@
 package com.ebnbin.eb2.util
 
 import android.content.Context
-import android.util.DisplayMetrics
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.content.res.getColorOrThrow
+import com.ebnbin.eb.EBApp
 
 object ResHelper {
-    private val displayMetrics: DisplayMetrics
-        get() = res.displayMetrics
-
-    val density: Float
-        get() = displayMetrics.density
-
-    val scaledDensity: Float
-        get() = displayMetrics.scaledDensity
-
     @ColorInt
     fun getColorAttr(context: Context, @AttrRes attrId: Int): Int {
         val attrs = intArrayOf(attrId)
@@ -31,7 +22,7 @@ object ResHelper {
      */
     fun getString(any: Any?): String {
         return if (any is Int) {
-            res.getString(any)
+            EBApp.instance.resources.getString(any)
         } else {
             any.toString()
         }

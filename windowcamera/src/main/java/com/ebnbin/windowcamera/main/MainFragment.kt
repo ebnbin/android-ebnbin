@@ -8,11 +8,11 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.viewpager.widget.ViewPager
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.permission.PermissionFragment
 import com.ebnbin.eb2.update.UpdateFragment
-import com.ebnbin.eb2.util.res
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.menu.MenuFragment
 import com.ebnbin.windowcamera.profile.CameraState
@@ -169,7 +169,7 @@ class MainFragment : EBFragment(),
     //*****************************************************************************************************************
 
     companion object {
-        private val TIPS: Array<String> = res.getStringArray(R.array.main_tips)
+        private val TIPS: Array<String> = EBApp.instance.resources.getStringArray(R.array.main_tips)
 
         private var tipShown: Boolean = false
     }

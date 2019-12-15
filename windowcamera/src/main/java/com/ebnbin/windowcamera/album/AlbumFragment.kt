@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.ebnbin.eb.extension.pxToDp
 import com.ebnbin.eb2.dialog.SimpleDialogFragment
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.WindowHelper
-import com.ebnbin.eb2.util.pxToDp
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.imagevideo.ImageVideo
 import com.ebnbin.windowcamera.imagevideo.ImageVideoActivity
@@ -32,7 +32,7 @@ class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val width = WindowHelper.getDisplaySize(requireContext()).width
-        val spanCount = (width.pxToDp / 90f).toInt()
+        val spanCount = (requireContext().pxToDp(width) / 90f).toInt()
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
         recycler_view.layoutManager = layoutManager
 
