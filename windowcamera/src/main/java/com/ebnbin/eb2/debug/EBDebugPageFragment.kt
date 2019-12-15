@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.dev.EBDevFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.dev.EBReport
-import com.ebnbin.eb2.exception.CrashException
 import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
@@ -64,10 +63,6 @@ open class EBDebugPageFragment : EBDevFragment() {
 
         addDevItem("关闭应用") {
             IntentHelper.finishApp()
-        }
-
-        addDevItem("Crash") {
-            throw CrashException()
         }
 
         super.onAddDevItems()

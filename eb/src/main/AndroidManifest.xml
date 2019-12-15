@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/eb_icon"
         android:logo="@drawable/eb_logo"
         android:theme="@style/EBTheme">
+        <activity
+            android:name=".crash.CrashActivity"
+            android:theme="@style/EBCrashTheme"/>
+
         <activity android:name=".activity.EBFragmentActivity"/>
 
         <meta-data

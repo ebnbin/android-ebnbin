@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:onClick="@{view}">
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{view::onClick}">
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
             android:maxLines="2"
             android:ellipsize="end"
             android:text="@{view.title}"
-            android:textAppearance="?android:attr/textAppearanceListItem"/>
+            android:textAppearance="?attr/textAppearanceListItem"/>
 
         <TextView
             android:layout_width="wrap_content"

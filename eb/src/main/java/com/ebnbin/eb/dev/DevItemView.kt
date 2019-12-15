@@ -16,11 +16,11 @@ class DevItemView(
     val title: CharSequence,
     summary: CharSequence? = null,
     onClick: ((DevItemView) -> Unit)? = null
-) : FrameLayout(context), View.OnClickListener {
+) : FrameLayout(context) {
     val summary: MutableLiveData<CharSequence?> = MutableLiveData(summary)
     val onClick: MutableLiveData<((DevItemView) -> Unit)?> = MutableLiveData(onClick)
 
-    override fun onClick(v: View?) {
+    fun onClick(view: View) {
         onClick.value?.invoke(this)
     }
 

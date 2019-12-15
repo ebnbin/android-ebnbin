@@ -1,6 +1,8 @@
 package com.ebnbin.eb
 
 import android.app.Application
+import cat.ereza.customactivityoncrash.config.CaocConfig
+import com.ebnbin.eb.crash.CrashActivity
 import com.ebnbin.eb.dev.EBDevFragment
 
 /**
@@ -10,6 +12,14 @@ open class EBApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        initCustomActivityOnCrash()
+    }
+
+    private fun initCustomActivityOnCrash() {
+        CaocConfig.Builder.create()
+            .enabled(true) // 始终启用.
+            .errorActivity(CrashActivity::class.java)
+            .apply()
     }
 
     /**

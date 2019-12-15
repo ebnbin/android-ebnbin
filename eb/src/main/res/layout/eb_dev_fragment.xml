@@ -23,7 +23,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/colorBackgroundFloating"
+                android:background="?attr/colorBackgroundFloating"
                 app:title="@string/eb_dev"
                 app:navigationIcon="@drawable/eb_dev_close"
                 navigationOnClickListener="@{closeOnClick}"/>

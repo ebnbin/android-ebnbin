@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import com.ebnbin.eb.R
+import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.fragment.EBViewFragment
 
@@ -24,6 +25,10 @@ open class EBDevFragment : EBViewFragment<EbDevFragmentBinding>() {
     @CallSuper
     protected open fun onAddDevItems() {
         addDevItem("Calling Activity", activity?.callingActivity?.className.toString())
+
+        addDevItem("Crash") {
+            throw CrashException()
+        }
     }
 
     protected fun addDevItem(
