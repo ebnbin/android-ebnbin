@@ -1,6 +1,7 @@
 apply from: rootProject.file('util.gradle.kts')
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -34,6 +35,9 @@ android {
     }
     dataBinding {
         enabled true
+    }
+    androidExtensions {
+        experimental = true
     }
     resourcePrefix 'eb'
 }

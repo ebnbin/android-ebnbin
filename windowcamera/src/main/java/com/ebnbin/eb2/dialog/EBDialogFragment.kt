@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.appcompat.app.AppCompatDialogFragment
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.library.Libraries
 
 /**
  * Base DialogFragment.
  */
-abstract class EBDialogFragment : com.ebnbin.eb.dialog.EBDialogFragment() {
+abstract class EBDialogFragment : AppCompatDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initArguments(savedInstanceState)

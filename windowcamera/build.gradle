@@ -8,8 +8,6 @@ apply from: rootProject.file('application.gradle')
 
 
 
-apply plugin: 'kotlin-android-extensions'
-
 android {
     defaultConfig {
         ndk {
