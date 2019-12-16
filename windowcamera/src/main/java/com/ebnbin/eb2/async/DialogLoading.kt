@@ -2,17 +2,17 @@ package com.ebnbin.eb2.async
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDialog
+import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.windowcamera.R
-import com.ebnbin.eb2.dialog.DialogCancel
 import io.reactivex.disposables.Disposable
 
-class DialogLoading<T>(private val context: Context, private val dialogCancel: DialogCancel) : Loading<T> {
+class DialogLoading<T>(private val context: Context, private val dialogCancelable: DialogCancelable) : Loading<T> {
     private var dialog: AppCompatDialog? = null
 
     override fun onStart(key: String, loadings: LinkedHashMap<String, Loading<*>>, disposable: Disposable) {
         val dialog = AppCompatDialog(context)
-        dialog.setCancelable(dialogCancel != DialogCancel.NOT_CANCELABLE)
-        dialog.setCanceledOnTouchOutside(dialogCancel == DialogCancel.CANCELABLE)
+        dialog.setCancelable(dialogCancelable != DialogCancelable.NOT_CANCELABLE)
+        dialog.setCanceledOnTouchOutside(dialogCancelable == DialogCancelable.CANCELABLE)
         dialog.setContentView(R.layout.eb_loading_dialog)
         dialog.setOnDismissListener {
             loadings.remove(key)

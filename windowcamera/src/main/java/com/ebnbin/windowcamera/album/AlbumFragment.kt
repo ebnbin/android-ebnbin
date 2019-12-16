@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
+import com.ebnbin.eb.dialog.AlertDialogFragment
+import com.ebnbin.eb.extension.openAlertDialog
 import com.ebnbin.eb.extension.pxToDp
-import com.ebnbin.eb2.dialog.SimpleDialogFragment
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
@@ -21,7 +23,7 @@ import kotlinx.android.synthetic.main.album_fragment.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
+class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.album_fragment, container, false)
@@ -121,13 +123,11 @@ class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
                     if (adapter.data.none { albumItem -> albumItem.multiSelect == MultiSelect.SELECTED }) {
                         AppHelper.toast(requireContext(), R.string.album_selected_empty)
                     } else {
-                        SimpleDialogFragment.start(
-                            childFragmentManager, SimpleDialogFragment.Builder(
-                                message = getString(R.string.album_delete_message),
-                                positive = getString(R.string.album_delete_position),
-                                negative = getString(R.string.album_delete_negative)
-                            ), "delete"
-                        )
+                        childFragmentManager.openAlertDialog(AlertDialogFragment.Builder(
+                            message = getString(R.string.album_delete_message),
+                            positiveButtonText = getString(R.string.album_delete_position),
+                            negativeButtonText = getString(R.string.album_delete_negative)
+                        ), "delete")
                     }
                     true
                 }
@@ -220,7 +220,7 @@ class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
         super.onSaveInstanceState(outState)
     }
 
-    override fun onDialogPositive(extraData: Bundle): Boolean {
+    override fun alertDialogOnPositive(alertDialog: AlertDialog, extraData: Bundle): Boolean {
         adapter.data
             .filter { it.multiSelect == MultiSelect.SELECTED }
             .forEach { it.file.delete() }
@@ -229,17 +229,6 @@ class AlbumFragment : EBFragment(), SimpleDialogFragment.Callback {
         multiSelectNormal()
         exitActionMode()
         return true
-    }
-
-    override fun onDialogNegative(extraData: Bundle): Boolean {
-        return true
-    }
-
-    override fun onDialogNeutral(extraData: Bundle): Boolean {
-        return true
-    }
-
-    override fun onDialogDismiss(extraData: Bundle) {
     }
 
     override val isEventBusEnabled: Boolean = true

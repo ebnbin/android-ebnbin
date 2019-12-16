@@ -1,7 +1,6 @@
 package com.ebnbin.eb2.activity
 
 import android.os.Bundle
-import androidx.annotation.CallSuper
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.library.Libraries
 
@@ -18,8 +17,6 @@ open class EBFragmentActivity : com.ebnbin.eb.activity.EBFragmentActivity() {
         }
 
         initEventBus()
-        initArguments(savedInstanceState)
-        initTheme()
     }
 
     override fun onDestroy() {
@@ -41,28 +38,6 @@ open class EBFragmentActivity : com.ebnbin.eb.activity.EBFragmentActivity() {
         if (isEventBusEnabled && Libraries.eventBus.isRegistered(this)) {
             Libraries.eventBus.unregister(this)
         }
-    }
-
-    //*****************************************************************************************************************
-
-    private fun initArguments(savedInstanceState: Bundle?) {
-        onInitArguments(savedInstanceState, intent?.extras ?: Bundle())
-    }
-
-    @CallSuper
-    protected open fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
-        if (extras.containsKey(KEY_THEME_ID)) {
-            themeId = extras.getInt(KEY_THEME_ID, 0)
-        }
-    }
-
-    //*****************************************************************************************************************
-
-    private var themeId: Int = 0
-
-    private fun initTheme() {
-        if (themeId == 0) return
-        setTheme(themeId)
     }
 
     //*****************************************************************************************************************
@@ -89,6 +64,5 @@ open class EBFragmentActivity : com.ebnbin.eb.activity.EBFragmentActivity() {
 
     companion object {
         const val KEY_FINISH = "finish"
-        const val KEY_THEME_ID = "theme_id"
     }
 }

@@ -1,12 +1,14 @@
 package com.ebnbin.windowcamera.splash
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.dialog.AlertDialogFragment
+import com.ebnbin.eb.dialog.DialogCancelable
+import com.ebnbin.eb.extension.openAlertDialog
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
-import com.ebnbin.eb2.dialog.DialogCancel
-import com.ebnbin.eb2.dialog.SimpleDialogFragment
 import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb2.splash.EBSplashFragment
 import com.ebnbin.eb2.util.Consts
@@ -31,31 +33,25 @@ class SplashFragment : EBSplashFragment() {
         } catch (throwable: Throwable) {
             DevHelper.reportThrowable(throwable)
         }
-        SimpleDialogFragment.start(
-            childFragmentManager,
-            SimpleDialogFragment.Builder(
-                message = getString(R.string.splash_camera_message),
-                positive = getString(R.string.splash_camera_positive),
-                dialogCancel = DialogCancel.NOT_CANCELABLE
-            ),
-            "splash_camera",
-            bundleOf(
-                Consts.KEY_CALLING_ID to "splash_camera"
-            )
-        )
+        childFragmentManager.openAlertDialog(AlertDialogFragment.Builder(
+            message = getString(R.string.splash_camera_message),
+            positiveButtonText = getString(R.string.splash_camera_positive),
+            dialogCancelable = DialogCancelable.NOT_CANCELABLE,
+            extraData = bundleOf(Consts.KEY_CALLING_ID to "splash_camera")
+        ), "splash_camera")
     }
 
     override fun createReport(): EBReport {
         return Report().create()
     }
 
-    override fun onDialogPositive(extraData: Bundle): Boolean {
+    override fun alertDialogOnPositive(alertDialog: AlertDialog, extraData: Bundle): Boolean {
         when (extraData.getString(Consts.KEY_CALLING_ID)) {
             "splash_camera" -> {
                 finish()
                 return true
             }
-            else -> return super.onDialogPositive(extraData)
+            else -> return super.alertDialogOnPositive(alertDialog, extraData)
         }
     }
 

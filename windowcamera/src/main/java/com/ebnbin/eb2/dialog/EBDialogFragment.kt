@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.appcompat.app.AppCompatDialogFragment
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.library.Libraries
 
 /**
  * Base DialogFragment.
  */
-abstract class EBDialogFragment : AppCompatDialogFragment() {
+abstract class EBDialogFragment : com.ebnbin.eb.dialog.EBDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initArguments(savedInstanceState)
@@ -28,24 +27,6 @@ abstract class EBDialogFragment : AppCompatDialogFragment() {
         disposeAsyncHelper()
         disposeEventBus()
         super.onDestroyView()
-    }
-
-    //*****************************************************************************************************************
-
-    /**
-     * 将父 Fragment 或 Activity 强转为 [callbackClass].
-     */
-    protected fun <T> attachCallback(callbackClass: Class<T>): T? {
-        arrayOf(parentFragment, activity).forEach {
-            if (callbackClass.isInstance(it)) {
-                return callbackClass.cast(it)
-            }
-        }
-        return null
-    }
-
-    protected fun <T> attachCallbackNotNull(callbackClass: Class<T>): T {
-        return attachCallback(callbackClass) ?: throw RuntimeException()
     }
 
     //*****************************************************************************************************************

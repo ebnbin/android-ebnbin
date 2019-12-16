@@ -13,11 +13,6 @@ import com.ebnbin.eb2.library.Libraries
  * Base PreferenceFragment.
  */
 abstract class EBPreferenceFragment : PreferenceFragmentCompat() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initArguments(savedInstanceState)
-    }
-
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initEventBus()
@@ -28,24 +23,6 @@ abstract class EBPreferenceFragment : PreferenceFragmentCompat() {
         disposeAsyncHelper()
         disposeEventBus()
         super.onDestroyView()
-    }
-
-    //*****************************************************************************************************************
-
-    /**
-     * 将父 Fragment 或 Activity 强转为 [callbackClass].
-     */
-    protected fun <T> attachCallback(callbackClass: Class<T>): T? {
-        arrayOf(parentFragment, activity).forEach {
-            if (callbackClass.isInstance(it)) {
-                return callbackClass.cast(it)
-            }
-        }
-        return null
-    }
-
-    protected fun <T> attachCallbackNotNull(callbackClass: Class<T>): T {
-        return attachCallback(callbackClass) ?: throw RuntimeException()
     }
 
     //*****************************************************************************************************************
@@ -62,16 +39,6 @@ abstract class EBPreferenceFragment : PreferenceFragmentCompat() {
         if (isEventBusEnabled && Libraries.eventBus.isRegistered(this)) {
             Libraries.eventBus.unregister(this)
         }
-    }
-
-    //*****************************************************************************************************************
-
-    private fun initArguments(savedInstanceState: Bundle?) {
-        onInitArguments(savedInstanceState, arguments ?: Bundle(), activity?.intent?.extras ?: Bundle())
-    }
-
-    @CallSuper
-    protected open fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
     }
 
     //*****************************************************************************************************************

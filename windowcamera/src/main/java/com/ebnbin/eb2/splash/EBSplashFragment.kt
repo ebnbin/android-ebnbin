@@ -2,14 +2,14 @@ package com.ebnbin.eb2.splash
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
+import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
-import com.ebnbin.eb2.dialog.SimpleDialogFragment
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 import com.ebnbin.eb2.util.BuildHelper
 
-open class EBSplashFragment : EBFragment(), SimpleDialogFragment.Callback {
+open class EBSplashFragment : EBFragment(), AlertDialogFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DevHelper.report { createReport() }
@@ -36,24 +36,5 @@ open class EBSplashFragment : EBFragment(), SimpleDialogFragment.Callback {
     protected open fun onNewVersion(oldVersion: Int, newVersion: Int) {
         EBSpManager.last_update_timestamp.value = 0L
         EBSpManager.last_report_timestamp.value = 0L
-    }
-
-    @CallSuper
-    override fun onDialogPositive(extraData: Bundle): Boolean {
-        return true
-    }
-
-    @CallSuper
-    override fun onDialogNegative(extraData: Bundle): Boolean {
-        return true
-    }
-
-    @CallSuper
-    override fun onDialogNeutral(extraData: Bundle): Boolean {
-        return true
-    }
-
-    @CallSuper
-    override fun onDialogDismiss(extraData: Bundle) {
     }
 }

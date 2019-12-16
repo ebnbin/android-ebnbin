@@ -36,12 +36,6 @@ abstract class EBFragment : com.ebnbin.eb.fragment.EBFragment() {
 
     //*****************************************************************************************************************
 
-    protected fun <T> attachCallbackNotNull(callbackClass: Class<T>): T {
-        return attachCallback(callbackClass) ?: throw RuntimeException()
-    }
-
-    //*****************************************************************************************************************
-
     protected open val isEventBusEnabled: Boolean = false
 
     private fun initEventBus() {
