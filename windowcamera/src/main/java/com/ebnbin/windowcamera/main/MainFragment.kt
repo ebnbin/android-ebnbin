@@ -9,9 +9,10 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.extension.openPermissionFragment
+import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.fragment.EBFragment
-import com.ebnbin.eb2.permission.PermissionFragment
 import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.menu.MenuFragment
@@ -102,7 +103,8 @@ class MainFragment : EBFragment(),
     override fun onPageScrollStateChanged(state: Int) {
     }
 
-    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
+    override fun permissionOnResult(permissions: Array<out String>, granted: Boolean, extraData: Bundle) {
+        super.permissionOnResult(permissions, granted, extraData)
         if (granted) {
             floating_action_button.isEnabled = false
             WindowCameraService.start(requireContext())
@@ -129,7 +131,7 @@ class MainFragment : EBFragment(),
         } else {
             imageId = R.drawable.main_camera
             listener = View.OnClickListener {
-                PermissionFragment.start(childFragmentManager, WindowCameraService.permissions)
+                childFragmentManager.openPermissionFragment(WindowCameraService.permissions.toTypedArray())
                 DevHelper.reportEvent("window_camera_service_fab", bundleOf(
                     FirebaseAnalytics.Param.VALUE to "start"
                 ))

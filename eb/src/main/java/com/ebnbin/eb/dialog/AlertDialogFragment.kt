@@ -35,11 +35,11 @@ open class AlertDialogFragment : EBDialogFragment() {
          */
         fun alertDialogOnNeutral(alertDialog: AlertDialog, extraData: Bundle): Boolean = true
 
-        fun alertDialogOnShow(alertDialog: AlertDialog, extraData: Bundle)
+        fun alertDialogOnShow(alertDialog: AlertDialog, extraData: Bundle) = Unit
 
-        fun alertDialogOnCancel(alertDialog: AlertDialog, extraData: Bundle)
+        fun alertDialogOnCancel(alertDialog: AlertDialog, extraData: Bundle) = Unit
 
-        fun alertDialogOnDismiss(alertDialog: AlertDialog, extraData: Bundle)
+        fun alertDialogOnDismiss(alertDialog: AlertDialog, extraData: Bundle) = Unit
     }
 
     protected val builder: Builder

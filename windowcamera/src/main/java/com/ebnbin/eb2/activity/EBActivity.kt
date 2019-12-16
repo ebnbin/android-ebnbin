@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.ebnbin.eb.extension.openPermissionFragment
+import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.library.Libraries
-import com.ebnbin.eb2.permission.PermissionFragment
 import com.ebnbin.eb2.util.Consts
 
 /**
@@ -92,14 +93,15 @@ open class EBActivity : com.ebnbin.eb.activity.EBActivity(), PermissionFragment.
         if (fragmentPermissions == null) {
             FragmentHelper.add(supportFragmentManager, fragmentClass, android.R.id.content)
         } else {
-            PermissionFragment.start(supportFragmentManager, fragmentPermissions, bundleOf(
+            supportFragmentManager.openPermissionFragment(fragmentPermissions.toTypedArray(), bundleOf(
                 Consts.KEY_CALLING_ID to EBActivity::class.java.name,
                 KEY_FRAGMENT_CLASS to fragmentClass
             ))
         }
     }
 
-    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
+    override fun permissionOnResult(permissions: Array<out String>, granted: Boolean, extraData: Bundle) {
+        super.permissionOnResult(permissions, granted, extraData)
         when (extraData.getString(Consts.KEY_CALLING_ID)) {
             EBActivity::class.java.name -> {
                 if (granted) {

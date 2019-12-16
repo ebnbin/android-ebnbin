@@ -14,8 +14,8 @@ import android.os.IBinder
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
+import com.ebnbin.eb.extension.hasPermissions
 import com.ebnbin.eb2.library.Libraries
-import com.ebnbin.eb2.permission.PermissionHelper
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.SystemServices
@@ -117,7 +117,7 @@ class WindowCameraService : Service() {
 
         fun start(context: Context) {
             if (isRunning()) return
-            if (!PermissionHelper.isPermissionsGranted(permissions)) {
+            if (!context.hasPermissions(permissions.toTypedArray())) {
                 AppHelper.toast(context, R.string.eb_permission_denied)
                 return
             }

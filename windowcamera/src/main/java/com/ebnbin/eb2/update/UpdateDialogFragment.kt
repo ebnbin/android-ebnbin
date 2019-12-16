@@ -17,17 +17,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.windowcamera.BuildConfig
-import com.ebnbin.windowcamera.R
+import com.ebnbin.eb.extension.openPermissionFragment
+import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb2.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
-import com.ebnbin.eb2.permission.PermissionFragment
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.DataHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.SystemServices
+import com.ebnbin.windowcamera.BuildConfig
+import com.ebnbin.windowcamera.R
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -180,10 +181,11 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
     //*****************************************************************************************************************
 
     private fun requestInstallPermission() {
-        PermissionFragment.start(childFragmentManager, arrayListOf(Manifest.permission.REQUEST_INSTALL_PACKAGES))
+        childFragmentManager.openPermissionFragment(arrayOf(Manifest.permission.REQUEST_INSTALL_PACKAGES))
     }
 
-    override fun onPermissionsResult(permissions: ArrayList<String>, granted: Boolean, extraData: Bundle) {
+    override fun permissionOnResult(permissions: Array<out String>, granted: Boolean, extraData: Bundle) {
+        super.permissionOnResult(permissions, granted, extraData)
         if (granted) {
             install()
         }

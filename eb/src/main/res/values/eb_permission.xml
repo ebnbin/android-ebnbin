@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="eb_permission_dialog_positive">去设置</string>
+    <string name="eb_permission_dialog_negative">暂不允许</string>
+    <string name="eb_permission_dialog_message_request_install_packages">请在系统设置中手动允许“安装未知应用”权限。</string>
+    <string name="eb_permission_dialog_message_system_alert_window">请在系统设置中手动允许“显示在其他应用的上层”权限。</string>
+    <string name="eb_permission_dialog_message_runtime_permissions_denied_forever">权限被永久拒绝，请在系统设置中手动允许权限。</string>
+    <string name="eb_permission_denied">权限被拒绝</string>
+    <string name="eb_permission_denied_open_settings_failure">无法打开设置，请手动在系统应用设置中允许权限</string>
+</resources>

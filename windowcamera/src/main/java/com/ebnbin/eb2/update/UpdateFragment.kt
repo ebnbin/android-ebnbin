@@ -3,16 +3,16 @@ package com.ebnbin.eb2.update
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.windowcamera.R
+import com.ebnbin.eb.extension.removeSelf
 import com.ebnbin.eb2.async.DialogLoading
 import com.ebnbin.eb2.dialog.DialogCancel
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
-import com.ebnbin.eb2.fragment.removeSelf
 import com.ebnbin.eb2.githubapi.model.content.Update
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.TimeHelper
+import com.ebnbin.windowcamera.R
 
 class UpdateFragment : EBFragment() {
     private var silent: Boolean = false

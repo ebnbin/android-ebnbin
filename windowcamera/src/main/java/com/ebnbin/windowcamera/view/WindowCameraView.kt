@@ -14,7 +14,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.ebnbin.eb.extension.dpToPxRound
-import com.ebnbin.eb2.permission.PermissionHelper
+import com.ebnbin.eb.extension.hasPermissions
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.IntentHelper
@@ -67,7 +67,7 @@ class WindowCameraView(context: Context) : CardView(context),
     override fun toast(any: Any?, long: Boolean, profileToast: ProfileToast) {
         when (profileToast) {
             ProfileToast.SYSTEM_ALERT_WINDOW, ProfileToast.SYSTEM_ALERT_WINDOW_CENTER -> {
-                if (!PermissionHelper.isPermissionsGranted(listOf(Manifest.permission.SYSTEM_ALERT_WINDOW))) return
+                if (!context.hasPermissions(arrayOf(Manifest.permission.SYSTEM_ALERT_WINDOW))) return
                 lastToastView?.run {
                     val runnable = tag as Runnable
                     removeCallbacks(runnable)
