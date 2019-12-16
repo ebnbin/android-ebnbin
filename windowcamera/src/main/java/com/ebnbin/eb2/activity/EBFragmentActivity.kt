@@ -8,7 +8,7 @@ import com.ebnbin.eb2.library.Libraries
 /**
  * Base Activity.
  */
-open class EBActivity : com.ebnbin.eb.activity.EBActivity() {
+open class EBFragmentActivity : com.ebnbin.eb.activity.EBFragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 直接关闭.

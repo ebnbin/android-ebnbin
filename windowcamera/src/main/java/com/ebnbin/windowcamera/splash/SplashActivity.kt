@@ -1,11 +1,9 @@
 package com.ebnbin.windowcamera.splash
 
-import android.os.Bundle
-import com.ebnbin.eb2.activity.EBActivity
+import androidx.fragment.app.Fragment
+import com.ebnbin.eb2.activity.EBFragmentActivity
 
-class SplashActivity : EBActivity() {
-    override fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
-        extras.putSerializable(KEY_FRAGMENT_CLASS, SplashFragment::class.java)
-        super.onInitArguments(savedInstanceState, extras)
-    }
+class SplashActivity : EBFragmentActivity() {
+    override val fragmentClass: Class<out Fragment>
+        get() = SplashFragment::class.java
 }

@@ -25,7 +25,8 @@ open class EBApp : Application() {
     /**
      * Dev 页面.
      */
-    open val devFragmentClass: Class<out EBDevFragment> = EBDevFragment::class.java
+    open val devFragmentClass: Class<out EBDevFragment>
+        get() = EBDevFragment::class.java
 
     companion object {
         lateinit var instance: EBApp

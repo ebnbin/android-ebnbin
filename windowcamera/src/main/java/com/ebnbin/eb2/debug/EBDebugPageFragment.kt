@@ -2,6 +2,7 @@ package com.ebnbin.eb2.debug
 
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.dev.EBDevFragment
+import com.ebnbin.eb.extension.openFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.update.UpdateFragment
@@ -27,7 +28,8 @@ open class EBDebugPageFragment : EBDevFragment() {
         }
 
         addDevItem("About") {
-            IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
+            openFragment(AboutFragment::class.java)
+//            IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
         }
 
         addDevItem("异步任务", "5 秒后完成，可按返回键取消") {

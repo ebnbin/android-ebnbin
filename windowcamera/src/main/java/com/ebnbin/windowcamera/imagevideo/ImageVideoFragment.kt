@@ -15,8 +15,8 @@ class ImageVideoFragment : EBFragment() {
     @Suppress("UNCHECKED_CAST")
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        imageVideos = activityExtras.getSerializable(ImageVideoActivity.KEY_IMAGE_VIDEOS) as ArrayList<ImageVideo>
-        index = activityExtras.getInt(ImageVideoActivity.KEY_INDEX, 0)
+        imageVideos = arguments.getSerializable(ImageVideoActivity.KEY_IMAGE_VIDEOS) as ArrayList<ImageVideo>
+        index = arguments.getInt(ImageVideoActivity.KEY_INDEX, 0)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

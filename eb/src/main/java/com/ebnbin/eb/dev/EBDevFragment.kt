@@ -14,7 +14,8 @@ import com.ebnbin.eb.fragment.EBViewFragment
  * 基础 Dev 页面.
  */
 open class EBDevFragment : EBViewFragment<EbDevFragmentBinding>() {
-    override val layoutId: Int = R.layout.eb_dev_fragment
+    override val layoutId: Int
+        get() = R.layout.eb_dev_fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

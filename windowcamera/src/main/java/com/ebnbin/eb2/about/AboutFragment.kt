@@ -2,12 +2,11 @@ package com.ebnbin.eb2.about
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ebnbin.eb2.activity.EBActivity
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb2.debug.debug
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
@@ -16,17 +15,16 @@ import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.DeviceHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.TimeHelper
-import com.ebnbin.eb.BuildConfig
 import com.ebnbin.windowcamera.R
 import kotlinx.android.synthetic.main.eb_about_fragment.*
 
 class AboutFragment : EBFragment() {
-    private lateinit var openSources: ArrayList<Pair<String, String>>
+    private var openSources: ArrayList<Pair<String, String>>? = null
 
     override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
         super.onInitArguments(savedInstanceState, arguments, activityExtras)
         @Suppress("UNCHECKED_CAST")
-        openSources = activityExtras.getSerializable("open_sources") as ArrayList<Pair<String, String>>
+        openSources = arguments.getSerializable("open_sources") as ArrayList<Pair<String, String>>?
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -72,7 +70,7 @@ class AboutFragment : EBFragment() {
         OPEN_SOURCES.forEach {
             addOpenSource(it)
         }
-        openSources.forEach {
+        openSources?.forEach {
             addOpenSource(it)
         }
     }
@@ -100,11 +98,11 @@ class AboutFragment : EBFragment() {
             Pair("PhotoView", "https://github.com/chrisbanes/PhotoView"),
             Pair("GSYVideoPlayer", "https://github.com/CarGuo/GSYVideoPlayer")
         )
-
-        fun intent(openSources: ArrayList<Pair<String, String>> = arrayListOf()): Intent {
-            return Intent()
-                .putExtra(EBActivity.KEY_FRAGMENT_CLASS, AboutFragment::class.java)
-                .putExtra("open_sources", openSources)
-        }
+//
+//        fun intent(openSources: ArrayList<Pair<String, String>> = arrayListOf()): Intent {
+//            return Intent()
+//                .putExtra(EBActivity.KEY_FRAGMENT_CLASS, AboutFragment::class.java)
+//                .putExtra("open_sources", openSources)
+//        }
     }
 }

@@ -1,11 +1,9 @@
 package com.ebnbin.windowcamera.main
 
-import android.os.Bundle
-import com.ebnbin.eb2.activity.EBActivity
+import androidx.fragment.app.Fragment
+import com.ebnbin.eb2.activity.EBFragmentActivity
 
-class MainActivity : EBActivity() {
-    override fun onInitArguments(savedInstanceState: Bundle?, extras: Bundle) {
-        extras.putSerializable(KEY_FRAGMENT_CLASS, MainFragment::class.java)
-        super.onInitArguments(savedInstanceState, extras)
-    }
+class MainActivity : EBFragmentActivity() {
+    override val fragmentClass: Class<out Fragment>
+        get() = MainFragment::class.java
 }

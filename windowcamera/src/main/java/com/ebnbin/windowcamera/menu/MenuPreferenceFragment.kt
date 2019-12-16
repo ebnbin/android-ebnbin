@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
+import com.ebnbin.eb.extension.openFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.preference.EBPreferenceFragment
@@ -40,7 +41,8 @@ class MenuPreferenceFragment : EBPreferenceFragment() {
 
         findPreference<Preference>(getString(R.string.menu_about))?.apply {
             setOnPreferenceClickListener {
-                IntentHelper.startFragmentFromActivity(requireActivity(), AboutFragment.intent())
+                openFragment(AboutFragment::class.java)
+//                IntentHelper.startFragmentFromActivity(requireActivity(), AboutFragment.intent())
                 Libraries.eventBus.post(MenuDismissEvent)
                 false
             }

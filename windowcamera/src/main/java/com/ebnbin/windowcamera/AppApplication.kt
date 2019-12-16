@@ -12,5 +12,6 @@ class AppApplication : EBApplication() {
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
     }
 
-    override val devFragmentClass: Class<out EBDevFragment> = DebugPageFragment::class.java
+    override val devFragmentClass: Class<out EBDevFragment>
+        get() = DebugPageFragment::class.java
 }

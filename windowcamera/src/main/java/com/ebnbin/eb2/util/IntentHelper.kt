@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import com.ebnbin.windowcamera.R
 import com.ebnbin.eb2.activity.EBActivity
 import com.ebnbin.eb2.dev.DevHelper
+import com.ebnbin.windowcamera.R
 
 object IntentHelper {
     fun startActivity(context: Context, activityClass: Class<out Activity>): Boolean {
@@ -66,59 +66,6 @@ object IntentHelper {
 
     private fun createStartActivityIntent(context: Context, activityClass: Class<out Activity>): Intent {
         return Intent(context, activityClass)
-    }
-
-    //*****************************************************************************************************************
-
-    fun startFragment(context: Context, fragmentClass: Class<out Fragment>): Boolean {
-        val intent = createStartFragmentIntent(context, null, fragmentClass)
-        return startActivity(context, intent)
-    }
-
-    fun startFragment(context: Context, intent: Intent): Boolean {
-        val validIntent = createStartFragmentIntent(context, intent, null)
-        return startActivity(context, validIntent)
-    }
-
-    fun startFragmentFromActivity(
-        activity: Activity,
-        fragmentClass: Class<out Fragment>,
-        requestCode: Int = 0
-    ): Boolean {
-        val intent = createStartFragmentIntent(activity, null, fragmentClass)
-        return startActivityFromActivity(activity, intent, requestCode)
-    }
-
-    fun startFragmentFromActivity(activity: Activity, intent: Intent, requestCode: Int = 0): Boolean {
-        val validIntent = createStartFragmentIntent(activity, intent, null)
-        return startActivityFromActivity(activity, validIntent, requestCode)
-    }
-
-    fun startFragmentFromFragment(
-        fragment: Fragment,
-        fragmentClass: Class<out Fragment>,
-        requestCode: Int = 0
-    ): Boolean {
-        val intent = createStartFragmentIntent(fragment.requireContext(), null, fragmentClass)
-        return startActivityFromFragment(fragment, intent, requestCode)
-    }
-
-    fun startFragmentFromFragment(fragment: Fragment, intent: Intent, requestCode: Int = 0): Boolean {
-        val validIntent = createStartFragmentIntent(fragment.requireContext(), intent, null)
-        return startActivityFromFragment(fragment, validIntent, requestCode)
-    }
-
-    private fun createStartFragmentIntent(
-        context: Context,
-        intent: Intent?,
-        fragmentClass: Class<out Fragment>?
-    ): Intent {
-        val result = if (intent == null) Intent() else Intent(intent)
-        result.setClass(context, EBActivity::class.java)
-        if (fragmentClass != null) {
-            result.putExtra(EBActivity.KEY_FRAGMENT_CLASS, fragmentClass)
-        }
-        return result
     }
 
     //*****************************************************************************************************************
