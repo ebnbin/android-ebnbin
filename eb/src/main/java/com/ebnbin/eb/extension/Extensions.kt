@@ -8,10 +8,13 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.activity.EBFragmentActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.permission.PermissionFragment
@@ -294,4 +297,18 @@ fun Fragment.hasPermissions(permissions: Array<out String>): Boolean {
 
 inline fun <reified T : Any> Context.requireSystemService(): T {
     return getSystemService() ?: throw RuntimeException()
+}
+
+//*********************************************************************************************************************
+
+fun Context.toast(@StringRes resId: Int, durationLong: Boolean = false) {
+    val toast = Toast.makeText(this, resId, if (durationLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT)
+    EBApp.instance.setToast(toast)
+    toast.show()
+}
+
+fun Context.toast(text: CharSequence, durationLong: Boolean = false) {
+    val toast = Toast.makeText(this, text, if (durationLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT)
+    EBApp.instance.setToast(toast)
+    toast.show()
 }

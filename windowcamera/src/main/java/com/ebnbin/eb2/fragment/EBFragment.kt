@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.AppHelper
@@ -107,7 +108,7 @@ abstract class EBFragment : com.ebnbin.eb.fragment.EBFragment() {
         if (!isDoubleBackFinishEnabled) return false
         if (!TimeHelper.expired(lastBackTimestamp, DOUBLE_BACK_FINISH_EXPIRATION)) return false
         lastBackTimestamp = TimeHelper.long()
-        AppHelper.toast(requireContext(), R.string.eb_fragment_double_back_finish)
+        requireContext().toast(R.string.eb_fragment_double_back_finish)
         return true
     }
 

@@ -17,6 +17,7 @@ import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.dpToPxRound
 import com.ebnbin.eb.extension.hasPermissions
 import com.ebnbin.eb.extension.requireSystemService
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.IntentHelper
@@ -109,7 +110,7 @@ class WindowCameraView(context: Context) : CardView(context),
                 view.postDelayed(runnable, delay)
             }
             ProfileToast.SYSTEM -> {
-                AppHelper.toast(context, any, long)
+                context.toast(any.toString(), long)
             }
             ProfileToast.NONE -> {
                 // Do nothing.

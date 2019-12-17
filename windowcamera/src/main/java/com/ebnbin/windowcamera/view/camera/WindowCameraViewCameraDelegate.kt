@@ -15,6 +15,7 @@ import android.view.Surface
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.requireSystemService
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.AppHelper
@@ -634,7 +635,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             DevHelper.reportThrowable(CameraReportException(message, cause, extra))
         }
         if (toast != null) {
-            AppHelper.toast(callback.getContext(), ResHelper.getString(toast))
+            callback.getContext().toast(ResHelper.getString(toast))
         }
         if (stopService) {
             WindowCameraService.stop(callback.getContext())

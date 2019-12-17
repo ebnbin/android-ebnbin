@@ -5,6 +5,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.extension.removeSelf
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb2.async.DialogLoading
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
@@ -54,12 +55,12 @@ class UpdateFragment : EBFragment() {
                         if (it.hasUpdate()) {
                             UpdateDialogFragment.start(requireFragmentManager(), it)
                         } else {
-                            AppHelper.toast(requireContext(), R.string.eb_update_latest)
+                            requireContext().toast(R.string.eb_update_latest)
                         }
                         removeSelf()
                     },
                     onFailure = {
-                        AppHelper.toast(requireContext(), R.string.eb_update_failure)
+                        requireContext().toast(R.string.eb_update_failure)
                         removeSelf()
                     }
                 )

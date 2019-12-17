@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.openPermissionFragment
 import com.ebnbin.eb.extension.requireSystemService
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb2.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
@@ -81,7 +82,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
                 alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
                     IntentHelper.startBrowser(requireContext(), update.url)
                     AppHelper.copy(update.url)
-                    AppHelper.toast(requireContext(), R.string.eb_update_copied)
+                    requireContext().toast(R.string.eb_update_copied)
                 }
             }
             alertDialog.findViewById<TextView>(R.id.eb_message_text_view)?.text = update.message
@@ -110,7 +111,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
                     requestInstallPermission()
                 } else {
                     status = null
-                    AppHelper.toast(requireContext(), failedStringId)
+                    requireContext().toast(failedStringId)
                 }
                 removeDownload()
                 setIsDownloading(false)
@@ -206,7 +207,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
             intent.setDataAndType(uri, MINE_TYPE)
             IntentHelper.startActivityFromFragment(this, intent)
         } else {
-            AppHelper.toast(requireContext(), R.string.eb_update_unverified)
+            requireContext().toast(R.string.eb_update_unverified)
         }
     }
 

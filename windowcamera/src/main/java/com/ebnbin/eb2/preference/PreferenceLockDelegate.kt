@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.windowcamera.R
 import com.ebnbin.eb2.sharedpreferences.Sp
 import com.ebnbin.eb2.util.AppHelper
@@ -78,7 +79,7 @@ class PreferenceLockDelegate(private val callback: Callback) : View.OnTouchListe
                 v.removeCallbacks(unlockRunnable)
                 if (isClick) {
                     isClick = false
-                    AppHelper.toast(callback.getContext(), R.string.eb_preference_locked)
+                    callback.getContext().toast(R.string.eb_preference_locked)
                 }
             }
             else -> {

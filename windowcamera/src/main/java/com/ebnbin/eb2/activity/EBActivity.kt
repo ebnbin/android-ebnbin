@@ -2,7 +2,6 @@ package com.ebnbin.eb2.activity
 
 import android.os.Bundle
 import com.ebnbin.eb2.fragment.FragmentHelper
-import com.ebnbin.eb2.library.Libraries
 
 /**
  * Base Activity.
@@ -14,29 +13,6 @@ open class EBActivity : com.ebnbin.eb.activity.EBActivity() {
         if (intent?.getBooleanExtra(KEY_FINISH, false) == true) {
             finish()
             return
-        }
-
-        initEventBus()
-    }
-
-    override fun onDestroy() {
-        disposeEventBus()
-        super.onDestroy()
-    }
-
-    //*****************************************************************************************************************
-
-    protected open val isEventBusEnabled: Boolean = false
-
-    private fun initEventBus() {
-        if (isEventBusEnabled && !Libraries.eventBus.isRegistered(this)) {
-            Libraries.eventBus.register(this)
-        }
-    }
-
-    private fun disposeEventBus() {
-        if (isEventBusEnabled && Libraries.eventBus.isRegistered(this)) {
-            Libraries.eventBus.unregister(this)
         }
     }
 

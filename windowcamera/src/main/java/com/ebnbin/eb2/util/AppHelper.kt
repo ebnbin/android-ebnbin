@@ -5,12 +5,10 @@ import android.app.ActivityManager
 import android.app.Service
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.EBApp
@@ -43,11 +41,6 @@ object AppHelper {
         if (restartMainActivity) {
             IntentHelper.restartApp()
         }
-    }
-
-    fun toast(context: Context, any: Any?, long: Boolean = false) {
-        val duration = if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
-        Toast.makeText(context, ResHelper.getString(any), duration).show()
     }
 
     fun copy(text: CharSequence, label: CharSequence = BuildHelper.applicationId) {

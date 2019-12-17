@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb2.debug.debug
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
@@ -39,7 +40,7 @@ class AboutFragment : EBFragment() {
         }
         eb_toolbar.setOnLongClickListener {
             AppHelper.copy(DeviceHelper.DEVICE_ID)
-            AppHelper.toast(requireContext(), R.string.eb_about_device_id_copied)
+            requireContext().toast(R.string.eb_about_device_id_copied)
             true
         }
         eb_icon.setOnLongClickListener {

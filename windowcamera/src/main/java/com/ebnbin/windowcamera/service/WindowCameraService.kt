@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.hasPermissions
 import com.ebnbin.eb.extension.requireSystemService
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
@@ -119,7 +120,7 @@ class WindowCameraService : Service() {
         fun start(context: Context) {
             if (isRunning()) return
             if (!context.hasPermissions(permissions.toTypedArray())) {
-                AppHelper.toast(context, R.string.eb_permission_denied)
+                context.toast(R.string.eb_permission_denied)
                 return
             }
             val intent = Intent(context, WindowCameraService::class.java)

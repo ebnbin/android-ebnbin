@@ -2,6 +2,7 @@ package com.ebnbin.eb.dev
 
 import android.app.Activity
 import android.view.MotionEvent
+import androidx.core.os.bundleOf
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.dpToPx
 import com.ebnbin.eb.extension.openFragment
@@ -61,7 +62,9 @@ internal class DevActivitySwipeDetector(private val activity: Activity) {
             when {
                 toLeft -> Unit
                 toRight -> Unit
-                toTop -> activity.openFragment(EBApp.instance.devFragmentClass)
+                toTop -> activity.openFragment(EBApp.instance.devFragmentClass, bundleOf(
+                    EBDevFragment.KEY_CALLING_ACTIVITY to activity.toString()
+                ))
                 toBottom -> Unit
                 else -> return false
             }

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
+import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb2.activity.EBActivity
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.windowcamera.R
@@ -87,7 +88,7 @@ object IntentHelper {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         val result = startActivity(context, intent)
         if (!result) {
-            AppHelper.toast(context, R.string.eb_start_browser_error)
+            context.toast(R.string.eb_start_browser_error)
         }
         return result
     }
@@ -96,7 +97,7 @@ object IntentHelper {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${BuildHelper.applicationId}"))
         val result = startActivity(context, intent)
         if (!result) {
-            AppHelper.toast(context, R.string.eb_start_market_error)
+            context.toast(R.string.eb_start_market_error)
         }
         return result
     }

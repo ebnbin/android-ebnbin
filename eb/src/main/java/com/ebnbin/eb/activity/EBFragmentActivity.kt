@@ -56,6 +56,12 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
             .commitAllowingStateLoss()
     }
 
+    override fun toString(): String {
+        val fragmentClass = fragmentClass
+        val fragment = supportFragmentManager.fragments.firstOrNull { fragmentClass.isInstance(it) }
+        return "${super.toString()}${System.lineSeparator()}${fragment ?: fragmentClass}"
+    }
+
     companion object {
         private const val KEY_CALLING_ID: String = "calling_id"
 
