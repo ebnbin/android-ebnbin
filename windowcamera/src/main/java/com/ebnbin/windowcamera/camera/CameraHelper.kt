@@ -2,18 +2,21 @@
 
 package com.ebnbin.windowcamera.camera
 
+import android.app.ActivityManager
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CameraMetadata
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.extension.requireSystemService
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.util.RotationSize
-import com.ebnbin.eb2.util.SystemServices
 import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.dev.Report
 
@@ -35,7 +38,7 @@ object CameraHelper {
         CamcorderProfile.QUALITY_LOW
     )
 
-    private val ids: List<String> = SystemServices.cameraManager.cameraIdList.toList()
+    private val ids: List<String> = EBApp.instance.requireSystemService<CameraManager>().cameraIdList.toList()
 
     /**
      * 对所有摄像头进行检测, 但只使用第一个后置摄像头和第一个前置摄像头, 且后置摄像头和前置摄像头都必须存在.
@@ -110,7 +113,7 @@ object CameraHelper {
      */
     class Device(val id: String, private val oldId: Int) {
         private val cameraCharacteristics: CameraCharacteristics =
-            SystemServices.cameraManager.getCameraCharacteristics(id)
+            EBApp.instance.requireSystemService<CameraManager>().getCameraCharacteristics(id)
 
         //*************************************************************************************************************
 

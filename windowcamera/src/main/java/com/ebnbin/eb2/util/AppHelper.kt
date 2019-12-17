@@ -1,21 +1,26 @@
 package com.ebnbin.eb2.util
 
 import android.Manifest
+import android.app.ActivityManager
 import android.app.Service
 import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
+import android.os.Vibrator
 import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.extension.requireSystemService
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 
 object AppHelper {
     fun isServiceRunning(serviceClass: Class<out Service>): Boolean {
         @Suppress("DEPRECATION")
-        return SystemServices.activityManager.getRunningServices(Int.MAX_VALUE).any {
+        return EBApp.instance.requireSystemService<ActivityManager>().getRunningServices(Int.MAX_VALUE).any {
             it.service.className == serviceClass.name
         }
     }
@@ -23,11 +28,11 @@ object AppHelper {
     @RequiresPermission(Manifest.permission.VIBRATE)
     fun vibrate(milliseconds: Long) {
         if (BuildHelper.sdk26O()) {
-            SystemServices.vibrator.vibrate(
+            EBApp.instance.requireSystemService<Vibrator>().vibrate(
                 VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
             @Suppress("DEPRECATION")
-            SystemServices.vibrator.vibrate(milliseconds)
+            EBApp.instance.requireSystemService<Vibrator>().vibrate(milliseconds)
         }
     }
 
@@ -46,7 +51,7 @@ object AppHelper {
     }
 
     fun copy(text: CharSequence, label: CharSequence = BuildHelper.applicationId) {
-        SystemServices.clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
+        EBApp.instance.requireSystemService<ClipboardManager>().setPrimaryClip(ClipData.newPlainText(label, text))
     }
 
     val mainHandler: Handler = Handler(Looper.getMainLooper())

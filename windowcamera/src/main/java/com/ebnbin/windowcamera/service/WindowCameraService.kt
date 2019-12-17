@@ -14,11 +14,12 @@ import android.os.IBinder
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.hasPermissions
+import com.ebnbin.eb.extension.requireSystemService
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
-import com.ebnbin.eb2.util.SystemServices
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.view.WindowCameraView
@@ -62,15 +63,15 @@ class WindowCameraService : Service() {
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         params.format = PixelFormat.TRANSLUCENT
-        SystemServices.windowManager.addView(windowCameraView, params)
+        EBApp.instance.requireSystemService<WindowManager>().addView(windowCameraView, params)
     }
 
     private fun startForeground() {
         if (BuildHelper.sdk26O() &&
-            SystemServices.notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
+            EBApp.instance.requireSystemService<NotificationManager>().getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
             val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "WindowCameraService",
                 NotificationManager.IMPORTANCE_DEFAULT)
-            SystemServices.notificationManager.createNotificationChannel(notificationChannel)
+            EBApp.instance.requireSystemService<NotificationManager>().createNotificationChannel(notificationChannel)
         }
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.eb_logo_198)
@@ -83,7 +84,7 @@ class WindowCameraService : Service() {
 
     override fun onDestroy() {
         windowCameraView?.run {
-            SystemServices.windowManager.removeView(windowCameraView)
+            EBApp.instance.requireSystemService<WindowManager>().removeView(windowCameraView)
             windowCameraView = null
         }
 

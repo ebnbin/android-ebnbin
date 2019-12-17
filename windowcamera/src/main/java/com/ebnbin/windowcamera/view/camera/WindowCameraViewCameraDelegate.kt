@@ -1,21 +1,24 @@
 package com.ebnbin.windowcamera.view.camera
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.content.SharedPreferences
 import android.graphics.ImageFormat
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
+import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.media.MediaRecorder
 import android.media.MediaScannerConnection
 import android.view.Surface
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.extension.requireSystemService
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.ResHelper
-import com.ebnbin.eb2.util.SystemServices
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.R
@@ -106,7 +109,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
         }
         try {
-            SystemServices.cameraManager.openCamera(ProfileHelper.device().id, callback, null)
+            EBApp.instance.requireSystemService<CameraManager>().openCamera(ProfileHelper.device().id, callback, null)
         } catch (e: Exception) {
             onCameraError("open_camera", cause = e, toast = R.string.camera_error_open_camera)
             return

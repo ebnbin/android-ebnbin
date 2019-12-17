@@ -13,13 +13,14 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.dpToPxRound
 import com.ebnbin.eb.extension.hasPermissions
+import com.ebnbin.eb.extension.requireSystemService
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.ResHelper
-import com.ebnbin.eb2.util.SystemServices
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -93,13 +94,13 @@ class WindowCameraView(context: Context) : CardView(context),
                     params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
                     params.y = context.dpToPxRound(24f)
                 }
-                SystemServices.windowManager.addView(view, params)
+                EBApp.instance.requireSystemService<WindowManager>().addView(view, params)
                 lastToastView = view
                 val delay = if (long) 5000L else 2000L
                 val runnable = Runnable {
                     lastToastView = null
                     try {
-                        SystemServices.windowManager.removeView(view)
+                        EBApp.instance.requireSystemService<WindowManager>().removeView(view)
                     } catch (e: Exception) {
                         // Ignore.
                     }
@@ -135,7 +136,7 @@ class WindowCameraView(context: Context) : CardView(context),
     override fun updateLayoutParams(block: WindowManager.LayoutParams.() -> Unit) {
         val params = layoutParams as WindowManager.LayoutParams
         block(params)
-        SystemServices.windowManager.updateViewLayout(this, params)
+        EBApp.instance.requireSystemService<WindowManager>().updateViewLayout(this, params)
     }
 
     override fun getLayoutWidth(): Int {

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -287,4 +288,10 @@ internal fun Fragment.hasRuntimePermission(runtimePermission: String): Boolean {
 
 fun Fragment.hasPermissions(permissions: Array<out String>): Boolean {
     return context?.hasPermissions(permissions) ?: false
+}
+
+//*********************************************************************************************************************
+
+inline fun <reified T : Any> Context.requireSystemService(): T {
+    return getSystemService() ?: throw RuntimeException()
 }

@@ -17,7 +17,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.openPermissionFragment
+import com.ebnbin.eb.extension.requireSystemService
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb2.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
@@ -26,7 +28,6 @@ import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.DataHelper
 import com.ebnbin.eb2.util.IntentHelper
-import com.ebnbin.eb2.util.SystemServices
 import com.ebnbin.windowcamera.BuildConfig
 import com.ebnbin.windowcamera.R
 import java.io.File
@@ -101,7 +102,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
             super.onChange(selfChange)
             val downloadId = downloadId ?: return
             val query = DownloadManager.Query().setFilterById(downloadId)
-            val cursor = SystemServices.downloadManager.query(query) ?: return
+            val cursor = EBApp.instance.requireSystemService<DownloadManager>().query(query) ?: return
             if (!cursor.moveToFirst()) return
 
             fun onDownloadComplete(failedStringId: Int) {
@@ -165,14 +166,14 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
             .setVisibleInDownloadsUi(false)
             .setDestinationInExternalFilesDir(requireContext(), null, FILE_NAME)
             .setMimeType(MINE_TYPE)
-        downloadId = SystemServices.downloadManager.enqueue(request)
+        downloadId = EBApp.instance.requireSystemService<DownloadManager>().enqueue(request)
     }
 
     private fun removeDownload() {
         if (status == DownloadManager.STATUS_SUCCESSFUL) {
             downloadId = null
         } else {
-            downloadId?.also { SystemServices.downloadManager.remove(it) }
+            downloadId?.also { EBApp.instance.requireSystemService<DownloadManager>().remove(it) }
             downloadId = null
             status = null
         }

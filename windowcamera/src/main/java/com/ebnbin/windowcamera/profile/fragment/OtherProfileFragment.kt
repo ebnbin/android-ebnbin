@@ -2,14 +2,16 @@ package com.ebnbin.windowcamera.profile.fragment
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.ShortcutManager
 import android.os.Bundle
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.extension.requireSystemService
 import com.ebnbin.eb2.preference.FooterPreference
 import com.ebnbin.eb2.util.BuildHelper
-import com.ebnbin.eb2.util.SystemServices
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.main.MainActivity
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -66,7 +68,7 @@ class OtherProfileFragment : BaseProfileFragment() {
                             .setAction("${BuildHelper.applicationId}.shortcut_profile_1"))
                         .build()
                         .toShortcutInfo()
-                    SystemServices.shortcutManager.addDynamicShortcuts(listOf(shortcutInfo))
+                    EBApp.instance.requireSystemService<ShortcutManager>().addDynamicShortcuts(listOf(shortcutInfo))
                 }
                 false
             }
@@ -77,7 +79,7 @@ class OtherProfileFragment : BaseProfileFragment() {
             setTitle(R.string.profile_pinned_shortcut_title)
             setOnPreferenceClickListener {
                 if (BuildHelper.sdk26O()) {
-                    if (SystemServices.shortcutManager.isRequestPinShortcutSupported) {
+                    if (EBApp.instance.requireSystemService<ShortcutManager>().isRequestPinShortcutSupported) {
                         val shortcutInfo = ShortcutInfoCompat.Builder(requireContext(), "pinned_shortcut_profile_1")
                             .setShortLabel(Profile.get().title)
                             .setIcon(IconCompat.createWithResource(requireContext(), Profile.get().iconId))
@@ -85,9 +87,9 @@ class OtherProfileFragment : BaseProfileFragment() {
                                 .setAction("${BuildHelper.applicationId}.pinned_shortcut_profile_1"))
                             .build()
                             .toShortcutInfo()
-                        val intent = SystemServices.shortcutManager.createShortcutResultIntent(shortcutInfo)
+                        val intent = EBApp.instance.requireSystemService<ShortcutManager>().createShortcutResultIntent(shortcutInfo)
                         val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
-                        SystemServices.shortcutManager.requestPinShortcut(shortcutInfo, pendingIntent.intentSender)
+                        EBApp.instance.requireSystemService<ShortcutManager>().requestPinShortcut(shortcutInfo, pendingIntent.intentSender)
                     }
                 }
                 false
