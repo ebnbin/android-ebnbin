@@ -194,7 +194,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
         val action = extraData.getString("action") ?: throw RuntimeException()
         val requestCode = extraData.getInt("request_code")
         val intent = Intent(action, Uri.parse("package:${requireContext().packageName}"))
-        if (!openActivity(intent, requestCode = requestCode)) {
+        if (openActivity(intent, requestCode = requestCode) != null) {
             permissionOnResult(PermissionResult.DENIED_OPEN_SETTINGS_FAILURE)
         }
         return true

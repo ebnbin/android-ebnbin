@@ -1,5 +1,7 @@
 package com.ebnbin.eb.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -65,10 +67,28 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
     companion object {
         private const val KEY_CALLING_ID: String = "calling_id"
 
-        const val KEY_FRAGMENT_CLASS: String = "fragment_class"
-        const val KEY_FRAGMENT_ARGS: String = "fragment_args"
-        const val KEY_FRAGMENT_TAG: String = "fragment_tag"
-        const val KEY_FRAGMENT_IS_VIEW: String = "fragment_is_view"
-        const val KEY_FRAGMENT_PERMISSIONS: String = "fragment_permissions"
+        private const val KEY_FRAGMENT_CLASS: String = "fragment_class"
+        private const val KEY_FRAGMENT_ARGS: String = "fragment_args"
+        private const val KEY_FRAGMENT_TAG: String = "fragment_tag"
+        private const val KEY_FRAGMENT_IS_VIEW: String = "fragment_is_view"
+        private const val KEY_FRAGMENT_PERMISSIONS: String = "fragment_permissions"
+
+        internal fun createIntent(
+            context: Context,
+            fragmentClass: Class<out Fragment>,
+            fragmentArgs: Bundle? = null,
+            fragmentTag: String? = null,
+            fragmentIsView: Boolean = true,
+            fragmentPermissions: Array<out String>? = null,
+            activityIntent: Intent? = null
+        ): Intent {
+            return (if (activityIntent == null) Intent() else Intent(activityIntent))
+                .setClass(context, EBFragmentActivity::class.java)
+                .putExtra(KEY_FRAGMENT_CLASS, fragmentClass)
+                .putExtra(KEY_FRAGMENT_ARGS, fragmentArgs)
+                .putExtra(KEY_FRAGMENT_TAG, fragmentTag)
+                .putExtra(KEY_FRAGMENT_IS_VIEW, fragmentIsView)
+                .putExtra(KEY_FRAGMENT_PERMISSIONS, fragmentPermissions)
+        }
     }
 }

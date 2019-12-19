@@ -41,7 +41,7 @@ class MenuPreferenceFragment : EBPreferenceFragment() {
 
         findPreference<Preference>(getString(R.string.menu_about))?.apply {
             setOnPreferenceClickListener {
-                openFragment(AboutFragment::class.java)
+                openFragment<AboutFragment>()
 //                IntentHelper.startFragmentFromActivity(requireActivity(), AboutFragment.intent())
                 Libraries.eventBus.post(MenuDismissEvent)
                 false

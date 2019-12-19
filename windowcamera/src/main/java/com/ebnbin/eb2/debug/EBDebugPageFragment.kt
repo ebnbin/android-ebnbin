@@ -28,7 +28,7 @@ open class EBDebugPageFragment : EBDevFragment() {
         }
 
         addDevItem("About") {
-            openFragment(AboutFragment::class.java)
+            openFragment<AboutFragment>()
 //            IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
         }
 
