@@ -33,12 +33,9 @@ open class AlertDialogFragment : EBDialogFragment() {
         fun alertDialogOnDismiss(alertDialog: AlertDialog, extraData: Bundle) = Unit
     }
 
-    protected val builder: Builder
-        get() = arguments?.getParcelable(KEY_BUILDER) ?: throw RuntimeException()
-
     @CallSuper
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = builder
+        val builder = requireArgument<Builder>(KEY_BUILDER)
         val alertDialogBuilder = if (builder.isMaterial) {
             MaterialAlertDialogBuilder(requireContext())
         } else {
@@ -78,7 +75,7 @@ open class AlertDialogFragment : EBDialogFragment() {
      */
     @CallSuper
     protected open fun alertDialogOnPositive(alertDialog: AlertDialog): Boolean {
-        return getCallback<Callback>()?.alertDialogOnPositive(alertDialog, builder.extraData) != false
+        return getCallback<Callback>()?.alertDialogOnPositive(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData) != false
     }
 
     /**
@@ -86,7 +83,7 @@ open class AlertDialogFragment : EBDialogFragment() {
      */
     @CallSuper
     protected open fun alertDialogOnNegative(alertDialog: AlertDialog): Boolean {
-        return getCallback<Callback>()?.alertDialogOnNegative(alertDialog, builder.extraData) != false
+        return getCallback<Callback>()?.alertDialogOnNegative(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData) != false
     }
 
     /**
@@ -94,22 +91,22 @@ open class AlertDialogFragment : EBDialogFragment() {
      */
     @CallSuper
     protected open fun alertDialogOnNeutral(alertDialog: AlertDialog): Boolean {
-        return getCallback<Callback>()?.alertDialogOnNeutral(alertDialog, builder.extraData) != false
+        return getCallback<Callback>()?.alertDialogOnNeutral(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData) != false
     }
 
     @CallSuper
     protected open fun alertDialogOnShow(alertDialog: AlertDialog) {
-        getCallback<Callback>()?.alertDialogOnShow(alertDialog, builder.extraData)
+        getCallback<Callback>()?.alertDialogOnShow(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData)
     }
 
     @CallSuper
     protected open fun alertDialogOnCancel(alertDialog: AlertDialog) {
-        getCallback<Callback>()?.alertDialogOnCancel(alertDialog, builder.extraData)
+        getCallback<Callback>()?.alertDialogOnCancel(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData)
     }
 
     @CallSuper
     protected open fun alertDialogOnDismiss(alertDialog: AlertDialog) {
-        getCallback<Callback>()?.alertDialogOnDismiss(alertDialog, builder.extraData)
+        getCallback<Callback>()?.alertDialogOnDismiss(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData)
     }
 
     final override fun onCancel(dialog: DialogInterface) {

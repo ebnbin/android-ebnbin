@@ -36,4 +36,28 @@ abstract class EBDialogFragment : AppCompatDialogFragment() {
     ): T {
         return getCallback<T>(fragmentCallbackCast)!!
     }
+
+    //*****************************************************************************************************************
+
+    protected fun containsArgument(key: String): Boolean {
+        return arguments?.containsKey(key) ?: false
+    }
+
+    protected inline fun <reified T> getArgument(key: String): T? {
+        return arguments?.get(key) as T?
+    }
+
+    /**
+     * 如果获取失败则返回默认值.
+     */
+    protected inline fun <reified T> getArgumentOrDefault(key: String, defaultValue: T): T {
+        return getArgument<T>(key) ?: defaultValue
+    }
+
+    /**
+     * 如果获取失败则抛出异常.
+     */
+    protected inline fun <reified T> requireArgument(key: String): T {
+        return getArgument<T>(key)!!
+    }
 }
