@@ -2,7 +2,6 @@ package com.ebnbin.eb.extension
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +12,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.activity.EBFragmentActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.permission.PermissionFragment
 

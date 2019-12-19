@@ -1,7 +1,6 @@
 package com.ebnbin.eb.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Parcelable
@@ -11,14 +10,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.parcel.Parcelize
 
 open class AlertDialogFragment : EBDialogFragment() {
-    protected var callback: Callback? = null
-        private set
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callback = attachCallback(Callback::class.java)
-    }
-
     interface Callback {
         /**
          * @return 点击按钮是否 dismiss.
@@ -87,7 +78,7 @@ open class AlertDialogFragment : EBDialogFragment() {
      */
     @CallSuper
     protected open fun alertDialogOnPositive(alertDialog: AlertDialog): Boolean {
-        return callback?.alertDialogOnPositive(alertDialog, builder.extraData) != false
+        return getCallback<Callback>()?.alertDialogOnPositive(alertDialog, builder.extraData) != false
     }
 
     /**
@@ -95,7 +86,7 @@ open class AlertDialogFragment : EBDialogFragment() {
      */
     @CallSuper
     protected open fun alertDialogOnNegative(alertDialog: AlertDialog): Boolean {
-        return callback?.alertDialogOnNegative(alertDialog, builder.extraData) != false
+        return getCallback<Callback>()?.alertDialogOnNegative(alertDialog, builder.extraData) != false
     }
 
     /**
@@ -103,22 +94,22 @@ open class AlertDialogFragment : EBDialogFragment() {
      */
     @CallSuper
     protected open fun alertDialogOnNeutral(alertDialog: AlertDialog): Boolean {
-        return callback?.alertDialogOnNeutral(alertDialog, builder.extraData) != false
+        return getCallback<Callback>()?.alertDialogOnNeutral(alertDialog, builder.extraData) != false
     }
 
     @CallSuper
     protected open fun alertDialogOnShow(alertDialog: AlertDialog) {
-        callback?.alertDialogOnShow(alertDialog, builder.extraData)
+        getCallback<Callback>()?.alertDialogOnShow(alertDialog, builder.extraData)
     }
 
     @CallSuper
     protected open fun alertDialogOnCancel(alertDialog: AlertDialog) {
-        callback?.alertDialogOnCancel(alertDialog, builder.extraData)
+        getCallback<Callback>()?.alertDialogOnCancel(alertDialog, builder.extraData)
     }
 
     @CallSuper
     protected open fun alertDialogOnDismiss(alertDialog: AlertDialog) {
-        callback?.alertDialogOnDismiss(alertDialog, builder.extraData)
+        getCallback<Callback>()?.alertDialogOnDismiss(alertDialog, builder.extraData)
     }
 
     final override fun onCancel(dialog: DialogInterface) {

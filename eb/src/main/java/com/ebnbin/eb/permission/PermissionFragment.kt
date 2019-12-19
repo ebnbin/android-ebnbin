@@ -1,7 +1,6 @@
 package com.ebnbin.eb.permission
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -27,13 +26,6 @@ import com.ebnbin.eb.fragment.EBFragment
  * 权限请求 Fragment.
  */
 class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
-    private var callback: Callback? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callback = attachCallback(Callback::class.java)
-    }
-
     /**
      * 权限结果回调.
      */
@@ -253,6 +245,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     }
 
     private fun permissionOnResult(permissionResult: PermissionResult) {
+        val callback = getCallback<Callback>()
         when (permissionResult) {
             PermissionResult.GRANTED -> {
                 callback?.permissionOnResult(permissions, true, extraData)
