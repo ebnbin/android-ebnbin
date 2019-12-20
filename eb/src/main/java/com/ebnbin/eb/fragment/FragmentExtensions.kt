@@ -10,7 +10,7 @@ import com.ebnbin.eb.activity.EBFragmentActivity
 
 fun Context.openFragment(
     fragmentClass: Class<out Fragment>,
-    fragmentArgs: Bundle? = null,
+    fragmentArguments: Bundle? = null,
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
@@ -22,7 +22,7 @@ fun Context.openFragment(
             EBFragmentActivity.createIntent(
                 context = this,
                 fragmentClass = fragmentClass,
-                fragmentArgs = fragmentArgs,
+                fragmentArguments = fragmentArguments,
                 fragmentTag = fragmentTag,
                 fragmentIsView = fragmentIsView,
                 fragmentPermissions = fragmentPermissions,
@@ -35,7 +35,7 @@ fun Context.openFragment(
 
 fun Activity.openFragment(
     fragmentClass: Class<out Fragment>,
-    fragmentArgs: Bundle? = null,
+    fragmentArguments: Bundle? = null,
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
@@ -48,7 +48,7 @@ fun Activity.openFragment(
             EBFragmentActivity.createIntent(
                 context = this,
                 fragmentClass = fragmentClass,
-                fragmentArgs = fragmentArgs,
+                fragmentArguments = fragmentArguments,
                 fragmentTag = fragmentTag,
                 fragmentIsView = fragmentIsView,
                 fragmentPermissions = fragmentPermissions,
@@ -62,7 +62,7 @@ fun Activity.openFragment(
 
 fun Fragment.openFragment(
     fragmentClass: Class<out Fragment>,
-    fragmentArgs: Bundle? = null,
+    fragmentArguments: Bundle? = null,
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
@@ -75,7 +75,7 @@ fun Fragment.openFragment(
             EBFragmentActivity.createIntent(
                 context = requireContext(),
                 fragmentClass = fragmentClass,
-                fragmentArgs = fragmentArgs,
+                fragmentArguments = fragmentArguments,
                 fragmentTag = fragmentTag,
                 fragmentIsView = fragmentIsView,
                 fragmentPermissions = fragmentPermissions,
@@ -90,7 +90,7 @@ fun Fragment.openFragment(
 //*********************************************************************************************************************
 
 inline fun <reified T : Fragment> Context.openFragment(
-    fragmentArgs: Bundle? = null,
+    fragmentArguments: Bundle? = null,
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
@@ -99,7 +99,7 @@ inline fun <reified T : Fragment> Context.openFragment(
 ): Throwable? {
     return openFragment(
         fragmentClass = T::class.java,
-        fragmentArgs = fragmentArgs,
+        fragmentArguments = fragmentArguments,
         fragmentTag = fragmentTag,
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
@@ -109,7 +109,7 @@ inline fun <reified T : Fragment> Context.openFragment(
 }
 
 inline fun <reified T : Fragment> Activity.openFragment(
-    fragmentArgs: Bundle? = null,
+    fragmentArguments: Bundle? = null,
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
@@ -119,7 +119,7 @@ inline fun <reified T : Fragment> Activity.openFragment(
 ): Throwable? {
     return openFragment(
         fragmentClass = T::class.java,
-        fragmentArgs = fragmentArgs,
+        fragmentArguments = fragmentArguments,
         fragmentTag = fragmentTag,
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
@@ -130,7 +130,7 @@ inline fun <reified T : Fragment> Activity.openFragment(
 }
 
 inline fun <reified T : Fragment> Fragment.openFragment(
-    fragmentArgs: Bundle? = null,
+    fragmentArguments: Bundle? = null,
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
@@ -140,7 +140,7 @@ inline fun <reified T : Fragment> Fragment.openFragment(
 ): Throwable? {
     return openFragment(
         fragmentClass = T::class.java,
-        fragmentArgs = fragmentArgs,
+        fragmentArguments = fragmentArguments,
         fragmentTag = fragmentTag,
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
@@ -208,8 +208,8 @@ inline fun <reified T> Fragment.getArgumentOrDefault(key: String, defaultValue: 
 
 //*********************************************************************************************************************
 
-fun Fragment.removeSelf(allowStateLoss: Boolean = true) {
-    parentFragmentManager.commit(allowStateLoss) {
+fun Fragment.removeSelf() {
+    parentFragmentManager.commit(true) {
         remove(this@removeSelf)
     }
 }

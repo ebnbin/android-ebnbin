@@ -10,7 +10,7 @@ import com.ebnbin.eb2.activity.EBFragmentActivity
 class ImageVideoActivity : EBFragmentActivity() {
     override val fragmentClass: Class<out Fragment>
         get() = ImageVideoFragment::class.java
-    override val fragmentArgs: Bundle?
+    override val fragmentArguments: Bundle?
         get() = bundleOf(
             KEY_IMAGE_VIDEOS to (intent?.getSerializableExtra(KEY_IMAGE_VIDEOS) ?: throw RuntimeException()),
             KEY_INDEX to (intent?.getIntExtra(KEY_INDEX, 0) ?: 0)

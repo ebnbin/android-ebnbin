@@ -15,10 +15,10 @@ import com.ebnbin.eb.R
 import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.DialogCancelable
+import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.extension.hasRequestInstallPackagesPermission
 import com.ebnbin.eb.extension.hasRuntimePermission
 import com.ebnbin.eb.extension.hasSystemAlertWindowPermission
-import com.ebnbin.eb.extension.openAlertDialog
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.getCallback
 import com.ebnbin.eb.fragment.removeSelf
@@ -169,23 +169,23 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     }
 
     private fun openDialog(@StringRes messageStringId: Int, action: String, requestCode: Int) {
-        childFragmentManager.openAlertDialog(AlertDialogFragment.Builder(
+        childFragmentManager.openAlertDialog(
             message = getString(messageStringId),
-            positiveButtonText = getString(R.string.eb_permission_dialog_positive),
-            negativeButtonText = getString(R.string.eb_permission_dialog_negative),
+            positiveText = getString(R.string.eb_permission_dialog_positive),
+            negativeText = getString(R.string.eb_permission_dialog_negative),
             dialogCancelable = DialogCancelable.NOT_CANCELABLE,
-            extraData = bundleOf(
+            callbackBundle = bundleOf(
                 "action" to action,
                 "request_code" to requestCode
             )
-        ))
+        )
     }
 
     //*****************************************************************************************************************
 
-    override fun alertDialogOnPositive(alertDialog: AlertDialog, extraData: Bundle): Boolean {
-        val action = extraData.getString("action") ?: throw RuntimeException()
-        val requestCode = extraData.getInt("request_code")
+    override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
+        val action = callbackBundle.getString("action") ?: throw RuntimeException()
+        val requestCode = callbackBundle.getInt("request_code")
         val intent = Intent(action, Uri.parse("package:${requireContext().packageName}"))
         if (openActivity(intent, requestCode = requestCode) != null) {
             permissionOnResult(PermissionResult.DENIED_OPEN_SETTINGS_FAILURE)
@@ -193,7 +193,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
         return true
     }
 
-    override fun alertDialogOnNegative(alertDialog: AlertDialog, extraData: Bundle): Boolean {
+    override fun onAlertDialogNegative(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
         permissionOnResult(PermissionResult.DENIED)
         return true
     }

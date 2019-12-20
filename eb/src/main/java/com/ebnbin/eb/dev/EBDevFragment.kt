@@ -7,8 +7,7 @@ import androidx.annotation.CallSuper
 import com.ebnbin.eb.R
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
-import com.ebnbin.eb.dialog.AlertDialogFragment
-import com.ebnbin.eb.extension.openAlertDialog
+import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb.fragment.EBViewFragment
 
@@ -32,23 +31,23 @@ open class EBDevFragment : EBViewFragment<EbDevFragmentBinding>() {
         addDevItem("Calling Activity", arguments?.getString(KEY_CALLING_ACTIVITY))
 
         addDevItem("AlertDialogFragment", "isMaterial = false") {
-            parentFragmentManager.openAlertDialog(AlertDialogFragment.Builder(
+            childFragmentManager.openAlertDialog(
                 isMaterial = false,
                 title = "Title",
                 message = "Message",
-                positiveButtonText = "Positive",
-                negativeButtonText = "Negative"
-            ))
+                positiveText = "Positive",
+                negativeText = "Negative"
+            )
         }
 
         addDevItem("AlertDialogFragment", "isMaterial = true") {
-            parentFragmentManager.openAlertDialog(AlertDialogFragment.Builder(
+            childFragmentManager.openAlertDialog(
                 isMaterial = true,
                 title = "Title",
                 message = "Message",
-                positiveButtonText = "Positive",
-                negativeButtonText = "Negative"
-            ))
+                positiveText = "Positive",
+                negativeText = "Negative"
+            )
         }
 
         addDevItem("Toast") {

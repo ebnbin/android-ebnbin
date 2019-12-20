@@ -16,8 +16,8 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
     @Suppress("UNCHECKED_CAST")
     protected open val fragmentClass: Class<out Fragment>
         get() = intent?.getSerializableExtra(KEY_FRAGMENT_CLASS) as? Class<out Fragment>? ?: throw RuntimeException()
-    protected open val fragmentArgs: Bundle?
-        get() = intent?.getBundleExtra(KEY_FRAGMENT_ARGS)
+    protected open val fragmentArguments: Bundle?
+        get() = intent?.getBundleExtra(KEY_FRAGMENT_ARGUMENTS)
     protected open val fragmentTag: String?
         get() = intent?.getStringExtra(KEY_FRAGMENT_TAG)
     protected open val fragmentIsView: Boolean
@@ -54,7 +54,7 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
 
     private fun addFragment() {
         supportFragmentManager.beginTransaction()
-            .add(if (fragmentIsView) android.R.id.content else 0, fragmentClass, fragmentArgs, fragmentTag)
+            .add(if (fragmentIsView) android.R.id.content else 0, fragmentClass, fragmentArguments, fragmentTag)
             .commitAllowingStateLoss()
     }
 
@@ -68,7 +68,7 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
         private const val KEY_CALLING_ID: String = "calling_id"
 
         private const val KEY_FRAGMENT_CLASS: String = "fragment_class"
-        private const val KEY_FRAGMENT_ARGS: String = "fragment_args"
+        private const val KEY_FRAGMENT_ARGUMENTS: String = "fragment_arguments"
         private const val KEY_FRAGMENT_TAG: String = "fragment_tag"
         private const val KEY_FRAGMENT_IS_VIEW: String = "fragment_is_view"
         private const val KEY_FRAGMENT_PERMISSIONS: String = "fragment_permissions"
@@ -76,7 +76,7 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
         internal fun createIntent(
             context: Context,
             fragmentClass: Class<out Fragment>,
-            fragmentArgs: Bundle? = null,
+            fragmentArguments: Bundle? = null,
             fragmentTag: String? = null,
             fragmentIsView: Boolean = true,
             fragmentPermissions: Array<out String>? = null,
@@ -85,7 +85,7 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
             return (if (activityIntent == null) Intent() else Intent(activityIntent))
                 .setClass(context, EBFragmentActivity::class.java)
                 .putExtra(KEY_FRAGMENT_CLASS, fragmentClass)
-                .putExtra(KEY_FRAGMENT_ARGS, fragmentArgs)
+                .putExtra(KEY_FRAGMENT_ARGUMENTS, fragmentArguments)
                 .putExtra(KEY_FRAGMENT_TAG, fragmentTag)
                 .putExtra(KEY_FRAGMENT_IS_VIEW, fragmentIsView)
                 .putExtra(KEY_FRAGMENT_PERMISSIONS, fragmentPermissions)

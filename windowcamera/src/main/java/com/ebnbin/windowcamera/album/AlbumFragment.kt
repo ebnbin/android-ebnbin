@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ebnbin.eb.dialog.AlertDialogFragment
-import com.ebnbin.eb.extension.openAlertDialog
+import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.extension.pxToDp
 import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb2.fragment.EBFragment
-import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.WindowHelper
@@ -124,11 +123,12 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
                     if (adapter.data.none { albumItem -> albumItem.multiSelect == MultiSelect.SELECTED }) {
                         requireContext().toast(R.string.album_selected_empty)
                     } else {
-                        childFragmentManager.openAlertDialog(AlertDialogFragment.Builder(
+                        childFragmentManager.openAlertDialog(
                             message = getString(R.string.album_delete_message),
-                            positiveButtonText = getString(R.string.album_delete_position),
-                            negativeButtonText = getString(R.string.album_delete_negative)
-                        ), "delete")
+                            positiveText = getString(R.string.album_delete_position),
+                            negativeText = getString(R.string.album_delete_negative),
+                            fragmentTag = "delete"
+                        )
                     }
                     true
                 }
@@ -221,7 +221,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         super.onSaveInstanceState(outState)
     }
 
-    override fun alertDialogOnPositive(alertDialog: AlertDialog, extraData: Bundle): Boolean {
+    override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
         adapter.data
             .filter { it.multiSelect == MultiSelect.SELECTED }
             .forEach { it.file.delete() }

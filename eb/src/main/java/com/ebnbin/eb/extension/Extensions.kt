@@ -12,16 +12,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.permission.PermissionFragment
-
-fun FragmentManager.openAlertDialog(builder: AlertDialogFragment.Builder, tag: String? = null) {
-    beginTransaction()
-        .add(AlertDialogFragment::class.java, bundleOf(AlertDialogFragment.KEY_BUILDER to builder), tag)
-        .commitAllowingStateLoss()
-}
-
-//*********************************************************************************************************************
 
 fun FragmentManager.openPermissionFragment(
     permissions: Array<out String>,

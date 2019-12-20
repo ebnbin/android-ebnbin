@@ -3,72 +3,72 @@ package com.ebnbin.eb.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import com.ebnbin.eb.fragment.getCallback
 import com.ebnbin.eb.fragment.requireArgument
+import com.ebnbin.eb.util.Const
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.parcel.Parcelize
 
 open class AlertDialogFragment : EBDialogFragment() {
     interface Callback {
         /**
          * @return 点击按钮是否 dismiss.
          */
-        fun alertDialogOnPositive(alertDialog: AlertDialog, extraData: Bundle): Boolean = true
+        fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean = true
 
         /**
          * @return 点击按钮是否 dismiss.
          */
-        fun alertDialogOnNegative(alertDialog: AlertDialog, extraData: Bundle): Boolean = true
+        fun onAlertDialogNegative(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean = true
 
         /**
          * @return 点击按钮是否 dismiss.
          */
-        fun alertDialogOnNeutral(alertDialog: AlertDialog, extraData: Bundle): Boolean = true
+        fun onAlertDialogNeutral(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean = true
 
-        fun alertDialogOnShow(alertDialog: AlertDialog, extraData: Bundle) = Unit
+        fun onAlertDialogShow(alertDialog: AlertDialog, callbackBundle: Bundle) = Unit
 
-        fun alertDialogOnCancel(alertDialog: AlertDialog, extraData: Bundle) = Unit
+        fun onAlertDialogCancel(alertDialog: AlertDialog, callbackBundle: Bundle) = Unit
 
-        fun alertDialogOnDismiss(alertDialog: AlertDialog, extraData: Bundle) = Unit
+        fun onAlertDialogDismiss(alertDialog: AlertDialog, callbackBundle: Bundle) = Unit
     }
 
     @CallSuper
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = requireArgument<Builder>(KEY_BUILDER)
-        val alertDialogBuilder = if (builder.isMaterial) {
+        val builder = if (requireArgument(KEY_IS_MATERIAL)) {
             MaterialAlertDialogBuilder(requireContext())
         } else {
             AlertDialog.Builder(requireContext())
-        }.setTitle(builder.title)
-            .setMessage(builder.message)
-            .setPositiveButton(builder.positiveButtonText, null)
-            .setNegativeButton(builder.negativeButtonText, null)
-            .setNeutralButton(builder.neutralButtonText, null)
-        val dialog = alertDialogBuilder.create()
+        }.setTitle(requireArgument<CharSequence?>(KEY_TITLE))
+            .setMessage(requireArgument<CharSequence?>(KEY_MESSAGE))
+            .setPositiveButton(requireArgument<CharSequence?>(KEY_POSITIVE_TEXT), null)
+            .setNegativeButton(requireArgument<CharSequence?>(KEY_NEGATIVE_TEXT), null)
+            .setNeutralButton(requireArgument<CharSequence?>(KEY_NEUTRAL_TEXT), null)
+        val dialog = builder.create()
         dialog.setOnShowListener {
             val alertDialog = it as AlertDialog
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-                if (alertDialogOnPositive(alertDialog)) {
+                if (onAlertDialogPositive(alertDialog)) {
                     dismissAllowingStateLoss()
                 }
             }
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
-                if (alertDialogOnNegative(alertDialog)) {
+                if (onAlertDialogNegative(alertDialog)) {
                     dismissAllowingStateLoss()
                 }
             }
             alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
-                if (alertDialogOnNeutral(alertDialog)) {
+                if (onAlertDialogNeutral(alertDialog)) {
                     dismissAllowingStateLoss()
                 }
             }
-            alertDialogOnShow(alertDialog)
+            onAlertDialogShow(alertDialog)
         }
-        dialog.setCanceledOnTouchOutside(builder.dialogCancelable == DialogCancelable.CANCELABLE)
-        isCancelable = builder.dialogCancelable != DialogCancelable.NOT_CANCELABLE
+        val dialogCancelable = requireArgument<DialogCancelable>(KEY_DIALOG_CANCELABLE)
+        dialog.setCanceledOnTouchOutside(dialogCancelable == DialogCancelable.CANCELABLE)
+        isCancelable = dialogCancelable != DialogCancelable.NOT_CANCELABLE
         return dialog
     }
 
@@ -76,70 +76,86 @@ open class AlertDialogFragment : EBDialogFragment() {
      * @return 点击按钮是否 dismiss.
      */
     @CallSuper
-    protected open fun alertDialogOnPositive(alertDialog: AlertDialog): Boolean {
-        return getCallback<Callback>()?.alertDialogOnPositive(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData) != false
+    protected open fun onAlertDialogPositive(alertDialog: AlertDialog): Boolean {
+        return getCallback<Callback>()
+            ?.onAlertDialogPositive(alertDialog, requireArgument(Const.KEY_CALLBACK_BUNDLE)) != false
     }
 
     /**
      * @return 点击按钮是否 dismiss.
      */
     @CallSuper
-    protected open fun alertDialogOnNegative(alertDialog: AlertDialog): Boolean {
-        return getCallback<Callback>()?.alertDialogOnNegative(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData) != false
+    protected open fun onAlertDialogNegative(alertDialog: AlertDialog): Boolean {
+        return getCallback<Callback>()
+            ?.onAlertDialogNegative(alertDialog, requireArgument(Const.KEY_CALLBACK_BUNDLE)) != false
     }
 
     /**
      * @return 点击按钮是否 dismiss.
      */
     @CallSuper
-    protected open fun alertDialogOnNeutral(alertDialog: AlertDialog): Boolean {
-        return getCallback<Callback>()?.alertDialogOnNeutral(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData) != false
+    protected open fun onAlertDialogNeutral(alertDialog: AlertDialog): Boolean {
+        return getCallback<Callback>()
+            ?.onAlertDialogNeutral(alertDialog, requireArgument(Const.KEY_CALLBACK_BUNDLE)) != false
     }
 
     @CallSuper
-    protected open fun alertDialogOnShow(alertDialog: AlertDialog) {
-        getCallback<Callback>()?.alertDialogOnShow(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData)
+    protected open fun onAlertDialogShow(alertDialog: AlertDialog) {
+        getCallback<Callback>()?.onAlertDialogShow(alertDialog, requireArgument(Const.KEY_CALLBACK_BUNDLE))
     }
 
     @CallSuper
-    protected open fun alertDialogOnCancel(alertDialog: AlertDialog) {
-        getCallback<Callback>()?.alertDialogOnCancel(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData)
+    protected open fun onAlertDialogCancel(alertDialog: AlertDialog) {
+        getCallback<Callback>()?.onAlertDialogCancel(alertDialog, requireArgument(Const.KEY_CALLBACK_BUNDLE))
     }
 
     @CallSuper
-    protected open fun alertDialogOnDismiss(alertDialog: AlertDialog) {
-        getCallback<Callback>()?.alertDialogOnDismiss(alertDialog, requireArgument<Builder>(KEY_BUILDER).extraData)
+    protected open fun onAlertDialogDismiss(alertDialog: AlertDialog) {
+        getCallback<Callback>()?.onAlertDialogDismiss(alertDialog, requireArgument(Const.KEY_CALLBACK_BUNDLE))
     }
 
     final override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        alertDialogOnCancel(dialog as AlertDialog)
+        onAlertDialogCancel(dialog as AlertDialog)
     }
 
     final override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        alertDialogOnDismiss(dialog as AlertDialog)
+        onAlertDialogDismiss(dialog as AlertDialog)
     }
 
-    @Parcelize
-    class Builder(
-        /**
-         * 是否使用 MaterialAlertDialogBuilder.
-         */
-        val isMaterial: Boolean = false,
-        val title: CharSequence? = null,
-        val message: CharSequence? = null,
-        val positiveButtonText: CharSequence? = null,
-        val negativeButtonText: CharSequence? = null,
-        val neutralButtonText: CharSequence? = null,
-        val dialogCancelable: DialogCancelable = DialogCancelable.CANCELABLE,
-        /**
-         * 回传给 Callback.
-         */
-        val extraData: Bundle = Bundle.EMPTY
-    ) : Parcelable
-
     companion object {
-        const val KEY_BUILDER: String = "builder"
+        private const val KEY_IS_MATERIAL: String = "is_material"
+        private const val KEY_TITLE: String = "title"
+        private const val KEY_MESSAGE: String = "message"
+        private const val KEY_POSITIVE_TEXT: String = "positive_text"
+        private const val KEY_NEGATIVE_TEXT: String = "negative_text"
+        private const val KEY_NEUTRAL_TEXT: String = "neutral_text"
+        private const val KEY_DIALOG_CANCELABLE: String = "dialog_cancelable"
+
+        internal fun createArguments(
+            /**
+             * 是否使用 MaterialAlertDialogBuilder.
+             */
+            isMaterial: Boolean = false,
+            title: CharSequence? = null,
+            message: CharSequence? = null,
+            positiveText: CharSequence? = null,
+            negativeText: CharSequence? = null,
+            neutralText: CharSequence? = null,
+            dialogCancelable: DialogCancelable = DialogCancelable.CANCELABLE,
+            callbackBundle: Bundle = Bundle.EMPTY
+        ): Bundle {
+            return bundleOf(
+                KEY_IS_MATERIAL to isMaterial,
+                KEY_TITLE to title,
+                KEY_MESSAGE to message,
+                KEY_POSITIVE_TEXT to positiveText,
+                KEY_NEGATIVE_TEXT to negativeText,
+                KEY_NEUTRAL_TEXT to neutralText,
+                KEY_DIALOG_CANCELABLE to dialogCancelable,
+                Const.KEY_CALLBACK_BUNDLE to callbackBundle
+            )
+        }
     }
 }
