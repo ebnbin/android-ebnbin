@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
-import androidx.databinding.DataBindingUtil
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import com.ebnbin.eb.R
 import com.ebnbin.eb.databinding.EbCrashActivityBinding
@@ -34,7 +33,12 @@ internal class CrashActivity : AppCompatActivity() {
             finish()
             return
         }
-        binding = DataBindingUtil.setContentView(this, R.layout.eb_crash_activity)
+        binding = EbCrashActivityBinding.inflate(
+            layoutInflater,
+            window.decorView.findViewById(android.R.id.content),
+            false
+        )
+        setContentView(binding.root)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.setCopyOnClick {
