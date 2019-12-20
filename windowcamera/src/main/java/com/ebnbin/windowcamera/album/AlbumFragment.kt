@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialog
-import com.ebnbin.eb.extension.pxToDp
+import com.ebnbin.eb.util.pxToDp
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.util.IntentHelper

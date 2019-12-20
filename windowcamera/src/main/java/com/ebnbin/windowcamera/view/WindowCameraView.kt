@@ -14,8 +14,8 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.extension.dpToPxRound
-import com.ebnbin.eb.extension.requireSystemService
+import com.ebnbin.eb.util.dpToPxRound
+import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb.widget.toast

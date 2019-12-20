@@ -1,4 +1,4 @@
-package com.ebnbin.eb.extension
+package com.ebnbin.eb.util
 
 import android.content.Context
 import androidx.core.content.getSystemService

@@ -1,6 +1,6 @@
 package com.ebnbin.windowcamera
 
-import com.ebnbin.eb.dev.EBDevFragment
+import com.ebnbin.eb.dev.DevFragment
 import com.ebnbin.eb2.EBApplication
 import com.ebnbin.windowcamera.debug.DebugPageFragment
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
@@ -12,6 +12,6 @@ class AppApplication : EBApplication() {
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
     }
 
-    override val devFragmentClass: Class<out EBDevFragment>
+    override val devFragmentClass: Class<out DevFragment>
         get() = DebugPageFragment::class.java
 }

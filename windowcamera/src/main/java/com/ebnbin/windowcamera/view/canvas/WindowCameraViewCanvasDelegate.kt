@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Paint
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.extension.dpToPx
+import com.ebnbin.eb.util.dpToPx
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState

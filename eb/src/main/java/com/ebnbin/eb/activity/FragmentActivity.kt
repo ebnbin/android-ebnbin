@@ -5,71 +5,72 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.permission.openPermissionFragment
+import com.ebnbin.eb.util.KEY_CALLING_ID
+import com.ebnbin.eb.util.requireValue
 
 /**
  * 添加单个 Fragment 的 Activity.
  */
-open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
-    @Suppress("UNCHECKED_CAST")
+open class FragmentActivity : EBActivity(), PermissionFragment.Callback {
     protected open val fragmentClass: Class<out Fragment>
-        get() = intent?.getSerializableExtra(KEY_FRAGMENT_CLASS) as? Class<out Fragment>? ?: throw RuntimeException()
+        get() = requireExtra(KEY_FRAGMENT_CLASS)
     protected open val fragmentArguments: Bundle?
-        get() = intent?.getBundleExtra(KEY_FRAGMENT_ARGUMENTS)
+        get() = requireExtra(KEY_FRAGMENT_ARGUMENTS)
     protected open val fragmentTag: String?
-        get() = intent?.getStringExtra(KEY_FRAGMENT_TAG)
+        get() = requireExtra(KEY_FRAGMENT_TAG)
     protected open val fragmentIsView: Boolean
-        get() = intent?.getBooleanExtra(KEY_FRAGMENT_IS_VIEW, true) ?: throw RuntimeException()
+        get() = requireExtra(KEY_FRAGMENT_IS_VIEW)
     protected open val fragmentPermissions: Array<out String>?
-        get() = intent?.getStringArrayExtra(KEY_FRAGMENT_PERMISSIONS)
+        get() = requireExtra(KEY_FRAGMENT_PERMISSIONS)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             val fragmentPermissions = fragmentPermissions
             if (fragmentPermissions == null || hasPermissions(*fragmentPermissions)) {
-                addFragment()
+                onFragmentPermissionsGranted()
             } else {
                 supportFragmentManager.openPermissionFragment(
                     permissions = fragmentPermissions,
                     callbackBundle = bundleOf(
-                        KEY_CALLING_ID to EBFragmentActivity::class.java.name
-                    )
+                        KEY_CALLING_ID to FragmentActivity::class.java.name
+                    ),
+                    fragmentTag = FragmentActivity::class.java.name
                 )
             }
         }
     }
 
     override fun onPermissionResult(permissions: Array<out String>, granted: Boolean, callbackBundle: Bundle) {
-        super.onPermissionResult(permissions, granted, callbackBundle)
-        when (callbackBundle.getString(KEY_CALLING_ID)) {
-            EBFragmentActivity::class.java.name -> {
+        when (callbackBundle.requireValue<String>(KEY_CALLING_ID)) {
+            FragmentActivity::class.java.name -> {
                 if (granted) {
-                    addFragment()
+                    onFragmentPermissionsGranted()
                 } else {
                     finish()
                 }
             }
+            else -> super.onPermissionResult(permissions, granted, callbackBundle)
         }
     }
 
-    private fun addFragment() {
-        supportFragmentManager.beginTransaction()
-            .add(if (fragmentIsView) android.R.id.content else 0, fragmentClass, fragmentArguments, fragmentTag)
-            .commitAllowingStateLoss()
+    private fun onFragmentPermissionsGranted() {
+        supportFragmentManager.commit(true) {
+            add(if (fragmentIsView) android.R.id.content else 0, fragmentClass, fragmentArguments, fragmentTag)
+        }
     }
 
     override fun toString(): String {
         val fragmentClass = fragmentClass
         val fragment = supportFragmentManager.fragments.firstOrNull { fragmentClass.isInstance(it) }
-        return "${super.toString()}${System.lineSeparator()}${fragment ?: fragmentClass}"
+        return "${super.toString()},${fragment ?: fragmentClass}"
     }
 
     companion object {
-        private const val KEY_CALLING_ID: String = "calling_id"
-
         private const val KEY_FRAGMENT_CLASS: String = "fragment_class"
         private const val KEY_FRAGMENT_ARGUMENTS: String = "fragment_arguments"
         private const val KEY_FRAGMENT_TAG: String = "fragment_tag"
@@ -86,7 +87,7 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
             activityIntent: Intent? = null
         ): Intent {
             return (if (activityIntent == null) Intent() else Intent(activityIntent))
-                .setClass(context, EBFragmentActivity::class.java)
+                .setClass(context, FragmentActivity::class.java)
                 .putExtra(KEY_FRAGMENT_CLASS, fragmentClass)
                 .putExtra(KEY_FRAGMENT_ARGUMENTS, fragmentArguments)
                 .putExtra(KEY_FRAGMENT_TAG, fragmentTag)

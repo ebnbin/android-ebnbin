@@ -15,7 +15,7 @@
             android:name=".crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>
 
-        <activity android:name=".activity.EBFragmentActivity"/>
+        <activity android:name=".activity.FragmentActivity"/>
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"

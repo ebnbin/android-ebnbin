@@ -14,7 +14,7 @@ import com.ebnbin.eb.widget.toast
 /**
  * 基础 Dev 页面.
  */
-open class EBDevFragment : EBViewFragment<EbDevFragmentBinding>() {
+open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
     override val layoutId: Int
         get() = R.layout.eb_dev_fragment
 

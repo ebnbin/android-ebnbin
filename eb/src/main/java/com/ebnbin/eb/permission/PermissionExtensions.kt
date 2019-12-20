@@ -9,19 +9,19 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.ebnbin.eb.util.sdk26O
 
-internal fun Context.hasRequestInstallPackagesPermission(): Boolean {
+fun Context.hasRequestInstallPackagesPermission(): Boolean {
     return if (sdk26O()) packageManager.canRequestPackageInstalls() else true
 }
 
-internal fun Context.hasSystemAlertWindowPermission(): Boolean {
+fun Context.hasSystemAlertWindowPermission(): Boolean {
     return Settings.canDrawOverlays(this)
 }
 
-internal fun Context.hasWriteSettingsPermission(): Boolean {
+fun Context.hasWriteSettingsPermission(): Boolean {
     return Settings.System.canWrite(this)
 }
 
-internal fun Context.hasRuntimePermission(runtimePermission: String): Boolean {
+fun Context.hasRuntimePermission(runtimePermission: String): Boolean {
     return checkSelfPermission(runtimePermission) == PackageManager.PERMISSION_GRANTED
 }
 

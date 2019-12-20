@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.widget.ThemedSpinnerAdapter
-import com.ebnbin.eb.extension.dpToPxRound
+import com.ebnbin.eb.util.dpToPxRound
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper

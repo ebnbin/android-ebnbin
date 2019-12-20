@@ -1,10 +1,10 @@
 package com.ebnbin.sample
 
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.dev.EBDevFragment
-import com.ebnbin.sample.dev.DevFragment
+import com.ebnbin.eb.dev.DevFragment
+import com.ebnbin.sample.dev.AppDevFragment
 
 class App : EBApp() {
-    override val devFragmentClass: Class<out EBDevFragment>
-        get() = DevFragment::class.java
+    override val devFragmentClass: Class<out DevFragment>
+        get() = AppDevFragment::class.java
 }

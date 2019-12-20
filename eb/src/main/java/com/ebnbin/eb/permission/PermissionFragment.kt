@@ -19,7 +19,8 @@ import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.getCallback
 import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.fragment.requireArgument
-import com.ebnbin.eb.util.Const
+import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
+import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb.util.applicationId
 import com.ebnbin.eb.util.requireValue
 import com.ebnbin.eb.util.sdk26O
@@ -194,6 +195,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
             negativeText = getString(R.string.eb_permission_deny),
             dialogCancelable = DialogCancelable.NOT_CANCELABLE,
             callbackBundle = bundleOf(
+                KEY_CALLING_ID to PermissionFragment::class.java.name,
                 "action" to action,
                 "request_code" to requestCode
             ),
@@ -202,11 +204,16 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     }
 
     override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
-        val intent = Intent(callbackBundle.requireValue("action"), Uri.parse("package:$applicationId"))
-        if (openActivity(intent, callbackBundle.requireValue("request_code")) != null) {
-            onPermissionResult(PermissionResult.OPEN_SETTINGS_FAILURE)
+        return when (callbackBundle.requireValue<String>(KEY_CALLING_ID)) {
+            PermissionFragment::class.java.name -> {
+                val intent = Intent(callbackBundle.requireValue("action"), Uri.parse("package:$applicationId"))
+                if (openActivity(intent, callbackBundle.requireValue("request_code")) != null) {
+                    onPermissionResult(PermissionResult.OPEN_SETTINGS_FAILURE)
+                }
+                true
+            }
+            else -> super.onAlertDialogPositive(alertDialog, callbackBundle)
         }
-        return true
     }
 
     override fun onAlertDialogNegative(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
@@ -263,7 +270,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     private fun onPermissionResult(permissionResult: PermissionResult) {
         val callback = getCallback<Callback>()
         val permissions = requireArgument<Array<out String>>(KEY_PERMISSIONS)
-        val callbackBundle = requireArgument<Bundle>(Const.KEY_CALLBACK_BUNDLE)
+        val callbackBundle = requireArgument<Bundle>(KEY_CALLBACK_BUNDLE)
         when (permissionResult) {
             PermissionResult.GRANTED -> {
                 callback?.onPermissionResult(permissions, true, callbackBundle)
@@ -294,7 +301,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
         fun createArguments(permissions: Array<out String>, callbackBundle: Bundle = Bundle.EMPTY): Bundle {
             return bundleOf(
                 KEY_PERMISSIONS to permissions,
-                Const.KEY_CALLBACK_BUNDLE to callbackBundle
+                KEY_CALLBACK_BUNDLE to callbackBundle
             )
         }
     }

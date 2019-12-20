@@ -14,7 +14,7 @@ import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.extension.requireSystemService
+import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.util.RotationSize
 import com.ebnbin.eb2.util.WindowHelper

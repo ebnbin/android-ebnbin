@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.ebnbin.eb.activity.EBFragmentActivity
+import com.ebnbin.eb.activity.FragmentActivity
 
 fun Context.openFragment(
     fragmentClass: Class<out Fragment>,
@@ -19,7 +19,7 @@ fun Context.openFragment(
 ): Throwable? {
     return runCatching {
         startActivity(
-            EBFragmentActivity.createIntent(
+            FragmentActivity.createIntent(
                 context = this,
                 fragmentClass = fragmentClass,
                 fragmentArguments = fragmentArguments,
@@ -45,7 +45,7 @@ fun Activity.openFragment(
 ): Throwable? {
     return runCatching {
         startActivityForResult(
-            EBFragmentActivity.createIntent(
+            FragmentActivity.createIntent(
                 context = this,
                 fragmentClass = fragmentClass,
                 fragmentArguments = fragmentArguments,
@@ -72,7 +72,7 @@ fun Fragment.openFragment(
 ): Throwable? {
     return runCatching {
         startActivityForResult(
-            EBFragmentActivity.createIntent(
+            FragmentActivity.createIntent(
                 context = requireContext(),
                 fragmentClass = fragmentClass,
                 fragmentArguments = fragmentArguments,

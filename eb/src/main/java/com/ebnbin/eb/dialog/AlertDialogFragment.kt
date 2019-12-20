@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.fragment.getCallback
 import com.ebnbin.eb.fragment.requireArgument
-import com.ebnbin.eb.util.Const
+import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 open class AlertDialogFragment : EBDialogFragment() {
@@ -49,7 +49,7 @@ open class AlertDialogFragment : EBDialogFragment() {
     protected open val dialogCancelable: DialogCancelable
         get() = requireArgument(KEY_DIALOG_CANCELABLE)
     protected open val callbackBundle: Bundle
-        get() = requireArgument(Const.KEY_CALLBACK_BUNDLE)
+        get() = requireArgument(KEY_CALLBACK_BUNDLE)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = if (isMaterial) {
@@ -160,7 +160,7 @@ open class AlertDialogFragment : EBDialogFragment() {
                 KEY_NEGATIVE_TEXT to negativeText,
                 KEY_NEUTRAL_TEXT to neutralText,
                 KEY_DIALOG_CANCELABLE to dialogCancelable,
-                Const.KEY_CALLBACK_BUNDLE to callbackBundle
+                KEY_CALLBACK_BUNDLE to callbackBundle
             )
         }
     }

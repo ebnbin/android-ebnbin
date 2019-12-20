@@ -1,7 +1,7 @@
 package com.ebnbin.eb2.debug
 
 import androidx.appcompat.app.AppCompatDelegate
-import com.ebnbin.eb.dev.EBDevFragment
+import com.ebnbin.eb.dev.DevFragment
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.dev.EBReport
@@ -12,7 +12,7 @@ import com.ebnbin.eb2.util.IntentHelper
 /**
  * Debug EB 页面.
  */
-open class EBDebugPageFragment : EBDevFragment() {
+open class EBDebugPageFragment : DevFragment() {
 //    private lateinit var callingActivity: String
 //
 //    override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
