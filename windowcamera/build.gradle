@@ -31,6 +31,4 @@ dependencies {
     api 'com.shuyu:GSYVideoPlayer-exo2:7.0.1'
     api 'com.shuyu:gsyVideoPlayer-armv7a:7.0.1'
 //    api 'com.shuyu:gsyVideoPlayer-x86:7.0.1'
-
-    api 'com.jeremyliao:live-event-bus-x:1.5.7' // https://github.com/JeremyLiao/LiveEventBus
 }
