@@ -15,12 +15,12 @@ import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.extension.hasPermissions
 import com.ebnbin.eb.extension.requireSystemService
-import com.ebnbin.eb.extension.toast
+import com.ebnbin.eb.permission.hasPermissions
+import com.ebnbin.eb.util.sdk26O
+import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.AppHelper
-import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.view.WindowCameraView
@@ -54,7 +54,7 @@ class WindowCameraService : Service() {
 
         windowCameraView = WindowCameraView(this)
         val params = WindowManager.LayoutParams()
-        params.type = if (BuildHelper.sdk26O()) {
+        params.type = if (sdk26O()) {
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         } else {
             @Suppress("DEPRECATION")
@@ -68,7 +68,7 @@ class WindowCameraService : Service() {
     }
 
     private fun startForeground() {
-        if (BuildHelper.sdk26O() &&
+        if (sdk26O() &&
             EBApp.instance.requireSystemService<NotificationManager>().getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
             val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "WindowCameraService",
                 NotificationManager.IMPORTANCE_DEFAULT)
@@ -119,12 +119,12 @@ class WindowCameraService : Service() {
 
         fun start(context: Context) {
             if (isRunning()) return
-            if (!context.hasPermissions(permissions.toTypedArray())) {
+            if (!context.hasPermissions(*permissions.toTypedArray())) {
                 context.toast(R.string.eb_permission_denied)
                 return
             }
             val intent = Intent(context, WindowCameraService::class.java)
-            if (BuildHelper.sdk26O()) {
+            if (sdk26O()) {
                 context.startForegroundService(intent)
             } else {
                 context.startService(intent)

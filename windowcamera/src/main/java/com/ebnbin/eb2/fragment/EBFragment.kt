@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import com.ebnbin.eb.extension.toast
+import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.library.Libraries
-import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.windowcamera.R
 

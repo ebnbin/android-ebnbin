@@ -1,7 +1,6 @@
 package com.ebnbin.eb
 
 import android.app.Application
-import android.widget.Toast
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.ebnbin.eb.crash.CrashActivity
 import com.ebnbin.eb.dev.EBDevFragment
@@ -28,16 +27,6 @@ open class EBApp : Application() {
      */
     open val devFragmentClass: Class<out EBDevFragment>
         get() = EBDevFragment::class.java
-
-    private var toast: Toast? = null
-
-    internal fun setToast(toast: Toast) {
-        this.toast?.let {
-            this.toast = null
-            it.cancel()
-        }
-        this.toast = toast
-    }
 
     companion object {
         lateinit var instance: EBApp

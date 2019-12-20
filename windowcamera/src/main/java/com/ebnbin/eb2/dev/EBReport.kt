@@ -2,6 +2,7 @@ package com.ebnbin.eb2.dev
 
 import android.os.Build
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.util.sdk24N
 import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.DataHelper
@@ -42,7 +43,7 @@ open class EBReport : EBModel {
         manufacturer = Build.MANUFACTURER
         model = Build.MODEL
         abis = Build.SUPPORTED_ABIS.toList()
-        locales = if (BuildHelper.sdk24N()) {
+        locales = if (sdk24N()) {
             EBApp.instance.resources.configuration.locales.run {
                 (0 until size()).map { get(it).toString() }
             }

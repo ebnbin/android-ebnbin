@@ -18,10 +18,11 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.extension.openPermissionFragment
 import com.ebnbin.eb.extension.requireSystemService
-import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.permission.openPermissionFragment
+import com.ebnbin.eb.util.sdk24N
+import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
@@ -186,8 +187,8 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
         childFragmentManager.openPermissionFragment(arrayOf(Manifest.permission.REQUEST_INSTALL_PACKAGES))
     }
 
-    override fun permissionOnResult(permissions: Array<out String>, granted: Boolean, extraData: Bundle) {
-        super.permissionOnResult(permissions, granted, extraData)
+    override fun onPermissionResult(permissions: Array<out String>, granted: Boolean, callbackBundle: Bundle) {
+        super.onPermissionResult(permissions, granted, callbackBundle)
         if (granted) {
             install()
         }
@@ -198,7 +199,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
             val file = getFile()
             val intent = Intent(Intent.ACTION_VIEW)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            val uri = if (BuildHelper.sdk24N()) {
+            val uri = if (sdk24N()) {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 FileProvider.getUriForFile(requireContext(), "${BuildHelper.applicationId}.fileprovider", file)
             } else {

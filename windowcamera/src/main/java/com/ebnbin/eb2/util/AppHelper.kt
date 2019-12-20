@@ -13,6 +13,7 @@ import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.requireSystemService
+import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 
 object AppHelper {
@@ -25,7 +26,7 @@ object AppHelper {
 
     @RequiresPermission(Manifest.permission.VIBRATE)
     fun vibrate(milliseconds: Long) {
-        if (BuildHelper.sdk26O()) {
+        if (sdk26O()) {
             EBApp.instance.requireSystemService<Vibrator>().vibrate(
                 VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {

@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -16,12 +15,15 @@ import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.openAlertDialog
-import com.ebnbin.eb.extension.hasRequestInstallPackagesPermission
-import com.ebnbin.eb.extension.hasRuntimePermission
-import com.ebnbin.eb.extension.hasSystemAlertWindowPermission
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.getCallback
 import com.ebnbin.eb.fragment.removeSelf
+import com.ebnbin.eb.fragment.requireArgument
+import com.ebnbin.eb.util.Const
+import com.ebnbin.eb.util.applicationId
+import com.ebnbin.eb.util.requireValue
+import com.ebnbin.eb.util.sdk26O
+import com.ebnbin.eb.widget.toast
 
 /**
  * 权限请求 Fragment.
@@ -31,14 +33,14 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
      * 权限结果回调.
      */
     interface Callback {
-        fun permissionOnResult(permissions: Array<out String>, granted: Boolean, extraData: Bundle) = Unit
+        fun onPermissionResult(permissions: Array<out String>, granted: Boolean, callbackBundle: Bundle) = Unit
     }
 
     //*****************************************************************************************************************
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initArgs()
+        initArguments()
         if (savedInstanceState == null) {
             checkPermissions()
         }
@@ -46,20 +48,16 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
 
     //*****************************************************************************************************************
 
-    private lateinit var permissions: Array<out String>
-    private lateinit var extraData: Bundle
-
     private var needRequestInstallPackagesPermission: Boolean = false
     private var needSystemAlertWindowPermission: Boolean = false
+    private var needWriteSettingsPermission: Boolean = false
     private lateinit var runtimePermissions: Array<out String>
 
-    private fun initArgs() {
-        permissions = arguments?.getStringArray(KEY_PERMISSIONS) ?: throw RuntimeException()
-        extraData = arguments?.getBundle(KEY_EXTRA_DATA) ?: throw RuntimeException()
-
-        val permissionSet = LinkedHashSet(permissions.toList())
+    private fun initArguments() {
+        val permissionSet = LinkedHashSet(requireArgument<Array<out String>>(KEY_PERMISSIONS).toList())
         needRequestInstallPackagesPermission = permissionSet.remove(Manifest.permission.REQUEST_INSTALL_PACKAGES)
         needSystemAlertWindowPermission = permissionSet.remove(Manifest.permission.SYSTEM_ALERT_WINDOW)
+        needWriteSettingsPermission = permissionSet.remove(Manifest.permission.WRITE_SETTINGS)
         runtimePermissions = permissionSet.toTypedArray()
     }
 
@@ -70,14 +68,13 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     }
 
     private fun checkRequestInstallPackagesPermission(firstTime: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+        if (sdk26O() &&
             needRequestInstallPackagesPermission &&
-            !hasRequestInstallPackagesPermission()
-        ) {
+            !requireContext().hasRequestInstallPackagesPermission()) {
             if (firstTime) {
                 requestRequestInstallPackagesPermission()
             } else {
-                permissionOnResult(PermissionResult.DENIED)
+                onPermissionResult(PermissionResult.DENIED)
             }
         } else {
             checkSystemAlertWindowPermission(true)
@@ -85,11 +82,23 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     }
 
     private fun checkSystemAlertWindowPermission(firstTime: Boolean) {
-        if (needSystemAlertWindowPermission && !hasSystemAlertWindowPermission()) {
+        if (needSystemAlertWindowPermission && !requireContext().hasSystemAlertWindowPermission()) {
             if (firstTime) {
                 requestSystemAlertWindowPermission()
             } else {
-                permissionOnResult(PermissionResult.DENIED)
+                onPermissionResult(PermissionResult.DENIED)
+            }
+        } else {
+            checkWriteSettingsPermission(true)
+        }
+    }
+
+    private fun checkWriteSettingsPermission(firstTime: Boolean) {
+        if (needWriteSettingsPermission && !requireContext().hasWriteSettingsPermission()) {
+            if (firstTime) {
+                requestWriteSettingsPermission()
+            } else {
+                onPermissionResult(PermissionResult.DENIED)
             }
         } else {
             checkRuntimePermissions(CheckRuntimePermissions.FIRST_TIME)
@@ -98,25 +107,25 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
 
     private fun checkRuntimePermissions(checkRuntimePermissions: CheckRuntimePermissions) {
         runtimePermissions.forEach {
-            if (hasRuntimePermission(it)) return@forEach
+            if (requireContext().hasRuntimePermission(it)) return@forEach
             when (checkRuntimePermissions) {
                 CheckRuntimePermissions.FIRST_TIME -> {
                     requestRuntimePermissions()
                 }
                 CheckRuntimePermissions.REQUEST_RESULT -> {
                     if (shouldShowRequestPermissionRationale(it)) {
-                        permissionOnResult(PermissionResult.DENIED)
+                        onPermissionResult(PermissionResult.DENIED)
                     } else {
                         requestRuntimePermissionsDeniedForever()
                     }
                 }
                 CheckRuntimePermissions.REQUEST_RESULT_DENIED_FOREVER -> {
-                    permissionOnResult(PermissionResult.DENIED)
+                    onPermissionResult(PermissionResult.DENIED)
                 }
             }
             return
         }
-        permissionOnResult(PermissionResult.GRANTED)
+        onPermissionResult(PermissionResult.GRANTED)
     }
 
     /**
@@ -142,7 +151,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun requestRequestInstallPackagesPermission() {
         openDialog(
-            R.string.eb_permission_dialog_message_request_install_packages,
+            R.string.eb_permission_request_install_packages,
             Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
             REQUEST_CODE_REQUEST_INSTALL_PACKAGES_PERMISSION
         )
@@ -150,9 +159,17 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
 
     private fun requestSystemAlertWindowPermission() {
         openDialog(
-            R.string.eb_permission_dialog_message_system_alert_window,
+            R.string.eb_permission_system_alert_window,
             Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
             REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION
+        )
+    }
+
+    private fun requestWriteSettingsPermission() {
+        openDialog(
+            R.string.eb_permission_write_settings,
+            Settings.ACTION_MANAGE_WRITE_SETTINGS,
+            REQUEST_CODE_WRITE_SETTINGS_PERMISSION
         )
     }
 
@@ -162,39 +179,38 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
 
     private fun requestRuntimePermissionsDeniedForever() {
         openDialog(
-            R.string.eb_permission_dialog_message_runtime_permissions_denied_forever,
+            R.string.eb_permission_runtime_permissions_denied_forever,
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
             REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER
         )
     }
 
-    private fun openDialog(@StringRes messageStringId: Int, action: String, requestCode: Int) {
+    //*****************************************************************************************************************
+
+    private fun openDialog(@StringRes messageId: Int, action: String, requestCode: Int) {
         childFragmentManager.openAlertDialog(
-            message = getString(messageStringId),
-            positiveText = getString(R.string.eb_permission_dialog_positive),
-            negativeText = getString(R.string.eb_permission_dialog_negative),
+            message = getString(messageId),
+            positiveText = getString(R.string.eb_permission_open_settings),
+            negativeText = getString(R.string.eb_permission_deny),
             dialogCancelable = DialogCancelable.NOT_CANCELABLE,
             callbackBundle = bundleOf(
                 "action" to action,
                 "request_code" to requestCode
-            )
+            ),
+            fragmentTag = PermissionFragment::class.java.name
         )
     }
 
-    //*****************************************************************************************************************
-
     override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
-        val action = callbackBundle.getString("action") ?: throw RuntimeException()
-        val requestCode = callbackBundle.getInt("request_code")
-        val intent = Intent(action, Uri.parse("package:${requireContext().packageName}"))
-        if (openActivity(intent, requestCode = requestCode) != null) {
-            permissionOnResult(PermissionResult.DENIED_OPEN_SETTINGS_FAILURE)
+        val intent = Intent(callbackBundle.requireValue("action"), Uri.parse("package:$applicationId"))
+        if (openActivity(intent, callbackBundle.requireValue("request_code")) != null) {
+            onPermissionResult(PermissionResult.OPEN_SETTINGS_FAILURE)
         }
         return true
     }
 
     override fun onAlertDialogNegative(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
-        permissionOnResult(PermissionResult.DENIED)
+        onPermissionResult(PermissionResult.DENIED)
         return true
     }
 
@@ -208,6 +224,9 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
             REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION -> {
                 checkSystemAlertWindowPermission(false)
             }
+            REQUEST_CODE_WRITE_SETTINGS_PERMISSION -> {
+                checkWriteSettingsPermission(false)
+            }
             REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER -> {
                 checkRuntimePermissions(CheckRuntimePermissions.REQUEST_RESULT_DENIED_FOREVER)
             }
@@ -218,11 +237,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             REQUEST_CODE_RUNTIME_PERMISSIONS -> {
-                if (grantResults.isEmpty()) {
-                    // 正常情况下不应该发生. 忽略即可.
-                } else {
-                    checkRuntimePermissions(CheckRuntimePermissions.REQUEST_RESULT)
-                }
+                checkRuntimePermissions(CheckRuntimePermissions.REQUEST_RESULT)
             }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
@@ -240,25 +255,26 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
          */
         DENIED,
         /**
-         * 权限被拒绝且打开设置页面失败.
+         * 打开系统设置页面失败.
          */
-        DENIED_OPEN_SETTINGS_FAILURE
+        OPEN_SETTINGS_FAILURE
     }
 
-    private fun permissionOnResult(permissionResult: PermissionResult) {
+    private fun onPermissionResult(permissionResult: PermissionResult) {
         val callback = getCallback<Callback>()
+        val permissions = requireArgument<Array<out String>>(KEY_PERMISSIONS)
+        val callbackBundle = requireArgument<Bundle>(Const.KEY_CALLBACK_BUNDLE)
         when (permissionResult) {
             PermissionResult.GRANTED -> {
-                callback?.permissionOnResult(permissions, true, extraData)
+                callback?.onPermissionResult(permissions, true, callbackBundle)
             }
             PermissionResult.DENIED -> {
-                Toast.makeText(requireContext(), R.string.eb_permission_denied, Toast.LENGTH_SHORT).show()
-                callback?.permissionOnResult(permissions, false, extraData)
+                requireContext().toast(R.string.eb_permission_denied)
+                callback?.onPermissionResult(permissions, false, callbackBundle)
             }
-            PermissionResult.DENIED_OPEN_SETTINGS_FAILURE -> {
-                Toast.makeText(requireContext(), R.string.eb_permission_denied_open_settings_failure,
-                    Toast.LENGTH_SHORT).show()
-                callback?.permissionOnResult(permissions, false, extraData)
+            PermissionResult.OPEN_SETTINGS_FAILURE -> {
+                requireContext().toast(R.string.eb_permission_open_settings_failure)
+                callback?.onPermissionResult(permissions, false, callbackBundle)
             }
         }
         removeSelf()
@@ -269,10 +285,17 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     companion object {
         private const val REQUEST_CODE_REQUEST_INSTALL_PACKAGES_PERMISSION = 0x1
         private const val REQUEST_CODE_SYSTEM_ALERT_WINDOW_PERMISSION = 0x2
-        private const val REQUEST_CODE_RUNTIME_PERMISSIONS = 0x3
-        private const val REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER = 0x4
+        private const val REQUEST_CODE_WRITE_SETTINGS_PERMISSION = 0x3
+        private const val REQUEST_CODE_RUNTIME_PERMISSIONS = 0x4
+        private const val REQUEST_CODE_RUNTIME_PERMISSIONS_DENIED_FOREVER = 0x5
 
-        const val KEY_PERMISSIONS: String = "permissions"
-        const val KEY_EXTRA_DATA: String = "extra_data"
+        private const val KEY_PERMISSIONS: String = "permissions"
+
+        fun createArguments(permissions: Array<out String>, callbackBundle: Bundle = Bundle.EMPTY): Bundle {
+            return bundleOf(
+                KEY_PERMISSIONS to permissions,
+                Const.KEY_CALLBACK_BUNDLE to callbackBundle
+            )
+        }
     }
 }

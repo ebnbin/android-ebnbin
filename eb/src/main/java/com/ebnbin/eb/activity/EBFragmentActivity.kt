@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb.extension.hasPermissions
-import com.ebnbin.eb.extension.openPermissionFragment
 import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.permission.hasPermissions
+import com.ebnbin.eb.permission.openPermissionFragment
 
 /**
  * 添加单个 Fragment 的 Activity.
@@ -29,19 +29,22 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             val fragmentPermissions = fragmentPermissions
-            if (fragmentPermissions == null || hasPermissions(fragmentPermissions)) {
+            if (fragmentPermissions == null || hasPermissions(*fragmentPermissions)) {
                 addFragment()
             } else {
-                supportFragmentManager.openPermissionFragment(fragmentPermissions, bundleOf(
-                    KEY_CALLING_ID to EBFragmentActivity::class.java.name
-                ))
+                supportFragmentManager.openPermissionFragment(
+                    permissions = fragmentPermissions,
+                    callbackBundle = bundleOf(
+                        KEY_CALLING_ID to EBFragmentActivity::class.java.name
+                    )
+                )
             }
         }
     }
 
-    override fun permissionOnResult(permissions: Array<out String>, granted: Boolean, extraData: Bundle) {
-        super.permissionOnResult(permissions, granted, extraData)
-        when (extraData.getString(KEY_CALLING_ID)) {
+    override fun onPermissionResult(permissions: Array<out String>, granted: Boolean, callbackBundle: Bundle) {
+        super.onPermissionResult(permissions, granted, callbackBundle)
+        when (callbackBundle.getString(KEY_CALLING_ID)) {
             EBFragmentActivity::class.java.name -> {
                 if (granted) {
                     addFragment()

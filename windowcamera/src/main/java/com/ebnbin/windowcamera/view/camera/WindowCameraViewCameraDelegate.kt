@@ -1,7 +1,6 @@
 package com.ebnbin.windowcamera.view.camera
 
 import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.content.SharedPreferences
 import android.graphics.ImageFormat
 import android.hardware.camera2.CameraCaptureSession
@@ -15,10 +14,9 @@ import android.view.Surface
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.requireSystemService
-import com.ebnbin.eb.extension.toast
+import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.library.Libraries
-import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.eb2.util.WindowHelper

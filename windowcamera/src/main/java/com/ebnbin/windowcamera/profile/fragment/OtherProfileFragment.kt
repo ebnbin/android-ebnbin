@@ -10,6 +10,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.requireSystemService
+import com.ebnbin.eb.util.sdk25N1
+import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb2.preference.FooterPreference
 import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.windowcamera.R
@@ -60,7 +62,7 @@ class OtherProfileFragment : BaseProfileFragment() {
             buildPreference(this, ProfileHelper.shortcut, ProfileHelper.quick)
             setTitle(R.string.profile_shortcut_title)
             setOnPreferenceClickListener {
-                if (BuildHelper.sdk25N1()) {
+                if (sdk25N1()) {
                     val shortcutInfo = ShortcutInfoCompat.Builder(requireContext(), "shortcut_profile_1")
                         .setShortLabel(Profile.get().title)
                         .setIcon(IconCompat.createWithResource(requireContext(), Profile.get().iconId))
@@ -78,7 +80,7 @@ class OtherProfileFragment : BaseProfileFragment() {
             buildPreference(this, ProfileHelper.pinned_shortcut, ProfileHelper.quick)
             setTitle(R.string.profile_pinned_shortcut_title)
             setOnPreferenceClickListener {
-                if (BuildHelper.sdk26O()) {
+                if (sdk26O()) {
                     if (EBApp.instance.requireSystemService<ShortcutManager>().isRequestPinShortcutSupported) {
                         val shortcutInfo = ShortcutInfoCompat.Builder(requireContext(), "pinned_shortcut_profile_1")
                             .setShortLabel(Profile.get().title)

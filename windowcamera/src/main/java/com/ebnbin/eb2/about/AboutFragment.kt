@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
-import com.ebnbin.eb.extension.toast
+import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.debug.debug
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment

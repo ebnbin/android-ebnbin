@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.extension.openPermissionFragment
 import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
@@ -103,8 +103,8 @@ class MainFragment : EBFragment(),
     override fun onPageScrollStateChanged(state: Int) {
     }
 
-    override fun permissionOnResult(permissions: Array<out String>, granted: Boolean, extraData: Bundle) {
-        super.permissionOnResult(permissions, granted, extraData)
+    override fun onPermissionResult(permissions: Array<out String>, granted: Boolean, callbackBundle: Bundle) {
+        super.onPermissionResult(permissions, granted, callbackBundle)
         if (granted) {
             floating_action_button.isEnabled = false
             WindowCameraService.start(requireContext())

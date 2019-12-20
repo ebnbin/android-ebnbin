@@ -8,8 +8,8 @@ import com.ebnbin.eb.R
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.dialog.openAlertDialog
-import com.ebnbin.eb.extension.toast
 import com.ebnbin.eb.fragment.EBViewFragment
+import com.ebnbin.eb.widget.toast
 
 /**
  * 基础 Dev 页面.

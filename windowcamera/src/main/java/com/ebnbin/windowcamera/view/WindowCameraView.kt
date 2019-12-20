@@ -15,11 +15,11 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.extension.dpToPxRound
-import com.ebnbin.eb.extension.hasPermissions
 import com.ebnbin.eb.extension.requireSystemService
-import com.ebnbin.eb.extension.toast
+import com.ebnbin.eb.permission.hasPermissions
+import com.ebnbin.eb.util.sdk26O
+import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.util.AppHelper
-import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.windowcamera.R
@@ -69,7 +69,7 @@ class WindowCameraView(context: Context) : CardView(context),
     override fun toast(any: Any?, long: Boolean, profileToast: ProfileToast) {
         when (profileToast) {
             ProfileToast.SYSTEM_ALERT_WINDOW, ProfileToast.SYSTEM_ALERT_WINDOW_CENTER -> {
-                if (!context.hasPermissions(arrayOf(Manifest.permission.SYSTEM_ALERT_WINDOW))) return
+                if (!context.hasPermissions(Manifest.permission.SYSTEM_ALERT_WINDOW)) return
                 lastToastView?.run {
                     val runnable = tag as Runnable
                     removeCallbacks(runnable)
@@ -80,7 +80,7 @@ class WindowCameraView(context: Context) : CardView(context),
                 val params = WindowManager.LayoutParams()
                 params.width = ViewGroup.LayoutParams.WRAP_CONTENT
                 params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                params.type = if (BuildHelper.sdk26O()) {
+                params.type = if (sdk26O()) {
                     WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
                 } else {
                     @Suppress("DEPRECATION")
