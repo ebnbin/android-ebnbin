@@ -1,4 +1,4 @@
-package com.ebnbin.eb.extension
+package com.ebnbin.eb.activity
 
 import android.app.Activity
 import android.content.Context

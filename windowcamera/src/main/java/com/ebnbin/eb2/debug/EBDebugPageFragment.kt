@@ -2,7 +2,7 @@ package com.ebnbin.eb2.debug
 
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.dev.EBDevFragment
-import com.ebnbin.eb.extension.openFragment
+import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.update.UpdateFragment

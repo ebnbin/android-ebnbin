@@ -17,7 +17,7 @@ import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.extension.hasRequestInstallPackagesPermission
 import com.ebnbin.eb.extension.hasRuntimePermission
 import com.ebnbin.eb.extension.hasSystemAlertWindowPermission
-import com.ebnbin.eb.extension.openActivity
+import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.extension.openAlertDialog
 import com.ebnbin.eb.extension.removeSelf
 import com.ebnbin.eb.fragment.EBFragment
