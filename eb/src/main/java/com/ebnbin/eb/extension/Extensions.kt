@@ -38,14 +38,6 @@ fun FragmentManager.openPermissionFragment(
 
 //*********************************************************************************************************************
 
-fun Fragment.removeSelf() {
-    parentFragmentManager.beginTransaction()
-        .remove(this)
-        .commitAllowingStateLoss()
-}
-
-//*********************************************************************************************************************
-
 internal fun Context.hasRequestInstallPackagesPermission(): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) packageManager.canRequestPackageInstalls() else true
 }

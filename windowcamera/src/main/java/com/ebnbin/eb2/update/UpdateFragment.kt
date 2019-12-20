@@ -4,14 +4,13 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.dialog.DialogCancelable
-import com.ebnbin.eb.extension.removeSelf
 import com.ebnbin.eb.extension.toast
+import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb2.async.DialogLoading
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
-import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.windowcamera.R
 

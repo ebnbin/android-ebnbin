@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
+import com.ebnbin.eb.fragment.getCallback
+import com.ebnbin.eb.fragment.requireArgument
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.parcel.Parcelize
 

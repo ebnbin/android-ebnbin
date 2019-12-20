@@ -12,15 +12,16 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.R
+import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.extension.hasRequestInstallPackagesPermission
 import com.ebnbin.eb.extension.hasRuntimePermission
 import com.ebnbin.eb.extension.hasSystemAlertWindowPermission
-import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.extension.openAlertDialog
-import com.ebnbin.eb.extension.removeSelf
 import com.ebnbin.eb.fragment.EBFragment
+import com.ebnbin.eb.fragment.getCallback
+import com.ebnbin.eb.fragment.removeSelf
 
 /**
  * 权限请求 Fragment.
