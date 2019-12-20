@@ -73,7 +73,7 @@ open class EBFragmentActivity : EBActivity(), PermissionFragment.Callback {
         private const val KEY_FRAGMENT_IS_VIEW: String = "fragment_is_view"
         private const val KEY_FRAGMENT_PERMISSIONS: String = "fragment_permissions"
 
-        internal fun createIntent(
+        fun createIntent(
             context: Context,
             fragmentClass: Class<out Fragment>,
             fragmentArguments: Bundle? = null,
