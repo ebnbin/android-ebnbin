@@ -5,8 +5,9 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.fragment.getArgument
+import com.ebnbin.eb.fragment.getArgumentOrDefault
 import com.ebnbin.eb.fragment.getCallback
-import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -35,21 +36,21 @@ open class AlertDialogFragment : EBDialogFragment() {
     }
 
     protected open val isMaterial: Boolean
-        get() = requireArgument(KEY_IS_MATERIAL)
+        get() = getArgumentOrDefault(KEY_IS_MATERIAL, true)
     protected open val title: CharSequence?
-        get() = requireArgument(KEY_TITLE)
+        get() = getArgument(KEY_TITLE)
     protected open val message: CharSequence?
-        get() = requireArgument(KEY_MESSAGE)
+        get() = getArgument(KEY_MESSAGE)
     protected open val positiveText: CharSequence?
-        get() = requireArgument(KEY_POSITIVE_TEXT)
+        get() = getArgument(KEY_POSITIVE_TEXT)
     protected open val negativeText: CharSequence?
-        get() = requireArgument(KEY_NEGATIVE_TEXT)
+        get() = getArgument(KEY_NEGATIVE_TEXT)
     protected open val neutralText: CharSequence?
-        get() = requireArgument(KEY_NEUTRAL_TEXT)
+        get() = getArgument(KEY_NEUTRAL_TEXT)
     protected open val dialogCancelable: DialogCancelable
-        get() = requireArgument(KEY_DIALOG_CANCELABLE)
+        get() = getArgumentOrDefault(KEY_DIALOG_CANCELABLE, DialogCancelable.CANCELABLE)
     protected open val callbackBundle: Bundle
-        get() = requireArgument(KEY_CALLBACK_BUNDLE)
+        get() = getArgumentOrDefault(KEY_CALLBACK_BUNDLE, Bundle.EMPTY)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = if (isMaterial) {

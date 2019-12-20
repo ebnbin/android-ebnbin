@@ -6,11 +6,11 @@ import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.openAlertDialog
+import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb2.splash.EBSplashFragment
-import com.ebnbin.eb2.util.Consts
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
@@ -36,7 +36,7 @@ class SplashFragment : EBSplashFragment() {
             message = getString(R.string.splash_camera_message),
             positiveText = getString(R.string.splash_camera_positive),
             dialogCancelable = DialogCancelable.NOT_CANCELABLE,
-            callbackBundle = bundleOf(Consts.KEY_CALLING_ID to "splash_camera"),
+            callbackBundle = bundleOf(KEY_CALLING_ID to "splash_camera"),
             fragmentTag = "splash_camera"
         )
     }
@@ -46,7 +46,7 @@ class SplashFragment : EBSplashFragment() {
     }
 
     override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
-        when (callbackBundle.getString(Consts.KEY_CALLING_ID)) {
+        when (callbackBundle.getString(KEY_CALLING_ID)) {
             "splash_camera" -> {
                 finish()
                 return true

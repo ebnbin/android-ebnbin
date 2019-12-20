@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.CallSuper
-import com.ebnbin.eb.R
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.dialog.openAlertDialog
@@ -15,8 +14,8 @@ import com.ebnbin.eb.widget.toast
  * 基础 Dev 页面.
  */
 open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
-    override val layoutId: Int
-        get() = R.layout.eb_dev_fragment
+    override val bindingClass: Class<EbDevFragmentBinding>
+        get() = EbDevFragmentBinding::class.java
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -27,7 +27,7 @@ internal class DevActivitySwipeDetector(private val activity: Activity) {
      */
     fun dispatchTouchEvent(motionEvent: MotionEvent?): Boolean {
         motionEvent ?: return false
-        if (!DevUtil.dev) return false
+        if (!dev) return false
         if (motionEvent.actionMasked == MotionEvent.ACTION_CANCEL) {
             // 取消事件, 重置状态.
             isSwiping = false

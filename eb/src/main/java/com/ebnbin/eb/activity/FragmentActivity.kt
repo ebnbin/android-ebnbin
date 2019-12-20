@@ -19,13 +19,13 @@ open class FragmentActivity : EBActivity(), PermissionFragment.Callback {
     protected open val fragmentClass: Class<out Fragment>
         get() = requireExtra(KEY_FRAGMENT_CLASS)
     protected open val fragmentArguments: Bundle?
-        get() = requireExtra(KEY_FRAGMENT_ARGUMENTS)
+        get() = getExtra(KEY_FRAGMENT_ARGUMENTS)
     protected open val fragmentTag: String?
-        get() = requireExtra(KEY_FRAGMENT_TAG)
+        get() = getExtra(KEY_FRAGMENT_TAG)
     protected open val fragmentIsView: Boolean
-        get() = requireExtra(KEY_FRAGMENT_IS_VIEW)
+        get() = getExtraOrDefault(KEY_FRAGMENT_IS_VIEW, true)
     protected open val fragmentPermissions: Array<out String>?
-        get() = requireExtra(KEY_FRAGMENT_PERMISSIONS)
+        get() = getExtra(KEY_FRAGMENT_PERMISSIONS)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

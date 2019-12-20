@@ -16,6 +16,7 @@ import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.fragment.EBFragment
+import com.ebnbin.eb.fragment.getArgumentOrDefault
 import com.ebnbin.eb.fragment.getCallback
 import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.fragment.requireArgument
@@ -270,7 +271,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     private fun onPermissionResult(permissionResult: PermissionResult) {
         val callback = getCallback<Callback>()
         val permissions = requireArgument<Array<out String>>(KEY_PERMISSIONS)
-        val callbackBundle = requireArgument<Bundle>(KEY_CALLBACK_BUNDLE)
+        val callbackBundle = getArgumentOrDefault(KEY_CALLBACK_BUNDLE, Bundle.EMPTY)
         when (permissionResult) {
             PermissionResult.GRANTED -> {
                 callback?.onPermissionResult(permissions, true, callbackBundle)
