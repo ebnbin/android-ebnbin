@@ -11,7 +11,7 @@ import com.ebnbin.eb.fragment.EBViewFragment
 import com.ebnbin.eb.widget.toast
 
 /**
- * 基础 Dev 页面.
+ * Dev 页面.
  */
 open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
     override val bindingClass: Class<EbDevFragmentBinding>
@@ -27,6 +27,13 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
 
     @CallSuper
     protected open fun onAddDevItems() {
+        addDevItem("Report") {
+            childFragmentManager.openAlertDialog(
+                title = "Report",
+                message = Report.create().toString()
+            )
+        }
+
         addDevItem("Calling Activity", arguments?.getString(KEY_CALLING_ACTIVITY))
 
         addDevItem("AlertDialogFragment", "isMaterial = false") {

@@ -2,12 +2,13 @@ package com.ebnbin.eb2.splash
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.dialog.AlertDialogFragment
+import com.ebnbin.eb.util.versionCode
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
-import com.ebnbin.eb2.util.BuildHelper
 
 open class EBSplashFragment : EBFragment(), AlertDialogFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +21,7 @@ open class EBSplashFragment : EBFragment(), AlertDialogFragment.Callback {
     protected open fun onInit(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             val oldVersion = EBSpManager.version.value
-            val newVersion = BuildHelper.versionCode
+            val newVersion = EBApp.instance.versionCode
             if (oldVersion < newVersion) {
                 EBSpManager.version.value = newVersion
                 onNewVersion(oldVersion, newVersion)

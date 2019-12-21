@@ -12,6 +12,7 @@ import android.os.Vibrator
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.util.applicationId
 import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
@@ -44,7 +45,7 @@ object AppHelper {
         }
     }
 
-    fun copy(text: CharSequence, label: CharSequence = BuildHelper.applicationId) {
+    fun copy(text: CharSequence, label: CharSequence = EBApp.instance.applicationId) {
         EBApp.instance.requireSystemService<ClipboardManager>().setPrimaryClip(ClipData.newPlainText(label, text))
     }
 

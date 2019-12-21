@@ -1,7 +1,9 @@
 package com.ebnbin.eb.sharedpreferences
 
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.ebnbin.eb.util.applicationId
 
 fun <T> SharedPreferences.get(key: String, defaultValue: T): T {
     @Suppress("UNCHECKED_CAST")
@@ -41,4 +43,14 @@ private fun setToStringSet(set: Set<*>?): Set<String?>? {
         stringSet.add(it)
     }
     return stringSet
+}
+
+//*********************************************************************************************************************
+
+fun Context.getSharedPreferencesName(name: String = "", nameAppend: Boolean = true): String {
+    return if (nameAppend) "${applicationId}_preferences${name}" else name
+}
+
+fun Context.getSharedPreferences(name: String = "", nameAppend: Boolean = true): SharedPreferences {
+    return getSharedPreferences(getSharedPreferencesName(name, nameAppend), Context.MODE_PRIVATE)
 }

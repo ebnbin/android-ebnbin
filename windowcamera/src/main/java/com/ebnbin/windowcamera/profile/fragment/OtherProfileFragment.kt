@@ -9,11 +9,11 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.util.applicationId
 import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.util.sdk25N1
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb2.preference.FooterPreference
-import com.ebnbin.eb2.util.BuildHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.main.MainActivity
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -67,7 +67,7 @@ class OtherProfileFragment : BaseProfileFragment() {
                         .setShortLabel(Profile.get().title)
                         .setIcon(IconCompat.createWithResource(requireContext(), Profile.get().iconId))
                         .setIntent(Intent(requireContext(), MainActivity::class.java)
-                            .setAction("${BuildHelper.applicationId}.shortcut_profile_1"))
+                            .setAction("${EBApp.instance.applicationId}.shortcut_profile_1"))
                         .build()
                         .toShortcutInfo()
                     EBApp.instance.requireSystemService<ShortcutManager>().addDynamicShortcuts(listOf(shortcutInfo))
@@ -86,7 +86,7 @@ class OtherProfileFragment : BaseProfileFragment() {
                             .setShortLabel(Profile.get().title)
                             .setIcon(IconCompat.createWithResource(requireContext(), Profile.get().iconId))
                             .setIntent(Intent(requireContext(), MainActivity::class.java)
-                                .setAction("${BuildHelper.applicationId}.pinned_shortcut_profile_1"))
+                                .setAction("${EBApp.instance.applicationId}.pinned_shortcut_profile_1"))
                             .build()
                             .toShortcutInfo()
                         val intent = EBApp.instance.requireSystemService<ShortcutManager>().createShortcutResultIntent(shortcutInfo)

@@ -18,17 +18,17 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
+import com.ebnbin.eb.util.applicationId
+import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.util.sdk24N
+import com.ebnbin.eb.util.toMD5String
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
 import com.ebnbin.eb2.util.AppHelper
-import com.ebnbin.eb2.util.BuildHelper
-import com.ebnbin.eb2.util.DataHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.BuildConfig
 import com.ebnbin.windowcamera.R
@@ -201,7 +201,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val uri = if (sdk24N()) {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                FileProvider.getUriForFile(requireContext(), "${BuildHelper.applicationId}.fileprovider", file)
+                FileProvider.getUriForFile(requireContext(), "${EBApp.instance.applicationId}.fileprovider", file)
             } else {
                 Uri.fromFile(file)
             }
@@ -220,7 +220,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
     private fun invalidatePositiveButton(): Boolean {
         val positiveButton = (dialog as AlertDialog?)?.getButton(AlertDialog.BUTTON_POSITIVE) ?: return false
         val file = getFile()
-        val canInstall = file.exists() && DataHelper.md5ToString(file) == update.md5
+        val canInstall = file.exists() && file.readBytes().toMD5String() == update.md5
         if (canInstall) {
             positiveButton.setText(R.string.eb_update_install)
             positiveButton.setOnClickListener {

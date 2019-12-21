@@ -7,13 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.util.DeviceUtil
+import com.ebnbin.eb.util.versionName
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.debug.debug
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.eb2.util.AppHelper
-import com.ebnbin.eb2.util.BuildHelper
-import com.ebnbin.eb2.util.DeviceHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.windowcamera.R
@@ -39,7 +40,7 @@ class AboutFragment : EBFragment() {
             finish()
         }
         eb_toolbar.setOnLongClickListener {
-            AppHelper.copy(DeviceHelper.DEVICE_ID)
+            AppHelper.copy(DeviceUtil.DEVICE_ID)
             requireContext().toast(R.string.eb_about_device_id_copied)
             true
         }
@@ -59,7 +60,7 @@ class AboutFragment : EBFragment() {
             true
         }
         eb_version.text = getString(R.string.eb_about_version,
-            BuildHelper.versionName,
+            EBApp.instance.versionName,
             if (debug) " ${BuildConfig.BUILD_TYPE}" else "",
             TimeHelper.longToString(BuildConfig.BUILD_TIMESTAMP, "yyyy-MM-dd"))
         eb_update.setOnClickListener {

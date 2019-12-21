@@ -1,14 +1,15 @@
 package com.ebnbin.windowcamera.util
 
 import android.os.Environment
-import com.ebnbin.eb2.util.BuildHelper
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.util.applicationId
 import com.ebnbin.eb2.util.TimeHelper
 import java.io.File
 
 object IOHelper {
     fun getPath(): File {
         val result = File(Environment.getExternalStorageDirectory(),
-            "${BuildHelper.applicationId}/${Environment.DIRECTORY_DCIM}/")
+            "${EBApp.instance.applicationId}/${Environment.DIRECTORY_DCIM}/")
         if (!result.exists()) {
             result.mkdirs()
         }
