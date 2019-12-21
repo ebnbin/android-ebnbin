@@ -6,11 +6,14 @@ import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.fragment.EBViewFragment
+import com.ebnbin.eb.loading.Loading
 import com.ebnbin.eb.widget.toast
+import kotlinx.coroutines.Job
 
 /**
  * Dev 页面.
@@ -31,12 +34,28 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
 
     @CallSuper
     protected open fun onAddDevItems() {
-        val coroutinesDevItemView = addDevItem("Coroutines") {
+        val coroutinesDevItemView = addDevItem("Coroutine") {
             it.summary.value = null
-            viewModel.getSampleJson()
+            viewModel.sampleJson.coroutineSetValue()
         }
         viewModel.sampleJson.observe(viewLifecycleOwner, Observer {
             coroutinesDevItemView.summary.value = it
+        })
+        viewModel.sampleJson.addLifecycleLoading(viewLifecycleOwner.lifecycle, object : Loading<String?> {
+            override fun onStart(job: Job) {
+                super.onStart(job)
+                EBApp.instance.toast("onStart")
+            }
+
+            override fun onSuccess(result: String?) {
+                super.onSuccess(result)
+                EBApp.instance.toast("onSuccess")
+            }
+
+            override fun onFailure(throwable: Throwable) {
+                super.onFailure(throwable)
+                EBApp.instance.toast("onFailure")
+            }
         })
 
         addDevItem("Report") {

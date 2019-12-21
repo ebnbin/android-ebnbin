@@ -1,28 +1,38 @@
 package com.ebnbin.eb.dev
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ebnbin.eb.ebnbingithubapi.EbnbinGitHubApi
+import com.ebnbin.eb.livedata.CoroutineLiveData
+import com.ebnbin.eb.loading.Loading
 import com.ebnbin.eb.util.base64DecodeToString
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.launch
+import com.ebnbin.eb.viewmodel.EBViewModel
+import kotlinx.coroutines.Job
 
-internal class DevFragmentViewModel : ViewModel() {
-    val sampleJson: MutableLiveData<String?> = MutableLiveData()
+internal class DevFragmentViewModel : EBViewModel() {
+    val sampleJson: CoroutineLiveData<String?> = (CoroutineLiveData<String?>(viewModelScope) {
+        EbnbinGitHubApi.instance
+            .getContentsFile("api-android-ebnbin", "sample/sample.json")
+            .content
+            ?.toByteArray()
+            ?.base64DecodeToString()
+            .toString()
+    }).also {
+        it.addLoading(object : Loading<String?> {
+            override fun onStart(job: Job) {
+                super.onStart(job)
+                Log.e("ebnbin", "onStart")
+            }
 
-    val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        sampleJson.value = throwable.toString()
-    }
+            override fun onSuccess(result: String?) {
+                super.onSuccess(result)
+                Log.e("ebnbin", "onSuccess")
+            }
 
-    fun getSampleJson() {
-        viewModelScope.launch(coroutineExceptionHandler) {
-            sampleJson.value = EbnbinGitHubApi.instance
-                .getContentsFile("api-android-ebnbin", "sample/sample.json")
-                .content
-                ?.toByteArray()
-                ?.base64DecodeToString()
-                .toString()
-        }
+            override fun onFailure(throwable: Throwable) {
+                super.onFailure(throwable)
+                Log.e("ebnbin", "onFailure")
+            }
+        })
     }
 }
