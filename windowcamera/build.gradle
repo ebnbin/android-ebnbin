@@ -19,9 +19,7 @@ android {
 dependencies {
     api 'io.reactivex.rxjava2:rxjava:2.2.12' // https://github.com/ReactiveX/RxJava
     api 'io.reactivex.rxjava2:rxandroid:2.1.1' // https://github.com/ReactiveX/RxAndroid
-    api 'com.squareup.retrofit2:retrofit:2.6.1' // https://github.com/square/retrofit
-    api 'com.squareup.retrofit2:converter-gson:2.6.1'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.7.0'
     api 'com.github.bumptech.glide:glide:4.9.0' // https://github.com/bumptech/glide
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46' // https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     api 'com.github.chrisbanes:PhotoView:2.3.0' // https://github.com/chrisbanes/PhotoView
