@@ -12,19 +12,11 @@ import com.ebnbin.eb2.util.IntentHelper
  * Debug EB 页面.
  */
 open class EBDebugPageFragment : DevFragment() {
-//    private lateinit var callingActivity: String
-//
-//    override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
-//        super.onInitArguments(savedInstanceState, arguments, activityExtras)
-//        callingActivity = activityExtras.getString(DebugFragment.KEY_CALLING_ACTIVITY) ?: throw RuntimeException()
-//    }
-
     override fun onAddDevItems() {
-//        addDevItem("Calling Activity", callingActivity)
+        super.onAddDevItems()
 
         addDevItem("About") {
             openFragment<AboutFragment>()
-//            IntentHelper.startFragmentFromFragment(this, AboutFragment.intent())
         }
 
         addDevItem("异步任务", "5 秒后完成，可按返回键取消") {
@@ -61,7 +53,5 @@ open class EBDebugPageFragment : DevFragment() {
         addDevItem("关闭应用") {
             IntentHelper.finishApp()
         }
-
-        super.onAddDevItems()
     }
 }

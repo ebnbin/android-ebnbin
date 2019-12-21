@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera
 
 import com.ebnbin.eb.dev.DevFragment
 import com.ebnbin.eb2.EBApplication
-import com.ebnbin.windowcamera.debug.DebugPageFragment
+import com.ebnbin.eb2.debug.EBDebugPageFragment
 import com.ebnbin.windowcamera.dev.Report
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
@@ -18,5 +18,5 @@ class AppApplication : EBApplication() {
     }
 
     override val devFragmentClass: Class<out DevFragment>
-        get() = DebugPageFragment::class.java
+        get() = EBDebugPageFragment::class.java
 }

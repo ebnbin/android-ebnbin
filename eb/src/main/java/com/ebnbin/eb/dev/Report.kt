@@ -62,7 +62,7 @@ class Report private constructor() {
     }
 
     companion object {
-        fun create(): Report {
+        fun create(enableAppReport: Boolean = true): Report {
             return Report().apply {
                 applicationId = EBApp.instance.applicationId
                 deviceId = DeviceUtil.DEVICE_ID
@@ -84,7 +84,9 @@ class Report private constructor() {
                     displayRealWidth = it.first
                     displayRealHeight = it.second
                 }
-                app = EBApp.instance.createAppReport()
+                if (enableAppReport) {
+                    app = EBApp.instance.createAppReport()
+                }
             }
         }
     }

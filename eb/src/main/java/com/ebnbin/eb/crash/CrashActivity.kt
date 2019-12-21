@@ -10,6 +10,7 @@ import androidx.core.content.getSystemService
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import com.ebnbin.eb.R
 import com.ebnbin.eb.databinding.EbCrashActivityBinding
+import com.ebnbin.eb.dev.Report
 
 /**
  * 自定义崩溃页面.
@@ -58,7 +59,11 @@ internal class CrashActivity : AppCompatActivity() {
         }
         if (viewModel.log.value == null) {
             viewModel.log.value = runCatching {
-                CustomActivityOnCrash.getStackTraceFromIntent(intent)
+                StringBuilder().also {
+                    it.appendln(Report.create(false))
+                    it.appendln()
+                    it.append(CustomActivityOnCrash.getStackTraceFromIntent(intent))
+                }
             }.getOrNull()
         }
     }
