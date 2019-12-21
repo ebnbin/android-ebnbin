@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.dev.DevFragment
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb2.about.AboutFragment
-import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
@@ -22,10 +21,6 @@ open class EBDebugPageFragment : DevFragment() {
 
     override fun onAddDevItems() {
 //        addDevItem("Calling Activity", callingActivity)
-
-        addDevItem("EB Report") {
-            it.summary.value = EBReport().create().toString()
-        }
 
         addDevItem("About") {
             openFragment<AboutFragment>()

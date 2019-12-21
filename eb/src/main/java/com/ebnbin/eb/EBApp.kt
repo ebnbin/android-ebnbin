@@ -37,6 +37,10 @@ open class EBApp : Application() {
             .apply()
     }
 
+    open fun createAppReport(): Any? {
+        return null
+    }
+
     /**
      * Dev 页面.
      */

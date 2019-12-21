@@ -9,6 +9,7 @@ import com.ebnbin.eb.time.timestamp
 import com.ebnbin.eb.time.toTimeString
 import com.ebnbin.eb.util.DeviceUtil
 import com.ebnbin.eb.util.applicationId
+import com.ebnbin.eb.util.getDisplayRealSize0
 import com.ebnbin.eb.util.locales
 import com.ebnbin.eb.util.signatures
 import com.ebnbin.eb.util.toMD5String
@@ -49,6 +50,12 @@ class Report private constructor() {
         private set
     var density: Float? = null
         private set
+    var displayRealWidth: Int? = null
+        private set
+    var displayRealHeight: Int? = null
+        private set
+    var app: Any? = null
+        private set
 
     override fun toString(): String {
         return Libraries.gson.toJson(this)
@@ -73,6 +80,11 @@ class Report private constructor() {
                 abis = Build.SUPPORTED_ABIS.toList()
                 locales = EBApp.instance.locales.map { it.toString() }
                 density = EBApp.instance.resources.displayMetrics.density
+                EBApp.instance.getDisplayRealSize0().let {
+                    displayRealWidth = it.first
+                    displayRealHeight = it.second
+                }
+                app = EBApp.instance.createAppReport()
             }
         }
     }
