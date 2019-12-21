@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialog
@@ -18,10 +19,8 @@ import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.imagevideo.ImageVideo
 import com.ebnbin.windowcamera.imagevideo.ImageVideoActivity
 import com.ebnbin.windowcamera.util.IOHelper
-import com.ebnbin.windowcamera.view.camera.ScanFileEvent
+import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.album_fragment.*
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,6 +32,10 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        LiveEventBus.get("ScanFileEvent").observe(viewLifecycleOwner, Observer {
+            invalidateAlbumItems()
+        })
+
         val width = WindowHelper.getDisplaySize(requireContext()).width
         val spanCount = (requireContext().pxToDp(width) / 90f).toInt()
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
@@ -230,12 +233,5 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         multiSelectNormal()
         exitActionMode()
         return true
-    }
-
-    override val isEventBusEnabled: Boolean = true
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: ScanFileEvent) {
-        invalidateAlbumItems()
     }
 }

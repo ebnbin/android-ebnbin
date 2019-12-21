@@ -16,7 +16,6 @@ import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.dev.DevHelper
-import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.eb2.util.WindowHelper
@@ -26,6 +25,7 @@ import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.service.WindowCameraService
 import com.ebnbin.windowcamera.util.IOHelper
+import com.jeremyliao.liveeventbus.LiveEventBus
 import java.io.File
 
 class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCameraCallback) :
@@ -597,7 +597,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
     private fun scanFile(file: File) {
         MediaScannerConnection.scanFile(callback.getContext(), arrayOf(file.absolutePath), null) { _, _ ->
-            Libraries.eventBus.post(ScanFileEvent)
+            LiveEventBus.get("ScanFileEvent").post(Unit)
         }
     }
 

@@ -89,7 +89,6 @@ class AboutFragment : EBFragment() {
             Pair("AndroidX", "https://developer.android.com/jetpack/androidx"),
             Pair("Firebase", "https://firebase.google.com/"),
             Pair("CustomActivityOnCrash", "https://github.com/Ereza/CustomActivityOnCrash"),
-            Pair("EventBus", "https://github.com/greenrobot/EventBus"),
             Pair("gson", "https://github.com/google/gson"),
             Pair("RxJava", "https://github.com/ReactiveX/RxJava"),
             Pair("RxAndroid", "https://github.com/ReactiveX/RxAndroid"),

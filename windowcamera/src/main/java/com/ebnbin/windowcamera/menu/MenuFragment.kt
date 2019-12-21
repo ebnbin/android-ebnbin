@@ -4,15 +4,22 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import com.ebnbin.eb2.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.windowcamera.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import com.jeremyliao.liveeventbus.LiveEventBus
 
 class MenuFragment : EBDialogFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        LiveEventBus.get("MenuDismissEvent").observe(this, Observer {
+            dismissAllowingStateLoss()
+        })
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext())
         try {
@@ -32,13 +39,6 @@ class MenuFragment : EBDialogFragment() {
             FragmentHelper.remove(it, MenuPreferenceFragment::class.java.name)
         }
         super.onDismiss(dialog)
-    }
-
-    override val isEventBusEnabled: Boolean = true
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: MenuDismissEvent) {
-        dismissAllowingStateLoss()
     }
 
     companion object {

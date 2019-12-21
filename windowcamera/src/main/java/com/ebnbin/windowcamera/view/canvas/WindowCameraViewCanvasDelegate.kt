@@ -3,36 +3,44 @@ package com.ebnbin.windowcamera.view.canvas
 import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Paint
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.util.dpToPx
-import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
-import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlin.math.min
 
 class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanvasCallback) :
     IWindowCameraViewCanvasDelegate,
-    SharedPreferences.OnSharedPreferenceChangeListener
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    LifecycleOwner
 {
+    private val lifecycleRegistry: LifecycleRegistry = LifecycleRegistry(this).also {
+        it.currentState = Lifecycle.State.INITIALIZED
+    }
+
+    override fun getLifecycle(): Lifecycle {
+        return lifecycleRegistry
+    }
+
     override fun init() {
-        Libraries.eventBus.register(this)
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
+        lifecycleRegistry.currentState = Lifecycle.State.RESUMED
+        LiveEventBus.get("CameraStateEvent").observe(this, Observer {
+            callback.invalidate()
+        })
         ProfileHelper.sharedPreferencesRegister(this)
     }
 
     override fun dispose() {
         ProfileHelper.sharedPreferencesUnregister(this)
-        Libraries.eventBus.unregister(this)
-    }
-
-    //*****************************************************************************************************************
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: CameraStateEvent) {
-        callback.invalidate()
+        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 
     //*****************************************************************************************************************

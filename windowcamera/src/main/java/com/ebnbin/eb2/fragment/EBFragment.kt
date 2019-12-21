@@ -1,13 +1,9 @@
 package com.ebnbin.eb2.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.async.AsyncHelper
-import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.windowcamera.R
 
@@ -22,32 +18,9 @@ abstract class EBFragment : com.ebnbin.eb.fragment.EBFragment() {
         initArguments(savedInstanceState)
     }
 
-    @CallSuper
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        initEventBus()
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onDestroyView() {
         disposeAsyncHelper()
-        disposeEventBus()
         super.onDestroyView()
-    }
-
-    //*****************************************************************************************************************
-
-    protected open val isEventBusEnabled: Boolean = false
-
-    private fun initEventBus() {
-        if (isEventBusEnabled && !Libraries.eventBus.isRegistered(this)) {
-            Libraries.eventBus.register(this)
-        }
-    }
-
-    private fun disposeEventBus() {
-        if (isEventBusEnabled && Libraries.eventBus.isRegistered(this)) {
-            Libraries.eventBus.unregister(this)
-        }
     }
 
     //*****************************************************************************************************************

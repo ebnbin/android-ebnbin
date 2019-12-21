@@ -6,13 +6,13 @@ import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb2.about.AboutFragment
-import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.preference.EBPreferenceFragment
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.album.AlbumActivity
 import com.ebnbin.windowcamera.util.SpManager
+import com.jeremyliao.liveeventbus.LiveEventBus
 
 class MenuPreferenceFragment : EBPreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -21,7 +21,7 @@ class MenuPreferenceFragment : EBPreferenceFragment() {
         findPreference<Preference>(getString(R.string.menu_album))?.apply {
             setOnPreferenceClickListener {
                 IntentHelper.startActivityFromActivity(requireActivity(), AlbumActivity::class.java)
-                Libraries.eventBus.post(MenuDismissEvent)
+                LiveEventBus.get("MenuDismissEvent").post(Unit)
                 false
             }
         }
@@ -34,7 +34,7 @@ class MenuPreferenceFragment : EBPreferenceFragment() {
                 true
             }
             setOnPreferenceClickListener {
-                Libraries.eventBus.post(MenuDismissEvent)
+                LiveEventBus.get("MenuDismissEvent").post(Unit)
                 false
             }
         }
@@ -42,8 +42,7 @@ class MenuPreferenceFragment : EBPreferenceFragment() {
         findPreference<Preference>(getString(R.string.menu_about))?.apply {
             setOnPreferenceClickListener {
                 openFragment<AboutFragment>()
-//                IntentHelper.startFragmentFromActivity(requireActivity(), AboutFragment.intent())
-                Libraries.eventBus.post(MenuDismissEvent)
+                LiveEventBus.get("MenuDismissEvent").post(Unit)
                 false
             }
         }

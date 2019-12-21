@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.permission.PermissionFragment
@@ -17,17 +18,14 @@ import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.menu.MenuFragment
 import com.ebnbin.windowcamera.profile.CameraState
-import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.enumeration.Profile
 import com.ebnbin.windowcamera.service.WindowCameraService
-import com.ebnbin.windowcamera.service.WindowCameraServiceEvent
 import com.ebnbin.windowcamera.util.SpManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.main_fragment.*
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import kotlin.random.Random
 
 class MainFragment : EBFragment(),
@@ -42,6 +40,39 @@ class MainFragment : EBFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        LiveEventBus.get("WindowCameraServiceEvent").observe(viewLifecycleOwner, Observer {
+            val imageId: Int
+            val listener: View.OnClickListener
+            val isEnabled: Boolean
+            if (WindowCameraService.isRunning()) {
+                imageId = R.drawable.main_stop
+                listener = View.OnClickListener {
+                    floating_action_button.isEnabled = false
+                    WindowCameraService.stop(requireContext())
+                    DevHelper.reportEvent("window_camera_service_fab", bundleOf(
+                        FirebaseAnalytics.Param.VALUE to "stop"
+                    ))
+                }
+                isEnabled = false
+            } else {
+                imageId = R.drawable.main_camera
+                listener = View.OnClickListener {
+                    childFragmentManager.openPermissionFragment(WindowCameraService.permissions.toTypedArray())
+                    DevHelper.reportEvent("window_camera_service_fab", bundleOf(
+                        FirebaseAnalytics.Param.VALUE to "start"
+                    ))
+                }
+                isEnabled = true
+            }
+
+            floating_action_button.setImageResource(imageId)
+            floating_action_button.setOnClickListener(listener)
+            spinner.isEnabled = isEnabled
+        })
+        LiveEventBus.get("CameraStateEvent").observe(viewLifecycleOwner, Observer {
+            floating_action_button.isEnabled = ProfileHelper.cameraState != CameraState.STATING
+        })
+
         if (savedInstanceState == null) {
             UpdateFragment.start(childFragmentManager, true)
         }
@@ -60,8 +91,8 @@ class MainFragment : EBFragment(),
             spinner.setSelection(Profile.indexOf(), false)
         }
 
-        onEvent(WindowCameraServiceEvent)
-        onEvent(CameraStateEvent)
+        LiveEventBus.get("WindowCameraServiceEvent").post(Unit)
+        LiveEventBus.get("CameraStateEvent").post(Unit)
 
         if (savedInstanceState == null) {
 //            showTip()
@@ -109,44 +140,6 @@ class MainFragment : EBFragment(),
             floating_action_button.isEnabled = false
             WindowCameraService.start(requireContext())
         }
-    }
-
-    override val isEventBusEnabled: Boolean = true
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: WindowCameraServiceEvent) {
-        val imageId: Int
-        val listener: View.OnClickListener
-        val isEnabled: Boolean
-        if (WindowCameraService.isRunning()) {
-            imageId = R.drawable.main_stop
-            listener = View.OnClickListener {
-                floating_action_button.isEnabled = false
-                WindowCameraService.stop(requireContext())
-                DevHelper.reportEvent("window_camera_service_fab", bundleOf(
-                    FirebaseAnalytics.Param.VALUE to "stop"
-                ))
-            }
-            isEnabled = false
-        } else {
-            imageId = R.drawable.main_camera
-            listener = View.OnClickListener {
-                childFragmentManager.openPermissionFragment(WindowCameraService.permissions.toTypedArray())
-                DevHelper.reportEvent("window_camera_service_fab", bundleOf(
-                    FirebaseAnalytics.Param.VALUE to "start"
-                ))
-            }
-            isEnabled = true
-        }
-
-        floating_action_button.setImageResource(imageId)
-        floating_action_button.setOnClickListener(listener)
-        spinner.isEnabled = isEnabled
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: CameraStateEvent) {
-        floating_action_button.isEnabled = ProfileHelper.cameraState != CameraState.STATING
     }
 
     //*****************************************************************************************************************

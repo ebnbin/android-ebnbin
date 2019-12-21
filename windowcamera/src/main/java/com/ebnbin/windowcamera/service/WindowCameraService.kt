@@ -15,15 +15,15 @@ import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.permission.hasPermissions
+import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb.widget.toast
-import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.view.WindowCameraView
+import com.jeremyliao.liveeventbus.LiveEventBus
 
 /**
  * 前台服务.
@@ -35,7 +35,7 @@ class WindowCameraService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Libraries.eventBus.post(WindowCameraServiceEvent)
+        LiveEventBus.get("WindowCameraServiceEvent").post(Unit)
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -93,7 +93,7 @@ class WindowCameraService : Service() {
 
         unregisterReceiver(broadcastReceiver)
 
-        Libraries.eventBus.post(WindowCameraServiceEvent)
+        LiveEventBus.get("WindowCameraServiceEvent").post(Unit)
         super.onDestroy()
     }
 

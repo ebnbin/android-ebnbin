@@ -3,12 +3,12 @@ package com.ebnbin.windowcamera.profile
 import android.content.SharedPreferences
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
-import com.ebnbin.eb2.library.Libraries
 import com.ebnbin.eb2.sharedpreferences.Sp
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.enumeration.Profile
 import com.ebnbin.windowcamera.profile.enumeration.ProfileGesture
 import com.ebnbin.windowcamera.profile.enumeration.ProfileRatio
+import com.jeremyliao.liveeventbus.LiveEventBus
 
 object ProfileHelper {
     var profile: Sp<String> = Sp("profile", Profile.DEFAULT.key)
@@ -338,6 +338,6 @@ object ProfileHelper {
         set(value) {
             if (field == value) return
             field = value
-            Libraries.eventBus.post(CameraStateEvent)
+            LiveEventBus.get("CameraStateEvent").post(Unit)
         }
 }

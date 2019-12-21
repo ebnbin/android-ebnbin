@@ -1,6 +1,8 @@
 package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
 import com.ebnbin.eb2.preference.FooterPreference
 import com.ebnbin.eb2.preference.SimpleCheckBoxPreference
 import com.ebnbin.eb2.preference.SimpleListPreference
@@ -9,10 +11,8 @@ import com.ebnbin.eb2.preference.SimpleSwitchPreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.CameraState
-import com.ebnbin.windowcamera.profile.CameraStateEvent
 import com.ebnbin.windowcamera.profile.ProfileHelper
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import com.jeremyliao.liveeventbus.LiveEventBus
 
 class CameraProfileFragment : BaseProfileFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -140,13 +140,13 @@ class CameraProfileFragment : BaseProfileFragment() {
             preferenceScreen.addPreference(this)
         }
 
-        onEvent(CameraStateEvent)
+        LiveEventBus.get("CameraStateEvent").post(Unit)
     }
 
-    override val isEventBusEnabled: Boolean = true
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: CameraStateEvent) {
-        preferenceScreen?.isEnabled = ProfileHelper.cameraState != CameraState.STATING
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        LiveEventBus.get("CameraStateEvent").observe(viewLifecycleOwner, Observer {
+            preferenceScreen?.isEnabled = ProfileHelper.cameraState != CameraState.STATING
+        })
     }
 }
