@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.CallSuper
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.dialog.openAlertDialog
@@ -14,6 +16,8 @@ import com.ebnbin.eb.widget.toast
  * Dev 页面.
  */
 open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
+    private val viewModel: DevFragmentViewModel by viewModels()
+
     override val bindingClass: Class<EbDevFragmentBinding>
         get() = EbDevFragmentBinding::class.java
 
@@ -27,6 +31,14 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
 
     @CallSuper
     protected open fun onAddDevItems() {
+        val coroutinesDevItemView = addDevItem("Coroutines") {
+            it.summary.value = null
+            viewModel.getSampleJson()
+        }
+        viewModel.sampleJson.observe(viewLifecycleOwner, Observer {
+            coroutinesDevItemView.summary.value = it
+        })
+
         addDevItem("Report") {
             childFragmentManager.openAlertDialog(
                 title = "Report",
