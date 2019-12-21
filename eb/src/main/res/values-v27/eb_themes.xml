@@ -9,5 +9,7 @@
         <item name="colorPrimary">@color/eb_material_light_blue_500</item>
         <item name="colorPrimaryDark">?attr/colorPrimary</item>
         <item name="colorAccent">?attr/colorPrimary</item>
+        <item name="colorSecondary">@color/eb_material_blue_gray_900</item>
+        <item name="colorOnSecondary">?android:attr/colorBackground</item>
     </style>
 </resources>

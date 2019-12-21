@@ -18,7 +18,7 @@ import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.windowcamera.R
-import kotlinx.android.synthetic.main.eb_about_fragment.*
+import kotlinx.android.synthetic.main.eb_about_fragment2.*
 
 class AboutFragment : EBFragment() {
     private var openSources: ArrayList<Pair<String, String>>? = null
@@ -31,7 +31,7 @@ class AboutFragment : EBFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.eb_about_fragment, container, false)
+        return inflater.inflate(R.layout.eb_about_fragment2, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

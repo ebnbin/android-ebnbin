@@ -7,10 +7,12 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.fragment.EBViewFragment
+import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.loading.Loading
 import com.ebnbin.eb.widget.toast
 import kotlinx.coroutines.Job
@@ -34,12 +36,16 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
 
     @CallSuper
     protected open fun onAddDevItems() {
-        val coroutinesDevItemView = addDevItem("Coroutine") {
+        addDevItem("About") {
+            openFragment<AboutFragment>()
+        }
+
+        val coroutineDevItemView = addDevItem("Coroutine") {
             it.summary.value = null
             viewModel.sampleJson.coroutineSetValue()
         }
         viewModel.sampleJson.observe(viewLifecycleOwner, Observer {
-            coroutinesDevItemView.summary.value = it
+            coroutineDevItemView.summary.value = it
         })
         viewModel.sampleJson.addLifecycleLoading(viewLifecycleOwner.lifecycle, object : Loading<String?> {
             override fun onStart(job: Job) {

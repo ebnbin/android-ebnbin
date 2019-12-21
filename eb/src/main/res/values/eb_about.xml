@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="eb_about">关于</string>
+    <string name="eb_about_update">检查更新</string>
+    <string name="eb_about_open_market">在应用商店中查看</string>
+    <string name="eb_about_donate">打赏</string>
+</resources>

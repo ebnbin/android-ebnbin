@@ -52,14 +52,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingTop="32dp"
-                    android:paddingBottom="32dp">
+                    android:padding="16dp">
 
                     <FrameLayout
-                        android:layout_width="128dp"
-                        android:layout_height="128dp">
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:padding="16dp"
+                        android:clipChildren="false">
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="118dp"
@@ -67,6 +66,7 @@
                             android:layout_gravity="center"
                             android:layout_margin="5dp"
                             android:elevation="2dp"
+                            android:outlineProvider="none"
                             android:onClick="@{iconOnClick}"
                             android:onLongClickListener="@{viewModel::iconOnLongClick}"
                             app:cardCornerRadius="59dp">
@@ -94,11 +94,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
                         android:gravity="center_horizontal"
                         android:text="@{String.format(@string/eb_crash_title, @string/eb_label)}"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
