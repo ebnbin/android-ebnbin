@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,6 +10,10 @@
         <variable
             name="viewModel"
             type="com.ebnbin.eb.crash.CrashActivityViewModel"/>
+
+        <variable
+            name="iconOnClick"
+            type="android.view.View.OnClickListener"/>
 
         <variable
             name="copyOnClick"
@@ -52,21 +58,36 @@
                     android:paddingBottom="32dp">
 
                     <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onLongClickListener="@{viewModel::iconOnLongClick}">
+                        android:layout_width="128dp"
+                        android:layout_height="128dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="118dp"
+                            android:layout_height="118dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:elevation="2dp"
+                            android:onClick="@{iconOnClick}"
+                            android:onLongClickListener="@{viewModel::iconOnLongClick}"
+                            app:cardCornerRadius="59dp">
+
+                            <ImageView
+                                android:layout_width="128dp"
+                                android:layout_height="128dp"
+                                android:layout_marginStart="-5dp"
+                                android:layout_marginTop="-5dp"
+                                android:src="@drawable/eb_icon"/>
+
+                        </com.google.android.material.card.MaterialCardView>
 
                         <ImageView
-                            android:layout_width="128dp"
-                            android:layout_height="128dp"
-                            android:src="@drawable/eb_icon"/>
-
-                        <ImageView
+                            android:id="@+id/eb_bug"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="end|bottom"
                             android:src="@drawable/customactivityoncrash_error_image"
-                            android:scaleType="fitEnd"/>
+                            android:scaleType="fitEnd"
+                            android:elevation="2dp"/>
 
                     </FrameLayout>
 

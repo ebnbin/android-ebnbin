@@ -14,7 +14,6 @@ open class CoroutineLiveData<T>(
     private val block: suspend CoroutineScope.(CoroutineLiveData<T>) -> T
 ) : LiveData<T>() {
     fun coroutineSetValue() {
-        // TODO 去重.
         val job = coroutineScope.launch(CoroutineExceptionHandler { _, throwable ->
             loadings.forEach {
                 it.onFailure(throwable)

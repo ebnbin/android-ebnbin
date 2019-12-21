@@ -1,8 +1,13 @@
 package com.ebnbin.eb.crash
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.Bundle
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +47,36 @@ internal class CrashActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.setIconOnClick {
+            binding.ebBug.rotation = 0f
+            binding.ebBug.animate().cancel()
+            binding.ebBug.animate()
+                .rotationBy(-10f)
+                .setInterpolator(DecelerateInterpolator())
+                .setDuration(50L)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        binding.ebBug.animate()
+                            .rotationBy(20f)
+                            .setInterpolator(AccelerateDecelerateInterpolator())
+                            .setDuration(100L)
+                            .setListener(object : AnimatorListenerAdapter() {
+                                override fun onAnimationEnd(animation: Animator?) {
+                                    super.onAnimationEnd(animation)
+                                    binding.ebBug.animate()
+                                        .rotationBy(-10f)
+                                        .setInterpolator(AccelerateInterpolator())
+                                        .setDuration(50L)
+                                        .setListener(null)
+                                        .start()
+                                }
+                            })
+                            .start()
+                    }
+                })
+                .start()
+        }
         binding.setCopyOnClick {
             val clipboardManager = getSystemService<ClipboardManager>() ?: return@setCopyOnClick
             clipboardManager.setPrimaryClip(ClipData.newPlainText(CrashActivity::class.java.name, viewModel.log.value))
