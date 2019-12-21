@@ -1,8 +1,9 @@
 package com.ebnbin.windowcamera.profile
 
 import android.content.SharedPreferences
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb2.library.Libraries
-import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb2.sharedpreferences.Sp
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.profile.enumeration.Profile
@@ -324,12 +325,12 @@ object ProfileHelper {
     }
 
     fun sharedPreferencesRegister(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
-        SharedPreferencesHelper.get(getSharedPreferencesNamePostfix())
+        EBApp.instance.getSharedPreferences(getSharedPreferencesNamePostfix())
             .registerOnSharedPreferenceChangeListener(listener)
     }
 
     fun sharedPreferencesUnregister(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
-        SharedPreferencesHelper.get(getSharedPreferencesNamePostfix())
+        EBApp.instance.getSharedPreferences(getSharedPreferencesNamePostfix())
             .unregisterOnSharedPreferenceChangeListener(listener)
     }
 

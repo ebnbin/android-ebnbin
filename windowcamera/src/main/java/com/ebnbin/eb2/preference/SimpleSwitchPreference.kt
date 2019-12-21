@@ -6,8 +6,8 @@ import android.graphics.drawable.Drawable
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
 import androidx.preference.SwitchPreferenceCompat
+import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.windowcamera.R
-import com.ebnbin.eb2.sharedpreferences.get
 
 /**
  * 拥有 off/on 图标的 SwitchPreference.

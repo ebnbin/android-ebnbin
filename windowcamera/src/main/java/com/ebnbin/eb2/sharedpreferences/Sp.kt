@@ -3,11 +3,15 @@ package com.ebnbin.eb2.sharedpreferences
 import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.sharedpreferences.get
+import com.ebnbin.eb.sharedpreferences.getSharedPreferences
+import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
+import com.ebnbin.eb.sharedpreferences.put
 
 open class Sp<T>(
     val getKey: () -> String?,
     val getDefaultValue: () -> T,
-    val getSharedPreferencesName: () -> String? = { SharedPreferencesHelper.getDefaultName() },
+    val getSharedPreferencesName: () -> String? = { EBApp.instance.getSharedPreferencesName() },
     private val onChanged: ((oldValue: T?, newValue: T) -> Boolean)? = null
 ) {
     constructor(key: String, defaultValue: T) : this({ key }, { defaultValue })
@@ -34,7 +38,7 @@ open class Sp<T>(
         }
 
     fun getSharedPreferences(): SharedPreferences? {
-        return getSharedPreferencesName()?.let { SharedPreferencesHelper.getSharedPreferences(it) }
+        return getSharedPreferencesName()?.let { EBApp.instance.getSharedPreferences(it, false) }
     }
 
     fun requireSharedPreferencesName(): String {

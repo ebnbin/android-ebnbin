@@ -1,6 +1,7 @@
 package com.ebnbin.windowcamera.profile
 
-import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
 import com.ebnbin.eb2.sharedpreferences.Sp
 
 open class ProfileSp<T>(
@@ -9,7 +10,7 @@ open class ProfileSp<T>(
 ) : Sp<T>(
     { key },
     { builder().defaultValue },
-    { SharedPreferencesHelper.getName(ProfileHelper.getSharedPreferencesNamePostfix()) },
+    { EBApp.instance.getSharedPreferencesName(ProfileHelper.getSharedPreferencesNamePostfix()) },
     null
 ) {
     class Builder<T>(

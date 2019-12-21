@@ -3,8 +3,8 @@ package com.ebnbin.eb2.preference
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceGroup
+import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.windowcamera.R
-import com.ebnbin.eb2.sharedpreferences.get
 
 /**
  * 空 PreferenceGroup. 用于添加并管理其他 Preference.

@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
 import androidx.preference.SeekBarPreference
+import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.windowcamera.R
-import com.ebnbin.eb2.sharedpreferences.get
 
 /**
  * 当偏好的值发生变化时自动更新.

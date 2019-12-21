@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.preference.CheckBoxPreference
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
-import com.ebnbin.eb2.sharedpreferences.get
+import com.ebnbin.eb.sharedpreferences.get
 
 open class SimpleCheckBoxPreference(context: Context) : CheckBoxPreference(context),
     SharedPreferences.OnSharedPreferenceChangeListener,

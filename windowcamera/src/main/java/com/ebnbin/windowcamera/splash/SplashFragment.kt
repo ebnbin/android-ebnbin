@@ -4,12 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.openAlertDialog
+import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
-import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.eb2.splash.EBSplashFragment
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.R
@@ -58,7 +59,7 @@ class SplashFragment : EBSplashFragment() {
     override fun onNewVersion(oldVersion: Int, newVersion: Int) {
         super.onNewVersion(oldVersion, newVersion)
         if (oldVersion < 40000) {
-            val sp = SharedPreferencesHelper.get("_profile_default")
+            val sp = EBApp.instance.getSharedPreferences("_profile_default")
             sp.edit {
                 clear()
             }

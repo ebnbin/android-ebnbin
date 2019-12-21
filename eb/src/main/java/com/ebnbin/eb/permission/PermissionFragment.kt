@@ -207,7 +207,10 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
         return when (callbackBundle.requireValue<String>(KEY_CALLING_ID)) {
             PermissionFragment::class.java.name -> {
-                val intent = Intent(callbackBundle.requireValue("action"), Uri.parse("package:$applicationId"))
+                val intent = Intent(
+                    callbackBundle.requireValue("action"),
+                    Uri.parse("package:${requireContext().applicationId}")
+                )
                 if (openActivity(intent, callbackBundle.requireValue("request_code")) != null) {
                     onPermissionResult(PermissionResult.OPEN_SETTINGS_FAILURE)
                 }

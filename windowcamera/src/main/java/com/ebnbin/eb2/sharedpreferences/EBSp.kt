@@ -1,5 +1,8 @@
 package com.ebnbin.eb2.sharedpreferences
 
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
+
 open class EBSp<T>(
     getKey: () -> String?,
     getDefaultValue: () -> T,
@@ -7,7 +10,7 @@ open class EBSp<T>(
 ) : Sp<T>(
     getKey,
     getDefaultValue,
-    { SharedPreferencesHelper.getName("_eb") },
+    { EBApp.instance.getSharedPreferencesName("_eb") },
     onChanged
 ) {
     constructor(key: String, defaultValue: T) : this({ key }, { defaultValue })

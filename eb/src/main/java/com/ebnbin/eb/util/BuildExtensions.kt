@@ -1,7 +1,7 @@
 package com.ebnbin.eb.util
 
+import android.content.Context
 import android.os.Build
-import com.ebnbin.eb.EBApp
 
 private fun sdk(buildVersionCode: Int): Boolean {
     return Build.VERSION.SDK_INT >= buildVersionCode
@@ -33,5 +33,5 @@ fun sdk29Q(): Boolean {
 
 //*********************************************************************************************************************
 
-val applicationId: String
-    get() = EBApp.instance.packageName
+val Context.applicationId: String
+    get() = packageName

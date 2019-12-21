@@ -3,9 +3,10 @@ package com.ebnbin.windowcamera.profile.fragment
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
+import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
 import com.ebnbin.eb2.preference.EBPreferenceFragment
 import com.ebnbin.eb2.preference.LockablePreference
-import com.ebnbin.eb2.sharedpreferences.SharedPreferencesHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSp
@@ -13,7 +14,7 @@ import com.ebnbin.windowcamera.profile.ProfileSp
 abstract class BaseProfileFragment : EBPreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.sharedPreferencesName =
-            SharedPreferencesHelper.getName(ProfileHelper.getSharedPreferencesNamePostfix())
+            EBApp.instance.getSharedPreferencesName(ProfileHelper.getSharedPreferencesNamePostfix())
 
         setPreferencesFromResource(R.xml.profile_fragment, rootKey)
     }
