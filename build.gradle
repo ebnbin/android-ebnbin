@@ -5,6 +5,8 @@ buildscript {
         minSdkVersion = 23
         targetSdkVersion = 29
     }
+    ext.deps = [:]
+    ext.deps.kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion" // https://github.com/JetBrains/kotlin
     repositories {
         google()
         jcenter()

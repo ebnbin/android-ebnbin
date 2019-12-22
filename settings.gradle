@@ -1,3 +1,4 @@
 include ':eb'
+include ':eb-extension'
 include ':sample'
 include ':windowcamera'
