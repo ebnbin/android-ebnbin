@@ -79,27 +79,3 @@ inline fun <reified T : Activity> Fragment.openActivity(requestCode: Int = 0, op
         options = options
     )
 }
-
-//*********************************************************************************************************************
-
-fun Activity.containsExtra(key: String): Boolean {
-    return intent?.extras?.containsKey(key) ?: false
-}
-
-inline fun <reified T> Activity.getExtra(key: String): T? {
-    return intent?.extras?.get(key) as T?
-}
-
-/**
- * 如果 key 不存在则抛出异常.
- */
-inline fun <reified T> Activity.requireExtra(key: String): T {
-    return intent?.extras?.get(key) as T
-}
-
-/**
- * 如果 key 不存在则返回默认值.
- */
-inline fun <reified T> Activity.getExtraOrDefault(key: String, defaultValue: T): T {
-    return if (containsExtra(key)) requireExtra(key) else defaultValue
-}
