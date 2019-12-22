@@ -1,4 +1,4 @@
-include ':eb'
+include ':eb-app'
 include ':eb-extension'
 include ':sample'
 include ':windowcamera'
