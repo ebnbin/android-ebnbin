@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ebnbin.eb.ebnbingithubapi.EbnbinGitHubApi
 import com.ebnbin.eb.livedata.CoroutineLiveData
 import com.ebnbin.eb.loading.Loading
-import com.ebnbin.eb.util.base64DecodeToString
+import com.ebnbin.eb.util.base64Decode
 import com.ebnbin.eb.viewmodel.EBViewModel
 import kotlinx.coroutines.Job
 
@@ -14,8 +14,8 @@ internal class DevFragmentViewModel : EBViewModel() {
         EbnbinGitHubApi.instance
             .getContentsFile("api-android-ebnbin", "sample/sample.json")
             .content
-            ?.toByteArray()
-            ?.base64DecodeToString()
+            ?.base64Decode()
+            ?.toString(Charsets.UTF_8)
             .toString()
     }).also {
         it.addLoading(object : Loading<String?> {

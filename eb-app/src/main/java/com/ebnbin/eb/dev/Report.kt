@@ -12,9 +12,9 @@ import com.ebnbin.eb.context.applicationId
 import com.ebnbin.eb.util.getDisplayRealSize0
 import com.ebnbin.eb.util.locales
 import com.ebnbin.eb.util.signatures
-import com.ebnbin.eb.util.toMD5String
 import com.ebnbin.eb.context.versionCode
 import com.ebnbin.eb.context.versionName
+import com.ebnbin.eb.util.md5ToString
 
 @Keep
 class Report private constructor() {
@@ -73,7 +73,7 @@ class Report private constructor() {
                 buildType = BuildConfig.BUILD_TYPE
                 buildTimestamp = BuildConfig.BUILD_TIMESTAMP.toTimeString("yyyy-MM-dd HH:mm:ss:SSS")
                 timestamp = timestamp().toTimeString("yyyy-MM-dd HH:mm:ss:SSS")
-                signatures = EBApp.instance.signatures.map { it.toByteArray().toMD5String() }
+                signatures = EBApp.instance.signatures.map { it.toByteArray().md5ToString() }
                 sdk = Build.VERSION.SDK_INT
                 brand = Build.BRAND
                 model = Build.MODEL

@@ -24,8 +24,8 @@ import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb.context.applicationId
 import com.ebnbin.eb.context.requireSystemService
+import com.ebnbin.eb.util.md5ToString
 import com.ebnbin.eb.util.sdk24N
-import com.ebnbin.eb.util.toMD5String
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
@@ -217,7 +217,7 @@ internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Cal
     private fun invalidatePositiveButton(): Boolean {
         val positiveButton = (dialog as AlertDialog?)?.getButton(AlertDialog.BUTTON_POSITIVE) ?: return false
         val file = getFile()
-        val canInstall = file.exists() && file.readBytes().toMD5String() == update.md5
+        val canInstall = file.exists() && file.readBytes().md5ToString() == update.md5
         if (canInstall) {
             positiveButton.setText(R.string.eb_update_install)
             positiveButton.setOnClickListener {

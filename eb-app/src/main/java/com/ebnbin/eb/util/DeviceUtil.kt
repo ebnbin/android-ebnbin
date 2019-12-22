@@ -9,5 +9,5 @@ object DeviceUtil {
     val ANDROID_ID: String = Settings.Secure.getString(EBApp.instance.contentResolver, Settings.Secure.ANDROID_ID)
         .toString()
 
-    val DEVICE_ID: String = ANDROID_ID.toByteArray().toMD5String()
+    val DEVICE_ID: String = ANDROID_ID.toByteArray().md5ToString()
 }

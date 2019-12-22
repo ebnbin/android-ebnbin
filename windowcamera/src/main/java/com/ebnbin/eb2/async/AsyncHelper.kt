@@ -1,12 +1,12 @@
 package com.ebnbin.eb2.async
 
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.context.versionCode
 import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.DeviceUtil
-import com.ebnbin.eb.util.base64DecodeToString
+import com.ebnbin.eb.util.base64Decode
 import com.ebnbin.eb.util.base64EncodeToString
 import com.ebnbin.eb.util.ebnbinApplicationId
-import com.ebnbin.eb.context.versionCode
 import com.ebnbin.eb2.githubapi.GitHubApi
 import com.ebnbin.eb2.githubapi.model.PutContentsRequest
 import com.ebnbin.eb2.util.TimeHelper
@@ -120,7 +120,7 @@ class AsyncHelper {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
-                val content = it.content.toByteArray().base64DecodeToString()
+                val content = String(it.content.base64Decode())
                 val t = Libraries.gson.fromJson<T>(content, classOfT)
                 t
             }
