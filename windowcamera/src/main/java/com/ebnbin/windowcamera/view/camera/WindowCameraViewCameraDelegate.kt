@@ -13,7 +13,7 @@ import android.media.MediaScannerConnection
 import android.view.Surface
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.util.requireSystemService
+import com.ebnbin.eb.context.requireSystemService
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.util.ResHelper

@@ -23,7 +23,7 @@ import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb.util.applicationId
-import com.ebnbin.eb.util.requireSystemService
+import com.ebnbin.eb.context.requireSystemService
 import com.ebnbin.eb.util.sdk24N
 import com.ebnbin.eb.util.toMD5String
 import com.ebnbin.eb.widget.toast

@@ -10,7 +10,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.util.applicationId
-import com.ebnbin.eb.util.requireSystemService
+import com.ebnbin.eb.context.requireSystemService
 import com.ebnbin.eb.util.sdk25N1
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb2.preference.FooterPreference
