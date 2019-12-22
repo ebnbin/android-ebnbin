@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.preference.EBPreferenceFragment
 import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
-import com.ebnbin.eb2.preference.EBPreferenceFragment
 import com.ebnbin.eb2.preference.LockablePreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper

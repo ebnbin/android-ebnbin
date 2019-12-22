@@ -1,19 +1,14 @@
 package com.ebnbin.windowcamera.imagevideo
 
-import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
+import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 
 abstract class BaseImageVideoPageFragment : EBFragment() {
-    protected lateinit var imageVideo: ImageVideo
-        private set
-
-    override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
-        super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        imageVideo = arguments.getSerializable(KEY_IMAGE_VIDEO) as ImageVideo
-    }
+    protected val imageVideo: ImageVideo
+        get() = requireArgument(KEY_IMAGE_VIDEO)
 
     companion object {
         const val KEY_IMAGE_VIDEO = "image_video"

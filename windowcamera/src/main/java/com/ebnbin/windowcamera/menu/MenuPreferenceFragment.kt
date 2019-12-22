@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import com.ebnbin.eb.fragment.openFragment
+import com.ebnbin.eb.preference.EBPreferenceFragment
 import com.ebnbin.eb2.about.AboutFragment
-import com.ebnbin.eb2.preference.EBPreferenceFragment
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.R

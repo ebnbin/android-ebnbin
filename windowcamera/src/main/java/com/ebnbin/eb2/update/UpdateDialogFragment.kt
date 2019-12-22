@@ -18,6 +18,8 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.dialog.EBDialogFragment
+import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb.util.applicationId
@@ -25,7 +27,6 @@ import com.ebnbin.eb.util.requireSystemService
 import com.ebnbin.eb.util.sdk24N
 import com.ebnbin.eb.util.toMD5String
 import com.ebnbin.eb.widget.toast
-import com.ebnbin.eb2.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
 import com.ebnbin.eb2.util.AppHelper
@@ -36,12 +37,8 @@ import java.io.File
 import kotlin.math.roundToInt
 
 internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Callback {
-    private lateinit var update: Update
-
-    override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
-        super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        update = arguments.getSerializable("update") as Update
-    }
+    private val update: Update
+        get() = requireArgument("update")
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         isCancelable = false

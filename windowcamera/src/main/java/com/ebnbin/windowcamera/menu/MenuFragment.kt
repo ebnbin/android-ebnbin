@@ -5,7 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import com.ebnbin.eb2.dialog.EBDialogFragment
+import com.ebnbin.eb.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.windowcamera.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.dialog.DialogCancelable
+import com.ebnbin.eb.fragment.getArgumentOrDefault
 import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.async.DialogLoading
@@ -15,12 +16,8 @@ import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.windowcamera.R
 
 class UpdateFragment : EBFragment() {
-    private var silent: Boolean = false
-
-    override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
-        super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        silent = arguments.getBoolean("silent", false)
-    }
+    private val silent: Boolean
+        get() = getArgumentOrDefault("silent", false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -14,6 +14,4 @@ object EBSpManager {
     internal var last_update_timestamp: Sp<Long> = EBSp("last_update_timestamp", 0L)
 
     internal var last_report_timestamp: Sp<Long> = EBSp("last_report_timestamp", 0L)
-
-    internal var debug_page: Sp<Int> = EBSp("debug_page", 0)
 }

@@ -1,6 +1,7 @@
 package com.ebnbin.eb.dev
 
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.CallSuper
@@ -36,6 +37,10 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
 
     @CallSuper
     protected open fun onAddDevItems() {
+        addDevItem("Long press") {
+            view?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        }
+
         addDevItem("About") {
             openFragment<AboutFragment>()
         }

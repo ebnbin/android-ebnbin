@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.fragment.getArgument
 import com.ebnbin.eb.util.DeviceUtil
 import com.ebnbin.eb.util.versionName
 import com.ebnbin.eb.widget.toast
@@ -21,13 +22,8 @@ import com.ebnbin.windowcamera.R
 import kotlinx.android.synthetic.main.eb_about_fragment2.*
 
 class AboutFragment : EBFragment() {
-    private var openSources: ArrayList<Pair<String, String>>? = null
-
-    override fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
-        super.onInitArguments(savedInstanceState, arguments, activityExtras)
-        @Suppress("UNCHECKED_CAST")
-        openSources = arguments.getSerializable("open_sources") as ArrayList<Pair<String, String>>?
-    }
+    private val openSources: ArrayList<Pair<String, String>>?
+        get() = getArgument("open_sources")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -37,7 +33,7 @@ class AboutFragment : EBFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         eb_toolbar.setNavigationOnClickListener {
-            finish()
+            activity?.finish()
         }
         eb_toolbar.setOnLongClickListener {
             AppHelper.copy(DeviceUtil.DEVICE_ID)

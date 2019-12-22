@@ -1,7 +1,5 @@
 package com.ebnbin.eb2.fragment
 
-import android.os.Bundle
-import androidx.annotation.CallSuper
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.util.TimeHelper
@@ -13,24 +11,9 @@ import com.ebnbin.windowcamera.R
  * 功能大部分同步给 EBDialogFragment 和 EBPreferenceFragment.
  */
 abstract class EBFragment : com.ebnbin.eb.fragment.EBFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initArguments(savedInstanceState)
-    }
-
     override fun onDestroyView() {
         disposeAsyncHelper()
         super.onDestroyView()
-    }
-
-    //*****************************************************************************************************************
-
-    private fun initArguments(savedInstanceState: Bundle?) {
-        onInitArguments(savedInstanceState, arguments ?: Bundle(), activity?.intent?.extras ?: Bundle())
-    }
-
-    @CallSuper
-    protected open fun onInitArguments(savedInstanceState: Bundle?, arguments: Bundle, activityExtras: Bundle) {
     }
 
     //*****************************************************************************************************************
@@ -39,12 +22,6 @@ abstract class EBFragment : com.ebnbin.eb.fragment.EBFragment() {
 
     private fun disposeAsyncHelper() {
         asyncHelper.clear()
-    }
-
-    //*****************************************************************************************************************
-
-    protected fun finish() {
-        activity?.finish()
     }
 
     //*****************************************************************************************************************

@@ -25,7 +25,7 @@ class SplashFragment : EBSplashFragment() {
         try {
             if (CameraHelper.isValid()) {
                 IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
-                finish()
+                activity?.finish()
                 return
             } else {
                 throw CameraInvalidException(CameraHelper.getInvalidString())
@@ -49,7 +49,7 @@ class SplashFragment : EBSplashFragment() {
     override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
         when (callbackBundle.getString(KEY_CALLING_ID)) {
             "splash_camera" -> {
-                finish()
+                activity?.finish()
                 return true
             }
             else -> return super.onAlertDialogPositive(alertDialog, callbackBundle)
