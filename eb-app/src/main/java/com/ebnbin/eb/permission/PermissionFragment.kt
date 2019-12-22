@@ -22,7 +22,7 @@ import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
 import com.ebnbin.eb.util.KEY_CALLING_ID
-import com.ebnbin.eb.util.applicationId
+import com.ebnbin.eb.context.applicationId
 import com.ebnbin.eb.util.requireValue
 import com.ebnbin.eb.util.sdk26O
 import com.ebnbin.eb.widget.toast

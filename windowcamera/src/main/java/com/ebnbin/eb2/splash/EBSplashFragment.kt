@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.dialog.AlertDialogFragment
-import com.ebnbin.eb.util.versionCode
+import com.ebnbin.eb.context.versionCode
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.fragment.EBFragment

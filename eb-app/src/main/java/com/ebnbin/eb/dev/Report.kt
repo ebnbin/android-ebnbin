@@ -8,13 +8,13 @@ import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.time.timestamp
 import com.ebnbin.eb.time.toTimeString
 import com.ebnbin.eb.util.DeviceUtil
-import com.ebnbin.eb.util.applicationId
+import com.ebnbin.eb.context.applicationId
 import com.ebnbin.eb.util.getDisplayRealSize0
 import com.ebnbin.eb.util.locales
 import com.ebnbin.eb.util.signatures
 import com.ebnbin.eb.util.toMD5String
-import com.ebnbin.eb.util.versionCode
-import com.ebnbin.eb.util.versionName
+import com.ebnbin.eb.context.versionCode
+import com.ebnbin.eb.context.versionName
 
 @Keep
 class Report private constructor() {

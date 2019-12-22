@@ -6,7 +6,7 @@ import com.ebnbin.eb.util.DeviceUtil
 import com.ebnbin.eb.util.base64DecodeToString
 import com.ebnbin.eb.util.base64EncodeToString
 import com.ebnbin.eb.util.ebnbinApplicationId
-import com.ebnbin.eb.util.versionCode
+import com.ebnbin.eb.context.versionCode
 import com.ebnbin.eb2.githubapi.GitHubApi
 import com.ebnbin.eb2.githubapi.model.PutContentsRequest
 import com.ebnbin.eb2.util.TimeHelper

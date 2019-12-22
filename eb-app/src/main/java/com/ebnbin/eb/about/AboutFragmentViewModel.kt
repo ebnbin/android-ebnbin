@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.time.toTimeString
-import com.ebnbin.eb.util.versionName
+import com.ebnbin.eb.context.versionName
 import com.ebnbin.eb.viewmodel.EBViewModel
 
 internal class AboutFragmentViewModel : EBViewModel() {
