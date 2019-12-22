@@ -144,7 +144,7 @@ open class AlertDialogFragment : EBDialogFragment() {
             /**
              * 是否使用 MaterialAlertDialogBuilder.
              */
-            isMaterial: Boolean = true,
+            isMaterial: Boolean = false,
             title: CharSequence? = null,
             message: CharSequence? = null,
             positiveText: CharSequence? = null,

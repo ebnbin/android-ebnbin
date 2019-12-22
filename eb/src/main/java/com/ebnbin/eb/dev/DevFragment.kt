@@ -67,7 +67,8 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
         addDevItem("Report") {
             childFragmentManager.openAlertDialog(
                 title = "Report",
-                message = Report.create().toString()
+                message = Report.create().toString(),
+                negativeText = "取消"
             )
         }
 

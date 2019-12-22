@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 
 fun FragmentManager.openAlertDialog(
-    isMaterial: Boolean = true,
+    isMaterial: Boolean = false,
     title: CharSequence? = null,
     message: CharSequence? = null,
     positiveText: CharSequence? = null,
