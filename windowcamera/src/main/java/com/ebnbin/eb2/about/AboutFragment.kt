@@ -13,7 +13,6 @@ import com.ebnbin.eb.getArgument
 import com.ebnbin.eb.toast
 import com.ebnbin.eb.util.DeviceUtil
 import com.ebnbin.eb.versionName
-import com.ebnbin.eb2.debug.debug
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.eb2.util.IntentHelper
@@ -57,7 +56,7 @@ class AboutFragment : EBFragment() {
         }
         eb_version.text = getString(R.string.eb_about_version,
             EBApp.instance.versionName,
-            if (debug) " ${BuildConfig.BUILD_TYPE}" else "",
+            if (BuildConfig.DEBUG) " ${BuildConfig.BUILD_TYPE}" else "",
             TimeHelper.longToString(BuildConfig.BUILD_TIMESTAMP, "yyyy-MM-dd"))
         eb_update.setOnClickListener {
             UpdateFragment.start(childFragmentManager, false)
