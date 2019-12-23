@@ -3,7 +3,7 @@ package com.ebnbin.eb2.preference
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceGroup
-import com.ebnbin.eb.sharedpreferences.get
+import com.ebnbin.eb.get
 import com.ebnbin.windowcamera.R
 
 /**

@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
 import androidx.preference.SeekBarPreference
-import com.ebnbin.eb.sharedpreferences.get
+import com.ebnbin.eb.get
 import com.ebnbin.windowcamera.R
 
 /**

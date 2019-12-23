@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
 import androidx.preference.SwitchPreferenceCompat
-import com.ebnbin.eb.sharedpreferences.get
+import com.ebnbin.eb.get
 import com.ebnbin.windowcamera.R
 
 /**
