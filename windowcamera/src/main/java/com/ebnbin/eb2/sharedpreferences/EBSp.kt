@@ -1,7 +1,7 @@
 package com.ebnbin.eb2.sharedpreferences
 
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
+import com.ebnbin.eb.getSharedPreferencesName
 
 open class EBSp<T>(
     getKey: () -> String?,

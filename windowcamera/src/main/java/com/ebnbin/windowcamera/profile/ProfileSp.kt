@@ -1,7 +1,7 @@
 package com.ebnbin.windowcamera.profile
 
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
+import com.ebnbin.eb.getSharedPreferencesName
 import com.ebnbin.eb2.sharedpreferences.Sp
 
 open class ProfileSp<T>(

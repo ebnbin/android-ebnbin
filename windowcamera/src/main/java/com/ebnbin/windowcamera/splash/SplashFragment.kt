@@ -7,7 +7,7 @@ import androidx.core.os.bundleOf
 import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.dialog.openAlertDialog
-import com.ebnbin.eb.sharedpreferences.getSharedPreferences
+import com.ebnbin.eb.getSharedPreferences
 import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport

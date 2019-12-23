@@ -3,10 +3,10 @@ package com.ebnbin.eb2.sharedpreferences
 import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.sharedpreferences.get
-import com.ebnbin.eb.sharedpreferences.getSharedPreferences
-import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
-import com.ebnbin.eb.sharedpreferences.put
+import com.ebnbin.eb.get
+import com.ebnbin.eb.getSharedPreferences
+import com.ebnbin.eb.getSharedPreferencesName
+import com.ebnbin.eb.put
 
 open class Sp<T>(
     val getKey: () -> String?,

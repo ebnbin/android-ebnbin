@@ -3,6 +3,8 @@ package com.ebnbin.eb.sharedpreferences
 import android.content.Context
 import android.content.SharedPreferences
 import com.ebnbin.eb.get
+import com.ebnbin.eb.getSharedPreferences
+import com.ebnbin.eb.getSharedPreferencesName
 import com.ebnbin.eb.put
 
 open class Sp<T>(
