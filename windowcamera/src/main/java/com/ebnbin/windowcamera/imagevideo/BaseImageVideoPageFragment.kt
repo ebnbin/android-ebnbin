@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera.imagevideo
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.fragment.requireArgument
+import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 

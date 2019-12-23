@@ -152,30 +152,6 @@ inline fun <reified T : Fragment> Fragment.openFragment(
 
 //*********************************************************************************************************************
 
-fun Fragment.containsArgument(key: String): Boolean {
-    return arguments?.containsKey(key) ?: false
-}
-
-inline fun <reified T> Fragment.getArgument(key: String): T? {
-    return arguments?.get(key) as T?
-}
-
-/**
- * 如果 key 不存在则抛出异常.
- */
-inline fun <reified T> Fragment.requireArgument(key: String): T {
-    return arguments?.get(key) as T
-}
-
-/**
- * 如果 key 不存在则返回默认值.
- */
-inline fun <reified T> Fragment.getArgumentOrDefault(key: String, defaultValue: T): T {
-    return if (containsArgument(key)) requireArgument(key) else defaultValue
-}
-
-//*********************************************************************************************************************
-
 fun Fragment.removeSelf() {
     parentFragmentManager.commit(true) {
         remove(this@removeSelf)

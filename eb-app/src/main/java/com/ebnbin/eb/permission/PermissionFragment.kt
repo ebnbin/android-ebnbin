@@ -16,10 +16,10 @@ import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.fragment.EBFragment
-import com.ebnbin.eb.fragment.getArgumentOrDefault
+import com.ebnbin.eb.getArgumentOrDefault
 import com.ebnbin.eb.getCallback
 import com.ebnbin.eb.fragment.removeSelf
-import com.ebnbin.eb.fragment.requireArgument
+import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
 import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb.applicationId

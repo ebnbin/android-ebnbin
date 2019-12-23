@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.DialogCancelable
-import com.ebnbin.eb.fragment.getArgument
-import com.ebnbin.eb.fragment.getArgumentOrDefault
+import com.ebnbin.eb.getArgument
+import com.ebnbin.eb.getArgumentOrDefault
 import com.ebnbin.eb.getCallback
 import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

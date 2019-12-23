@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.fragment.getArgument
+import com.ebnbin.eb.getArgument
 import com.ebnbin.eb.util.DeviceUtil
 import com.ebnbin.eb.versionName
 import com.ebnbin.eb.widget.toast

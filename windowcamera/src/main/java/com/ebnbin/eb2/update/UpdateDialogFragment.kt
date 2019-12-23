@@ -19,7 +19,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.dialog.EBDialogFragment
-import com.ebnbin.eb.fragment.requireArgument
+import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb.applicationId
