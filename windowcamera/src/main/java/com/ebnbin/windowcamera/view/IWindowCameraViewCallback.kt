@@ -9,5 +9,5 @@ interface IWindowCameraViewCallback {
     /**
      * 读取 profile 显示 toast.
      */
-    fun toast(any: Any?, long: Boolean = false, profileToast: ProfileToast = ProfileToast.get())
+    fun toast(text: String, long: Boolean = false, profileToast: ProfileToast = ProfileToast.get())
 }

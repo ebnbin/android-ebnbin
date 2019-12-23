@@ -14,14 +14,13 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.requireSystemService
-import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.dpToPxRound
+import com.ebnbin.eb.permission.hasPermissions
+import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
-import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -66,7 +65,7 @@ class WindowCameraView(context: Context) : CardView(context),
     private var lastToastView: View? = null
 
     @SuppressLint("ShowToast")
-    override fun toast(any: Any?, long: Boolean, profileToast: ProfileToast) {
+    override fun toast(text: String, long: Boolean, profileToast: ProfileToast) {
         when (profileToast) {
             ProfileToast.SYSTEM_ALERT_WINDOW, ProfileToast.SYSTEM_ALERT_WINDOW_CENTER -> {
                 if (!context.hasPermissions(Manifest.permission.SYSTEM_ALERT_WINDOW)) return
@@ -75,7 +74,7 @@ class WindowCameraView(context: Context) : CardView(context),
                     removeCallbacks(runnable)
                     runnable.run()
                 }
-                val toast = Toast.makeText(context, ResHelper.getString(any), Toast.LENGTH_SHORT)
+                val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
                 val view = toast.view
                 val params = WindowManager.LayoutParams()
                 params.width = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -110,7 +109,7 @@ class WindowCameraView(context: Context) : CardView(context),
                 view.postDelayed(runnable, delay)
             }
             ProfileToast.SYSTEM -> {
-                context.toast(any.toString(), long)
+                context.toast(text, long)
             }
             ProfileToast.NONE -> {
                 // Do nothing.

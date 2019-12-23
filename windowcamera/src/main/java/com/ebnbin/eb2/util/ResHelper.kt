@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.content.res.getColorOrThrow
-import com.ebnbin.eb.EBApp
 
 object ResHelper {
     @ColorInt
@@ -15,16 +14,5 @@ object ResHelper {
         val color = typedArray.getColorOrThrow(index)
         typedArray.recycle()
         return color
-    }
-
-    /**
-     * @param any 如果为 Int 则取字符串资源. 如果为 null 则返回 "null".
-     */
-    fun getString(any: Any?): String {
-        return if (any is Int) {
-            EBApp.instance.resources.getString(any)
-        } else {
-            any.toString()
-        }
     }
 }

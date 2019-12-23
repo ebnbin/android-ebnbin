@@ -16,7 +16,6 @@ import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.dev.DevHelper
-import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.R
@@ -181,7 +180,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             val file = IOHelper.nextFile(".jpg")
             file.writeBytes(byteArray)
             image.close()
-            callback.toast(file)
+            callback.toast(file.toString())
             scanFile(file)
         }
         imageReader.setOnImageAvailableListener(listener, null)
@@ -489,7 +488,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
 
             videoFile?.run {
                 videoFile = null
-                callback.toast(this)
+                callback.toast(this.toString())
                 scanFile(this)
             }
         }
@@ -633,7 +632,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             DevHelper.reportThrowable(CameraReportException(message, cause, extra))
         }
         if (toast != null) {
-            callback.getContext().toast(ResHelper.getString(toast))
+            callback.getContext().toast(if (toast is Int) callback.getContext().getString(toast) else toast.toString())
         }
         if (stopService) {
             WindowCameraService.stop(callback.getContext())
