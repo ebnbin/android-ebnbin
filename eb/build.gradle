@@ -20,4 +20,8 @@ android {
 dependencies {
     api deps.kotlin_stdlib_jdk8
     api deps.core_ktx
+    api deps.appcompat
+    api deps.activity_ktx
+    api deps.fragment_ktx
+    api deps.material
 }
