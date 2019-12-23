@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.time.toTimeString
+import com.ebnbin.eb.toTimeString
 import com.ebnbin.eb.versionName
 import com.ebnbin.eb.viewmodel.EBViewModel
 

@@ -5,17 +5,17 @@ import androidx.annotation.Keep
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.androidId
-import com.ebnbin.eb.library.Libraries
-import com.ebnbin.eb.time.timestamp
-import com.ebnbin.eb.time.toTimeString
-import com.ebnbin.eb.util.DeviceUtil
 import com.ebnbin.eb.applicationId
-import com.ebnbin.eb.util.getDisplayRealSize0
+import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.locales
+import com.ebnbin.eb.md5ToString
 import com.ebnbin.eb.signatures
+import com.ebnbin.eb.timestamp
+import com.ebnbin.eb.toTimeString
+import com.ebnbin.eb.util.DeviceUtil
+import com.ebnbin.eb.util.getDisplayRealSize0
 import com.ebnbin.eb.versionCode
 import com.ebnbin.eb.versionName
-import com.ebnbin.eb.md5ToString
 
 @Keep
 class Report private constructor() {
@@ -72,8 +72,8 @@ class Report private constructor() {
                 versionName = EBApp.instance.versionName
                 flavor = BuildConfig.FLAVOR
                 buildType = BuildConfig.BUILD_TYPE
-                buildTimestamp = BuildConfig.BUILD_TIMESTAMP.toTimeString("yyyy-MM-dd HH:mm:ss:SSS")
-                timestamp = timestamp().toTimeString("yyyy-MM-dd HH:mm:ss:SSS")
+                buildTimestamp = BuildConfig.BUILD_TIMESTAMP.toTimeString()
+                timestamp = timestamp().toTimeString()
                 signatures = EBApp.instance.signatures.map { it.toByteArray().md5ToString() }
                 sdk = Build.VERSION.SDK_INT
                 brand = Build.BRAND
