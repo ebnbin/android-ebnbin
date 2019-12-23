@@ -1,6 +1,7 @@
 package com.ebnbin.eb2.util
 
 import android.view.Surface
+import com.ebnbin.eb.gcd
 import kotlin.math.max
 import kotlin.math.roundToInt
 
