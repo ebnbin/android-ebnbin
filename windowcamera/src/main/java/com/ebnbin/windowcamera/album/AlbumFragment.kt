@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ebnbin.eb.dialog.AlertDialogFragment
-import com.ebnbin.eb.dialog.openAlertDialog
+import com.ebnbin.eb.AlertDialogFragment
+import com.ebnbin.eb.openAlertDialogFragment
 import com.ebnbin.eb.pxToDp
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.fragment.EBFragment
@@ -126,7 +126,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
                     if (adapter.data.none { albumItem -> albumItem.multiSelect == MultiSelect.SELECTED }) {
                         requireContext().toast(R.string.album_selected_empty)
                     } else {
-                        childFragmentManager.openAlertDialog(
+                        childFragmentManager.openAlertDialogFragment(
                             message = getString(R.string.album_delete_message),
                             positiveText = getString(R.string.album_delete_position),
                             negativeText = getString(R.string.album_delete_negative),

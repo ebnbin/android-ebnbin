@@ -3,7 +3,7 @@ package com.ebnbin.eb2.splash
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.dialog.AlertDialogFragment
+import com.ebnbin.eb.AlertDialogFragment
 import com.ebnbin.eb.versionCode
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport

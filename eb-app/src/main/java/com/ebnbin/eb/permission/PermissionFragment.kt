@@ -13,8 +13,7 @@ import androidx.core.os.bundleOf
 import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.R
 import com.ebnbin.eb.activity.openActivity
-import com.ebnbin.eb.dialog.AlertDialogFragment
-import com.ebnbin.eb.dialog.openAlertDialog
+import com.ebnbin.eb.AlertDialogFragment
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.getArgumentOrDefault
 import com.ebnbin.eb.getCallback
@@ -23,6 +22,7 @@ import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
 import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.openAlertDialogFragment
 import com.ebnbin.eb.requireValue
 import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb.toast
@@ -190,7 +190,7 @@ class PermissionFragment : EBFragment(), AlertDialogFragment.Callback {
     //*****************************************************************************************************************
 
     private fun openDialog(@StringRes messageId: Int, action: String, requestCode: Int) {
-        childFragmentManager.openAlertDialog(
+        childFragmentManager.openAlertDialogFragment(
             message = getString(messageId),
             positiveText = getString(R.string.eb_permission_open_settings),
             negativeText = getString(R.string.eb_permission_deny),

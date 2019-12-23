@@ -14,11 +14,11 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.dialog.EBDialogFragment
 import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
@@ -36,7 +36,7 @@ import com.ebnbin.windowcamera.R
 import java.io.File
 import kotlin.math.roundToInt
 
-internal class UpdateDialogFragment : EBDialogFragment(), PermissionFragment.Callback {
+internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragment.Callback {
     private val update: Update
         get() = requireArgument("update")
 

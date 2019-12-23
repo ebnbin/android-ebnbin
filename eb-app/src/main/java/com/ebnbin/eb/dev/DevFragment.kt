@@ -11,10 +11,10 @@ import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
-import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.fragment.EBViewFragment
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.loading.Loading
+import com.ebnbin.eb.openAlertDialogFragment
 import com.ebnbin.eb.toast
 import kotlinx.coroutines.Job
 
@@ -70,7 +70,7 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
         })
 
         addDevItem("Report") {
-            childFragmentManager.openAlertDialog(
+            childFragmentManager.openAlertDialogFragment(
                 title = "Report",
                 message = Report.create().toString(),
                 negativeText = "取消"
@@ -80,7 +80,7 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
         addDevItem("Calling Activity", arguments?.getString(KEY_CALLING_ACTIVITY))
 
         addDevItem("AlertDialogFragment", "isMaterial = false") {
-            childFragmentManager.openAlertDialog(
+            childFragmentManager.openAlertDialogFragment(
                 isMaterial = false,
                 title = "Title",
                 message = "Message",
@@ -90,7 +90,7 @@ open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
         }
 
         addDevItem("AlertDialogFragment", "isMaterial = true") {
-            childFragmentManager.openAlertDialog(
+            childFragmentManager.openAlertDialogFragment(
                 isMaterial = true,
                 title = "Title",
                 message = "Message",

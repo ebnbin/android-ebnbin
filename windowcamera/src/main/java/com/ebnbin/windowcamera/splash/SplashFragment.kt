@@ -6,8 +6,8 @@ import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.getSharedPreferences
+import com.ebnbin.eb.openAlertDialogFragment
 import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
@@ -33,7 +33,7 @@ class SplashFragment : EBSplashFragment() {
         } catch (throwable: Throwable) {
             DevHelper.reportThrowable(throwable)
         }
-        childFragmentManager.openAlertDialog(
+        childFragmentManager.openAlertDialogFragment(
             message = getString(R.string.splash_camera_message),
             positiveText = getString(R.string.splash_camera_positive),
             dialogCancelable = DialogCancelable.NOT_CANCELABLE,

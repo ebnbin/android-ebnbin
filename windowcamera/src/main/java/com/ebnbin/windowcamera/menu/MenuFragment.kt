@@ -3,16 +3,16 @@ package com.ebnbin.windowcamera.menu
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import com.ebnbin.eb.dialog.EBDialogFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.windowcamera.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.jeremyliao.liveeventbus.LiveEventBus
 
-class MenuFragment : EBDialogFragment() {
+class MenuFragment : AppCompatDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LiveEventBus.get("MenuDismissEvent").observe(this, Observer {
