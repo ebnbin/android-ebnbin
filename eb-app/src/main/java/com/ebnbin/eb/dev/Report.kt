@@ -10,8 +10,8 @@ import com.ebnbin.eb.time.toTimeString
 import com.ebnbin.eb.util.DeviceUtil
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.util.getDisplayRealSize0
-import com.ebnbin.eb.util.locales
-import com.ebnbin.eb.util.signatures
+import com.ebnbin.eb.locales
+import com.ebnbin.eb.signatures
 import com.ebnbin.eb.versionCode
 import com.ebnbin.eb.versionName
 import com.ebnbin.eb.md5ToString

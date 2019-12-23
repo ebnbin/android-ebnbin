@@ -1,7 +1,10 @@
 package com.ebnbin.eb
 
 import android.content.Context
+import android.content.pm.PackageManager
+import android.content.pm.Signature
 import androidx.core.content.getSystemService
+import java.util.Locale
 import kotlin.math.roundToInt
 
 val Context.applicationId: String
@@ -20,6 +23,23 @@ val Context.versionCode: Int
 
 val Context.versionName: String
     get() = packageManager.getPackageInfo(applicationId, 0).versionName
+
+/**
+ * Apk 签名列表.
+ */
+val Context.signatures: List<Signature>
+    get() = if (sdk28P()) {
+        val signingInfo = packageManager.getPackageInfo(applicationId, PackageManager.GET_SIGNING_CERTIFICATES)
+            .signingInfo
+        if (signingInfo.hasMultipleSigners()) {
+            signingInfo.apkContentsSigners
+        } else {
+            signingInfo.signingCertificateHistory
+        }
+    } else {
+        @Suppress("DEPRECATION")
+        packageManager.getPackageInfo(applicationId, PackageManager.GET_SIGNATURES).signatures
+    }.toList()
 
 //*********************************************************************************************************************
 
@@ -60,3 +80,15 @@ fun Context.pxToDp(px: Int): Float = pxToDp(px.toFloat())
 fun Context.pxToSp(px: Float): Float = px / resources.displayMetrics.scaledDensity
 
 fun Context.pxToSp(px: Int): Float = pxToSp(px.toFloat())
+
+//*********************************************************************************************************************
+
+val Context.locales: List<Locale>
+    get() = if (sdk24N()) {
+        resources.configuration.locales.let { locales ->
+            (0 until locales.size()).map { locales.get(it) }
+        }
+    } else {
+        @Suppress("DEPRECATION")
+        listOf(resources.configuration.locale)
+    }
