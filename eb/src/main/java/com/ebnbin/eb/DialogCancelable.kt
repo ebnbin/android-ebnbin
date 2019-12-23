@@ -13,7 +13,7 @@ enum class DialogCancelable {
      */
     NOT_CANCELABLE_ON_TOUCH_OUTSIDE,
     /**
-     * 不允许通过按返回键与点击空白区域关闭对话框.
+     * 不允许通过按返回键和点击空白区域关闭对话框.
      */
     NOT_CANCELABLE
 }
