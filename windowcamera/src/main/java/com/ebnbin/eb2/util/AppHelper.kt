@@ -1,30 +1,16 @@
 package com.ebnbin.eb2.util
 
 import android.Manifest
-import android.app.ActivityManager
-import android.app.Service
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.os.Handler
-import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 
 object AppHelper {
-    fun isServiceRunning(serviceClass: Class<out Service>): Boolean {
-        @Suppress("DEPRECATION")
-        return EBApp.instance.requireSystemService<ActivityManager>().getRunningServices(Int.MAX_VALUE).any {
-            it.service.className == serviceClass.name
-        }
-    }
-
     @RequiresPermission(Manifest.permission.VIBRATE)
     fun vibrate(milliseconds: Long) {
         if (sdk26O()) {
@@ -44,10 +30,4 @@ object AppHelper {
             IntentHelper.restartApp()
         }
     }
-
-    fun copy(text: CharSequence, label: CharSequence = EBApp.instance.applicationId) {
-        EBApp.instance.requireSystemService<ClipboardManager>().setPrimaryClip(ClipData.newPlainText(label, text))
-    }
-
-    val mainHandler: Handler = Handler(Looper.getMainLooper())
 }

@@ -1,6 +1,10 @@
 package com.ebnbin.eb
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.app.Service
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
@@ -98,3 +102,16 @@ val Context.locales: List<Locale>
         @Suppress("DEPRECATION")
         listOf(resources.configuration.locale)
     }
+
+//*********************************************************************************************************************
+
+@Suppress("DEPRECATION")
+inline fun <reified T : Service> Context.isServiceRunning(): Boolean =
+    requireSystemService<ActivityManager>().getRunningServices(Int.MAX_VALUE).any {
+        it.service.className == T::class.java.name
+    }
+
+//*********************************************************************************************************************
+
+fun Context.copy(text: CharSequence, label: CharSequence = applicationId): Unit =
+    requireSystemService<ClipboardManager>().setPrimaryClip(ClipData.newPlainText(label, text))

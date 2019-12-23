@@ -15,11 +15,11 @@ import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.isServiceRunning
 import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb.toast
-import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.view.WindowCameraView
@@ -138,7 +138,7 @@ class WindowCameraService : Service() {
         }
 
         fun isRunning(): Boolean {
-            return AppHelper.isServiceRunning(WindowCameraService::class.java)
+            return EBApp.instance.isServiceRunning<WindowCameraService>()
         }
     }
 }

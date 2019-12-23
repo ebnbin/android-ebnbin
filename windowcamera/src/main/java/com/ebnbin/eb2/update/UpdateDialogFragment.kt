@@ -19,17 +19,18 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.requireArgument
+import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.copy
+import com.ebnbin.eb.mainHandler
+import com.ebnbin.eb.md5ToString
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
-import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.requireSystemService
-import com.ebnbin.eb.md5ToString
 import com.ebnbin.eb.sdk24N
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
-import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.BuildConfig
 import com.ebnbin.windowcamera.R
@@ -79,7 +80,7 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
             if (BuildConfig.FLAVOR != "google") {
                 alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
                     IntentHelper.startBrowser(requireContext(), update.url)
-                    AppHelper.copy(update.url)
+                    requireContext().copy(update.url)
                     requireContext().toast(R.string.eb_update_copied)
                 }
             }
@@ -96,7 +97,7 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
 
     //*****************************************************************************************************************
 
-    private val updateContentObserver: ContentObserver = object : ContentObserver(AppHelper.mainHandler) {
+    private val updateContentObserver: ContentObserver = object : ContentObserver(mainHandler) {
         override fun onChange(selfChange: Boolean) {
             super.onChange(selfChange)
             val downloadId = downloadId ?: return
