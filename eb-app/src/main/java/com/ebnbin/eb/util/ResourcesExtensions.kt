@@ -1,6 +1,7 @@
 package com.ebnbin.eb.util
 
 import android.content.Context
+import com.ebnbin.eb.sdk24N
 import java.util.Locale
 
 val Context.locales: List<Locale>

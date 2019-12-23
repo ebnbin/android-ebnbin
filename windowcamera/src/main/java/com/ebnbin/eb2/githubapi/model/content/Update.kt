@@ -1,7 +1,7 @@
 package com.ebnbin.eb2.githubapi.model.content
 
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.context.versionCode
+import com.ebnbin.eb.versionCode
 import com.ebnbin.eb2.util.EBModel
 
 class Update : EBModel {

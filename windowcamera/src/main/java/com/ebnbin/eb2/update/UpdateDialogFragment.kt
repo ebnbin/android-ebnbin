@@ -22,10 +22,10 @@ import com.ebnbin.eb.dialog.EBDialogFragment
 import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
-import com.ebnbin.eb.context.applicationId
-import com.ebnbin.eb.context.requireSystemService
-import com.ebnbin.eb.util.md5ToString
-import com.ebnbin.eb.util.sdk24N
+import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.requireSystemService
+import com.ebnbin.eb.md5ToString
+import com.ebnbin.eb.sdk24N
 import com.ebnbin.eb.widget.toast
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update

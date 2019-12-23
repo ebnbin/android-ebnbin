@@ -6,11 +6,14 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.ebnbin.eb.getExtra
+import com.ebnbin.eb.getExtraOrDefault
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.permission.openPermissionFragment
+import com.ebnbin.eb.requireExtra
 import com.ebnbin.eb.util.KEY_CALLING_ID
-import com.ebnbin.eb.util.requireValue
+import com.ebnbin.eb.requireValue
 
 /**
  * 添加单个 Fragment 的 Activity.

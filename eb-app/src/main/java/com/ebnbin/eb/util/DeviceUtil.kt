@@ -3,6 +3,7 @@ package com.ebnbin.eb.util
 import android.annotation.SuppressLint
 import android.provider.Settings
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.md5ToString
 
 object DeviceUtil {
     @SuppressLint("HardwareIds")

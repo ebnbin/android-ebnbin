@@ -5,7 +5,7 @@ import android.graphics.Point
 import android.view.Display
 import android.view.WindowManager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.context.requireSystemService
+import com.ebnbin.eb.requireSystemService
 
 object WindowHelper {
     private val display: Display

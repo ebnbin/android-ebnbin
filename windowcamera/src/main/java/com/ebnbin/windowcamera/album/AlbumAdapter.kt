@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.context.dpToPxRound
+import com.ebnbin.eb.dpToPxRound
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.imagevideo.ImageVideo
 

@@ -12,9 +12,9 @@ import android.os.Vibrator
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.context.applicationId
-import com.ebnbin.eb.context.requireSystemService
-import com.ebnbin.eb.util.sdk26O
+import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.requireSystemService
+import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 
 object AppHelper {

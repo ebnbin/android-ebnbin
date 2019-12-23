@@ -1,8 +1,7 @@
-package com.ebnbin.eb.context
+package com.ebnbin.eb
 
 import android.content.Context
 import androidx.core.content.getSystemService
-import com.ebnbin.eb.util.sdk28P
 import kotlin.math.roundToInt
 
 val Context.applicationId: String

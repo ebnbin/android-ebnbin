@@ -1,4 +1,4 @@
-package com.ebnbin.eb.util
+package com.ebnbin.eb
 
 import android.os.Bundle
 

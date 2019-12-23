@@ -1,4 +1,4 @@
-package com.ebnbin.eb.activity
+package com.ebnbin.eb
 
 import android.app.Activity
 

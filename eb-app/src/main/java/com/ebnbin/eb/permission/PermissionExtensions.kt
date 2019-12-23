@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
-import com.ebnbin.eb.util.sdk26O
+import com.ebnbin.eb.sdk26O
 
 fun Context.hasRequestInstallPackagesPermission(): Boolean {
     return if (sdk26O()) packageManager.canRequestPackageInstalls() else true

@@ -2,7 +2,6 @@
 
 package com.ebnbin.windowcamera.camera
 
-import android.app.ActivityManager
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCharacteristics
@@ -14,7 +13,7 @@ import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.context.requireSystemService
+import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.util.RotationSize
 import com.ebnbin.eb2.util.WindowHelper

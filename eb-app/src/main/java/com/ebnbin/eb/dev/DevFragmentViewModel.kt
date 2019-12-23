@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ebnbin.eb.ebnbingithubapi.EbnbinGitHubApi
 import com.ebnbin.eb.livedata.CoroutineLiveData
 import com.ebnbin.eb.loading.Loading
-import com.ebnbin.eb.util.base64Decode
+import com.ebnbin.eb.base64Decode
 import com.ebnbin.eb.viewmodel.EBViewModel
 import kotlinx.coroutines.Job
 

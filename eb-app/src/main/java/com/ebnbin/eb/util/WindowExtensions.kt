@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Point
 import android.view.Surface
 import android.view.WindowManager
-import com.ebnbin.eb.context.requireSystemService
+import com.ebnbin.eb.requireSystemService
 
 fun Context.getDisplayRealSize(): Triple<Int, Int, Int> {
     val display = requireSystemService<WindowManager>().defaultDisplay

@@ -1,11 +1,11 @@
 package com.ebnbin.eb2.async
 
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.context.versionCode
+import com.ebnbin.eb.versionCode
 import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.util.DeviceUtil
-import com.ebnbin.eb.util.base64Decode
-import com.ebnbin.eb.util.base64EncodeToString
+import com.ebnbin.eb.base64Decode
+import com.ebnbin.eb.base64EncodeToString
 import com.ebnbin.eb.util.ebnbinApplicationId
 import com.ebnbin.eb2.githubapi.GitHubApi
 import com.ebnbin.eb2.githubapi.model.PutContentsRequest

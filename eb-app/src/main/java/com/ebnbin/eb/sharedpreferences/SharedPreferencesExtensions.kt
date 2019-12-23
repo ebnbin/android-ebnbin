@@ -3,7 +3,7 @@ package com.ebnbin.eb.sharedpreferences
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.ebnbin.eb.context.applicationId
+import com.ebnbin.eb.applicationId
 
 fun <T> SharedPreferences.get(key: String, defaultValue: T): T {
     @Suppress("UNCHECKED_CAST")

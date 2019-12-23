@@ -3,7 +3,8 @@ package com.ebnbin.eb.util
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
-import com.ebnbin.eb.context.applicationId
+import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.sdk28P
 
 val Context.ebnbinApplicationId: String
     get() = applicationId.substringAfter("com.ebnbin.")

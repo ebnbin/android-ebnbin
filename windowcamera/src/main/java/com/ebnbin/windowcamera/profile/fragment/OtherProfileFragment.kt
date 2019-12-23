@@ -9,10 +9,10 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.context.applicationId
-import com.ebnbin.eb.context.requireSystemService
-import com.ebnbin.eb.util.sdk25N1
-import com.ebnbin.eb.util.sdk26O
+import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.requireSystemService
+import com.ebnbin.eb.sdk25N1
+import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb2.preference.FooterPreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.main.MainActivity
