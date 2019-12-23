@@ -37,7 +37,7 @@ fun <T> SharedPreferences.get(key: String, defaultValue: T): T =
 /**
  * @param value 不能为 null.
  */
-fun <T> SharedPreferences.put(key: String, value: T) =
+fun <T> SharedPreferences.put(key: String, value: T): Unit =
     edit {
         when {
             value is String -> putString(key, value)

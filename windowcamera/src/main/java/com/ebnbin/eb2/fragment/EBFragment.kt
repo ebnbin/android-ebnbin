@@ -1,6 +1,6 @@
 package com.ebnbin.eb2.fragment
 
-import com.ebnbin.eb.widget.toast
+import com.ebnbin.eb.toast
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.windowcamera.R

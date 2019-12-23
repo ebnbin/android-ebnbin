@@ -11,7 +11,7 @@ import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.getArgument
 import com.ebnbin.eb.util.DeviceUtil
 import com.ebnbin.eb.versionName
-import com.ebnbin.eb.widget.toast
+import com.ebnbin.eb.toast
 import com.ebnbin.eb2.debug.debug
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment

@@ -15,7 +15,7 @@ import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.fragment.EBViewFragment
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.loading.Loading
-import com.ebnbin.eb.widget.toast
+import com.ebnbin.eb.toast
 import kotlinx.coroutines.Job
 
 /**

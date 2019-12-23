@@ -8,7 +8,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.applicationId
-import com.ebnbin.eb.widget.toast
+import com.ebnbin.eb.toast
 import com.ebnbin.eb2.activity.EBActivity
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.windowcamera.R

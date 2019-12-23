@@ -26,7 +26,7 @@ import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.md5ToString
 import com.ebnbin.eb.sdk24N
-import com.ebnbin.eb.widget.toast
+import com.ebnbin.eb.toast
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
 import com.ebnbin.eb2.util.AppHelper

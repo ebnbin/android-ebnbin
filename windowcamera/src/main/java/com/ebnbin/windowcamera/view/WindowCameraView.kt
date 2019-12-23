@@ -18,7 +18,7 @@ import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.dpToPxRound
 import com.ebnbin.eb.sdk26O
-import com.ebnbin.eb.widget.toast
+import com.ebnbin.eb.toast
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.ResHelper

@@ -25,7 +25,7 @@ import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.requireValue
 import com.ebnbin.eb.sdk26O
-import com.ebnbin.eb.widget.toast
+import com.ebnbin.eb.toast
 
 /**
  * 权限请求 Fragment.
