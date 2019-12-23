@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.util.KEY_CALLING_ID

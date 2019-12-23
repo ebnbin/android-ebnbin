@@ -10,10 +10,10 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.R
 import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
-import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.openAlertDialog
 import com.ebnbin.eb.fragment.EBFragment
 import com.ebnbin.eb.fragment.getArgumentOrDefault

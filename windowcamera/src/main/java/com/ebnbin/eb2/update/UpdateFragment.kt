@@ -3,7 +3,7 @@ package com.ebnbin.eb2.update
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.dialog.DialogCancelable
+import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.fragment.getArgumentOrDefault
 import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.widget.toast

@@ -2,7 +2,7 @@ package com.ebnbin.eb2.async
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDialog
-import com.ebnbin.eb.dialog.DialogCancelable
+import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.windowcamera.R
 import io.reactivex.disposables.Disposable
 
