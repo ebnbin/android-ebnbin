@@ -1,8 +1,10 @@
 package com.ebnbin.eb
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
+import android.provider.Settings
 import androidx.core.content.getSystemService
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -40,6 +42,10 @@ val Context.signatures: List<Signature>
         @Suppress("DEPRECATION")
         packageManager.getPackageInfo(applicationId, PackageManager.GET_SIGNATURES).signatures
     }.toList()
+
+val Context.androidId: String
+    @SuppressLint("HardwareIds")
+    get() = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID).toString()
 
 //*********************************************************************************************************************
 

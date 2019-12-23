@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.Keep
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.androidId
 import com.ebnbin.eb.library.Libraries
 import com.ebnbin.eb.time.timestamp
 import com.ebnbin.eb.time.toTimeString
@@ -66,7 +67,7 @@ class Report private constructor() {
             return Report().apply {
                 applicationId = EBApp.instance.applicationId
                 deviceId = DeviceUtil.DEVICE_ID
-                androidId = DeviceUtil.ANDROID_ID
+                androidId = EBApp.instance.androidId
                 versionCode = EBApp.instance.versionCode
                 versionName = EBApp.instance.versionName
                 flavor = BuildConfig.FLAVOR
