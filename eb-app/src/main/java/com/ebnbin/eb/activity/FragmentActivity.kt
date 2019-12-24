@@ -9,7 +9,7 @@ import androidx.fragment.app.commit
 import com.ebnbin.eb.getExtra
 import com.ebnbin.eb.getExtraOrDefault
 import com.ebnbin.eb.permission.PermissionFragment
-import com.ebnbin.eb.permission.hasPermissions
+import com.ebnbin.eb.hasPermissions
 import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb.requireExtra
 import com.ebnbin.eb.util.KEY_CALLING_ID

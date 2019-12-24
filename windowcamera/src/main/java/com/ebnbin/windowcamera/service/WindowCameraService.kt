@@ -16,7 +16,7 @@ import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.isServiceRunning
-import com.ebnbin.eb.permission.hasPermissions
+import com.ebnbin.eb.hasPermissions
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb.toast

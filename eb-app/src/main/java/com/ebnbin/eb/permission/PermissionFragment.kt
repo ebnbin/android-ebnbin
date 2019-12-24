@@ -10,22 +10,26 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.AlertDialogFragment
 import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.R
 import com.ebnbin.eb.activity.openActivity
-import com.ebnbin.eb.AlertDialogFragment
+import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.fragment.EBFragment
+import com.ebnbin.eb.fragment.removeSelf
 import com.ebnbin.eb.getArgumentOrDefault
 import com.ebnbin.eb.getCallback
-import com.ebnbin.eb.fragment.removeSelf
-import com.ebnbin.eb.requireArgument
-import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
-import com.ebnbin.eb.util.KEY_CALLING_ID
-import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.hasRequestInstallPackagesPermission
+import com.ebnbin.eb.hasRuntimePermission
+import com.ebnbin.eb.hasSystemAlertWindowPermission
+import com.ebnbin.eb.hasWriteSettingsPermission
 import com.ebnbin.eb.openAlertDialogFragment
+import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.requireValue
 import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb.toast
+import com.ebnbin.eb.util.KEY_CALLBACK_BUNDLE
+import com.ebnbin.eb.util.KEY_CALLING_ID
 
 /**
  * 权限请求 Fragment.
