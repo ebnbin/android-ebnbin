@@ -25,6 +25,8 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
         get() = getArgument(KEY_NEUTRAL_TEXT)
     protected open val dialogCancelable: DialogCancelable
         get() = getArgumentOrDefault(KEY_DIALOG_CANCELABLE, DialogCancelable.CANCELABLE)
+    protected open val fragmentCallback: FragmentCallback
+        get() = getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT)
     protected open val callbackBundle: Bundle
         get() = getArgumentOrDefault(KEY_CALLBACK_BUNDLE, Bundle.EMPTY)
 
@@ -66,8 +68,9 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
     protected val alertDialog: AlertDialog?
         get() = dialog as AlertDialog?
 
-    protected fun requireAlertDialog(): AlertDialog =
-        alertDialog ?: throw IllegalStateException("无法获取 AlertDialog.")
+    protected fun requireAlertDialog(): AlertDialog {
+        return alertDialog ?: throw IllegalStateException("无法获取 AlertDialog.")
+    }
 
     //*****************************************************************************************************************
 
@@ -83,37 +86,37 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
 
     //*****************************************************************************************************************
 
-    protected open fun onCreateAlertDialogBuilder(builder: AlertDialog.Builder) =
-        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
-            ?.onCreateAlertDialogBuilder(builder, callbackBundle)
+    protected open fun onCreateAlertDialogBuilder(builder: AlertDialog.Builder) {
+        getCallback<Callback>(fragmentCallback)?.onCreateAlertDialogBuilder(builder, callbackBundle)
+    }
 
-    protected open fun onCreateAlertDialog(alertDialog: AlertDialog) =
-        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
-            ?.onCreateAlertDialog(alertDialog, callbackBundle)
+    protected open fun onCreateAlertDialog(alertDialog: AlertDialog) {
+        getCallback<Callback>(fragmentCallback)?.onCreateAlertDialog(alertDialog, callbackBundle)
+    }
 
-    protected open fun onAlertDialogPositive(alertDialog: AlertDialog): Boolean =
-        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
-            ?.onAlertDialogPositive(alertDialog, callbackBundle) != false
+    protected open fun onAlertDialogPositive(alertDialog: AlertDialog): Boolean {
+        return getCallback<Callback>(fragmentCallback)?.onAlertDialogPositive(alertDialog, callbackBundle) != false
+    }
 
-    protected open fun onAlertDialogNegative(alertDialog: AlertDialog): Boolean =
-        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
-            ?.onAlertDialogNegative(alertDialog, callbackBundle) != false
+    protected open fun onAlertDialogNegative(alertDialog: AlertDialog): Boolean {
+        return getCallback<Callback>(fragmentCallback)?.onAlertDialogNegative(alertDialog, callbackBundle) != false
+    }
 
-    protected open fun onAlertDialogNeutral(alertDialog: AlertDialog): Boolean =
-        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
-            ?.onAlertDialogNeutral(alertDialog, callbackBundle) != false
+    protected open fun onAlertDialogNeutral(alertDialog: AlertDialog): Boolean {
+        return getCallback<Callback>(fragmentCallback)?.onAlertDialogNeutral(alertDialog, callbackBundle) != false
+    }
 
-    protected open fun onAlertDialogShow(alertDialog: AlertDialog) =
-        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
-            ?.onAlertDialogShow(alertDialog, callbackBundle)
+    protected open fun onAlertDialogShow(alertDialog: AlertDialog) {
+        getCallback<Callback>(fragmentCallback)?.onAlertDialogShow(alertDialog, callbackBundle)
+    }
 
-    protected open fun onAlertDialogCancel(alertDialog: AlertDialog) =
-        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
-            ?.onAlertDialogCancel(alertDialog, callbackBundle)
+    protected open fun onAlertDialogCancel(alertDialog: AlertDialog) {
+        getCallback<Callback>(fragmentCallback)?.onAlertDialogCancel(alertDialog, callbackBundle)
+    }
 
-    protected open fun onAlertDialogDismiss(alertDialog: AlertDialog) =
-        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
-            ?.onAlertDialogDismiss(alertDialog, callbackBundle)
+    protected open fun onAlertDialogDismiss(alertDialog: AlertDialog) {
+        getCallback<Callback>(fragmentCallback)?.onAlertDialogDismiss(alertDialog, callbackBundle)
+    }
 
     //*****************************************************************************************************************
 
@@ -147,16 +150,17 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
     //*****************************************************************************************************************
 
     companion object {
-        private const val KEY_IS_MATERIAL: String = "is_material"
-        private const val KEY_THEME_ID: String = "theme_id"
-        private const val KEY_TITLE: String = "title"
-        private const val KEY_MESSAGE: String = "message"
-        private const val KEY_POSITIVE_TEXT: String = "positive_text"
-        private const val KEY_NEGATIVE_TEXT: String = "negative_text"
-        private const val KEY_NEUTRAL_TEXT: String = "neutral_text"
-        private const val KEY_DIALOG_CANCELABLE: String = "dialog_cancelable"
-        private const val KEY_FRAGMENT_CALLBACK: String = "fragment_callback"
-        private const val KEY_CALLBACK_BUNDLE: String = "callback_bundle"
+        const val KEY_IS_MATERIAL: String = "is_material"
+        const val KEY_THEME_ID: String = "theme_id"
+        const val KEY_TITLE: String = "title"
+        const val KEY_MESSAGE: String = "message"
+        const val KEY_POSITIVE_TEXT: String = "positive_text"
+        const val KEY_NEGATIVE_TEXT: String = "negative_text"
+        const val KEY_NEUTRAL_TEXT: String = "neutral_text"
+        const val KEY_DIALOG_CANCELABLE: String = "dialog_cancelable"
+        const val KEY_FRAGMENT_CALLBACK = "fragment_callback"
+        const val KEY_CALLBACK_BUNDLE = "callback_bundle"
+
 
         fun createArguments(
             /**
@@ -172,17 +176,19 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
             dialogCancelable: DialogCancelable = DialogCancelable.CANCELABLE,
             fragmentCallback: FragmentCallback = FragmentCallback.PREFER_PARENT_FRAGMENT,
             callbackBundle: Bundle = Bundle.EMPTY
-        ): Bundle = bundleOf(
-            KEY_IS_MATERIAL to isMaterial,
-            KEY_THEME_ID to themeId,
-            KEY_TITLE to title,
-            KEY_MESSAGE to message,
-            KEY_POSITIVE_TEXT to positiveText,
-            KEY_NEGATIVE_TEXT to negativeText,
-            KEY_NEUTRAL_TEXT to neutralText,
-            KEY_DIALOG_CANCELABLE to dialogCancelable,
-            KEY_FRAGMENT_CALLBACK to fragmentCallback,
-            KEY_CALLBACK_BUNDLE to callbackBundle
-        )
+        ): Bundle {
+            return bundleOf(
+                KEY_IS_MATERIAL to isMaterial,
+                KEY_THEME_ID to themeId,
+                KEY_TITLE to title,
+                KEY_MESSAGE to message,
+                KEY_POSITIVE_TEXT to positiveText,
+                KEY_NEGATIVE_TEXT to negativeText,
+                KEY_NEUTRAL_TEXT to neutralText,
+                KEY_DIALOG_CANCELABLE to dialogCancelable,
+                KEY_FRAGMENT_CALLBACK to fragmentCallback,
+                KEY_CALLBACK_BUNDLE to callbackBundle
+            )
+        }
     }
 }

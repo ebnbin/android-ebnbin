@@ -53,43 +53,65 @@ val Context.androidId: String
 
 //*********************************************************************************************************************
 
-inline fun <reified T : Any> Context.requireSystemService(): T = getSystemService() ?: throw NullPointerException()
+inline fun <reified T : Any> Context.requireSystemService(): T {
+    return getSystemService() ?: throw NullPointerException()
+}
 
 //*********************************************************************************************************************
 
-fun Context.dpToPx(dp: Float): Float = dp * resources.displayMetrics.density
+fun Context.dpToPx(dp: Float): Float {
+    return dp * resources.displayMetrics.density
+}
 
 /**
  * 四舍五入取整.
  */
-fun Context.dpToPxRound(dp: Float): Int = dpToPx(dp).roundToInt()
+fun Context.dpToPxRound(dp: Float): Int {
+    return dpToPx(dp).roundToInt()
+}
 
 /**
  * 向下取整, 误差可能较大.
  */
 @Deprecated("Use dpToPxRound instead.", ReplaceWith(""))
-fun Context.dpToPxInt(dp: Float): Int = dpToPx(dp).toInt()
+fun Context.dpToPxInt(dp: Float): Int {
+    return dpToPx(dp).toInt()
+}
 
-fun Context.spToPx(sp: Float): Float = sp * resources.displayMetrics.scaledDensity
+fun Context.spToPx(sp: Float): Float {
+    return sp * resources.displayMetrics.scaledDensity
+}
 
 /**
  * 四舍五入取整.
  */
-fun Context.spToPxRound(sp: Float): Int = spToPx(sp).roundToInt()
+fun Context.spToPxRound(sp: Float): Int {
+    return spToPx(sp).roundToInt()
+}
 
 /**
  * 向下取整, 误差可能较大.
  */
 @Deprecated("Use spToPxRound instead.", ReplaceWith(""))
-fun Context.spToPxInt(sp: Float): Int = spToPx(sp).toInt()
+fun Context.spToPxInt(sp: Float): Int {
+    return spToPx(sp).toInt()
+}
 
-fun Context.pxToDp(px: Float): Float = px / resources.displayMetrics.density
+fun Context.pxToDp(px: Float): Float {
+    return px / resources.displayMetrics.density
+}
 
-fun Context.pxToDp(px: Int): Float = pxToDp(px.toFloat())
+fun Context.pxToDp(px: Int): Float {
+    return pxToDp(px.toFloat())
+}
 
-fun Context.pxToSp(px: Float): Float = px / resources.displayMetrics.scaledDensity
+fun Context.pxToSp(px: Float): Float {
+    return px / resources.displayMetrics.scaledDensity
+}
 
-fun Context.pxToSp(px: Int): Float = pxToSp(px.toFloat())
+fun Context.pxToSp(px: Int): Float {
+    return pxToSp(px.toFloat())
+}
 
 //*********************************************************************************************************************
 
@@ -106,12 +128,14 @@ val Context.locales: List<Locale>
 //*********************************************************************************************************************
 
 @Suppress("DEPRECATION")
-inline fun <reified T : Service> Context.isServiceRunning(): Boolean =
-    requireSystemService<ActivityManager>().getRunningServices(Int.MAX_VALUE).any {
+inline fun <reified T : Service> Context.isServiceRunning(): Boolean {
+    return requireSystemService<ActivityManager>().getRunningServices(Int.MAX_VALUE).any {
         it.service.className == T::class.java.name
     }
+}
 
 //*********************************************************************************************************************
 
-fun Context.copy(text: CharSequence, label: CharSequence = applicationId): Unit =
+fun Context.copy(text: CharSequence, label: CharSequence = applicationId) {
     requireSystemService<ClipboardManager>().setPrimaryClip(ClipData.newPlainText(label, text))
+}

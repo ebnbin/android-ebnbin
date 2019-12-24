@@ -395,10 +395,12 @@ class PermissionFragment : Fragment(), AlertDialogFragment.Callback {
             permissions: Array<out String>,
             fragmentCallback: FragmentCallback = FragmentCallback.PREFER_PARENT_FRAGMENT,
             callbackBundle: Bundle = Bundle.EMPTY
-        ): Bundle = bundleOf(
-            KEY_PERMISSIONS to permissions,
-            KEY_FRAGMENT_CALLBACK to fragmentCallback,
-            KEY_CALLBACK_BUNDLE to callbackBundle
-        )
+        ): Bundle {
+            return bundleOf(
+                KEY_PERMISSIONS to permissions,
+                KEY_FRAGMENT_CALLBACK to fragmentCallback,
+                KEY_CALLBACK_BUNDLE to callbackBundle
+            )
+        }
     }
 }
