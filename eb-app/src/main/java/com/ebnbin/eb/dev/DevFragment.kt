@@ -12,7 +12,7 @@ import com.ebnbin.eb.about.AboutFragment
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.fragment.EBViewFragment
-import com.ebnbin.eb.fragment.openFragment
+import com.ebnbin.eb.openFragment
 import com.ebnbin.eb.loading.Loading
 import com.ebnbin.eb.openAlertDialogFragment
 import com.ebnbin.eb.toast

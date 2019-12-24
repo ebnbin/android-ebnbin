@@ -1,25 +1,17 @@
-package com.ebnbin.eb.activity
+package com.ebnbin.eb
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.ebnbin.eb.FragmentCallback
-import com.ebnbin.eb.PermissionFragment
-import com.ebnbin.eb.getExtra
-import com.ebnbin.eb.getExtraOrDefault
-import com.ebnbin.eb.hasPermissions
-import com.ebnbin.eb.openPermissionFragment
-import com.ebnbin.eb.requireExtra
-import com.ebnbin.eb.requireValue
-import com.ebnbin.eb.util.KEY_CALLING_ID
 
 /**
  * 添加单个 Fragment 的 Activity.
  */
-open class FragmentActivity : EBActivity(), PermissionFragment.Callback {
+open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
     protected open val fragmentClass: Class<out Fragment>
         get() = requireExtra(KEY_FRAGMENT_CLASS)
     protected open val fragmentArguments: Bundle?
@@ -42,7 +34,7 @@ open class FragmentActivity : EBActivity(), PermissionFragment.Callback {
                     permissions = fragmentPermissions,
                     fragmentCallback = FragmentCallback.ACTIVITY,
                     callbackBundle = bundleOf(
-                        KEY_CALLING_ID to FragmentActivity::class.java.name
+                        "calling_id" to FragmentActivity::class.java.name
                     ),
                     fragmentTag = FragmentActivity::class.java.name
                 )
@@ -56,7 +48,7 @@ open class FragmentActivity : EBActivity(), PermissionFragment.Callback {
         deniedPermission: String?,
         callbackBundle: Bundle
     ): CharSequence? {
-        when (callbackBundle.requireValue<String>(KEY_CALLING_ID)) {
+        when (callbackBundle.requireValue<String>("calling_id")) {
             FragmentActivity::class.java.name -> {
                 if (result == PermissionFragment.Result.GRANTED) {
                     onFragmentPermissionsGranted()
@@ -75,17 +67,16 @@ open class FragmentActivity : EBActivity(), PermissionFragment.Callback {
     }
 
     override fun toString(): String {
-        val fragmentClass = fragmentClass
         val fragment = supportFragmentManager.fragments.firstOrNull { fragmentClass.isInstance(it) }
         return "${super.toString()},${fragment ?: fragmentClass}"
     }
 
     companion object {
-        private const val KEY_FRAGMENT_CLASS: String = "fragment_class"
-        private const val KEY_FRAGMENT_ARGUMENTS: String = "fragment_arguments"
-        private const val KEY_FRAGMENT_TAG: String = "fragment_tag"
-        private const val KEY_FRAGMENT_IS_VIEW: String = "fragment_is_view"
-        private const val KEY_FRAGMENT_PERMISSIONS: String = "fragment_permissions"
+        const val KEY_FRAGMENT_CLASS: String = "fragment_class"
+        const val KEY_FRAGMENT_ARGUMENTS: String = "fragment_arguments"
+        const val KEY_FRAGMENT_TAG: String = "fragment_tag"
+        const val KEY_FRAGMENT_IS_VIEW: String = "fragment_is_view"
+        const val KEY_FRAGMENT_PERMISSIONS: String = "fragment_permissions"
 
         fun createIntent(
             context: Context,

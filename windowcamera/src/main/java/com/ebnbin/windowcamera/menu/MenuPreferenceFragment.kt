@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
-import com.ebnbin.eb.fragment.openFragment
+import com.ebnbin.eb.openFragment
 import com.ebnbin.eb.preference.EBPreferenceFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.util.AppHelper

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.view.MotionEvent
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.fragment.openFragment
+import com.ebnbin.eb.openFragment
 import com.ebnbin.eb.dpToPx
 
 /**
