@@ -84,28 +84,36 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
     //*****************************************************************************************************************
 
     protected open fun onCreateAlertDialogBuilder(builder: AlertDialog.Builder) =
-        getCallback<Callback>()?.onCreateAlertDialogBuilder(builder, callbackBundle)
+        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
+            ?.onCreateAlertDialogBuilder(builder, callbackBundle)
 
     protected open fun onCreateAlertDialog(alertDialog: AlertDialog) =
-        getCallback<Callback>()?.onCreateAlertDialog(alertDialog, callbackBundle)
+        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
+            ?.onCreateAlertDialog(alertDialog, callbackBundle)
 
     protected open fun onAlertDialogPositive(alertDialog: AlertDialog): Boolean =
-        getCallback<Callback>()?.onAlertDialogPositive(alertDialog, callbackBundle) != false
+        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
+            ?.onAlertDialogPositive(alertDialog, callbackBundle) != false
 
     protected open fun onAlertDialogNegative(alertDialog: AlertDialog): Boolean =
-        getCallback<Callback>()?.onAlertDialogNegative(alertDialog, callbackBundle) != false
+        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
+            ?.onAlertDialogNegative(alertDialog, callbackBundle) != false
 
     protected open fun onAlertDialogNeutral(alertDialog: AlertDialog): Boolean =
-        getCallback<Callback>()?.onAlertDialogNeutral(alertDialog, callbackBundle) != false
+        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
+            ?.onAlertDialogNeutral(alertDialog, callbackBundle) != false
 
     protected open fun onAlertDialogShow(alertDialog: AlertDialog) =
-        getCallback<Callback>()?.onAlertDialogShow(alertDialog, callbackBundle)
+        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
+            ?.onAlertDialogShow(alertDialog, callbackBundle)
 
     protected open fun onAlertDialogCancel(alertDialog: AlertDialog) =
-        getCallback<Callback>()?.onAlertDialogCancel(alertDialog, callbackBundle)
+        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
+            ?.onAlertDialogCancel(alertDialog, callbackBundle)
 
     protected open fun onAlertDialogDismiss(alertDialog: AlertDialog) =
-        getCallback<Callback>()?.onAlertDialogDismiss(alertDialog, callbackBundle)
+        getCallback<Callback>(getArgumentOrDefault(KEY_FRAGMENT_CALLBACK, FragmentCallback.PREFER_PARENT_FRAGMENT))
+            ?.onAlertDialogDismiss(alertDialog, callbackBundle)
 
     //*****************************************************************************************************************
 
@@ -147,6 +155,7 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
         private const val KEY_NEGATIVE_TEXT: String = "negative_text"
         private const val KEY_NEUTRAL_TEXT: String = "neutral_text"
         private const val KEY_DIALOG_CANCELABLE: String = "dialog_cancelable"
+        private const val KEY_FRAGMENT_CALLBACK: String = "fragment_callback"
         private const val KEY_CALLBACK_BUNDLE: String = "callback_bundle"
 
         fun createArguments(
@@ -161,6 +170,7 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
             negativeText: CharSequence? = null,
             neutralText: CharSequence? = null,
             dialogCancelable: DialogCancelable = DialogCancelable.CANCELABLE,
+            fragmentCallback: FragmentCallback = FragmentCallback.PREFER_PARENT_FRAGMENT,
             callbackBundle: Bundle = Bundle.EMPTY
         ): Bundle = bundleOf(
             KEY_IS_MATERIAL to isMaterial,
@@ -171,6 +181,7 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
             KEY_NEGATIVE_TEXT to negativeText,
             KEY_NEUTRAL_TEXT to neutralText,
             KEY_DIALOG_CANCELABLE to dialogCancelable,
+            KEY_FRAGMENT_CALLBACK to fragmentCallback,
             KEY_CALLBACK_BUNDLE to callbackBundle
         )
     }

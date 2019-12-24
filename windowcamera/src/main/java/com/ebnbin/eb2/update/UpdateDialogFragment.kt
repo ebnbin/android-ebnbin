@@ -3,6 +3,7 @@ package com.ebnbin.eb2.update
 import android.Manifest
 import android.app.Dialog
 import android.app.DownloadManager
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.database.ContentObserver
@@ -19,12 +20,12 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.PermissionFragment
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.copy
 import com.ebnbin.eb.mainHandler
 import com.ebnbin.eb.md5ToString
-import com.ebnbin.eb.permission.PermissionFragment
-import com.ebnbin.eb.permission.openPermissionFragment
+import com.ebnbin.eb.openPermissionFragment
 import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk24N
@@ -185,11 +186,16 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
         childFragmentManager.openPermissionFragment(arrayOf(Manifest.permission.REQUEST_INSTALL_PACKAGES))
     }
 
-    override fun onPermissionResult(permissions: Array<out String>, granted: Boolean, callbackBundle: Bundle) {
-        super.onPermissionResult(permissions, granted, callbackBundle)
-        if (granted) {
+    override fun onPermissionResult(
+        context: Context,
+        result: PermissionFragment.Result,
+        deniedPermission: String?,
+        callbackBundle: Bundle
+    ): CharSequence? {
+        if (result == PermissionFragment.Result.GRANTED) {
             install()
         }
+        return super.onPermissionResult(context, result, deniedPermission, callbackBundle)
     }
 
     private fun install() {

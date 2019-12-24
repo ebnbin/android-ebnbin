@@ -3,7 +3,7 @@ package com.ebnbin.eb
 /**
  * 按照什么顺序强转 Fragment 的 Callback 接口.
  */
-enum class FragmentCallbackCast {
+enum class FragmentCallback {
     /**
      * 优先尝试强转 parentFragment, 其次尝试强转 activity.
      */

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import com.ebnbin.eb.activity.FragmentActivity
 
 fun Context.openFragment(
@@ -148,12 +147,4 @@ inline fun <reified T : Fragment> Fragment.openFragment(
         activityRequestCode = activityRequestCode,
         activityOptions = activityOptions
     )
-}
-
-//*********************************************************************************************************************
-
-fun Fragment.removeSelf() {
-    parentFragmentManager.commit(true) {
-        remove(this@removeSelf)
-    }
 }

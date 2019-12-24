@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="eb_permission_name_system_alert_window">显示在其他应用的上层</string>
+    <string name="eb_permission_name_write_settings">修改系统设置</string>
+    <string name="eb_permission_name_request_install_packages">安装未知应用</string>
+    <string name="eb_permission_name_read_external_storage">存储空间</string>
+    <string name="eb_permission_name_write_external_storage">存储空间</string>
+    <string name="eb_permission_name_record_audio">麦克风</string>
+    <string name="eb_permission_name_camera">相机</string>
+    <string name="eb_permission_open_settings">去设置</string>
+    <string name="eb_permission_request">去请求</string>
+    <string name="eb_permission_deny">暂不允许</string>
+    <string name="eb_permission_request_open_settings">请在系统设置中手动允许“%1$s”权限。</string>
+    <string name="eb_permission_denied_request">“%1$s”权限被拒绝。</string>
+    <string name="eb_permission_denied_open_settings_failure">请打开系统设置并手动允许“%1$s”权限。</string>
+</resources>

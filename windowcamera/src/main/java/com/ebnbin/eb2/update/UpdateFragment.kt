@@ -5,7 +5,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.getArgumentOrDefault
-import com.ebnbin.eb.fragment.removeSelf
+import com.ebnbin.eb.removeSelf
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.async.DialogLoading
 import com.ebnbin.eb2.fragment.EBFragment

@@ -1,5 +1,6 @@
 package com.ebnbin.windowcamera.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,8 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.permission.PermissionFragment
-import com.ebnbin.eb.permission.openPermissionFragment
+import com.ebnbin.eb.PermissionFragment
+import com.ebnbin.eb.openPermissionFragment
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
@@ -134,12 +135,17 @@ class MainFragment : EBFragment(),
     override fun onPageScrollStateChanged(state: Int) {
     }
 
-    override fun onPermissionResult(permissions: Array<out String>, granted: Boolean, callbackBundle: Bundle) {
-        super.onPermissionResult(permissions, granted, callbackBundle)
-        if (granted) {
+    override fun onPermissionResult(
+        context: Context,
+        result: PermissionFragment.Result,
+        deniedPermission: String?,
+        callbackBundle: Bundle
+    ): CharSequence? {
+        if (result == PermissionFragment.Result.GRANTED) {
             floating_action_button.isEnabled = false
             WindowCameraService.start(requireContext())
         }
+        return super.onPermissionResult(context, result, deniedPermission, callbackBundle)
     }
 
     //*****************************************************************************************************************

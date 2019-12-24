@@ -16,6 +16,7 @@ fun FragmentManager.openAlertDialogFragment(
     negativeText: CharSequence? = null,
     neutralText: CharSequence? = null,
     dialogCancelable: DialogCancelable = DialogCancelable.CANCELABLE,
+    fragmentCallback: FragmentCallback = FragmentCallback.PREFER_PARENT_FRAGMENT,
     callbackBundle: Bundle = Bundle.EMPTY,
     fragmentTag: String? = null
 ) {
@@ -31,6 +32,7 @@ fun FragmentManager.openAlertDialogFragment(
                 negativeText = negativeText,
                 neutralText = neutralText,
                 dialogCancelable = dialogCancelable,
+                fragmentCallback = fragmentCallback,
                 callbackBundle = callbackBundle
             ),
             fragmentTag

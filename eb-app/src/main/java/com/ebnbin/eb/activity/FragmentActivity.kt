@@ -6,14 +6,15 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.ebnbin.eb.FragmentCallback
+import com.ebnbin.eb.PermissionFragment
 import com.ebnbin.eb.getExtra
 import com.ebnbin.eb.getExtraOrDefault
-import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.hasPermissions
-import com.ebnbin.eb.permission.openPermissionFragment
+import com.ebnbin.eb.openPermissionFragment
 import com.ebnbin.eb.requireExtra
-import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb.requireValue
+import com.ebnbin.eb.util.KEY_CALLING_ID
 
 /**
  * 添加单个 Fragment 的 Activity.
@@ -39,6 +40,7 @@ open class FragmentActivity : EBActivity(), PermissionFragment.Callback {
             } else {
                 supportFragmentManager.openPermissionFragment(
                     permissions = fragmentPermissions,
+                    fragmentCallback = FragmentCallback.ACTIVITY,
                     callbackBundle = bundleOf(
                         KEY_CALLING_ID to FragmentActivity::class.java.name
                     ),
@@ -48,17 +50,22 @@ open class FragmentActivity : EBActivity(), PermissionFragment.Callback {
         }
     }
 
-    override fun onPermissionResult(permissions: Array<out String>, granted: Boolean, callbackBundle: Bundle) {
+    override fun onPermissionResult(
+        context: Context,
+        result: PermissionFragment.Result,
+        deniedPermission: String?,
+        callbackBundle: Bundle
+    ): CharSequence? {
         when (callbackBundle.requireValue<String>(KEY_CALLING_ID)) {
             FragmentActivity::class.java.name -> {
-                if (granted) {
+                if (result == PermissionFragment.Result.GRANTED) {
                     onFragmentPermissionsGranted()
                 } else {
                     finish()
                 }
             }
-            else -> super.onPermissionResult(permissions, granted, callbackBundle)
         }
+        return super.onPermissionResult(context, result, deniedPermission, callbackBundle)
     }
 
     private fun onFragmentPermissionsGranted() {
