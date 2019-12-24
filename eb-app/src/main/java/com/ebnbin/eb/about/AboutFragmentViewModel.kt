@@ -3,13 +3,13 @@ package com.ebnbin.eb.about
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.toTimeString
 import com.ebnbin.eb.versionName
-import com.ebnbin.eb.viewmodel.EBViewModel
 
-internal class AboutFragmentViewModel : EBViewModel() {
+internal class AboutFragmentViewModel : ViewModel() {
     val version: LiveData<CharSequence> = MutableLiveData(
         "v${EBApp.instance.versionName}　${BuildConfig.BUILD_TIMESTAMP.toTimeString("yyyy-MM-dd")}"
     )

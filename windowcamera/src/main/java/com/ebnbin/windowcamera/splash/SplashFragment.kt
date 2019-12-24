@@ -8,7 +8,6 @@ import com.ebnbin.eb.DialogCancelable
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.getSharedPreferences
 import com.ebnbin.eb.openAlertDialogFragment
-import com.ebnbin.eb.util.KEY_CALLING_ID
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.splash.EBSplashFragment
@@ -37,7 +36,7 @@ class SplashFragment : EBSplashFragment() {
             message = getString(R.string.splash_camera_message),
             positiveText = getString(R.string.splash_camera_positive),
             dialogCancelable = DialogCancelable.NOT_CANCELABLE,
-            callbackBundle = bundleOf(KEY_CALLING_ID to "splash_camera"),
+            callbackBundle = bundleOf("calling_id" to "splash_camera"),
             fragmentTag = "splash_camera"
         )
     }
@@ -47,12 +46,12 @@ class SplashFragment : EBSplashFragment() {
     }
 
     override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
-        when (callbackBundle.getString(KEY_CALLING_ID)) {
+        return when (callbackBundle.getString("calling_id")) {
             "splash_camera" -> {
                 activity?.finish()
-                return true
+                true
             }
-            else -> return super.onAlertDialogPositive(alertDialog, callbackBundle)
+            else -> super.onAlertDialogPositive(alertDialog, callbackBundle)
         }
     }
 

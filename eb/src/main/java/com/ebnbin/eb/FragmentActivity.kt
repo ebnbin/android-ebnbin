@@ -10,6 +10,8 @@ import androidx.fragment.app.commit
 
 /**
  * 添加单个 Fragment 的 Activity.
+ *
+ * 需要在 application module 的 AndroidManifest.xml 中注册.
  */
 open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
     protected open val fragmentClass: Class<out Fragment>
@@ -67,6 +69,7 @@ open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
     }
 
     override fun toString(): String {
+        // TODO 混淆.
         val fragment = supportFragmentManager.fragments.firstOrNull { fragmentClass.isInstance(it) }
         return "${super.toString()},${fragment ?: fragmentClass}"
     }

@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 
 /**
  * 展示 UI 的基础 Fragment.
  */
-abstract class EBViewFragment<VDB : ViewDataBinding> : EBFragment() {
+abstract class EBViewFragment<VDB : ViewDataBinding> : Fragment() {
     protected abstract val bindingClass: Class<VDB>
 
     protected lateinit var binding: VDB

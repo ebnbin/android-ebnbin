@@ -1,15 +1,15 @@
 package com.ebnbin.eb.dev
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ebnbin.eb.base64Decode
 import com.ebnbin.eb.ebnbingithubapi.EbnbinGitHubApi
 import com.ebnbin.eb.livedata.CoroutineLiveData
 import com.ebnbin.eb.loading.Loading
-import com.ebnbin.eb.base64Decode
-import com.ebnbin.eb.viewmodel.EBViewModel
 import kotlinx.coroutines.Job
 
-internal class DevFragmentViewModel : EBViewModel() {
+internal class DevFragmentViewModel : ViewModel() {
     val sampleJson: CoroutineLiveData<String?> = (CoroutineLiveData<String?>(viewModelScope) {
         EbnbinGitHubApi.instance
             .getContentsFile("api-android-ebnbin", "sample/sample.json")

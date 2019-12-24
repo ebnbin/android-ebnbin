@@ -3,9 +3,9 @@ package com.ebnbin.windowcamera.menu
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.ebnbin.eb.openFragment
-import com.ebnbin.eb.preference.EBPreferenceFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.eb2.util.IntentHelper
@@ -14,7 +14,7 @@ import com.ebnbin.windowcamera.album.AlbumActivity
 import com.ebnbin.windowcamera.util.SpManager
 import com.jeremyliao.liveeventbus.LiveEventBus
 
-class MenuPreferenceFragment : EBPreferenceFragment() {
+class MenuPreferenceFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.menu_preference_fragment, rootKey)
 

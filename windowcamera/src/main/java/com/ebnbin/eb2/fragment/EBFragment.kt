@@ -1,5 +1,6 @@
 package com.ebnbin.eb2.fragment
 
+import androidx.fragment.app.Fragment
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.util.TimeHelper
@@ -10,7 +11,7 @@ import com.ebnbin.windowcamera.R
  *
  * 功能大部分同步给 EBDialogFragment 和 EBPreferenceFragment.
  */
-abstract class EBFragment : com.ebnbin.eb.fragment.EBFragment() {
+abstract class EBFragment : Fragment() {
     override fun onDestroyView() {
         disposeAsyncHelper()
         super.onDestroyView()

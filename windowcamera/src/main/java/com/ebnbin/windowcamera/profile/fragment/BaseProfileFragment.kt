@@ -2,16 +2,16 @@ package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import com.ebnbin.eb.EBApp
-import com.ebnbin.eb.preference.EBPreferenceFragment
 import com.ebnbin.eb.getSharedPreferencesName
 import com.ebnbin.eb2.preference.LockablePreference
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSp
 
-abstract class BaseProfileFragment : EBPreferenceFragment() {
+abstract class BaseProfileFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.sharedPreferencesName =
             EBApp.instance.getSharedPreferencesName(ProfileHelper.getSharedPreferencesNamePostfix())
