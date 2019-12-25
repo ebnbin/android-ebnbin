@@ -92,8 +92,10 @@ class MainFragment : EBFragment(),
             spinner.setSelection(Profile.indexOf(), false)
         }
 
-        LiveEventBus.get("WindowCameraServiceEvent").post(Unit)
-        LiveEventBus.get("CameraStateEvent").post(Unit)
+        view.post {
+            LiveEventBus.get("WindowCameraServiceEvent").post(Unit)
+            LiveEventBus.get("CameraStateEvent").post(Unit)
+        }
 
         if (savedInstanceState == null) {
 //            showTip()

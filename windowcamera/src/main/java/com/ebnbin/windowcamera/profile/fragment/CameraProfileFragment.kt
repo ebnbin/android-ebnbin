@@ -3,6 +3,7 @@ package com.ebnbin.windowcamera.profile.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.ebnbin.eb.mainHandler
 import com.ebnbin.eb2.preference.FooterPreference
 import com.ebnbin.eb2.preference.SimpleCheckBoxPreference
 import com.ebnbin.eb2.preference.SimpleListPreference
@@ -140,7 +141,9 @@ class CameraProfileFragment : BaseProfileFragment() {
             preferenceScreen.addPreference(this)
         }
 
-        LiveEventBus.get("CameraStateEvent").post(Unit)
+        mainHandler.post {
+            LiveEventBus.get("CameraStateEvent").post(Unit)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
