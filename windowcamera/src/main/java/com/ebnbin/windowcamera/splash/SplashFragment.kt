@@ -1,5 +1,6 @@
 package com.ebnbin.windowcamera.splash
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
@@ -65,5 +66,8 @@ class SplashFragment : EBSplashFragment() {
         }
     }
 
-    override val isBackFinishEnabled: Boolean = false
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        doubleBackFinishOnBackPressedCallback.isEnabled = true
+    }
 }

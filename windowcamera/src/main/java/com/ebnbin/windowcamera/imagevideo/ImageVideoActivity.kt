@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb2.activity.EBFragmentActivity
+import com.ebnbin.eb.FragmentActivity
 
-class ImageVideoActivity : EBFragmentActivity() {
+class ImageVideoActivity : FragmentActivity() {
     override val fragmentClass: Class<out Fragment>
         get() = ImageVideoFragment::class.java
     override val fragmentArguments: Bundle?

@@ -28,13 +28,4 @@ object FragmentHelper {
         val fragment = fm.findFragmentByTag(tag) ?: return
         fm.beginTransaction().remove(fragment).commitAllowingStateLoss()
     }
-
-    /**
-     * 需要在 EBActivity 和 EBFragment 的 onBackPressed 中调用.
-     *
-     * @return 是否已经处理了 back 事件.
-     */
-    internal fun onBackPressed(fm: FragmentManager): Boolean {
-        return (fm.fragments.lastOrNull() as? EBFragment?)?.onBackPressed() == true
-    }
 }

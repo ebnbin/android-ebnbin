@@ -1,9 +1,11 @@
 package com.ebnbin.windowcamera.album
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,6 +25,18 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.album_fragment.*
 
 class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
+    private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            multiSelectNormal()
+            exitActionMode()
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.album_fragment, container, false)
@@ -96,21 +110,12 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         adapter.setNewData(albumItems)
     }
 
-    override fun onBackPressed(): Boolean {
-        if (isActionMode()) {
-            multiSelectNormal()
-            exitActionMode()
-            return true
-        }
-        return super.onBackPressed()
-    }
-
     private fun isActionMode(): Boolean {
-        return toolbar.tag == true
+        return onBackPressedCallback.isEnabled
     }
 
     private fun enterActionMode() {
-        toolbar.tag = true
+        onBackPressedCallback.isEnabled = true
 
         toolbar.setNavigationIcon(R.drawable.album_close)
         toolbar.setNavigationOnClickListener {
@@ -149,7 +154,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     }
 
     private fun exitActionMode() {
-        toolbar.tag = false
+        onBackPressedCallback.isEnabled = false
 
         toolbar.setNavigationIcon(R.drawable.eb_toolbar_back)
         toolbar.setNavigationOnClickListener {
@@ -203,7 +208,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         val multiSelects = savedInstanceState.getSerializable("multi_selects") as ArrayList<MultiSelect>?
         if (multiSelects != null && multiSelects.size == adapter.data.size) {
             // 数量一致时才恢复状态.
-            toolbar.tag = savedInstanceState.getBoolean("tag", false)
+            onBackPressedCallback.isEnabled = savedInstanceState.getBoolean("handle_on_back_pressed", false)
             multiSelects.forEachIndexed { index, multiSelect ->
                 adapter.data[index].multiSelect = multiSelect
             }
@@ -215,7 +220,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("tag", toolbar.tag as? Boolean? ?: false)
+        outState.putBoolean("handle_on_back_pressed", onBackPressedCallback.isEnabled)
         val multiSelects = ArrayList<MultiSelect>()
         adapter.data.forEach {
             multiSelects.add(it.multiSelect)

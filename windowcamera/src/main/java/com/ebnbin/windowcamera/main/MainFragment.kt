@@ -165,7 +165,12 @@ class MainFragment : EBFragment(),
 
     //*****************************************************************************************************************
 
-    override val isDoubleBackFinishEnabled: Boolean = true
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        moveTaskToBackOnBackPressedCallback.isEnabled = false
+        doubleBackFinishOnBackPressedCallback.isEnabled = true
+        disableBackFinishOnBackPressedCallback.isEnabled = false
+    }
 
     //*****************************************************************************************************************
 

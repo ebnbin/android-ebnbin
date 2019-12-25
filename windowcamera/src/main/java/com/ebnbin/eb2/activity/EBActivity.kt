@@ -1,7 +1,6 @@
 package com.ebnbin.eb2.activity
 
 import android.os.Bundle
-import com.ebnbin.eb2.fragment.FragmentHelper
 
 /**
  * Base Activity.
@@ -14,13 +13,6 @@ open class EBActivity : com.ebnbin.eb.activity.EBActivity() {
             finish()
             return
         }
-    }
-
-    //*****************************************************************************************************************
-
-    override fun onBackPressed() {
-        if (FragmentHelper.onBackPressed(supportFragmentManager)) return
-        super.onBackPressed()
     }
 
     //*****************************************************************************************************************
