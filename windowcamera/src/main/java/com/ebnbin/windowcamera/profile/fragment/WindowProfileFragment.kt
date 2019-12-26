@@ -2,10 +2,10 @@ package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import androidx.core.text.HtmlCompat
-import androidx.preference.PreferenceCategory
 import com.ebnbin.eb2.preference.FooterPreference
 import com.ebnbin.eb2.preference.SimpleCheckBoxPreference
 import com.ebnbin.eb2.preference.SimpleListPreference
+import com.ebnbin.eb2.preference.SimplePreferenceCategory
 import com.ebnbin.eb2.preference.SimplePreferenceGroup
 import com.ebnbin.eb2.preference.SimpleSeekBarPreference
 import com.ebnbin.windowcamera.R
@@ -17,7 +17,7 @@ import com.ebnbin.windowcamera.profile.enumeration.ProfileToast
 class WindowProfileFragment : BaseProfileFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-        PreferenceCategory(preferenceScreen.context).apply {
+        SimplePreferenceCategory(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.layout)
             setTitle(R.string.profile_layout_title)
         }
@@ -95,7 +95,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             max = 199
         }
 
-        PreferenceCategory(preferenceScreen.context).apply {
+        SimplePreferenceCategory(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.display)
             setTitle(R.string.profile_display_title)
         }
@@ -158,7 +158,7 @@ class WindowProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_toast)
         }
 
-        PreferenceCategory(preferenceScreen.context).apply {
+        SimplePreferenceCategory(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.control)
             setTitle(R.string.profile_control_title)
         }

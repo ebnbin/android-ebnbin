@@ -18,6 +18,10 @@ open class SimpleSwitchPreference(context: Context) :
     PreferenceLockDelegate.Callback,
     LockablePreference
 {
+    init {
+        isSingleLineTitle = false
+    }
+
     var iconOff: Int = 0
         set(value) {
             if (field == value) return

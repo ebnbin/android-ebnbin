@@ -12,6 +12,10 @@ open class SimpleCheckBoxPreference(context: Context) : CheckBoxPreference(conte
     PreferenceLockDelegate.Callback,
     LockablePreference
 {
+    init {
+        isSingleLineTitle = false
+    }
+
     override fun onAttached() {
         super.onAttached()
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)

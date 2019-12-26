@@ -3,6 +3,7 @@ package com.ebnbin.eb2.preference
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceGroup
+import androidx.preference.PreferenceViewHolder
 import com.ebnbin.eb.get
 import com.ebnbin.windowcamera.R
 
@@ -12,9 +13,21 @@ import com.ebnbin.windowcamera.R
  * 才可见.
  */
 open class SimplePreferenceGroup(context: Context) :
-    PreferenceGroup(context, null, R.attr.ebSimplePreferenceGroupStyle),
+    PreferenceGroup(context, null, 0),
     SharedPreferences.OnSharedPreferenceChangeListener
 {
+    init {
+        layoutResource = R.layout.eb_simple_preference_group
+        isSingleLineTitle = false
+    }
+
+    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+        super.onBindViewHolder(holder)
+        holder ?: return
+        holder.isDividerAllowedAbove = false
+        holder.isDividerAllowedBelow = false
+    }
+
     var visibleKeysOff: Array<out CharSequence>? = null
         set(value) {
             if (field === value) return

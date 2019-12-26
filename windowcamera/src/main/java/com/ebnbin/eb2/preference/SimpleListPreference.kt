@@ -11,6 +11,7 @@ open class SimpleListPreference(context: Context) : ListPreference(context),
 {
     init {
         setSummaryProvider { entry }
+        isSingleLineTitle = false
     }
 
     //*****************************************************************************************************************

@@ -7,13 +7,13 @@ import android.os.Bundle
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk25N1
 import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb2.preference.FooterPreference
+import com.ebnbin.eb2.preference.SimplePreferenceCategory
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.main.MainActivity
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -53,7 +53,7 @@ class OtherProfileFragment : BaseProfileFragment() {
             setIcon(R.drawable.profile_help)
         }
 
-        PreferenceCategory(preferenceScreen.context).apply {
+        SimplePreferenceCategory(preferenceScreen.context).apply {
             buildPreference(this, ProfileHelper.quick)
             setTitle(R.string.profile_quick_title)
         }

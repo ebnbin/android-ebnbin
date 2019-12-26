@@ -16,6 +16,12 @@ open class SimpleSeekBarPreference(context: Context) : SeekBarPreference(context
     PreferenceLockDelegate.Callback,
     LockablePreference
 {
+    init {
+        showSeekBarValue = true
+        updatesContinuously = true
+        isSingleLineTitle = false
+    }
+
     override fun onAttached() {
         super.onAttached()
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)

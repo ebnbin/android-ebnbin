@@ -8,6 +8,10 @@ import androidx.preference.PreferenceViewHolder
 class SimpleEditTextPreference(context: Context) : EditTextPreference(context),
     PreferenceLockDelegate.Callback,
     LockablePreference {
+    init {
+        isSingleLineTitle = false
+    }
+
     private var preferenceLockDelegate: PreferenceLockDelegate? = null
 
     override fun getLockDelegate(): PreferenceLockDelegate {

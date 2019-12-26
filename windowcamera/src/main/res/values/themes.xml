@@ -25,7 +25,6 @@
         <item name="ebColorBackgroundFloatingInverse">@color/eb_background_floating_inverse</item>
         <item name="ebThemeOverlay">@style/ThemeOverlay.MaterialComponents.Light</item>
         <item name="ebThemeOverlayInverse">@style/ThemeOverlay.MaterialComponents.Dark</item>
-        <item name="preferenceTheme">@style/EBPreferenceTheme</item>
     </style>
 
     <!-- Base theme. -->
