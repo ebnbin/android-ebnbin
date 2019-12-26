@@ -10,6 +10,7 @@ buildscript {
     ext.deps.activity_ktx = 'androidx.activity:activity-ktx:1.1.0-rc03'
     ext.deps.fragment_ktx = 'androidx.fragment:fragment-ktx:1.2.0-rc04'
     ext.deps.material = 'com.google.android.material:material:1.2.0-alpha03' // https://material.io/develop/android/docs/getting-started/
+    ext.deps.preference_ktx = 'androidx.preference:preference-ktx:1.1.0'
     repositories {
         google()
         jcenter()

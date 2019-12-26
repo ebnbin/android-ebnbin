@@ -19,4 +19,5 @@ android {
 
 dependencies {
     implementation project(':eb')
+    api deps.preference_ktx
 }
