@@ -44,6 +44,7 @@ android {
 
 dependencies {
     api project(':eb')
+    api project(':eb-preference')
     api project(':eb-dev')
 
     api deps.kotlin_stdlib_jdk8
