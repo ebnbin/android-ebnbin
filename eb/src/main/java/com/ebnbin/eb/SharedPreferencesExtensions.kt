@@ -53,3 +53,9 @@ fun <T> SharedPreferences.put(key: String, value: T) {
         }
     }
 }
+
+fun SharedPreferences.remove(key: String) {
+    edit {
+        remove(key)
+    }
+}
