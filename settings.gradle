@@ -1,6 +1,6 @@
 include ':eb'
 include ':eb-preference'
 include ':eb-dev'
-include ':eb-app'
+include ':eb-app2'
 include ':sample'
 include ':windowcamera'

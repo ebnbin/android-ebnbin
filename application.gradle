@@ -63,5 +63,5 @@ android {
 }
 
 dependencies {
-    implementation project(':eb-app')
+    implementation project(':eb-app2')
 }
