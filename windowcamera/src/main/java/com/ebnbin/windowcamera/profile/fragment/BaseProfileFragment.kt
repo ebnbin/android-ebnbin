@@ -7,7 +7,6 @@ import androidx.preference.PreferenceGroup
 import com.ebnbin.eb.EBApp
 import com.ebnbin.eb.getSharedPreferencesName
 import com.ebnbin.eb2.preference.LockablePreference
-import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSp
 
@@ -16,7 +15,7 @@ abstract class BaseProfileFragment : PreferenceFragmentCompat() {
         preferenceManager.sharedPreferencesName =
             EBApp.instance.getSharedPreferencesName(ProfileHelper.getSharedPreferencesNamePostfix())
 
-        setPreferencesFromResource(R.xml.profile_fragment, rootKey)
+        preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
     }
 
     protected fun <T> buildPreference(preference: Preference, sp: ProfileSp<T>, groupSp: ProfileSp<Unit>? = null) {

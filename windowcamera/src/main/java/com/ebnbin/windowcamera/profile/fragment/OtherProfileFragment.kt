@@ -23,24 +23,24 @@ import com.ebnbin.windowcamera.util.IOHelper
 class OtherProfileFragment : BaseProfileFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-//        PreferenceCategory(preferenceScreen.context).apply {
+//        PreferenceCategory(requireContext()).apply {
 //            buildPreference(this, ProfileHelper.personalization)
 //            setTitle(R.string.profile_personalization_title)
 //        }
 //
-//        PreferenceCategory(preferenceScreen.context).apply {
+//        PreferenceCategory(requireContext()).apply {
 //            buildPreference(this, ProfileHelper.file)
 //            setTitle(R.string.profile_file_title)
 //        }
 //
-        Preference(preferenceScreen.context).apply {
+        Preference(requireContext()).apply {
             buildPreference(this, ProfileHelper.path)
             setTitle(R.string.profile_path_title)
             summary = IOHelper.getPath().toString()
             setIcon(R.drawable.profile_path)
         }
 
-        Preference(preferenceScreen.context).apply {
+        Preference(requireContext()).apply {
             preferenceScreen.addPreference(this)
             val helpId = when (Profile.get(ProfileHelper.profile.value)) {
                 Profile.DEFAULT -> R.string.profile_default_help
@@ -53,12 +53,12 @@ class OtherProfileFragment : BaseProfileFragment() {
             setIcon(R.drawable.profile_help)
         }
 
-        SimplePreferenceCategory(preferenceScreen.context).apply {
+        SimplePreferenceCategory(requireContext()).apply {
             buildPreference(this, ProfileHelper.quick)
             setTitle(R.string.profile_quick_title)
         }
 
-        Preference(preferenceScreen.context).apply {
+        Preference(requireContext()).apply {
             buildPreference(this, ProfileHelper.shortcut, ProfileHelper.quick)
             setTitle(R.string.profile_shortcut_title)
             setOnPreferenceClickListener {
@@ -76,7 +76,7 @@ class OtherProfileFragment : BaseProfileFragment() {
             }
         }
 
-        Preference(preferenceScreen.context).apply {
+        Preference(requireContext()).apply {
             buildPreference(this, ProfileHelper.pinned_shortcut, ProfileHelper.quick)
             setTitle(R.string.profile_pinned_shortcut_title)
             setOnPreferenceClickListener {
@@ -98,7 +98,7 @@ class OtherProfileFragment : BaseProfileFragment() {
             }
         }
 
-        FooterPreference(preferenceScreen.context).apply {
+        FooterPreference(requireContext()).apply {
             preferenceScreen.addPreference(this)
         }
     }

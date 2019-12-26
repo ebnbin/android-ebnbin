@@ -18,7 +18,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 class CameraProfileFragment : BaseProfileFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-        SimpleSwitchPreference(preferenceScreen.context).apply {
+        SimpleSwitchPreference(requireContext()).apply {
             buildPreference(this, ProfileHelper.is_front)
             setTitle(R.string.profile_is_front_title)
             setSummaryOff(R.string.profile_is_front_summary_off)
@@ -27,18 +27,18 @@ class CameraProfileFragment : BaseProfileFragment() {
             iconOn = R.drawable.profile_is_front_on
         }
 
-        SimpleCheckBoxPreference(preferenceScreen.context).apply {
+        SimpleCheckBoxPreference(requireContext()).apply {
             buildPreference(this, ProfileHelper.is_preview)
             setTitle(R.string.profile_is_preview_title)
             setIcon(R.drawable.profile_is_preview)
         }
 
-        SimplePreferenceGroup(preferenceScreen.context).apply {
+        SimplePreferenceGroup(requireContext()).apply {
             buildPreference(this, ProfileHelper.is_preview_off)
             visibleKeysOff = arrayOf(ProfileHelper.is_preview.key)
         }
 
-        SimpleSwitchPreference(preferenceScreen.context).apply {
+        SimpleSwitchPreference(requireContext()).apply {
             buildPreference(this, ProfileHelper.is_video, ProfileHelper.is_preview_off)
             setTitle(R.string.profile_is_video_title)
             setSummaryOff(R.string.profile_is_video_summary_off)
@@ -47,12 +47,12 @@ class CameraProfileFragment : BaseProfileFragment() {
             iconOn = R.drawable.profile_is_video_on
         }
 
-        SimplePreferenceGroup(preferenceScreen.context).apply {
+        SimplePreferenceGroup(requireContext()).apply {
             buildPreference(this, ProfileHelper.back_photo, ProfileHelper.is_preview_off)
             visibleKeysOff = arrayOf(ProfileHelper.is_front.key, ProfileHelper.is_video.key)
         }
 
-        SimpleListPreference(preferenceScreen.context).apply {
+        SimpleListPreference(requireContext()).apply {
             buildPreference(this, ProfileHelper.back_photo_resolution, ProfileHelper.back_photo)
             setTitle(R.string.profile_back_photo_resolution_title)
             entryValues = CameraHelper.requireBackDevice().photoResolutions
@@ -69,13 +69,13 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_resolution)
         }
 
-        SimplePreferenceGroup(preferenceScreen.context).apply {
+        SimplePreferenceGroup(requireContext()).apply {
             buildPreference(this, ProfileHelper.back_video, ProfileHelper.is_preview_off)
             visibleKeysOff = arrayOf(ProfileHelper.is_front.key)
             visibleKeysOn = arrayOf(ProfileHelper.is_video.key)
         }
 
-        SimpleListPreference(preferenceScreen.context).apply {
+        SimpleListPreference(requireContext()).apply {
             buildPreference(this, ProfileHelper.back_video_profile, ProfileHelper.back_video)
             setTitle(R.string.profile_back_video_profile_title)
             entryValues = CameraHelper.requireBackDevice().videoProfiles
@@ -92,13 +92,13 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_video_profile)
         }
 
-        SimplePreferenceGroup(preferenceScreen.context).apply {
+        SimplePreferenceGroup(requireContext()).apply {
             buildPreference(this, ProfileHelper.front_photo, ProfileHelper.is_preview_off)
             visibleKeysOff = arrayOf(ProfileHelper.is_video.key)
             visibleKeysOn = arrayOf(ProfileHelper.is_front.key)
         }
 
-        SimpleListPreference(preferenceScreen.context).apply {
+        SimpleListPreference(requireContext()).apply {
             buildPreference(this, ProfileHelper.front_photo_resolution, ProfileHelper.front_photo)
             setTitle(R.string.profile_front_photo_resolution_title)
             entryValues = CameraHelper.requireFrontDevice().photoResolutions
@@ -115,12 +115,12 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_resolution)
         }
 
-        SimplePreferenceGroup(preferenceScreen.context).apply {
+        SimplePreferenceGroup(requireContext()).apply {
             buildPreference(this, ProfileHelper.front_video, ProfileHelper.is_preview_off)
             visibleKeysOn = arrayOf(ProfileHelper.is_front.key, ProfileHelper.is_video.key)
         }
 
-        SimpleListPreference(preferenceScreen.context).apply {
+        SimpleListPreference(requireContext()).apply {
             buildPreference(this, ProfileHelper.front_video_profile, ProfileHelper.front_video)
             setTitle(R.string.profile_front_video_profile_title)
             entryValues = CameraHelper.requireFrontDevice().videoProfiles
@@ -137,7 +137,7 @@ class CameraProfileFragment : BaseProfileFragment() {
             setDialogIcon(R.drawable.profile_video_profile)
         }
 
-        FooterPreference(preferenceScreen.context).apply {
+        FooterPreference(requireContext()).apply {
             preferenceScreen.addPreference(this)
         }
 
