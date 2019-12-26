@@ -59,3 +59,7 @@ fun SharedPreferences.remove(key: String) {
         remove(key)
     }
 }
+
+inline fun <reified T> SharedPreferences.getOrNull(key: String): T? {
+    return all[key] as T
+}
