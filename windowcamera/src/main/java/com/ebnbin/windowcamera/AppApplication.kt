@@ -1,6 +1,6 @@
 package com.ebnbin.windowcamera
 
-import com.ebnbin.eb.dev.DevFragment
+import com.ebnbin.eb.app2.dev.DevFragment
 import com.ebnbin.eb2.EBApplication
 import com.ebnbin.eb2.debug.EBDebugPageFragment
 import com.ebnbin.windowcamera.dev.Report

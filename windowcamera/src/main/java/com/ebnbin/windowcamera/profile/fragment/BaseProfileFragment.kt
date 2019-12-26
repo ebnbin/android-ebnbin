@@ -6,7 +6,7 @@ import androidx.core.view.updatePadding
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.dpToPxRound
 import com.ebnbin.eb.getSharedPreferencesName
 import com.ebnbin.windowcamera.profile.ProfileHelper

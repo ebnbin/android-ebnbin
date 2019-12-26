@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.PermissionFragment
 import com.ebnbin.eb.openPermissionFragment
 import com.ebnbin.eb2.dev.DevHelper

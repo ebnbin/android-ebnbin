@@ -1,11 +1,12 @@
 package com.ebnbin.eb2.activity
 
 import android.os.Bundle
+import com.ebnbin.eb.app2.activity.EBActivity
 
 /**
  * Base Activity.
  */
-open class EBActivity : com.ebnbin.eb.activity.EBActivity() {
+open class EBActivity : EBActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 直接关闭.

@@ -12,7 +12,7 @@ import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.util.RotationSize

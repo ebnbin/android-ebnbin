@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.ebnbin.eb.crash.CrashActivityViewModel"/>
+            type="com.ebnbin.eb.app2.crash.CrashActivityViewModel"/>
 
         <variable
             name="iconOnClick"

@@ -12,7 +12,7 @@ import android.media.MediaRecorder
 import android.media.MediaScannerConnection
 import android.view.Surface
 import androidx.core.os.bundleOf
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.dev.DevHelper

@@ -3,7 +3,7 @@ package com.ebnbin.eb2.fragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 
 object FragmentHelper {
     fun <T : Fragment> instantiate(fm: FragmentManager, fragmentClass: Class<T>, arguments: Bundle? = null): T {

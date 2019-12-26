@@ -1,7 +1,7 @@
 package com.ebnbin.windowcamera.profile.enumeration
 
 import androidx.annotation.DrawableRes
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 

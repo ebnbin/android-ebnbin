@@ -1,6 +1,6 @@
 package com.ebnbin.eb2.dev
 
-import com.ebnbin.eb.library.Libraries
+import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb2.util.EBModel
 
 open class EBReport : EBModel {

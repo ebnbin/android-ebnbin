@@ -1,6 +1,6 @@
 package com.ebnbin.eb2.githubapi.model.content
 
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.versionCode
 import com.ebnbin.eb2.util.EBModel
 

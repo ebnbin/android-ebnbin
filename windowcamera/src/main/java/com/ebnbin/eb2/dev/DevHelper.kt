@@ -2,8 +2,8 @@ package com.ebnbin.eb2.dev
 
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
-import com.ebnbin.eb.library.Libraries
-import com.ebnbin.eb.util.DeviceUtil
+import com.ebnbin.eb.app2.library.Libraries
+import com.ebnbin.eb.app2.util.DeviceUtil
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 import com.ebnbin.eb2.util.TimeHelper

@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.activity.EBActivity
@@ -74,13 +74,15 @@ object IntentHelper {
     //*****************************************************************************************************************
 
     fun restartApp(): Boolean {
-        val intent = EBApp.instance.packageManager.getLaunchIntentForPackage(EBApp.instance.applicationId) ?: return false
+        val intent = EBApp.instance.packageManager.getLaunchIntentForPackage(
+            EBApp.instance.applicationId) ?: return false
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         return startActivity(EBApp.instance, intent)
     }
 
     fun finishApp(): Boolean {
-        val intent = EBApp.instance.packageManager.getLaunchIntentForPackage(EBApp.instance.applicationId) ?: return false
+        val intent = EBApp.instance.packageManager.getLaunchIntentForPackage(
+            EBApp.instance.applicationId) ?: return false
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             .putExtra(EBActivity.KEY_FINISH, true)
         return startActivity(EBApp.instance, intent)

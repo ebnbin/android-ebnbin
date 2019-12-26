@@ -1,7 +1,7 @@
 package com.ebnbin.windowcamera.util
 
 import android.os.Environment
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb2.util.TimeHelper
 import java.io.File

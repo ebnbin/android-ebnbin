@@ -1,6 +1,6 @@
 package com.ebnbin.windowcamera.util
 
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb2.sharedpreferences.Sp
 import com.ebnbin.windowcamera.R
 

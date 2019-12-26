@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.PermissionFragment
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.copy

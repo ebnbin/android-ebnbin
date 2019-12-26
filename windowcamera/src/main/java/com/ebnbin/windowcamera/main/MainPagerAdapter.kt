@@ -3,7 +3,7 @@ package com.ebnbin.windowcamera.main
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.fragment.CameraProfileFragment

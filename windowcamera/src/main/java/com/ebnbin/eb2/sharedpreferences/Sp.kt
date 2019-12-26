@@ -2,7 +2,7 @@ package com.ebnbin.eb2.sharedpreferences
 
 import android.content.SharedPreferences
 import androidx.annotation.StringRes
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.get
 import com.ebnbin.eb.getSharedPreferences
 import com.ebnbin.eb.getSharedPreferencesName

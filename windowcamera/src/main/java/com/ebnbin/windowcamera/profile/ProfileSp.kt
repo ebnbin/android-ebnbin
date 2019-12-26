@@ -1,6 +1,6 @@
 package com.ebnbin.windowcamera.profile
 
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.getSharedPreferencesName
 import com.ebnbin.eb2.sharedpreferences.Sp
 

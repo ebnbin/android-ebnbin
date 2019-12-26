@@ -1,6 +1,6 @@
 package com.ebnbin.windowcamera.profile.enumeration
 
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.windowcamera.R
 
 enum class ProfileGesture(val entryValue: String, val entry: CharSequence) {

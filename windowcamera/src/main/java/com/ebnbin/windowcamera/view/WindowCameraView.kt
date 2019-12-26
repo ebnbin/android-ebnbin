@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.dpToPxRound
 import com.ebnbin.eb.hasPermissions
 import com.ebnbin.eb.requireSystemService

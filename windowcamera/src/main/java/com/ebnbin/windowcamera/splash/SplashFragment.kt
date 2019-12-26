@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.DialogCancelable
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.getSharedPreferences
 import com.ebnbin.eb.openAlertDialogFragment
 import com.ebnbin.eb2.dev.DevHelper

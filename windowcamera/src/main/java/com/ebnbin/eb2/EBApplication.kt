@@ -1,7 +1,7 @@
 package com.ebnbin.eb2
 
 import androidx.appcompat.app.AppCompatDelegate
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 
 /**

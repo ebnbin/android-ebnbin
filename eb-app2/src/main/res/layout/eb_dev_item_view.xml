@@ -5,7 +5,7 @@
 
         <variable
             name="view"
-            type="com.ebnbin.eb.dev.DevItemView"/>
+            type="com.ebnbin.eb.app2.dev.DevItemView"/>
 
     </data>
 

@@ -1,7 +1,7 @@
 package com.ebnbin.eb2.githubapi
 
 import com.ebnbin.eb.BuildConfig
-import com.ebnbin.eb.library.Libraries
+import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb.base64EncodeToString
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

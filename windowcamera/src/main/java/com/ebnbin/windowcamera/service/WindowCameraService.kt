@@ -14,7 +14,7 @@ import android.os.IBinder
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.isServiceRunning
 import com.ebnbin.eb.hasPermissions
 import com.ebnbin.eb.requireSystemService

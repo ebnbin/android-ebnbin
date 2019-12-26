@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Point
 import android.view.Display
 import android.view.WindowManager
-import com.ebnbin.eb.EBApp
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.requireSystemService
 
 object WindowHelper {

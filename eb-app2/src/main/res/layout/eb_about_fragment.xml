@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.ebnbin.eb.about.AboutFragmentViewModel"/>
+            type="com.ebnbin.eb.app2.about.AboutFragmentViewModel"/>
 
         <variable
             name="closeOnClick"
