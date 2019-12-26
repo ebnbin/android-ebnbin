@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion versions.compile_sdk_version
+    defaultConfig {
+        minSdkVersion versions.min_sdk_version
+        targetSdkVersion versions.target_sdk_version
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    resourcePrefix 'eb_dev'
+}
+
+dependencies {
+    implementation project(':eb')
+}
