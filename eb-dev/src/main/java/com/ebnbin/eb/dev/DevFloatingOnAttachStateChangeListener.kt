@@ -5,6 +5,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import com.ebnbin.eb.FragmentActivity
+import com.ebnbin.eb.openFragment
 
 internal class DevFloatingOnAttachStateChangeListener(private val activity: Activity) :
     View.OnAttachStateChangeListener, DevFloatingView.Listener {
@@ -48,5 +50,13 @@ internal class DevFloatingOnAttachStateChangeListener(private val activity: Acti
         popupWindow.update(x, y, popupWindow.width, popupWindow.height)
         DevSpManager.floating_x.value = x
         DevSpManager.floating_y.value = y
+    }
+
+    override fun onSingleTap() {
+        super.onSingleTap()
+        if (activity is FragmentActivity && activity.fragmentClass == DevFragment::class.java) return
+        activity.openFragment<DevFragment>(
+            fragmentArguments = DevFragment.createArguments(activity.toString())
+        )
     }
 }

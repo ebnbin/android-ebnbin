@@ -14,7 +14,7 @@ import androidx.fragment.app.commit
  * 需要在 application module 的 AndroidManifest.xml 中注册.
  */
 open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
-    protected open val fragmentClass: Class<out Fragment>
+    open val fragmentClass: Class<out Fragment>
         get() = requireExtra(KEY_FRAGMENT_CLASS)
     protected open val fragmentArguments: Bundle?
         get() = getExtra(KEY_FRAGMENT_ARGUMENTS)
