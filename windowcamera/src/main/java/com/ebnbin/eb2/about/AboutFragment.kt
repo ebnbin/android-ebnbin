@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ebnbin.eb.BuildConfig
+import com.ebnbin.eb.app2.BuildConfig
 import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.copy
 import com.ebnbin.eb.getArgument

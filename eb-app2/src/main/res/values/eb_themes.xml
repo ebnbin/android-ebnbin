@@ -9,6 +9,5 @@
         <item name="colorAccent">?attr/colorPrimary</item>
         <item name="colorSecondary">@color/eb_material_blue_gray_900</item>
         <item name="colorOnSecondary">?android:attr/colorBackground</item>
-        <item name="materialAlertDialogTheme">?attr/materialAlertDialogTheme</item>
     </style>
 </resources>

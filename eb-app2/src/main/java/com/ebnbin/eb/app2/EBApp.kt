@@ -8,6 +8,7 @@ import com.ebnbin.eb.app2.crash.CrashActivity
 import com.ebnbin.eb.app2.dev.DevFragment
 import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb.app2.util.DeviceUtil
+import com.ebnbin.eb.dev.EBDev
 
 /**
  * 基础 Application.
@@ -19,6 +20,8 @@ open class EBApp : Application() {
         initFirebaseAnalytics()
         initCrashlytics()
         initCustomActivityOnCrash()
+
+        EBDev.init(this)
     }
 
     private fun initFirebaseAnalytics() {

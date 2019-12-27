@@ -9,7 +9,7 @@
     <color name="eb_status_bar">@color/eb_white</color>
     <color name="eb_window_background">@color/eb_material_gray_50</color>
     <color name="eb_primary">@color/eb_material_light_blue_500</color>
-    <color name="eb_secondary">@color/eb_material_pink_a200</color>
+    <color name="eb_secondary">@color/eb_material_blue_gray_900</color>
     <color name="eb_background_floating">@color/eb_white</color>
     <color name="eb_background_floating_inverse">@color/eb_material_gray_800</color>
 
