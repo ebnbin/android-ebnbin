@@ -4,8 +4,8 @@ import android.app.Activity
 import android.view.MotionEvent
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.app2.EBApp
-import com.ebnbin.eb.openFragment
 import com.ebnbin.eb.dpToPx
+import com.ebnbin.eb.openFragment
 
 /**
  * 开发者选项滑动检测器. 在 Activity 三指上滑打开 Dev 页面.
@@ -64,7 +64,7 @@ internal class DevActivitySwipeDetector(private val activity: Activity) {
                 toRight -> Unit
                 toTop -> activity.openFragment(
                     EBApp.instance.devFragmentClass, bundleOf(
-                    DevFragment.KEY_CALLING_ACTIVITY to activity.toString()
+                    DevFragment2.KEY_CALLING_ACTIVITY to activity.toString()
                 ))
                 toBottom -> Unit
                 else -> return false

@@ -5,7 +5,7 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.crashlytics.android.Crashlytics
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.app2.crash.CrashActivity
-import com.ebnbin.eb.app2.dev.DevFragment
+import com.ebnbin.eb.app2.dev.DevFragment2
 import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb.app2.util.DeviceUtil
 import com.ebnbin.eb.dev.EBDev
@@ -48,8 +48,8 @@ open class EBApp : Application() {
     /**
      * Dev 页面.
      */
-    open val devFragmentClass: Class<out DevFragment>
-        get() = DevFragment::class.java
+    open val devFragmentClass: Class<out DevFragment2>
+        get() = DevFragment2::class.java
 
     companion object {
         lateinit var instance: EBApp

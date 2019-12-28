@@ -1,21 +1,30 @@
 package com.ebnbin.eb.dev
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.preference.PreferenceFragmentCompat
-import com.ebnbin.eb.preference.Preference
+import androidx.fragment.app.Fragment
+import com.ebnbin.eb.dev.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.requireArgument
 
-internal class DevFragment : PreferenceFragmentCompat() {
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        preferenceManager.sharedPreferencesName = DevSpManager.name
-        preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
+internal class DevFragment : Fragment() {
+    internal val callingActivity: CharSequence
+        get() = requireArgument(KEY_CALLING_ACTIVITY)
 
-        Preference(requireContext()).also {
-            preferenceScreen.addPreference(it)
-            it.title = "Calling Activity"
-            it.summary = requireArgument(KEY_CALLING_ACTIVITY)
-            it.isIconSpaceReserved = false
+    private lateinit var binding: EbDevFragmentBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = EbDevFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.setCloseOnClick {
+            activity?.finish()
         }
     }
 

@@ -1,6 +1,6 @@
 package com.ebnbin.windowcamera
 
-import com.ebnbin.eb.app2.dev.DevFragment
+import com.ebnbin.eb.app2.dev.DevFragment2
 import com.ebnbin.eb2.EBApplication
 import com.ebnbin.eb2.debug.EBDebugPageFragment
 import com.ebnbin.windowcamera.dev.Report
@@ -17,6 +17,6 @@ class AppApplication : EBApplication() {
         return Report().create()
     }
 
-    override val devFragmentClass: Class<out DevFragment>
+    override val devFragmentClass: Class<out DevFragment2>
         get() = EBDebugPageFragment::class.java
 }

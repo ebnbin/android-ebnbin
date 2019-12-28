@@ -54,10 +54,10 @@ dependencies {
     api deps.activity_ktx
     api deps.fragment_ktx
     api deps.material // https://material.io/develop/android/docs/getting-started/
-    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc03'
+//    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc03'
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03'
     api 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03'
-    api 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc03'
+//    api 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc03'
     api 'androidx.recyclerview:recyclerview:1.1.0'
     api 'androidx.cardview:cardview:1.0.0'
     api deps.preference_ktx

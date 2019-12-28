@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.app2.about.AboutFragment
 import com.ebnbin.eb.app2.crash.CrashException
+import com.ebnbin.eb.app2.databinding.EbDevFragment2Binding
 import com.ebnbin.eb.app2.fragment.EBViewFragment
 import com.ebnbin.eb.app2.loading.Loading
-import com.ebnbin.eb.app2.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.openAlertDialogFragment
 import com.ebnbin.eb.openFragment
 import com.ebnbin.eb.toast
@@ -21,11 +21,11 @@ import kotlinx.coroutines.Job
 /**
  * Dev 页面.
  */
-open class DevFragment : EBViewFragment<EbDevFragmentBinding>() {
+open class DevFragment2 : EBViewFragment<EbDevFragment2Binding>() {
     private val viewModel: DevFragmentViewModel by viewModels()
 
-    override val bindingClass: Class<EbDevFragmentBinding>
-        get() = EbDevFragmentBinding::class.java
+    override val bindingClass: Class<EbDevFragment2Binding>
+        get() = EbDevFragment2Binding::class.java
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
