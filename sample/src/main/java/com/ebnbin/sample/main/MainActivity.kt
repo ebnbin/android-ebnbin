@@ -1,5 +1,5 @@
 package com.ebnbin.sample.main
 
-import com.ebnbin.eb.app2.activity.EBActivity
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : EBActivity()
+class MainActivity : AppCompatActivity()

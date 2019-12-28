@@ -15,14 +15,12 @@ internal class DevPreferenceFragment : PreferenceFragmentCompat() {
         PreferenceCategory(requireContext()).also {
             preferenceScreen.addPreference(it)
             it.title = "EB"
-            it.isIconSpaceReserved = false
         }
 
         Preference(requireContext()).also {
             preferenceScreen.addPreference(it)
             it.title = "Calling Activity"
             it.summary = (parentFragment as DevFragment).callingActivity
-            it.isIconSpaceReserved = false
         }
     }
 }
