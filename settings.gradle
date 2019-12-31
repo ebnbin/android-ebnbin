@@ -1,5 +1,6 @@
 include ':eb'
 include ':eb-preference'
+include ':eb-api'
 include ':eb-dev'
 include ':eb-app2'
 include ':sample'

@@ -11,6 +11,10 @@ buildscript {
     ext.deps.fragment_ktx = 'androidx.fragment:fragment-ktx:1.2.0-rc04'
     ext.deps.material = 'com.google.android.material:material:1.2.0-alpha03' // https://material.io/develop/android/docs/getting-started/
     ext.deps.preference_ktx = 'androidx.preference:preference-ktx:1.1.0'
+    ext.deps.gson = 'com.google.code.gson:gson:2.8.6' // https://github.com/google/gson
+    ext.deps.okhttp = 'com.squareup.okhttp3:okhttp:4.2.2' // https://github.com/square/okhttp
+    ext.deps.retrofit = 'com.squareup.retrofit2:retrofit:2.7.0' // https://github.com/square/retrofit
+    ext.deps.converter_gson = 'com.squareup.retrofit2:converter-gson:2.7.0'
     repositories {
         google()
         jcenter()
