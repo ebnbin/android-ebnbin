@@ -1,10 +1,15 @@
-buildscript {
+buildscript { 
+    ext.kotlin_version = '1.3.61'
+    ext.compile_sdk_version = 29
+    ext.min_sdk_version = 23
+    ext.target_sdk_version = 29
+
     ext.versions = [:]
     ext.versions.compile_sdk_version = 29
     ext.versions.min_sdk_version = 23
     ext.versions.target_sdk_version = 29
     ext.deps = [:]
-    ext.deps.kotlin_stdlib_jdk8 = 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61' // https://github.com/JetBrains/kotlin
+    ext.deps.kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version" // https://github.com/JetBrains/kotlin
     ext.deps.core_ktx = 'androidx.core:core-ktx:1.2.0-rc01'  // https://maven.google.com/web/index.html https://developer.android.com/jetpack/androidx/versions
     ext.deps.appcompat = 'androidx.appcompat:appcompat:1.2.0-alpha01'
     ext.deps.activity_ktx = 'androidx.activity:activity-ktx:1.1.0-rc03'
@@ -22,7 +27,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61' // https://github.com/JetBrains/kotlin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // https://github.com/JetBrains/kotlin
         classpath 'com.google.gms:google-services:4.3.3' // https://firebase.google.com/docs/android/setup
         classpath 'io.fabric.tools:gradle:1.31.2' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
     }

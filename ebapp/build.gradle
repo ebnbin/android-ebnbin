@@ -1,0 +1,32 @@
+apply from: rootProject.file('util.gradle.kts')
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion versions.compile_sdk_version
+    defaultConfig {
+        minSdkVersion versions.min_sdk_version
+        targetSdkVersion versions.target_sdk_version
+        consumerProguardFiles rootProject.util.proguardFiles
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    dataBinding {
+        enabled true
+    }
+    androidExtensions {
+        experimental = true
+    }
+    resourcePrefix 'ebapp'
+}
+
+dependencies {
+    api project(':eb')
+}

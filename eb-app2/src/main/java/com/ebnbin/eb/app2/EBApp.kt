@@ -3,16 +3,16 @@ package com.ebnbin.eb.app2
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.crashlytics.android.Crashlytics
 import com.ebnbin.eb.BuildConfig
-import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.app2.crash.CrashActivity
 import com.ebnbin.eb.app2.dev.DevFragment2
 import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb.app2.util.DeviceUtil
+import com.ebnbin.ebapp.EBAppApplication
 
 /**
  * 基础 Application.
  */
-open class EBApp : EBApplication() {
+open class EBApp : EBAppApplication() {
     override fun onCreate() {
         super.onCreate()
         instance = this
