@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 
 /**
@@ -203,4 +204,11 @@ fun Fragment.removeSelf() {
     parentFragmentManager.commit(true) {
         remove(this@removeSelf)
     }
+}
+
+//*********************************************************************************************************************
+
+fun <T : Fragment> FragmentManager.instantiate(context: Context, fragmentClass: Class<T>): T {
+    @Suppress("UNCHECKED_CAST")
+    return fragmentFactory.instantiate(context.classLoader, fragmentClass.name) as T
 }

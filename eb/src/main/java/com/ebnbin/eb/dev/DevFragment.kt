@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.databinding.EbDevFragmentBinding
+import com.ebnbin.eb.databinding.ViewPagerOnPageSelected
 import com.ebnbin.eb.fragment.requireArgument
 
 internal class DevFragment : Fragment() {
@@ -25,6 +26,13 @@ internal class DevFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.setCloseOnClick {
             activity?.finish()
+        }
+        binding.pagerAdapter = DevPagerAdapter(requireContext(), childFragmentManager)
+        binding.page = DevSpManager.page.value
+        binding.onPageSelected = object : ViewPagerOnPageSelected {
+            override fun onPageSelected(position: Int) {
+                DevSpManager.page.value = position
+            }
         }
     }
 

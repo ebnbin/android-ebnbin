@@ -9,6 +9,18 @@
             name="closeOnClick"
             type="android.view.View.OnClickListener"/>
 
+        <variable
+            name="pagerAdapter"
+            type="androidx.viewpager.widget.PagerAdapter"/>
+
+        <variable
+            name="page"
+            type="Integer"/>
+
+        <variable
+            name="onPageSelected"
+            type="com.ebnbin.eb.databinding.ViewPagerOnPageSelected"/>
+
     </data>
 
     <LinearLayout
@@ -24,18 +36,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorBackgroundFloating"
-                app:title="@string/eb_dev"
                 app:navigationIcon="@drawable/eb_dev_close"
-                navigationOnClickListener="@{closeOnClick}"/>
+                navigationOnClickListener="@{closeOnClick}">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/eb_tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabMode="scrollable"
+                    setupWithViewPager="@{@id/eb_view_pager}"/>
+
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/eb_dev_fragment_container_view"
-            android:name="com.ebnbin.eb.dev.DevPreferenceFragment"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/eb_view_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            adapter="@{pagerAdapter}"
+            currentItem="@{page}"
+            onPageSelected="@{onPageSelected}"/>
 
     </LinearLayout>
 
