@@ -1,4 +1,4 @@
-package com.ebnbin.eb
+package com.ebnbin.eb.databinding
 
 import android.view.View
 import androidx.appcompat.widget.Toolbar
