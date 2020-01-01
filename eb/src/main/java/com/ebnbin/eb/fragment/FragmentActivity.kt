@@ -7,12 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.ebnbin.eb.getExtra
-import com.ebnbin.eb.getExtraOrDefault
+import com.ebnbin.eb.activity.getExtra
+import com.ebnbin.eb.activity.getExtraOrDefault
+import com.ebnbin.eb.activity.requireExtra
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.permission.openPermissionFragment
-import com.ebnbin.eb.requireExtra
 import com.ebnbin.eb.requireValue
 
 /**
