@@ -7,20 +7,20 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion versions.compile_sdk_version
+    compileSdkVersion compile_sdk_version
     defaultConfig {
         applicationId "com.ebnbin.${project.applicationId}"
-        minSdkVersion versions.min_sdk_version
-        targetSdkVersion versions.target_sdk_version
-        versionCode rootProject.util.versionCode
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode util.versionCode
         versionName project.versionName
     }
     signingConfigs {
         release {
             storeFile rootProject.file('gitignore/ebnbin.jks')
-            storePassword rootProject.util.localProperties['signingPassword']
+            storePassword util.localProperties['signingPassword']
             keyAlias 'ebnbin'
-            keyPassword rootProject.util.localProperties['signingPassword']
+            keyPassword util.localProperties['signingPassword']
         }
     }
     buildTypes {
@@ -28,7 +28,7 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
-            proguardFiles rootProject.util.proguardFiles
+            proguardFiles util.proguardFiles
         }
         debug {
             signingConfig signingConfigs.release
