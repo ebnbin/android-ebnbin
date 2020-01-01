@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.ebnbin.eb.permission.PermissionFragment
+import com.ebnbin.eb.permission.hasPermissions
+import com.ebnbin.eb.permission.openPermissionFragment
 
 /**
  * 添加单个 Fragment 的 Activity.

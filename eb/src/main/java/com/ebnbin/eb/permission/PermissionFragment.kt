@@ -1,4 +1,4 @@
-package com.ebnbin.eb
+package com.ebnbin.eb.permission
 
 import android.Manifest
 import android.content.Context
@@ -11,6 +11,18 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.ebnbin.eb.AlertDialogFragment
+import com.ebnbin.eb.DialogCancelable
+import com.ebnbin.eb.FragmentCallback
+import com.ebnbin.eb.R
+import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.openActivity
+import com.ebnbin.eb.openAlertDialogFragment
+import com.ebnbin.eb.removeSelf
+import com.ebnbin.eb.requireArgument
+import com.ebnbin.eb.requireCallback
+import com.ebnbin.eb.requireValue
+import com.ebnbin.eb.toast
 
 class PermissionFragment : Fragment(), AlertDialogFragment.Callback {
     private lateinit var permissions: LinkedHashSet<String>

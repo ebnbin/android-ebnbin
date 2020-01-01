@@ -20,12 +20,12 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.app2.EBApp
-import com.ebnbin.eb.PermissionFragment
+import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.copy
 import com.ebnbin.eb.mainHandler
 import com.ebnbin.eb.md5ToString
-import com.ebnbin.eb.openPermissionFragment
+import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk24N
