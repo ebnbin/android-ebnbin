@@ -44,7 +44,6 @@ android {
 
 dependencies {
     api project(':eb')
-    api project(':eb-preference')
     api project(':eb-api')
     api project(':eb-dev')
 
