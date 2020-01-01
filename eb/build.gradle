@@ -34,4 +34,5 @@ dependencies {
     api deps.activity_ktx
     api deps.fragment_ktx
     api deps.material
+    api deps.preference_ktx
 }
