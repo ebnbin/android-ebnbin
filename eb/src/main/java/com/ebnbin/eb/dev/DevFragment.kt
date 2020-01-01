@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb.dev.databinding.EbDevFragmentBinding
+import com.ebnbin.eb.databinding.EbDevFragmentBinding
 import com.ebnbin.eb.fragment.requireArgument
 
 internal class DevFragment : Fragment() {

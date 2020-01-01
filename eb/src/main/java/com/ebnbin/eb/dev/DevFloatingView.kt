@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.GestureDetectorCompat
+import com.ebnbin.eb.R
 import kotlin.math.roundToInt
 
 internal class DevFloatingView(context: Context) :

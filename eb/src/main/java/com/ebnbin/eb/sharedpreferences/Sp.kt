@@ -4,13 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 
 open class Sp<T>(
-    context: Context,
+    private val getContext: () -> Context,
     val key: String,
     val defaultValue: T,
-    val sharedPreferencesName: String = context.getSharedPreferencesName()
+    val getName: () -> String = { getContext().getSharedPreferencesName() }
 ) {
-    private val context: Context = context.applicationContext
-
     var value: T
         get() = get()
         set(value) {
@@ -19,7 +17,7 @@ open class Sp<T>(
         }
 
     fun getSharedPreferences(): SharedPreferences {
-        return context.getSharedPreferences(sharedPreferencesName, false)
+        return getContext().getSharedPreferences(getName(), false)
     }
 
     fun contains(): Boolean {

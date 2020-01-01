@@ -10,8 +10,6 @@ internal class DevPreferenceFragment : PreferenceFragmentCompat() {
         preferenceManager.sharedPreferencesName = DevSpManager.name
         preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
 
-        EBDev.addDevItems?.invoke(this)
-
         PreferenceCategory(requireContext()).also {
             preferenceScreen.addPreference(it)
             it.title = "EB"
