@@ -35,4 +35,8 @@ dependencies {
     api deps.fragment_ktx
     api deps.material
     api deps.preference_ktx
+    api deps.gson
+    api deps.okhttp
+    api deps.retrofit
+    api deps.converter_gson
 }
