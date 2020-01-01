@@ -1,4 +1,4 @@
-package com.ebnbin.eb
+package com.ebnbin.eb.fragment
 
 /**
  * 按照什么顺序强转 Fragment 的 Callback 接口.

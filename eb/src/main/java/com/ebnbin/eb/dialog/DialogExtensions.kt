@@ -3,7 +3,7 @@ package com.ebnbin.eb.dialog
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
-import com.ebnbin.eb.FragmentCallback
+import com.ebnbin.eb.fragment.FragmentCallback
 
 /**
  * 打开 AlertDialog.

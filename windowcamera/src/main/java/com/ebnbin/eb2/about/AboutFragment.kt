@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.ebnbin.eb.app2.BuildConfig
 import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.copy
-import com.ebnbin.eb.getArgument
+import com.ebnbin.eb.fragment.getArgument
 import com.ebnbin.eb.toast
 import com.ebnbin.eb.app2.util.DeviceUtil
 import com.ebnbin.eb.versionName

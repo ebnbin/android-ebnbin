@@ -14,7 +14,7 @@ import com.ebnbin.eb.app2.databinding.EbDevFragment2Binding
 import com.ebnbin.eb.app2.fragment.EBViewFragment
 import com.ebnbin.eb.app2.loading.Loading
 import com.ebnbin.eb.dialog.openAlertDialogFragment
-import com.ebnbin.eb.openFragment
+import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.toast
 import kotlinx.coroutines.Job
 

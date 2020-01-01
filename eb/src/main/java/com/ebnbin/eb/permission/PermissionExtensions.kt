@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
-import com.ebnbin.eb.FragmentCallback
+import com.ebnbin.eb.fragment.FragmentCallback
 import com.ebnbin.eb.R
 import com.ebnbin.eb.sdk26O
 

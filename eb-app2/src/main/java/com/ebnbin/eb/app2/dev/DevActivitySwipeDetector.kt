@@ -5,7 +5,7 @@ import android.view.MotionEvent
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.dpToPx
-import com.ebnbin.eb.openFragment
+import com.ebnbin.eb.fragment.openFragment
 
 /**
  * 开发者选项滑动检测器. 在 Activity 三指上滑打开 Dev 页面.

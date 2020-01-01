@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera.album
 
 import android.Manifest
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb.FragmentActivity
+import com.ebnbin.eb.fragment.FragmentActivity
 
 class AlbumActivity : FragmentActivity() {
     override val fragmentClass: Class<out Fragment>

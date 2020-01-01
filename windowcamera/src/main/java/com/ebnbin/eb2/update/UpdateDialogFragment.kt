@@ -26,7 +26,7 @@ import com.ebnbin.eb.copy
 import com.ebnbin.eb.mainHandler
 import com.ebnbin.eb.md5ToString
 import com.ebnbin.eb.permission.openPermissionFragment
-import com.ebnbin.eb.requireArgument
+import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk24N
 import com.ebnbin.eb.toast

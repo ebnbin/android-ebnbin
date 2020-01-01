@@ -5,8 +5,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import com.ebnbin.eb.FragmentActivity
-import com.ebnbin.eb.openFragment
+import com.ebnbin.eb.fragment.FragmentActivity
+import com.ebnbin.eb.fragment.openFragment
 
 internal class DevFloatingOnAttachStateChangeListener(private val activity: Activity) :
     View.OnAttachStateChangeListener, DevFloatingView.Listener {

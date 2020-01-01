@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.dev.EBDev
-import com.ebnbin.eb.openFragment
+import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.preference.Preference
 
 object Dev {

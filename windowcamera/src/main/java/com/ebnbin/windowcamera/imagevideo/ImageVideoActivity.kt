@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb.FragmentActivity
+import com.ebnbin.eb.fragment.FragmentActivity
 
 class ImageVideoActivity : FragmentActivity() {
     override val fragmentClass: Class<out Fragment>
