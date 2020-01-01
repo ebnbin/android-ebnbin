@@ -1,4 +1,4 @@
-package com.ebnbin.eb
+package com.ebnbin.eb.dialog
 
 /**
  * 允许关闭对话框的类型.

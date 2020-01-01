@@ -1,4 +1,4 @@
-package com.ebnbin.eb
+package com.ebnbin.eb.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -6,6 +6,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.os.bundleOf
+import com.ebnbin.eb.FragmentCallback
+import com.ebnbin.eb.getArgument
+import com.ebnbin.eb.getArgumentOrDefault
+import com.ebnbin.eb.getCallback
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 open class AlertDialogFragment : AppCompatDialogFragment() {

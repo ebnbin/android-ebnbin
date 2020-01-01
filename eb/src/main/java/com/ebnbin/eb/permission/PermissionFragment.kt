@@ -11,13 +11,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb.AlertDialogFragment
-import com.ebnbin.eb.DialogCancelable
+import com.ebnbin.eb.dialog.AlertDialogFragment
+import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.FragmentCallback
 import com.ebnbin.eb.R
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.openActivity
-import com.ebnbin.eb.openAlertDialogFragment
+import com.ebnbin.eb.dialog.openAlertDialogFragment
 import com.ebnbin.eb.removeSelf
 import com.ebnbin.eb.requireArgument
 import com.ebnbin.eb.requireCallback
