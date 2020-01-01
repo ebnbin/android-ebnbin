@@ -2,7 +2,7 @@ package com.ebnbin.eb.preference
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.ebnbin.eb.get
+import com.ebnbin.eb.sharedpreferences.get
 
 open class SeekBarPreference(context: Context) :
     androidx.preference.SeekBarPreference(context),

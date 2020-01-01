@@ -8,7 +8,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.dpToPxRound
-import com.ebnbin.eb.getSharedPreferencesName
+import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
 import com.ebnbin.windowcamera.profile.ProfileHelper
 import com.ebnbin.windowcamera.profile.ProfileSp
 

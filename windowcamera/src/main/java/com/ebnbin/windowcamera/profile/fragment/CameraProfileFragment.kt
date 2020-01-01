@@ -3,7 +3,7 @@ package com.ebnbin.windowcamera.profile.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.ebnbin.eb.getOrNull
+import com.ebnbin.eb.sharedpreferences.getOrNull
 import com.ebnbin.eb.mainHandler
 import com.ebnbin.eb.preference.CheckBoxPreference
 import com.ebnbin.eb.preference.ListPreference

@@ -1,7 +1,7 @@
 package com.ebnbin.eb.dev
 
-import com.ebnbin.eb.Sp
-import com.ebnbin.eb.getSharedPreferencesName
+import com.ebnbin.eb.sharedpreferences.Sp
+import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
 
 internal object DevSpManager {
     val name: String = EBDev.app.getSharedPreferencesName("_eb_dev")

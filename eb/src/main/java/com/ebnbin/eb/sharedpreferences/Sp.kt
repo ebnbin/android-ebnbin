@@ -1,4 +1,4 @@
-package com.ebnbin.eb
+package com.ebnbin.eb.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences

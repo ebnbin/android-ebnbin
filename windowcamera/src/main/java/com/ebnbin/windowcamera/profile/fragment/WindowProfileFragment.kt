@@ -2,7 +2,7 @@ package com.ebnbin.windowcamera.profile.fragment
 
 import android.os.Bundle
 import androidx.core.text.HtmlCompat
-import com.ebnbin.eb.getOrNull
+import com.ebnbin.eb.sharedpreferences.getOrNull
 import com.ebnbin.eb.preference.CheckBoxPreference
 import com.ebnbin.eb.preference.ListPreference
 import com.ebnbin.eb.preference.PreferenceCategory

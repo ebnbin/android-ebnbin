@@ -1,8 +1,9 @@
-package com.ebnbin.eb
+package com.ebnbin.eb.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.ebnbin.eb.applicationId
 
 /**
  * @param nameAppend 如果为 false 返回 [name], 否则返回 ${applicationId}_preferences[name].

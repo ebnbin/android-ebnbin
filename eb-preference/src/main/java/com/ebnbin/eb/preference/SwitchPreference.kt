@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import androidx.preference.SwitchPreferenceCompat
-import com.ebnbin.eb.get
+import com.ebnbin.eb.sharedpreferences.get
 
 open class SwitchPreference(context: Context) :
     SwitchPreferenceCompat(context),
