@@ -1,9 +1,10 @@
 package com.ebnbin.eb
 
 import android.app.Application
-import androidx.preference.PreferenceFragmentCompat
-import com.ebnbin.eb.dev.DevFloatingActivityLifecycleCallbacks
+import com.ebnbin.eb.dev.CreateDevPage
 import com.ebnbin.eb.dev.EBDevPageFragment
+import com.ebnbin.eb.dev.dev
+import com.ebnbin.eb.dev.floating.DevFloatingActivityLifecycleCallbacks
 
 open class EBApplication : Application() {
     override fun onCreate() {
@@ -13,11 +14,16 @@ open class EBApplication : Application() {
     }
 
     private fun initDev() {
+        if (!dev) return
         registerActivityLifecycleCallbacks(DevFloatingActivityLifecycleCallbacks)
     }
 
-    open val devPages: List<Pair<Class<out PreferenceFragmentCompat>, CharSequence>>
-        get() = listOf(EBDevPageFragment::class.java to "EB")
+    open val createDevPages: List<CreateDevPage>
+        get() = listOf(
+            CreateDevPage("EB", EBDevPageFragment::class.java) {
+                EBDevPageFragment.createArguments(it.toString())
+            }
+        )
 
     companion object {
         lateinit var instance: EBApplication

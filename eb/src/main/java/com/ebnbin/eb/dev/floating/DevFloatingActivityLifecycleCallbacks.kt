@@ -1,4 +1,4 @@
-package com.ebnbin.eb.dev
+package com.ebnbin.eb.dev.floating
 
 import android.app.Activity
 import android.app.Application

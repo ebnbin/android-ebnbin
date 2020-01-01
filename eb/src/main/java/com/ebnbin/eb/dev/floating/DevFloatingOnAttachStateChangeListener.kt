@@ -1,10 +1,13 @@
-package com.ebnbin.eb.dev
+package com.ebnbin.eb.dev.floating
 
 import android.app.Activity
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.dev.DevFragment
+import com.ebnbin.eb.dev.DevSpManager
 import com.ebnbin.eb.fragment.FragmentActivity
 import com.ebnbin.eb.fragment.openFragment
 
@@ -56,7 +59,10 @@ internal class DevFloatingOnAttachStateChangeListener(private val activity: Acti
         super.onSingleTap()
         if (activity is FragmentActivity && activity.fragmentClass == DevFragment::class.java) return
         activity.openFragment<DevFragment>(
-            fragmentArguments = DevFragment.createArguments(activity.toString())
+            fragmentArguments = DevFragment.createArguments(
+                devPages = EBApplication.instance.createDevPages.map { it.create(activity) }
+            ),
+            fragmentTag = DevFragment::class.java.name
         )
     }
 }

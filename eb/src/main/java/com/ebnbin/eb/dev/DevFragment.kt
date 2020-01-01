@@ -11,9 +11,6 @@ import com.ebnbin.eb.databinding.ViewPagerOnPageSelected
 import com.ebnbin.eb.fragment.requireArgument
 
 internal class DevFragment : Fragment() {
-    internal val callingActivity: CharSequence
-        get() = requireArgument(KEY_CALLING_ACTIVITY)
-
     private lateinit var binding: EbDevFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,7 +24,7 @@ internal class DevFragment : Fragment() {
         binding.setCloseOnClick {
             activity?.finish()
         }
-        binding.pagerAdapter = DevPagerAdapter(requireContext(), childFragmentManager)
+        binding.pagerAdapter = DevPagerAdapter(requireContext(), childFragmentManager, requireArgument(KEY_DEV_PAGES))
         binding.page = DevSpManager.page.value
         binding.onPageSelected = object : ViewPagerOnPageSelected {
             override fun onPageSelected(position: Int) {
@@ -37,13 +34,13 @@ internal class DevFragment : Fragment() {
     }
 
     companion object {
-        private const val KEY_CALLING_ACTIVITY: String = "calling_activity"
+        private const val KEY_DEV_PAGES: String = "dev_pages"
 
         fun createArguments(
-            callingActivity: CharSequence
+            devPages: List<DevPage>
         ): Bundle {
             return bundleOf(
-                KEY_CALLING_ACTIVITY to callingActivity
+                KEY_DEV_PAGES to ArrayList(devPages)
             )
         }
     }
