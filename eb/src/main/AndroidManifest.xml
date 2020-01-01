@@ -2,7 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ebnbin.eb">
-    <application>
+    <application android:name=".EBApplication">
         <activity android:name=".fragment.FragmentActivity"/>
     </application>
 </manifest>

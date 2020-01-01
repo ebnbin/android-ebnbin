@@ -3,6 +3,7 @@ package com.ebnbin.eb.preference
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceViewHolder
+import com.ebnbin.eb.R
 
 open class PreferenceGroup(context: Context) :
     androidx.preference.PreferenceGroup(context, null),
