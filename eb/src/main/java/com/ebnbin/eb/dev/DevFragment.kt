@@ -25,10 +25,10 @@ internal class DevFragment : Fragment() {
             activity?.finish()
         }
         binding.pagerAdapter = DevPagerAdapter(requireContext(), childFragmentManager, requireArgument(KEY_DEV_PAGES))
-        binding.page = DevSpManager.page.value
+        binding.page = DevSpManager.dev_page.value
         binding.onPageSelected = object : ViewPagerOnPageSelected {
             override fun onPageSelected(position: Int) {
-                DevSpManager.page.value = position
+                DevSpManager.dev_page.value = position
             }
         }
     }

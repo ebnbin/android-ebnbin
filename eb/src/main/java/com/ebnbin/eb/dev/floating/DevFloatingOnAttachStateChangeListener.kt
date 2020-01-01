@@ -5,11 +5,14 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.core.os.postDelayed
+import androidx.core.view.isVisible
 import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.dev.DevFragment
 import com.ebnbin.eb.dev.DevSpManager
 import com.ebnbin.eb.fragment.FragmentActivity
 import com.ebnbin.eb.fragment.openFragment
+import com.ebnbin.eb.mainHandler
 
 internal class DevFloatingOnAttachStateChangeListener(private val activity: Activity) :
     View.OnAttachStateChangeListener, DevFloatingView.Listener {
@@ -28,13 +31,14 @@ internal class DevFloatingOnAttachStateChangeListener(private val activity: Acti
 
     fun invalidatePopupWindow() {
         val popupWindow = popupWindow ?: return
-        val x = DevSpManager.floating_x.value
-        val y = DevSpManager.floating_y.value
+        val x = DevSpManager.dev_floating_x.value
+        val y = DevSpManager.dev_floating_y.value
         if (popupWindow.isShowing) {
             popupWindow.update(x, y, popupWindow.width, popupWindow.height)
         } else {
             popupWindow.showAtLocation(activity.window.decorView, Gravity.NO_GRAVITY, x, y)
         }
+        popupWindow.contentView.isVisible = DevFloatingActivityLifecycleCallbacks.isFloatingVisible
     }
 
     override fun onViewDetachedFromWindow(v: View?) {
@@ -51,8 +55,8 @@ internal class DevFloatingOnAttachStateChangeListener(private val activity: Acti
         super.onScroll(x, y)
         val popupWindow = popupWindow ?: return
         popupWindow.update(x, y, popupWindow.width, popupWindow.height)
-        DevSpManager.floating_x.value = x
-        DevSpManager.floating_y.value = y
+        DevSpManager.dev_floating_x.value = x
+        DevSpManager.dev_floating_y.value = y
     }
 
     override fun onSingleTap() {
@@ -64,5 +68,13 @@ internal class DevFloatingOnAttachStateChangeListener(private val activity: Acti
             ),
             fragmentTag = DevFragment::class.java.name
         )
+    }
+
+    override fun onDoubleTap() {
+        super.onDoubleTap()
+        DevFloatingActivityLifecycleCallbacks.isFloatingVisible = false
+        mainHandler.postDelayed(DevSpManager.dev_floating_hide_duration.value * 1000L) {
+            DevFloatingActivityLifecycleCallbacks.isFloatingVisible = true
+        }
     }
 }

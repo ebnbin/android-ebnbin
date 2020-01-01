@@ -2,6 +2,9 @@ package com.ebnbin.eb.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 
 open class Sp<T>(
     private val getContext: () -> Context,
@@ -12,8 +15,12 @@ open class Sp<T>(
     var value: T
         get() = get()
         set(value) {
-            if (get() == value) return
-            put(value)
+            val oldValue = get()
+            if (oldValue == value) return
+            val intercept = onChanges.map {
+                it(oldValue, value)
+            }.any { it }
+            if (!intercept) put(value)
         }
 
     fun getSharedPreferences(): SharedPreferences {
@@ -34,5 +41,20 @@ open class Sp<T>(
 
     fun remove() {
         getSharedPreferences().remove(key)
+    }
+
+    //*****************************************************************************************************************
+
+    private val onChanges: ArrayList<(oldValue: T, newValue: T) -> Boolean> = ArrayList()
+
+    fun addOnChange(lifecycle: Lifecycle, onChange: (oldValue: T, newValue: T) -> Boolean) {
+        lifecycle.addObserver(object : LifecycleObserver {
+            @Suppress("unused")
+            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            fun onDestroy() {
+                onChanges.remove(onChange)
+            }
+        })
+        onChanges.add(onChange)
     }
 }
