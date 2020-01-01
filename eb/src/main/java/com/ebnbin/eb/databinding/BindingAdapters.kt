@@ -8,6 +8,7 @@ import androidx.databinding.adapters.ListenerUtil
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.R
+import com.ebnbin.eb.requireOtherViewById
 import com.google.android.material.tabs.TabLayout
 
 @BindingAdapter("navigationOnClickListener")
@@ -16,9 +17,12 @@ fun setNavigationOnClickListener(view: Toolbar, navigationOnClickListener: View.
 }
 
 @BindingAdapter("setupWithViewPager")
-fun setupWithViewPager(view: TabLayout, @IdRes id: Int) {
-    // TODO parent.
-    view.setupWithViewPager(view.rootView.findViewById(id))
+fun setupWithViewPager(view: TabLayout, @IdRes viewPagerId: Int) {
+    if (viewPagerId == 0) {
+        view.setupWithViewPager(null)
+    } else {
+        view.setupWithViewPager(view.requireOtherViewById(viewPagerId))
+    }
 }
 
 @BindingAdapter("adapter")
