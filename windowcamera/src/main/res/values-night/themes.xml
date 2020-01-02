@@ -5,7 +5,7 @@
     <color name="eb_status_bar">@android:color/black</color>
     <color name="eb_window_background">@color/eb_material_gray_900</color>
     <color name="eb_primary">@color/eb_material_light_blue_700</color>
-    <color name="eb_secondary">@color/eb_material_gray_500</color>
+    <color name="eb_secondary">@color/eb_material_blue_gray_500</color>
     <color name="eb_background_floating">@color/eb_material_gray_800</color>
     <color name="eb_background_floating_inverse">@android:color/white</color>
 
