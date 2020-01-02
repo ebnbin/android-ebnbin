@@ -62,10 +62,6 @@ open class DevFragment2 : EBViewFragment<EbDevFragment2Binding>() {
                 EBApp.instance.toast("onFailure")
             }
         })
-
-        addDevItem("Crash") {
-            throw CrashException()
-        }
     }
 
     protected fun addDevItem(
@@ -77,9 +73,5 @@ open class DevFragment2 : EBViewFragment<EbDevFragment2Binding>() {
             it.binding.lifecycleOwner = viewLifecycleOwner
             binding.ebLinearLayout.addView(it)
         }
-    }
-
-    companion object {
-        const val KEY_CALLING_ACTIVITY: String = "calling_activity"
     }
 }

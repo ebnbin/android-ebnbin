@@ -3,6 +3,7 @@ package com.ebnbin.eb.databinding
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.databinding.adapters.ListenerUtil
 import androidx.viewpager.widget.PagerAdapter
@@ -10,6 +11,11 @@ import androidx.viewpager.widget.ViewPager
 import com.ebnbin.eb.R
 import com.ebnbin.eb.requireOtherViewById
 import com.google.android.material.tabs.TabLayout
+
+@BindingAdapter("isVisible")
+fun setVisible(view: View, isVisible: Boolean) {
+    view.isVisible = isVisible
+}
 
 @BindingAdapter("navigationOnClickListener")
 fun setNavigationOnClickListener(view: Toolbar, navigationOnClickListener: View.OnClickListener?) {
