@@ -10,7 +10,7 @@
     <color name="eb_material_green_500">#4caf50</color>
     <color name="eb_material_yellow_500">#ffeb3b</color>
     <color name="eb_material_gray_500">#9e9e9e</color>
+    <color name="eb_material_gray_900">#212121</color>
     <color name="eb_material_blue_gray_500">#607d8b</color>
     <color name="eb_material_blue_gray_700">#455a64</color>
-    <color name="eb_material_blue_gray_900">#263238</color>
 </resources>
