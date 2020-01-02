@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.app2.EBApp
-import com.ebnbin.eb.app2.util.DeviceUtil
 import com.ebnbin.eb.copy
 import com.ebnbin.eb.fragment.getArgument
 import com.ebnbin.eb.toast
@@ -17,6 +16,7 @@ import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.TimeHelper
+import com.ebnbin.ebapp.deviceId
 import com.ebnbin.windowcamera.R
 import kotlinx.android.synthetic.main.eb_about_fragment2.*
 
@@ -35,7 +35,7 @@ class AboutFragment : EBFragment() {
             activity?.finish()
         }
         eb_toolbar.setOnLongClickListener {
-            requireContext().copy(DeviceUtil.DEVICE_ID)
+            requireContext().copy(requireContext().deviceId)
             requireContext().toast(R.string.eb_about_device_id_copied)
             true
         }

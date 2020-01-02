@@ -10,6 +10,7 @@ android {
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
         consumerProguardFiles util.proguardFiles
+        buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${util.localProperties['githubApiToken']}\""
     }
     buildTypes {
         release {
@@ -18,6 +19,11 @@ android {
         debug {
             manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: false]
         }
+    }
+    flavorDimensions 'flavor'
+    productFlavors {
+        github.dimension 'flavor'
+        google.dimension 'flavor'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

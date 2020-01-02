@@ -2,10 +2,11 @@ package com.ebnbin.eb2.dev
 
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
-import com.ebnbin.eb.app2.util.DeviceUtil
+import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 import com.ebnbin.eb2.util.TimeHelper
+import com.ebnbin.ebapp.deviceId
 import com.ebnbin.ebapp.library.firebaseAnalytics
 import com.ebnbin.windowcamera.BuildConfig
 
@@ -21,7 +22,7 @@ object DevHelper {
         if (BuildConfig.DEBUG) return
         if (!TimeHelper.expired(EBSpManager.last_report_timestamp.value, REPORT_EXPIRATION)) return
         AsyncHelper.global.githubPutJson(
-            "/reports/${DeviceUtil.DEVICE_ID.substring(0, 2)}/${DeviceUtil.DEVICE_ID}.json",
+            "/reports/${EBApp.instance.deviceId.substring(0, 2)}/${EBApp.instance.deviceId}.json",
             report(),
             null,
             onSuccess = {

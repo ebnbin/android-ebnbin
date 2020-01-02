@@ -1,8 +1,8 @@
 package com.ebnbin.eb.app2.ebnbingithubapi
 
-import com.ebnbin.eb.app2.BuildConfig
 import com.ebnbin.eb.base64EncodeToString
 import com.ebnbin.eb.library.gson
+import com.ebnbin.ebapp.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
