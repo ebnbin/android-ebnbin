@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 基础主题. -->
-    <style name="EBTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="EBTheme3" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/eb_material_light_blue_500</item>

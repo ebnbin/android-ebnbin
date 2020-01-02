@@ -22,7 +22,7 @@
         android:name=".AppApplication"
         android:label="@string/eb_label"
         android:largeHeap="true"
-        android:theme="@style/EBTheme"
+        android:theme="@style/EBTheme2"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="q"
         tools:replace="android:name, android:label, android:theme">
@@ -30,7 +30,7 @@
 
         <activity
             android:name=".splash.SplashActivity"
-            android:theme="@style/EBTheme.Splash">
+            android:theme="@style/EBTheme2.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -61,7 +61,7 @@
 
         <activity
             android:name=".imagevideo.ImageVideoActivity"
-            android:theme="@style/EBTheme.ImageVideo"
+            android:theme="@style/EBTheme2.ImageVideo"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <service android:name=".service.WindowCameraService"/>

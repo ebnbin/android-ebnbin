@@ -13,7 +13,7 @@
     <color name="eb_background_floating">@android:color/white</color>
     <color name="eb_background_floating_inverse">@color/eb_material_gray_800</color>
 
-    <style name="EBBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="EBBaseTheme2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/eb_window_background</item>
         <item name="android:windowLightStatusBar">@bool/eb_is_not_night</item>
         <item name="android:statusBarColor">@color/eb_status_bar</item>
@@ -28,5 +28,5 @@
     </style>
 
     <!-- Base theme. -->
-    <style name="EBTheme" parent="EBBaseTheme"/>
+    <style name="EBTheme2" parent="EBBaseTheme2"/>
 </resources>

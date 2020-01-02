@@ -10,7 +10,7 @@
         android:icon="@mipmap/eb_icon"
         android:roundIcon="@mipmap/eb_icon"
         android:logo="@drawable/eb_logo"
-        android:theme="@style/EBTheme">
+        android:theme="@style/EBTheme3">
         <activity
             android:name=".crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>
