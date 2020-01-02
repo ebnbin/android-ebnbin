@@ -6,6 +6,7 @@ import androidx.annotation.Keep
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.androidId
+import com.ebnbin.eb.appLabel
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.getDisplayRealSize0
 import com.ebnbin.eb.library.gson
@@ -21,6 +22,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 open class Report(
     val applicationId: String = EBApplication.instance.applicationId,
+    val appLabel: String = EBApplication.instance.appLabel,
     val androidId: String = EBApplication.instance.androidId,
     val versionCode: Int = EBApplication.instance.versionCode,
     val versionName: String = EBApplication.instance.versionName,

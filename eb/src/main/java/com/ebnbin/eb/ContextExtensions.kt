@@ -19,6 +19,9 @@ import kotlin.math.roundToInt
 val Context.applicationId: String
     get() = packageName
 
+val Context.appLabel: String
+    get() = applicationInfo.loadLabel(packageManager).toString()
+
 val Context.versionCode: Int
     get() {
         val packageInfo = packageManager.getPackageInfo(applicationId, 0)
