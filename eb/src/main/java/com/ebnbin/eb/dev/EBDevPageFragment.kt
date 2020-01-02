@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialogFragment
 import com.ebnbin.eb.fragment.requireArgument
+import com.ebnbin.eb.getValue
 import com.ebnbin.eb.preference.Preference
 import com.ebnbin.eb.preference.PreferenceCategory
 import com.ebnbin.eb.preference.SeekBarPreference
@@ -16,7 +19,7 @@ import com.ebnbin.eb.timestamp
 import com.ebnbin.eb.toTimeString
 import com.ebnbin.eb.toast
 
-internal class EBDevPageFragment : PreferenceFragmentCompat() {
+internal class EBDevPageFragment : PreferenceFragmentCompat(), AlertDialogFragment.Callback {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.sharedPreferencesName = DevSpManager.name
         preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
@@ -177,6 +180,40 @@ internal class EBDevPageFragment : PreferenceFragmentCompat() {
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                 true
             }
+        }
+
+        //*************************************************************************************************************
+
+        val crashPreferenceGroup = PreferenceCategory(requireContext()).also {
+            preferenceScreen.addPreference(it)
+            it.title = "Crash"
+        }
+
+        Preference(requireContext()).also {
+            crashPreferenceGroup.addPreference(it)
+            it.title = "Crash"
+            it.setOnPreferenceClickListener {
+                childFragmentManager.openAlertDialogFragment(
+                    title = "Crash",
+                    message = "确认？应用会崩溃的！",
+                    positiveText = "确定",
+                    negativeText = "取消",
+                    callbackBundle = bundleOf(
+                        "calling_id" to "Crash"
+                    ),
+                    fragmentTag = "Crash"
+                )
+                true
+            }
+        }
+    }
+
+    override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
+        return when (callbackBundle.getValue<String>("calling_id")) {
+            "Crash" -> {
+                throw RuntimeException()
+            }
+            else -> super.onAlertDialogPositive(alertDialog, callbackBundle)
         }
     }
 

@@ -29,138 +29,131 @@
 
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="16dp">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/eb_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
 
-            <ScrollView
-                android:id="@+id/eb_scroll_view"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:fillViewport="true">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:padding="16dp">
+
+                <FrameLayout
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:padding="16dp"
+                    android:clipChildren="false">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="118dp"
+                        android:layout_height="118dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:elevation="2dp"
+                        android:outlineProvider="none"
+                        android:onClick="@{iconOnClick}"
+                        android:onLongClickListener="@{viewModel::iconOnLongClick}"
+                        app:cardCornerRadius="59dp">
+
+                        <ImageView
+                            android:layout_width="128dp"
+                            android:layout_height="128dp"
+                            android:layout_marginStart="-5dp"
+                            android:layout_marginTop="-5dp"
+                            android:src="@drawable/eb_icon"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <ImageView
+                        android:id="@+id/eb_bug"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="end|bottom"
+                        android:src="@drawable/customactivityoncrash_error_image"
+                        android:scaleType="fitEnd"
+                        android:elevation="2dp"/>
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@{String.format(@string/eb_crash_title, @string/eb_label)}"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginTop="16dp"
                     android:gravity="center_horizontal"
-                    android:padding="16dp">
+                    android:visibility="@{viewModel.logVisible ? View.VISIBLE : View.GONE}">
 
-                    <FrameLayout
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:padding="16dp"
-                        android:clipChildren="false">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="118dp"
-                            android:layout_height="118dp"
-                            android:layout_gravity="center"
-                            android:layout_margin="5dp"
-                            android:elevation="2dp"
-                            android:outlineProvider="none"
-                            android:onClick="@{iconOnClick}"
-                            android:onLongClickListener="@{viewModel::iconOnLongClick}"
-                            app:cardCornerRadius="59dp">
-
-                            <ImageView
-                                android:layout_width="128dp"
-                                android:layout_height="128dp"
-                                android:layout_marginStart="-5dp"
-                                android:layout_marginTop="-5dp"
-                                android:src="@drawable/eb_icon"/>
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <ImageView
-                            android:id="@+id/eb_bug"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_gravity="end|bottom"
-                            android:src="@drawable/customactivityoncrash_error_image"
-                            android:scaleType="fitEnd"
-                            android:elevation="2dp"/>
-
-                    </FrameLayout>
-
-                    <TextView
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="@{String.format(@string/eb_crash_title, @string/eb_label)}"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textStyle="bold"
-                        android:maxLines="2"
-                        android:ellipsize="end"/>
+                        android:text="@string/eb_crash_copy"
+                        android:onClick="@{copyOnClick}"/>
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/eb_log_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="16dp"
-                        android:gravity="center_horizontal"
-                        android:visibility="@{viewModel.logVisible ? View.VISIBLE : View.GONE}">
-
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/eb_crash_copy"
-                            android:onClick="@{copyOnClick}"/>
-
-                        <TextView
-                            android:id="@+id/eb_log_text_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewModel.log}"
-                            android:textSize="12sp"
-                            android:fontFamily="monospace"
-                            android:textIsSelectable="true"/>
-
-                    </LinearLayout>
+                        android:text="@{viewModel.log}"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:textIsSelectable="true"/>
 
                 </LinearLayout>
 
-            </ScrollView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:clipToPadding="false">
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/eb_crash_close"
-                    android:onClick="@{closeOnClick}"/>
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/eb_crash_restart"
-                    android:onClick="@{restartOnClick}"/>
-
             </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false">
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eb_crash_close"
+                android:onClick="@{closeOnClick}"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/eb_crash_restart"
+                android:onClick="@{restartOnClick}"/>
 
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
 </layout>

@@ -5,13 +5,4 @@
     <string name="eb_crash_copied">已复制日志</string>
     <string name="eb_crash_close">关闭应用</string>
     <string name="eb_crash_restart">重启应用</string>
-
-    <style name="EBCrashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:colorBackground">@color/eb_material_red_900</item>
-        <item name="android:statusBarColor">?android:attr/colorBackground</item>
-        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
-        <item name="colorPrimary">@color/eb_material_light_blue_500</item>
-        <item name="colorPrimaryDark">?attr/colorPrimary</item>
-        <item name="colorAccent">?attr/colorPrimary</item>
-    </style>
 </resources>
