@@ -1,4 +1,4 @@
-package com.ebnbin.eb.app2.crash
+package com.ebnbin.eb.crash
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -12,16 +12,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
+import androidx.databinding.DataBindingUtil
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
-import com.ebnbin.eb.app2.R
-import com.ebnbin.eb.app2.databinding.EbCrashActivityBinding
-import com.ebnbin.ebapp.EBAppApplication
+import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.R
+import com.ebnbin.eb.databinding.EbCrashActivityBinding
 
-/**
- * 自定义崩溃页面.
- */
 internal class CrashActivity : AppCompatActivity() {
-    private val viewModel: CrashActivityViewModel by viewModels()
+    private val viewModel: CrashViewModel by viewModels()
 
     private lateinit var binding: EbCrashActivityBinding
 
@@ -39,14 +37,10 @@ internal class CrashActivity : AppCompatActivity() {
             finish()
             return
         }
-        binding = EbCrashActivityBinding.inflate(
-            layoutInflater,
-            window.decorView.findViewById(android.R.id.content),
-            false
-        )
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.eb_crash_activity)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.icon = applicationInfo.loadIcon(packageManager)
         binding.setIconOnClick {
             binding.ebBug.rotation = 0f
             binding.ebBug.animate().cancel()
@@ -77,9 +71,11 @@ internal class CrashActivity : AppCompatActivity() {
                 })
                 .start()
         }
+        binding.label = applicationInfo.loadLabel(packageManager).toString()
         binding.setCopyOnClick {
             val clipboardManager = getSystemService<ClipboardManager>() ?: return@setCopyOnClick
-            clipboardManager.setPrimaryClip(ClipData.newPlainText(CrashActivity::class.java.name, viewModel.log.value))
+            val log = viewModel.log.value ?: return@setCopyOnClick
+            clipboardManager.setPrimaryClip(ClipData.newPlainText(CrashActivity::class.java.name, log))
             Toast.makeText(this, R.string.eb_crash_copied, Toast.LENGTH_SHORT).show()
         }
         binding.setCloseOnClick {
@@ -95,9 +91,9 @@ internal class CrashActivity : AppCompatActivity() {
         if (viewModel.log.value == null) {
             viewModel.log.value = runCatching {
                 StringBuilder().also {
-                    it.appendln(EBAppApplication.instance.createReport())
+                    it.appendln(CustomActivityOnCrash.getStackTraceFromIntent(intent))
                     it.appendln()
-                    it.append(CustomActivityOnCrash.getStackTraceFromIntent(intent))
+                    it.appendln(EBApplication.instance.createReport())
                 }
             }.getOrNull()
         }

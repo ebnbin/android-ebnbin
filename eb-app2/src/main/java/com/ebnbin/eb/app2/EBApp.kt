@@ -1,9 +1,7 @@
 package com.ebnbin.eb.app2
 
-import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.crashlytics.android.Crashlytics
 import com.ebnbin.eb.BuildConfig
-import com.ebnbin.eb.app2.crash.CrashActivity
 import com.ebnbin.eb.app2.dev.DevFragment2
 import com.ebnbin.ebapp.EBAppApplication
 import com.ebnbin.ebapp.deviceId
@@ -18,7 +16,6 @@ open class EBApp : EBAppApplication() {
         instance = this
         initFirebaseAnalytics()
         initCrashlytics()
-        initCustomActivityOnCrash()
     }
 
     private fun initFirebaseAnalytics() {
@@ -29,13 +26,6 @@ open class EBApp : EBAppApplication() {
     private fun initCrashlytics() {
         if (BuildConfig.DEBUG) return
         Crashlytics.setUserIdentifier(deviceId)
-    }
-
-    private fun initCustomActivityOnCrash() {
-        CaocConfig.Builder.create()
-            .enabled(true) // 始终启用.
-            .errorActivity(CrashActivity::class.java)
-            .apply()
     }
 
     open fun createAppReport(): Any? {

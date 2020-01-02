@@ -5,6 +5,5 @@
     <application
         android:name=".EBApp"
         android:label="@string/eb_label">
-        <activity android:name=".crash.CrashActivity"/>
     </application>
 </manifest>

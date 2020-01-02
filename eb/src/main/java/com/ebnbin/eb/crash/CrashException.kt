@@ -1,4 +1,4 @@
-package com.ebnbin.eb.app2.crash
+package com.ebnbin.eb.crash
 
 import java.text.SimpleDateFormat
 import java.util.Locale

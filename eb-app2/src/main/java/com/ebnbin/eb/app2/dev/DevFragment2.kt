@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.app2.about.AboutFragment
-import com.ebnbin.eb.app2.crash.CrashException
 import com.ebnbin.eb.app2.databinding.EbDevFragment2Binding
 import com.ebnbin.eb.app2.fragment.EBViewFragment
 import com.ebnbin.eb.app2.loading.Loading

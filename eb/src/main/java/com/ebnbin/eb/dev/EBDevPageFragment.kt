@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialogFragment
 import com.ebnbin.eb.fragment.requireArgument
@@ -211,7 +212,7 @@ internal class EBDevPageFragment : PreferenceFragmentCompat(), AlertDialogFragme
     override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
         return when (callbackBundle.getValue<String>("calling_id")) {
             "Crash" -> {
-                throw RuntimeException()
+                throw CrashException()
             }
             else -> super.onAlertDialogPositive(alertDialog, callbackBundle)
         }

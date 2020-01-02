@@ -1,11 +1,11 @@
-package com.ebnbin.eb.app2.crash
+package com.ebnbin.eb.crash
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ebnbin.eb.BuildConfig
 
-internal class CrashActivityViewModel : ViewModel() {
+internal class CrashViewModel : ViewModel() {
     val logVisible: MutableLiveData<Boolean> = MutableLiveData(BuildConfig.DEBUG)
 
     val log: MutableLiveData<CharSequence> = MutableLiveData()
