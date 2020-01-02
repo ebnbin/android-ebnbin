@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="ebapp_window_light_status_bar">true</bool>
+    <bool name="ebapp_window_light_navigation_bar">true</bool>
+
+    <color name="ebapp_window_background">@android:color/white</color>
+    <color name="ebapp_color_primary">@color/eb_material_light_blue_500</color>
+    <color name="ebapp_color_primary_dark">@color/eb_material_light_blue_700</color>
+    <color name="ebapp_color_secondary">@color/eb_material_blue_gray_700</color>
+
+    <style name="EBAppTheme" parent="EBAppBaseTheme">
+        <item name="android:windowLightNavigationBar">@bool/ebapp_window_light_navigation_bar</item>
+        <item name="android:navigationBarColor">?android:attr/windowBackground</item>
+    </style>
+</resources>

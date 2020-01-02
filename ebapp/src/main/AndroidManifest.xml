@@ -2,5 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ebnbin.ebapp">
-    <application android:name=".EBAppApplication"/>
+    <application
+        android:name=".EBAppApplication"
+        android:theme="@style/EBAppTheme"/>
 </manifest>

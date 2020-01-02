@@ -9,8 +9,7 @@
         android:label="@string/eb_label"
         android:icon="@mipmap/eb_icon"
         android:roundIcon="@mipmap/eb_icon"
-        android:logo="@drawable/eb_logo"
-        android:theme="@style/EBTheme3">
+        android:logo="@drawable/eb_logo">
         <activity
             android:name=".crash.CrashActivity"
             android:theme="@style/EBCrashTheme"/>

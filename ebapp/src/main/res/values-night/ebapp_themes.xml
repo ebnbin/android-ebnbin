@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="ebapp_window_light_status_bar">false</bool>
+
+    <color name="ebapp_window_background">@color/eb_material_gray_900</color>
+    <color name="ebapp_color_primary">@color/eb_material_light_blue_700</color>
+    <color name="ebapp_color_primary_dark">@color/eb_material_light_blue_900</color>
+    <color name="ebapp_color_secondary">@color/eb_material_blue_gray_500</color>
+</resources>
