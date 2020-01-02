@@ -1,9 +1,7 @@
 package com.ebnbin.eb.app2.dev
 
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -37,10 +35,6 @@ open class DevFragment2 : EBViewFragment<EbDevFragment2Binding>() {
 
     @CallSuper
     protected open fun onAddDevItems() {
-        addDevItem("Long press") {
-            view?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        }
-
         addDevItem("About") {
             openFragment<AboutFragment>()
         }
@@ -76,36 +70,6 @@ open class DevFragment2 : EBViewFragment<EbDevFragment2Binding>() {
                 message = Report.create().toString(),
                 negativeText = "取消"
             )
-        }
-
-        addDevItem("Calling Activity", arguments?.getString(KEY_CALLING_ACTIVITY))
-
-        addDevItem("AlertDialogFragment", "isMaterial = false") {
-            childFragmentManager.openAlertDialogFragment(
-                isMaterial = false,
-                title = "Title",
-                message = "Message",
-                positiveText = "Positive",
-                negativeText = "Negative"
-            )
-        }
-
-        addDevItem("AlertDialogFragment", "isMaterial = true") {
-            childFragmentManager.openAlertDialogFragment(
-                isMaterial = true,
-                title = "Title",
-                message = "Message",
-                positiveText = "Positive",
-                negativeText = "Negative"
-            )
-        }
-
-        addDevItem("Toast") {
-            Toast.makeText(requireContext(), "${System.currentTimeMillis()}", Toast.LENGTH_SHORT).show()
-        }
-
-        addDevItem("Simple Toast") {
-            requireContext().toast("${System.currentTimeMillis()}")
         }
 
         addDevItem("Crash") {
