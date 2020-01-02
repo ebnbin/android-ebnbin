@@ -90,7 +90,7 @@ internal class EBDevPageFragment : PreferenceFragmentCompat() {
                 childFragmentManager.openAlertDialogFragment(
                     title = "Report",
                     message = EBApplication.instance.createReport().toString(),
-                    positiveText = "确定",
+                    negativeText = "取消",
                     fragmentTag = "Report"
                 )
                 true

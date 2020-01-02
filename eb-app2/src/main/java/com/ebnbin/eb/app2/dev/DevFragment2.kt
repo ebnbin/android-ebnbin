@@ -11,7 +11,6 @@ import com.ebnbin.eb.app2.crash.CrashException
 import com.ebnbin.eb.app2.databinding.EbDevFragment2Binding
 import com.ebnbin.eb.app2.fragment.EBViewFragment
 import com.ebnbin.eb.app2.loading.Loading
-import com.ebnbin.eb.dialog.openAlertDialogFragment
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.toast
 import kotlinx.coroutines.Job
@@ -63,14 +62,6 @@ open class DevFragment2 : EBViewFragment<EbDevFragment2Binding>() {
                 EBApp.instance.toast("onFailure")
             }
         })
-
-        addDevItem("Report") {
-            childFragmentManager.openAlertDialogFragment(
-                title = "Report",
-                message = Report.create().toString(),
-                negativeText = "取消"
-            )
-        }
 
         addDevItem("Crash") {
             throw CrashException()

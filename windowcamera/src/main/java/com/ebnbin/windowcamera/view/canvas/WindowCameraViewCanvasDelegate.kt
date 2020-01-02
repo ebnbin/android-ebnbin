@@ -82,7 +82,7 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
 
     companion object {
         private val COLOR_MAP = mapOf(
-            CameraState.CLOSED to R.color.eb_transparent,
+            CameraState.CLOSED to android.R.color.transparent,
             CameraState.STATING to R.color.eb_material_gray_500,
             CameraState.PREVIEWING_PHOTO to R.color.eb_material_blue_500,
             CameraState.PREVIEWING_VIDEO to R.color.eb_material_green_500,
