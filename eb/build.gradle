@@ -46,6 +46,7 @@ dependencies {
     api 'com.google.android.material:material:1.2.0-alpha03' // https://material.io/develop/android/docs/getting-started/
     api 'com.google.code.gson:gson:2.8.6' // https://github.com/google/gson
     api 'cat.ereza:customactivityoncrash:2.2.0' // https://github.com/Ereza/CustomActivityOnCrash
+    api 'com.jeremyliao:live-event-bus-x:1.5.7' // https://github.com/JeremyLiao/LiveEventBus
     api 'com.squareup.okhttp3:okhttp:4.2.2' // https://github.com/square/okhttp
     api 'com.squareup.retrofit2:retrofit:2.7.0' // https://github.com/square/retrofit
     api 'com.squareup.retrofit2:converter-gson:2.7.0'
