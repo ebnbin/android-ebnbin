@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.graphics.Point
+import android.graphics.drawable.Drawable
 import android.provider.Settings
 import android.view.Surface
 import android.view.WindowManager
@@ -21,6 +22,12 @@ val Context.applicationId: String
 
 val Context.appLabel: String
     get() = applicationInfo.loadLabel(packageManager).toString()
+
+val Context.appIcon: Drawable
+    get() = applicationInfo.loadIcon(packageManager)
+
+val Context.appLogo: Drawable?
+    get() = applicationInfo.loadLogo(packageManager)
 
 val Context.versionCode: Int
     get() {
