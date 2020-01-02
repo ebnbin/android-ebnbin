@@ -11,6 +11,14 @@ android {
         targetSdkVersion target_sdk_version
         consumerProguardFiles util.proguardFiles
     }
+    buildTypes {
+        release {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: true]
+        }
+        debug {
+            manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: false]
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -29,4 +37,6 @@ android {
 
 dependencies {
     api project(':eb')
+    api 'com.google.firebase:firebase-analytics:17.2.1' // https://firebase.google.com/docs/android/setup
+    api 'com.crashlytics.sdk.android:crashlytics:2.10.1' // https://firebase.google.com/docs/crashlytics/get-started?platform=android
 }

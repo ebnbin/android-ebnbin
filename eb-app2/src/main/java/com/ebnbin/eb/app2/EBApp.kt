@@ -5,9 +5,9 @@ import com.crashlytics.android.Crashlytics
 import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.app2.crash.CrashActivity
 import com.ebnbin.eb.app2.dev.DevFragment2
-import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb.app2.util.DeviceUtil
 import com.ebnbin.ebapp.EBAppApplication
+import com.ebnbin.ebapp.library.firebaseAnalytics
 
 /**
  * 基础 Application.
@@ -23,7 +23,7 @@ open class EBApp : EBAppApplication() {
 
     private fun initFirebaseAnalytics() {
         if (BuildConfig.DEBUG) return
-        Libraries.firebaseAnalytics.setUserId(DeviceUtil.DEVICE_ID)
+        firebaseAnalytics.setUserId(DeviceUtil.DEVICE_ID)
     }
 
     private fun initCrashlytics() {

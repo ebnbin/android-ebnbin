@@ -2,11 +2,11 @@ package com.ebnbin.eb2.dev
 
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
-import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb.app2.util.DeviceUtil
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 import com.ebnbin.eb2.util.TimeHelper
+import com.ebnbin.ebapp.library.firebaseAnalytics
 import com.ebnbin.windowcamera.BuildConfig
 
 object DevHelper {
@@ -32,6 +32,6 @@ object DevHelper {
 
     fun reportEvent(name: String, params: Bundle = Bundle.EMPTY) {
         if (BuildConfig.DEBUG) return
-        Libraries.firebaseAnalytics.logEvent(name, params)
+        firebaseAnalytics.logEvent(name, params)
     }
 }
