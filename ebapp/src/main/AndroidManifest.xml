@@ -6,6 +6,9 @@
 
     <application
         android:name=".EBAppApplication"
+        android:icon="@mipmap/ebapp_icon"
+        android:roundIcon="@mipmap/ebapp_icon"
+        android:logo="@drawable/ebapp_logo"
         android:theme="@style/EBAppTheme">
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"

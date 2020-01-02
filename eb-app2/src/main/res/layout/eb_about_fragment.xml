@@ -87,7 +87,7 @@
                                     android:layout_height="128dp"
                                     android:layout_marginStart="-5dp"
                                     android:layout_marginTop="-5dp"
-                                    android:src="@drawable/eb_icon"/>
+                                    android:src="@drawable/ebapp_splash_icon"/>
 
                             </com.google.android.material.card.MaterialCardView>
 

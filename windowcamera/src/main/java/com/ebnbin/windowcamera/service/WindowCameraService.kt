@@ -75,7 +75,7 @@ class WindowCameraService : Service() {
             EBApp.instance.requireSystemService<NotificationManager>().createNotificationChannel(notificationChannel)
         }
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.eb_logo_198)
+            .setSmallIcon(R.drawable.app_logo)
             .setContentTitle(getString(R.string.window_camera_service_stop))
             .setContentIntent(PendingIntent.getBroadcast(this, 0,
                 Intent(this, StopWindowCameraServiceBroadcastReceiver::class.java), 0))

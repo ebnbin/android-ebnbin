@@ -4,10 +4,7 @@
     package="com.ebnbin.eb.app2">
     <application
         android:name=".EBApp"
-        android:label="@string/eb_label"
-        android:icon="@mipmap/eb_icon"
-        android:roundIcon="@mipmap/eb_icon"
-        android:logo="@drawable/eb_logo">
+        android:label="@string/eb_label">
         <activity android:name=".crash.CrashActivity"/>
     </application>
 </manifest>

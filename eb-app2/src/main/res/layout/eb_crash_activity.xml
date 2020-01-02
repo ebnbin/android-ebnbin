@@ -50,35 +50,35 @@
                 android:padding="16dp">
 
                 <FrameLayout
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:padding="16dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:padding="9dp"
                     android:clipChildren="false">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="118dp"
-                        android:layout_height="118dp"
+                        android:layout_width="66dp"
+                        android:layout_height="66dp"
                         android:layout_gravity="center"
-                        android:layout_margin="5dp"
+                        android:layout_margin="3dp"
                         android:elevation="2dp"
                         android:outlineProvider="none"
                         android:onClick="@{iconOnClick}"
                         android:onLongClickListener="@{viewModel::iconOnLongClick}"
-                        app:cardCornerRadius="59dp">
+                        app:cardCornerRadius="33dp">
 
                         <ImageView
-                            android:layout_width="128dp"
-                            android:layout_height="128dp"
-                            android:layout_marginStart="-5dp"
-                            android:layout_marginTop="-5dp"
-                            android:src="@drawable/eb_icon"/>
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:layout_marginStart="-3dp"
+                            android:layout_marginTop="-3dp"
+                            android:src="@drawable/ebapp_splash_icon"/>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <ImageView
                         android:id="@+id/eb_bug"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
                         android:layout_gravity="end|bottom"
                         android:src="@drawable/customactivityoncrash_error_image"
                         android:scaleType="fitEnd"

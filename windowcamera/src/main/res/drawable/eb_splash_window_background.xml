@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@android:color/white"/>
+        android:drawable="?android:attr/colorBackground"/>
     <item
-        android:width="198dp"
-        android:height="198dp"
-        android:gravity="center">
-        <bitmap
-            android:src="@drawable/eb_logo_198"
-            android:tint="@color/eb_material_light_blue_500"/>
-    </item>
+        android:width="128dp"
+        android:height="128dp"
+        android:gravity="center"
+        android:drawable="@drawable/app_splash_icon"/>
 </layer-list>

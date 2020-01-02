@@ -21,10 +21,13 @@
     <application
         android:name=".AppApplication"
         android:label="@string/eb_label"
+        android:icon="@mipmap/app_icon"
+        android:roundIcon="@mipmap/app_icon"
+        android:logo="@drawable/app_logo"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="q"
-        tools:replace="android:name, android:label">
+        tools:replace="android:name, android:label, android:icon, android:roundIcon, android:logo">
         <activity android:name="com.ebnbin.eb2.activity.EBActivity"/>
 
         <activity
