@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.closeApp
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialogFragment
@@ -179,6 +180,53 @@ internal class EBDevPageFragment : PreferenceFragmentCompat(), AlertDialogFragme
             it.title = "LONG_PRESS 震动反馈"
             it.setOnPreferenceClickListener {
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                true
+            }
+        }
+
+        //*************************************************************************************************************
+
+        val appPreferenceGroup = PreferenceCategory(requireContext()).also {
+            preferenceScreen.addPreference(it)
+            it.title = "App"
+        }
+
+        Preference(requireContext()).also {
+            appPreferenceGroup.addPreference(it)
+            it.title = "关闭 App"
+            it.summary = "killProcessDelay = -1L"
+            it.setOnPreferenceClickListener {
+                requireActivity().closeApp(reopenApp = false, killProcessDelay = -1L)
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            appPreferenceGroup.addPreference(it)
+            it.title = "关闭 App"
+            it.summary = "killProcessDelay = 300L"
+            it.setOnPreferenceClickListener {
+                requireActivity().closeApp(reopenApp = false, killProcessDelay = 300L)
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            appPreferenceGroup.addPreference(it)
+            it.title = "重启 App"
+            it.summary = "killProcessDelay = -1L"
+            it.setOnPreferenceClickListener {
+                requireActivity().closeApp(reopenApp = true, killProcessDelay = -1L)
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            appPreferenceGroup.addPreference(it)
+            it.title = "重启 App"
+            it.summary = "killProcessDelay = 300L"
+            it.setOnPreferenceClickListener {
+                requireActivity().closeApp(reopenApp = true, killProcessDelay = 300L)
                 true
             }
         }

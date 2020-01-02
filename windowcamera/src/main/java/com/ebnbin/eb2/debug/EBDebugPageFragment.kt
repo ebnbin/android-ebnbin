@@ -6,7 +6,6 @@ import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.eb2.util.AppHelper
-import com.ebnbin.eb2.util.IntentHelper
 
 /**
  * Debug EB 页面.
@@ -37,21 +36,13 @@ open class EBDebugPageFragment : DevFragment2() {
         }
 
         addDevItem("夜间模式", "关闭") {
-            AppHelper.setNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            AppHelper.setNightMode(requireActivity(), AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         addDevItem("夜间模式", "开启") {
-            AppHelper.setNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            AppHelper.setNightMode(requireActivity(), AppCompatDelegate.MODE_NIGHT_YES)
         }
 
         addDevItem("重置偏好", "TODO")
-
-        addDevItem("重启应用") {
-            IntentHelper.restartApp()
-        }
-
-        addDevItem("关闭应用") {
-            IntentHelper.finishApp()
-        }
     }
 }

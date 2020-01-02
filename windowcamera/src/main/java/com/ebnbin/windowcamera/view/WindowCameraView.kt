@@ -14,13 +14,13 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.closeApp
 import com.ebnbin.eb.dpToPxRound
 import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.util.AppHelper
-import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -208,7 +208,7 @@ class WindowCameraView(context: Context) : CardView(context),
                 }
             }
             ProfileGesture.RESTART_APP -> {
-                IntentHelper.restartApp()
+                context.closeApp(closeApp = false, reopenApp = true)
             }
             ProfileGesture.CLOSE_APP -> {
                 AppHelper.vibrate(100L)

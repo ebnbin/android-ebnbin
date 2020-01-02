@@ -29,7 +29,7 @@ class MenuPreferenceFragment : PreferenceFragmentCompat() {
         findPreference<SwitchPreference>(SpManager.is_night_mode_enabled.requireKey())?.apply {
             setOnPreferenceChangeListener { _, newValue ->
                 newValue as Boolean
-                AppHelper.setNightMode(
+                AppHelper.setNightMode(requireActivity(),
                     if (newValue) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
                 true
             }

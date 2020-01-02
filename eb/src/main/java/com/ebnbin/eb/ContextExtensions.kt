@@ -1,11 +1,14 @@
 package com.ebnbin.eb
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ActivityManager
 import android.app.Service
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.graphics.Point
@@ -13,8 +16,12 @@ import android.graphics.drawable.Drawable
 import android.provider.Settings
 import android.view.Surface
 import android.view.WindowManager
+import androidx.core.app.ActivityCompat
 import androidx.core.content.getSystemService
+import androidx.core.os.postDelayed
+import com.ebnbin.eb.activity.openActivity
 import java.util.Locale
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 val Context.applicationId: String
@@ -169,5 +176,41 @@ fun Context.getDisplayRealSize0(): Pair<Int, Int> {
         displayRealSize.second to displayRealSize.first
     } else {
         displayRealSize.first to displayRealSize.second
+    }
+}
+
+//*********************************************************************************************************************
+
+fun Context.getActivity(): Activity? {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    return null
+}
+
+fun Context.requireActivity(): Activity {
+    return getActivity() ?: throw IllegalArgumentException("无法获取 Activity.")
+}
+
+//*********************************************************************************************************************
+
+fun Context.closeApp(closeApp: Boolean = true, reopenApp: Boolean = false, killProcessDelay: Long = -1L) {
+    if (closeApp) {
+        val activity = getActivity()
+        if (activity != null) ActivityCompat.finishAffinity(activity)
+    }
+    mainHandler.postDelayed(max(0L, killProcessDelay)) {
+        if (reopenApp) {
+            packageManager.getLaunchIntentForPackage(applicationId)
+                ?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                ?.let { openActivity(it) }
+        }
+        if (killProcessDelay >= 0L) {
+            android.os.Process.killProcess(android.os.Process.myPid())
+        }
     }
 }
