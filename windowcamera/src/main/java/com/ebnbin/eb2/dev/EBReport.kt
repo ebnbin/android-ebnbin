@@ -1,6 +1,6 @@
 package com.ebnbin.eb2.dev
 
-import com.ebnbin.eb.app2.library.Libraries
+import com.ebnbin.eb.library.gson
 import com.ebnbin.eb2.util.EBModel
 
 open class EBReport : EBModel {
@@ -9,6 +9,6 @@ open class EBReport : EBModel {
     }
 
     override fun toString(): String {
-        return Libraries.gson.toJson(this)
+        return gson.toJson(this)
     }
 }

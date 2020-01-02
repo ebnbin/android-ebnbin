@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceFragmentCompat
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.dialog.openAlertDialogFragment
 import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.preference.Preference
@@ -73,6 +74,27 @@ internal class EBDevPageFragment : PreferenceFragmentCompat() {
             it.min = 1
             it.max = 60
             it.seekBarIncrement = 1
+        }
+
+        //*************************************************************************************************************
+
+        val reportPreferenceGroup = PreferenceCategory(requireContext()).also {
+            preferenceScreen.addPreference(it)
+            it.title = "Report"
+        }
+
+        Preference(requireContext()).also {
+            reportPreferenceGroup.addPreference(it)
+            it.title = "Report"
+            it.setOnPreferenceClickListener {
+                childFragmentManager.openAlertDialogFragment(
+                    title = "Report",
+                    message = EBApplication.instance.createReport().toString(),
+                    positiveText = "确定",
+                    fragmentTag = "Report"
+                )
+                true
+            }
         }
 
         //*************************************************************************************************************

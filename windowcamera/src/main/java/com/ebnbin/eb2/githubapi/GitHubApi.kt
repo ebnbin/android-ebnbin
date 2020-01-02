@@ -1,8 +1,8 @@
 package com.ebnbin.eb2.githubapi
 
 import com.ebnbin.eb.app2.BuildConfig
-import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb.base64EncodeToString
+import com.ebnbin.eb.library.gson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -20,7 +20,7 @@ object GitHubApi {
                     .build())
             }
             .build())
-        .addConverterFactory(GsonConverterFactory.create(Libraries.gson))
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
 

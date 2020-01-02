@@ -8,7 +8,10 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
+import android.graphics.Point
 import android.provider.Settings
+import android.view.Surface
+import android.view.WindowManager
 import androidx.core.content.getSystemService
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -138,4 +141,23 @@ inline fun <reified T : Service> Context.isServiceRunning(): Boolean {
 
 fun Context.copy(text: CharSequence, label: CharSequence = applicationId) {
     requireSystemService<ClipboardManager>().setPrimaryClip(ClipData.newPlainText(label, text))
+}
+
+//*********************************************************************************************************************
+
+fun Context.getDisplayRealSize(): Triple<Int, Int, Int> {
+    val display = requireSystemService<WindowManager>().defaultDisplay
+    val outSize = Point().also {
+        display.getRealSize(it)
+    }
+    return Triple(outSize.x, outSize.y, display.rotation)
+}
+
+fun Context.getDisplayRealSize0(): Pair<Int, Int> {
+    val displayRealSize = getDisplayRealSize()
+    return if (displayRealSize.third == Surface.ROTATION_90 || displayRealSize.third == Surface.ROTATION_270) {
+        displayRealSize.second to displayRealSize.first
+    } else {
+        displayRealSize.first to displayRealSize.second
+    }
 }

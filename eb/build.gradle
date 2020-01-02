@@ -10,6 +10,7 @@ android {
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
         consumerProguardFiles util.proguardFiles
+        buildConfigField 'long', 'BUILD_TIMESTAMP', "${System.currentTimeMillis()}L"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

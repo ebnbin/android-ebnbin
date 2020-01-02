@@ -4,7 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ebnbin.eb.app2.BuildConfig
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.app2.EBApp
 import com.ebnbin.eb.toTimeString
 import com.ebnbin.eb.versionName

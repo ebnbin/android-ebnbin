@@ -10,7 +10,6 @@ android {
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
         consumerProguardFiles util.proguardFiles
-        buildConfigField 'long', 'BUILD_TIMESTAMP', "${System.currentTimeMillis()}L"
         buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${util.localProperties['githubApiToken']}\""
     }
     buildTypes {

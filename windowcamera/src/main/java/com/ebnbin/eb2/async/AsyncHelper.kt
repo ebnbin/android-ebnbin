@@ -1,12 +1,12 @@
 package com.ebnbin.eb2.async
 
 import com.ebnbin.eb.app2.EBApp
-import com.ebnbin.eb.versionCode
-import com.ebnbin.eb.app2.library.Libraries
 import com.ebnbin.eb.app2.util.DeviceUtil
+import com.ebnbin.eb.app2.util.ebnbinApplicationId
 import com.ebnbin.eb.base64Decode
 import com.ebnbin.eb.base64EncodeToString
-import com.ebnbin.eb.app2.util.ebnbinApplicationId
+import com.ebnbin.eb.library.gson
+import com.ebnbin.eb.versionCode
 import com.ebnbin.eb2.githubapi.GitHubApi
 import com.ebnbin.eb2.githubapi.model.PutContentsRequest
 import com.ebnbin.eb2.util.TimeHelper
@@ -121,7 +121,7 @@ class AsyncHelper {
             .observeOn(AndroidSchedulers.mainThread())
             .map {
                 val content = String(it.content.base64Decode())
-                val t = Libraries.gson.fromJson<T>(content, classOfT)
+                val t = gson.fromJson<T>(content, classOfT)
                 t
             }
             .subscribe(
@@ -163,7 +163,7 @@ class AsyncHelper {
                 val putContentsRequest = PutContentsRequest()
                 putContentsRequest.message =
                     "${EBApp.instance.ebnbinApplicationId} ${EBApp.instance.versionCode} ${DeviceUtil.DEVICE_ID}"
-                putContentsRequest.content = Libraries.gson.toJson(t).toByteArray().base64EncodeToString()
+                putContentsRequest.content = gson.toJson(t).toByteArray().base64EncodeToString()
                 putContentsRequest.sha = it.firstOrNull { content -> content.name == name }?.sha
                 GitHubApi.api.putContents("${EBApp.instance.ebnbinApplicationId}$path", putContentsRequest)
             }

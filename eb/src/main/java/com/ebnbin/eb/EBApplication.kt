@@ -5,6 +5,7 @@ import com.ebnbin.eb.dev.CreateDevPage
 import com.ebnbin.eb.dev.EBDevPageFragment
 import com.ebnbin.eb.dev.dev
 import com.ebnbin.eb.dev.floating.DevFloatingActivityLifecycleCallbacks
+import com.ebnbin.eb.report.Report
 
 open class EBApplication : Application() {
     override fun onCreate() {
@@ -24,6 +25,9 @@ open class EBApplication : Application() {
                 EBDevPageFragment.createArguments(it.toString())
             }
         )
+
+    open val createReport: () -> Report
+        get() = { Report() }
 
     companion object {
         lateinit var instance: EBApplication
