@@ -6,13 +6,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.openAlertDialogFragment
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.splash.EBSplashFragment
-import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.camera.exception.CameraInvalidException
@@ -24,7 +24,7 @@ class SplashFragment : EBSplashFragment() {
         super.onInit(savedInstanceState)
         try {
             if (CameraHelper.isValid()) {
-                IntentHelper.startActivityFromFragment(this, MainActivity::class.java)
+                openActivity<MainActivity>()
                 activity?.finish()
                 return
             } else {

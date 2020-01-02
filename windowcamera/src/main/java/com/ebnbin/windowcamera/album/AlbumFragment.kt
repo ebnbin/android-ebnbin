@@ -9,12 +9,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialogFragment
 import com.ebnbin.eb.pxToDp
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.fragment.EBFragment
-import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.R
@@ -59,8 +59,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         adapter.setOnItemClickListener { _, _, position ->
             when (adapter.data[position].multiSelect) {
                 MultiSelect.NORMAL -> {
-                    IntentHelper.startActivityFromFragment(this@AlbumFragment,
-                        ImageVideoActivity.intent(requireContext(), ArrayList(adapter.data), position))
+                    openActivity(ImageVideoActivity.intent(requireContext(), ArrayList(adapter.data), position))
                 }
                 MultiSelect.UNSELECTED -> {
                     multiSelect(position, true)

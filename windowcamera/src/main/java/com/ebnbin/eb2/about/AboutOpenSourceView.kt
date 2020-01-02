@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import com.ebnbin.eb.openBrowser
 import com.ebnbin.windowcamera.R
-import com.ebnbin.eb2.util.IntentHelper
 import kotlinx.android.synthetic.main.eb_about_open_source_view.view.*
 
 /**
@@ -25,7 +25,7 @@ internal class AboutOpenSourceView @JvmOverloads constructor(
         eb_name.text = pair.first
         eb_url.text = pair.second
         setOnClickListener {
-            IntentHelper.startBrowser(context, pair.second)
+            context.openBrowser(pair.second)
         }
     }
 }

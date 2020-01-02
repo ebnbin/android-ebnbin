@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
+import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.util.AppHelper
-import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.album.AlbumActivity
 import com.ebnbin.windowcamera.util.SpManager
@@ -20,7 +20,7 @@ class MenuPreferenceFragment : PreferenceFragmentCompat() {
 
         findPreference<Preference>(getString(R.string.menu_album))?.apply {
             setOnPreferenceClickListener {
-                IntentHelper.startActivityFromActivity(requireActivity(), AlbumActivity::class.java)
+                openActivity<AlbumActivity>()
                 LiveEventBus.get("MenuDismissEvent").post(Unit)
                 false
             }

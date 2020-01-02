@@ -14,6 +14,8 @@ import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialogFragment
 import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.getValue
+import com.ebnbin.eb.openBrowser
+import com.ebnbin.eb.openMarket
 import com.ebnbin.eb.preference.Preference
 import com.ebnbin.eb.preference.PreferenceCategory
 import com.ebnbin.eb.preference.SeekBarPreference
@@ -180,6 +182,53 @@ internal class EBDevPageFragment : PreferenceFragmentCompat(), AlertDialogFragme
             it.title = "LONG_PRESS 震动反馈"
             it.setOnPreferenceClickListener {
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                true
+            }
+        }
+
+        //*************************************************************************************************************
+
+        val intentPreferenceGroup = PreferenceCategory(requireContext()).also {
+            preferenceScreen.addPreference(it)
+            it.title = "Intent"
+        }
+
+        Preference(requireContext()).also {
+            intentPreferenceGroup.addPreference(it)
+            it.title = "打开应用商店"
+            it.summary = "googlePlayStore = false"
+            it.setOnPreferenceClickListener {
+                requireContext().openMarket(googlePlayStore = false)
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            intentPreferenceGroup.addPreference(it)
+            it.title = "打开应用商店"
+            it.summary = "googlePlayStore = true"
+            it.setOnPreferenceClickListener {
+                requireContext().openMarket(googlePlayStore = true)
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            intentPreferenceGroup.addPreference(it)
+            it.title = "打开浏览器"
+            it.summary = "chrome = false"
+            it.setOnPreferenceClickListener {
+                requireContext().openBrowser("https://github.com/ebnbin", chrome = false)
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            intentPreferenceGroup.addPreference(it)
+            it.title = "打开浏览器"
+            it.summary = "chrome = true"
+            it.setOnPreferenceClickListener {
+                requireContext().openBrowser("https://github.com/ebnbin", chrome = true)
                 true
             }
         }

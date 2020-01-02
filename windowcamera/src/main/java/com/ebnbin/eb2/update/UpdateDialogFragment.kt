@@ -20,11 +20,15 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.applicationId
+import com.ebnbin.eb.closeApp
 import com.ebnbin.eb.copy
 import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.mainHandler
 import com.ebnbin.eb.md5ToString
+import com.ebnbin.eb.openBrowser
+import com.ebnbin.eb.openMarket
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb.requireSystemService
@@ -32,7 +36,6 @@ import com.ebnbin.eb.sdk24N
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.eb2.githubapi.model.content.Update
-import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.ebapp.isGoogleFlavor
 import com.ebnbin.windowcamera.R
 import java.io.File
@@ -65,7 +68,7 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
                 if (positiveButton != null) {
                     positiveButton.setText(R.string.eb_update_market)
                     positiveButton.setOnClickListener {
-                        IntentHelper.startMarket(requireContext())
+                        requireContext().openMarket(isGoogleFlavor)
                     }
                 }
             } else {
@@ -73,14 +76,14 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
             }
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
                 if (hasForceUpdate) {
-                    IntentHelper.finishApp()
+                    requireActivity().closeApp()
                 } else {
                     dismissAllowingStateLoss()
                 }
             }
             if (!isGoogleFlavor) {
                 alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
-                    IntentHelper.startBrowser(requireContext(), update.url)
+                    requireContext().openBrowser(update.url)
                     requireContext().copy(update.url)
                     requireContext().toast(R.string.eb_update_copied)
                 }
@@ -210,7 +213,7 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
                 Uri.fromFile(file)
             }
             intent.setDataAndType(uri, MINE_TYPE)
-            IntentHelper.startActivityFromFragment(this, intent)
+            openActivity(intent)
         } else {
             requireContext().toast(R.string.eb_update_unverified)
         }

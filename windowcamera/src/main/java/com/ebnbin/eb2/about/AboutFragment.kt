@@ -10,13 +10,14 @@ import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.copy
 import com.ebnbin.eb.fragment.getArgument
+import com.ebnbin.eb.openMarket
 import com.ebnbin.eb.toast
 import com.ebnbin.eb.versionName
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
-import com.ebnbin.eb2.util.IntentHelper
 import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.ebapp.deviceId
+import com.ebnbin.ebapp.isGoogleFlavor
 import com.ebnbin.windowcamera.R
 import kotlinx.android.synthetic.main.eb_about_fragment2.*
 
@@ -62,7 +63,7 @@ class AboutFragment : EBFragment() {
             UpdateFragment.start(childFragmentManager, false)
         }
         eb_open_market.setOnClickListener {
-            IntentHelper.startMarket(requireContext())
+            requireContext().openMarket(isGoogleFlavor)
         }
         OPEN_SOURCES.forEach {
             addOpenSource(it)

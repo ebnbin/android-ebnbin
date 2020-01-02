@@ -13,6 +13,7 @@ import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.graphics.Point
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.provider.Settings
 import android.view.Surface
 import android.view.WindowManager
@@ -212,5 +213,38 @@ fun Context.closeApp(closeApp: Boolean = true, reopenApp: Boolean = false, killP
         if (killProcessDelay >= 0L) {
             android.os.Process.killProcess(android.os.Process.myPid())
         }
+    }
+}
+
+//*********************************************************************************************************************
+
+fun Context.openMarket(
+    googlePlayStore: Boolean = false,
+    onFailure: ((Throwable) -> Unit)? = { toast(R.string.eb_open_market_failure) }
+) {
+    runCatching {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${applicationId}"))
+        if (googlePlayStore) {
+            intent.setPackage("com.android.vending")
+        }
+        openActivity(intent)
+    }.onFailure {
+        onFailure?.invoke(it)
+    }
+}
+
+fun Context.openBrowser(
+    url: String,
+    chrome: Boolean = false,
+    onFailure: ((Throwable) -> Unit)? = { toast(R.string.eb_open_browser_failure) }
+) {
+    runCatching {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        if (chrome) {
+            intent.setPackage("com.android.chrome")
+        }
+        openActivity(intent)
+    }.onFailure {
+        onFailure?.invoke(it)
     }
 }
