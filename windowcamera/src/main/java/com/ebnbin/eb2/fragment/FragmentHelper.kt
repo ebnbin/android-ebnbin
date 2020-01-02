@@ -3,11 +3,11 @@ package com.ebnbin.eb2.fragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 
 object FragmentHelper {
     fun <T : Fragment> instantiate(fm: FragmentManager, fragmentClass: Class<T>, arguments: Bundle? = null): T {
-        val fragment = fm.fragmentFactory.instantiate(EBApp.instance.classLoader, fragmentClass.name)
+        val fragment = fm.fragmentFactory.instantiate(EBApplication.instance.classLoader, fragmentClass.name)
         fragment.arguments = arguments
         return fragmentClass.cast(fragment) as T
     }

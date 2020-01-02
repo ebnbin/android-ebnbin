@@ -2,7 +2,7 @@ package com.ebnbin.eb2.dev
 
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
 import com.ebnbin.eb2.util.TimeHelper
@@ -22,7 +22,7 @@ object DevHelper {
         if (BuildConfig.DEBUG) return
         if (!TimeHelper.expired(EBSpManager.last_report_timestamp.value, REPORT_EXPIRATION)) return
         AsyncHelper.global.githubPutJson(
-            "/reports/${EBApp.instance.deviceId.substring(0, 2)}/${EBApp.instance.deviceId}.json",
+            "/reports/${EBApplication.instance.deviceId.substring(0, 2)}/${EBApplication.instance.deviceId}.json",
             report(),
             null,
             onSuccess = {

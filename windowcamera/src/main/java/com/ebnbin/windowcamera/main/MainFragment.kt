@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.permission.PermissionFragment
 import com.ebnbin.eb.permission.openPermissionFragment
 import com.ebnbin.eb2.dev.DevHelper
@@ -177,7 +177,7 @@ class MainFragment : EBFragment(),
     //*****************************************************************************************************************
 
     companion object {
-        private val TIPS: Array<String> = EBApp.instance.resources.getStringArray(R.array.main_tips)
+        private val TIPS: Array<String> = EBApplication.instance.resources.getStringArray(R.array.main_tips)
 
         private var tipShown: Boolean = false
     }

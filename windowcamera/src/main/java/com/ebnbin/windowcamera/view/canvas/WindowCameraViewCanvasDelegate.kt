@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.dpToPx
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.CameraState
@@ -71,7 +71,7 @@ class WindowCameraViewCanvasDelegate(private val callback: IWindowCameraViewCanv
         if (ProfileHelper.is_border_enabled.value) {
             paint.color = callback.getContext().getColor(COLOR_MAP.getValue(ProfileHelper.cameraState))
             // * 2f 是因为边框是居中的，可见宽度是实际宽度的一半.
-            paint.strokeWidth = EBApp.instance.dpToPx(ProfileHelper.border_width.value.toFloat()) * 2f
+            paint.strokeWidth = EBApplication.instance.dpToPx(ProfileHelper.border_width.value.toFloat()) * 2f
             // 需要 - 1f （一个小的浮点数）否则显示圆角异常.
             val radius = min(canvas.width, canvas.height) * ProfileHelper.radius.value / 200f - 1f
             canvas.drawRoundRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), radius, radius, paint)

@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.app2.about.AboutFragment
 import com.ebnbin.eb.app2.databinding.EbDevFragment2Binding
 import com.ebnbin.eb.app2.fragment.EBViewFragment
@@ -48,17 +48,17 @@ open class DevFragment2 : EBViewFragment<EbDevFragment2Binding>() {
             Loading<String?> {
             override fun onStart(job: Job) {
                 super.onStart(job)
-                EBApp.instance.toast("onStart")
+                EBApplication.instance.toast("onStart")
             }
 
             override fun onSuccess(result: String?) {
                 super.onSuccess(result)
-                EBApp.instance.toast("onSuccess")
+                EBApplication.instance.toast("onSuccess")
             }
 
             override fun onFailure(throwable: Throwable) {
                 super.onFailure(throwable)
-                EBApp.instance.toast("onFailure")
+                EBApplication.instance.toast("onFailure")
             }
         })
     }

@@ -2,7 +2,7 @@ package com.ebnbin.eb2.sharedpreferences
 
 import android.content.SharedPreferences
 import androidx.annotation.StringRes
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.sharedpreferences.get
 import com.ebnbin.eb.sharedpreferences.getSharedPreferences
 import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
@@ -11,12 +11,12 @@ import com.ebnbin.eb.sharedpreferences.put
 open class Sp<T>(
     val getKey: () -> String?,
     val getDefaultValue: () -> T,
-    val getSharedPreferencesName: () -> String? = { EBApp.instance.getSharedPreferencesName() },
+    val getSharedPreferencesName: () -> String? = { EBApplication.instance.getSharedPreferencesName() },
     private val onChanged: ((oldValue: T?, newValue: T) -> Boolean)? = null
 ) {
     constructor(key: String, defaultValue: T) : this({ key }, { defaultValue })
 
-    constructor(@StringRes keyId: Int, defaultValue: T) : this(EBApp.instance.resources.getString(keyId), defaultValue)
+    constructor(@StringRes keyId: Int, defaultValue: T) : this(EBApplication.instance.resources.getString(keyId), defaultValue)
 
     var value: T
         get() {
@@ -38,7 +38,7 @@ open class Sp<T>(
         }
 
     fun getSharedPreferences(): SharedPreferences? {
-        return getSharedPreferencesName()?.let { EBApp.instance.getSharedPreferences(it, false) }
+        return getSharedPreferencesName()?.let { EBApplication.instance.getSharedPreferences(it, false) }
     }
 
     fun requireSharedPreferencesName(): String {

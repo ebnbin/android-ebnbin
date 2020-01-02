@@ -1,16 +1,16 @@
 package com.ebnbin.windowcamera.profile.enumeration
 
 import androidx.annotation.DrawableRes
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.ProfileHelper
 
 enum class Profile(val key: String, val title: CharSequence, @DrawableRes val iconId: Int) {
-    DEFAULT("default", EBApp.instance.resources.getString(R.string.profile_default_title), R.drawable.profile_default),
-    WALKING("walking", EBApp.instance.resources.getString(R.string.profile_walking_title), R.drawable.profile_walking),
-    MIRROR("mirror", EBApp.instance.resources.getString(R.string.profile_mirror_title), R.drawable.profile_mirror),
-    CUSTOM_1("custom_1", EBApp.instance.resources.getString(R.string.profile_custom_1_title), R.drawable.profile_custom_1),
-    CUSTOM_2("custom_2", EBApp.instance.resources.getString(R.string.profile_custom_2_title), R.drawable.profile_custom_2);
+    DEFAULT("default", EBApplication.instance.resources.getString(R.string.profile_default_title), R.drawable.profile_default),
+    WALKING("walking", EBApplication.instance.resources.getString(R.string.profile_walking_title), R.drawable.profile_walking),
+    MIRROR("mirror", EBApplication.instance.resources.getString(R.string.profile_mirror_title), R.drawable.profile_mirror),
+    CUSTOM_1("custom_1", EBApplication.instance.resources.getString(R.string.profile_custom_1_title), R.drawable.profile_custom_1),
+    CUSTOM_2("custom_2", EBApplication.instance.resources.getString(R.string.profile_custom_2_title), R.drawable.profile_custom_2);
 
     companion object {
         fun titles(): List<CharSequence> {

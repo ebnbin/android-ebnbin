@@ -4,12 +4,12 @@ import android.content.Context
 import android.graphics.Point
 import android.view.Display
 import android.view.WindowManager
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.requireSystemService
 
 object WindowHelper {
     private val display: Display
-        get() = EBApp.instance.requireSystemService<WindowManager>().defaultDisplay
+        get() = EBApplication.instance.requireSystemService<WindowManager>().defaultDisplay
 
     val displayRotation: Int
         get() = display.rotation

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.BuildConfig
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.copy
 import com.ebnbin.eb.fragment.getArgument
 import com.ebnbin.eb.toast
@@ -55,7 +55,7 @@ class AboutFragment : EBFragment() {
             true
         }
         eb_version.text = getString(R.string.eb_about_version,
-            EBApp.instance.versionName,
+            EBApplication.instance.versionName,
             if (BuildConfig.DEBUG) " ${BuildConfig.BUILD_TYPE}" else "",
             TimeHelper.longToString(BuildConfig.BUILD_TIMESTAMP, "yyyy-MM-dd"))
         eb_update.setOnClickListener {

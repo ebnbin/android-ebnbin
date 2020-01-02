@@ -1,6 +1,6 @@
 package com.ebnbin.eb2.async
 
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.base64Decode
 import com.ebnbin.eb.base64EncodeToString
 import com.ebnbin.eb.library.gson
@@ -116,7 +116,7 @@ class AsyncHelper {
     ): Disposable {
         val key = TimeHelper.nano().toString()
         return GitHubApi.api
-            .getContentsFile("${EBApp.instance.ebnbinApplicationId}$path")
+            .getContentsFile("${EBApplication.instance.ebnbinApplicationId}$path")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
@@ -156,16 +156,16 @@ class AsyncHelper {
         val dir = path.substringBeforeLast("/")
         val name = path.substringAfterLast("/")
         return GitHubApi.api
-            .getContentsDirectory("${EBApp.instance.ebnbinApplicationId}$dir")
+            .getContentsDirectory("${EBApplication.instance.ebnbinApplicationId}$dir")
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .flatMap {
                 val putContentsRequest = PutContentsRequest()
                 putContentsRequest.message =
-                    "${EBApp.instance.ebnbinApplicationId} ${EBApp.instance.versionCode} ${EBApp.instance.deviceId}"
+                    "${EBApplication.instance.ebnbinApplicationId} ${EBApplication.instance.versionCode} ${EBApplication.instance.deviceId}"
                 putContentsRequest.content = gson.toJson(t).toByteArray().base64EncodeToString()
                 putContentsRequest.sha = it.firstOrNull { content -> content.name == name }?.sha
-                GitHubApi.api.putContents("${EBApp.instance.ebnbinApplicationId}$path", putContentsRequest)
+                GitHubApi.api.putContents("${EBApplication.instance.ebnbinApplicationId}$path", putContentsRequest)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

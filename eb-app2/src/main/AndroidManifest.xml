@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ebnbin.eb.app2">
     <application
-        android:name=".EBApp"
         android:label="@string/eb_label">
     </application>
 </manifest>

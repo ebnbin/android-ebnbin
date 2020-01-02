@@ -6,7 +6,7 @@ import androidx.core.view.updatePadding
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.dpToPxRound
 import com.ebnbin.eb.sharedpreferences.getSharedPreferencesName
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -15,7 +15,7 @@ import com.ebnbin.windowcamera.profile.ProfileSp
 abstract class BaseProfileFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.sharedPreferencesName =
-            EBApp.instance.getSharedPreferencesName(ProfileHelper.getSharedPreferencesNamePostfix())
+            EBApplication.instance.getSharedPreferencesName(ProfileHelper.getSharedPreferencesNamePostfix())
 
         preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
     }

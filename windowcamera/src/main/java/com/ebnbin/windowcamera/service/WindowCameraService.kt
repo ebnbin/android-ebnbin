@@ -14,7 +14,7 @@ import android.os.IBinder
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.isServiceRunning
 import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.requireSystemService
@@ -64,15 +64,15 @@ class WindowCameraService : Service() {
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         params.format = PixelFormat.TRANSLUCENT
-        EBApp.instance.requireSystemService<WindowManager>().addView(windowCameraView, params)
+        EBApplication.instance.requireSystemService<WindowManager>().addView(windowCameraView, params)
     }
 
     private fun startForeground() {
         if (sdk26O() &&
-            EBApp.instance.requireSystemService<NotificationManager>().getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
+            EBApplication.instance.requireSystemService<NotificationManager>().getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
             val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "WindowCameraService",
                 NotificationManager.IMPORTANCE_DEFAULT)
-            EBApp.instance.requireSystemService<NotificationManager>().createNotificationChannel(notificationChannel)
+            EBApplication.instance.requireSystemService<NotificationManager>().createNotificationChannel(notificationChannel)
         }
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.app_logo)
@@ -85,7 +85,7 @@ class WindowCameraService : Service() {
 
     override fun onDestroy() {
         windowCameraView?.run {
-            EBApp.instance.requireSystemService<WindowManager>().removeView(windowCameraView)
+            EBApplication.instance.requireSystemService<WindowManager>().removeView(windowCameraView)
             windowCameraView = null
         }
 
@@ -138,7 +138,7 @@ class WindowCameraService : Service() {
         }
 
         fun isRunning(): Boolean {
-            return EBApp.instance.isServiceRunning<WindowCameraService>()
+            return EBApplication.instance.isServiceRunning<WindowCameraService>()
         }
     }
 }

@@ -12,7 +12,7 @@ import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.util.Size
 import android.view.Surface
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.util.RotationSize
@@ -37,7 +37,7 @@ object CameraHelper {
         CamcorderProfile.QUALITY_LOW
     )
 
-    private val ids: List<String> = EBApp.instance.requireSystemService<CameraManager>().cameraIdList.toList()
+    private val ids: List<String> = EBApplication.instance.requireSystemService<CameraManager>().cameraIdList.toList()
 
     /**
      * 对所有摄像头进行检测, 但只使用第一个后置摄像头和第一个前置摄像头, 且后置摄像头和前置摄像头都必须存在.
@@ -112,7 +112,7 @@ object CameraHelper {
      */
     class Device(val id: String, private val oldId: Int) {
         private val cameraCharacteristics: CameraCharacteristics =
-            EBApp.instance.requireSystemService<CameraManager>().getCameraCharacteristics(id)
+            EBApplication.instance.requireSystemService<CameraManager>().getCameraCharacteristics(id)
 
         //*************************************************************************************************************
 

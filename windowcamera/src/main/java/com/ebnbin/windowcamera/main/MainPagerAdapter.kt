@@ -3,7 +3,7 @@ package com.ebnbin.windowcamera.main
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb2.fragment.FragmentHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.profile.fragment.CameraProfileFragment
@@ -26,9 +26,9 @@ class MainPagerAdapter(private val fm: FragmentManager) :
 
     companion object {
         val ITEMS: List<Triple<Class<out Fragment>, CharSequence, Int>> = listOf(
-            Triple(WindowProfileFragment::class.java, EBApp.instance.resources.getString(R.string.window), R.drawable.profile_window),
-            Triple(CameraProfileFragment::class.java, EBApp.instance.resources.getString(R.string.camera), R.drawable.profile_camera),
-            Triple(OtherProfileFragment::class.java, EBApp.instance.resources.getString(R.string.other), R.drawable.profile_other)
+            Triple(WindowProfileFragment::class.java, EBApplication.instance.resources.getString(R.string.window), R.drawable.profile_window),
+            Triple(CameraProfileFragment::class.java, EBApplication.instance.resources.getString(R.string.camera), R.drawable.profile_camera),
+            Triple(OtherProfileFragment::class.java, EBApplication.instance.resources.getString(R.string.other), R.drawable.profile_other)
         )
     }
 }

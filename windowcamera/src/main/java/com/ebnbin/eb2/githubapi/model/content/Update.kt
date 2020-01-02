@@ -1,6 +1,6 @@
 package com.ebnbin.eb2.githubapi.model.content
 
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.versionCode
 import com.ebnbin.eb2.util.EBModel
 
@@ -12,10 +12,10 @@ class Update : EBModel {
     lateinit var message: String
 
     fun hasUpdate(): Boolean {
-        return EBApp.instance.versionCode < version
+        return EBApplication.instance.versionCode < version
     }
 
     fun hasForceUpdate(): Boolean {
-        return EBApp.instance.versionCode < minVersion
+        return EBApplication.instance.versionCode < minVersion
     }
 }

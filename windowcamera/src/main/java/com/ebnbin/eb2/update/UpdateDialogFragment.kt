@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.copy
 import com.ebnbin.eb.fragment.requireArgument
@@ -103,7 +103,7 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
             super.onChange(selfChange)
             val downloadId = downloadId ?: return
             val query = DownloadManager.Query().setFilterById(downloadId)
-            val cursor = EBApp.instance.requireSystemService<DownloadManager>().query(query) ?: return
+            val cursor = EBApplication.instance.requireSystemService<DownloadManager>().query(query) ?: return
             if (!cursor.moveToFirst()) return
 
             fun onDownloadComplete(failedStringId: Int) {
@@ -167,14 +167,14 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
             .setVisibleInDownloadsUi(false)
             .setDestinationInExternalFilesDir(requireContext(), null, FILE_NAME)
             .setMimeType(MINE_TYPE)
-        downloadId = EBApp.instance.requireSystemService<DownloadManager>().enqueue(request)
+        downloadId = EBApplication.instance.requireSystemService<DownloadManager>().enqueue(request)
     }
 
     private fun removeDownload() {
         if (status == DownloadManager.STATUS_SUCCESSFUL) {
             downloadId = null
         } else {
-            downloadId?.also { EBApp.instance.requireSystemService<DownloadManager>().remove(it) }
+            downloadId?.also { EBApplication.instance.requireSystemService<DownloadManager>().remove(it) }
             downloadId = null
             status = null
         }
@@ -205,7 +205,7 @@ internal class UpdateDialogFragment : AppCompatDialogFragment(), PermissionFragm
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val uri = if (sdk24N()) {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                FileProvider.getUriForFile(requireContext(), "${EBApp.instance.applicationId}.fileprovider", file)
+                FileProvider.getUriForFile(requireContext(), "${EBApplication.instance.applicationId}.fileprovider", file)
             } else {
                 Uri.fromFile(file)
             }

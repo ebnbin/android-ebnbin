@@ -12,7 +12,7 @@ import android.media.MediaRecorder
 import android.media.MediaScannerConnection
 import android.view.Surface
 import androidx.core.os.bundleOf
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.dev.DevHelper
@@ -107,7 +107,7 @@ class WindowCameraViewCameraDelegate(private val callback: IWindowCameraViewCame
             }
         }
         try {
-            EBApp.instance.requireSystemService<CameraManager>().openCamera(ProfileHelper.device().id, callback, null)
+            EBApplication.instance.requireSystemService<CameraManager>().openCamera(ProfileHelper.device().id, callback, null)
         } catch (e: Exception) {
             onCameraError("open_camera", cause = e, toast = R.string.camera_error_open_camera)
             return

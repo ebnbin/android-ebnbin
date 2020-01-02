@@ -2,7 +2,7 @@ package com.ebnbin.eb2.util
 
 import android.view.OrientationEventListener
 import android.view.Surface
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 
 /**
  * 监听屏幕旋转 180 度.
@@ -11,7 +11,7 @@ object RotationDetector {
     private var rotation: Int = Surface.ROTATION_0
 
     private val orientationEventListener: OrientationEventListener = object : OrientationEventListener(
-        EBApp.instance) {
+        EBApplication.instance) {
         override fun onOrientationChanged(orientation: Int) {
             if (orientation == ORIENTATION_UNKNOWN) return
             val oldRotation = rotation

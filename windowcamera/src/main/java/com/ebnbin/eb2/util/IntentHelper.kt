@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import com.ebnbin.eb.app2.EBApp
+import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.applicationId
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.activity.EBActivity
@@ -74,18 +74,18 @@ object IntentHelper {
     //*****************************************************************************************************************
 
     fun restartApp(): Boolean {
-        val intent = EBApp.instance.packageManager.getLaunchIntentForPackage(
-            EBApp.instance.applicationId) ?: return false
+        val intent = EBApplication.instance.packageManager.getLaunchIntentForPackage(
+            EBApplication.instance.applicationId) ?: return false
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        return startActivity(EBApp.instance, intent)
+        return startActivity(EBApplication.instance, intent)
     }
 
     fun finishApp(): Boolean {
-        val intent = EBApp.instance.packageManager.getLaunchIntentForPackage(
-            EBApp.instance.applicationId) ?: return false
+        val intent = EBApplication.instance.packageManager.getLaunchIntentForPackage(
+            EBApplication.instance.applicationId) ?: return false
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             .putExtra(EBActivity.KEY_FINISH, true)
-        return startActivity(EBApp.instance, intent)
+        return startActivity(EBApplication.instance, intent)
     }
 
     fun startBrowser(context: Context, url: String): Boolean {
@@ -98,7 +98,7 @@ object IntentHelper {
     }
 
     fun startMarket(context: Context): Boolean {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${EBApp.instance.applicationId}"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${EBApplication.instance.applicationId}"))
         val result = startActivity(context, intent)
         if (!result) {
             context.toast(R.string.eb_start_market_error)
@@ -107,7 +107,7 @@ object IntentHelper {
     }
 
     fun startSettingsFromFragment(fragment: Fragment, action: String, requestCode: Int): Boolean {
-        val intent = Intent(action, Uri.parse("package:${EBApp.instance.applicationId}"))
+        val intent = Intent(action, Uri.parse("package:${EBApplication.instance.applicationId}"))
         return startActivityFromFragment(fragment, intent, requestCode)
     }
 }
