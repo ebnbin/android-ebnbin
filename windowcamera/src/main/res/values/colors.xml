@@ -3,7 +3,5 @@
     <color name="eb_black_25">#3f000000</color>
     <color name="eb_black_50">#7f000000</color>
 
-    <color name="eb_material_gray_50">#fafafa</color>
     <color name="eb_material_gray_100">#f5f5f5</color>
-    <color name="eb_material_gray_800">#424242</color>
 </resources>

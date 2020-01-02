@@ -22,15 +22,14 @@
         android:name=".AppApplication"
         android:label="@string/eb_label"
         android:largeHeap="true"
-        android:theme="@style/EBTheme2"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="q"
-        tools:replace="android:name, android:label, android:theme">
+        tools:replace="android:name, android:label">
         <activity android:name="com.ebnbin.eb2.activity.EBActivity"/>
 
         <activity
             android:name=".splash.SplashActivity"
-            android:theme="@style/EBTheme2.Splash">
+            android:theme="@style/EBAppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -61,7 +60,7 @@
 
         <activity
             android:name=".imagevideo.ImageVideoActivity"
-            android:theme="@style/EBTheme2.ImageVideo"
+            android:theme="@style/EBAppTheme.ImageVideo"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <service android:name=".service.WindowCameraService"/>

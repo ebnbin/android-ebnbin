@@ -2,19 +2,19 @@
 <resources>
     <bool name="ebapp_window_light_status_bar">true</bool>
 
-    <color name="ebapp_window_background">@android:color/white</color>
+    <color name="ebapp_color_background">@android:color/white</color>
     <color name="ebapp_color_primary">@color/eb_material_light_blue_500</color>
     <color name="ebapp_color_primary_dark">@color/eb_material_light_blue_700</color>
     <color name="ebapp_color_secondary">@color/eb_material_blue_gray_700</color>
 
     <style name="EBAppBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/ebapp_window_background</item>
+        <item name="android:colorBackground">@color/ebapp_color_background</item>
         <item name="colorPrimary">@color/ebapp_color_primary</item>
         <item name="colorPrimaryDark">@color/ebapp_color_primary_dark</item>
         <item name="colorAccent">?attr/colorPrimary</item>
         <item name="colorSecondary">@color/ebapp_color_secondary</item>
         <item name="android:windowLightStatusBar">@bool/ebapp_window_light_status_bar</item>
-        <item name="android:statusBarColor">?android:attr/windowBackground</item>
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
     </style>
 
     <style name="EBAppTheme" parent="EBAppBaseTheme"/>
