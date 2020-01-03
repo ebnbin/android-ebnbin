@@ -43,6 +43,7 @@
                     android:id="@+id/eb_tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/colorBackgroundFloating"
                     app:tabMode="scrollable"
                     setupWithViewPager="@{@id/eb_view_pager}"/>
 
