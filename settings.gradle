@@ -1,5 +1,4 @@
 include ':eb'
 include ':ebapp'
-include ':eb-app2'
 include ':sample'
 include ':windowcamera'
