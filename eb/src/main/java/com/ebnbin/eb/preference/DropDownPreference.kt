@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.ebnbin.eb.sharedpreferences.get
 
-open class ListPreference(context: Context) :
-    androidx.preference.ListPreference(context),
+open class DropDownPreference(context: Context) :
+    androidx.preference.DropDownPreference(context),
     SharedPreferences.OnSharedPreferenceChangeListener {
     init {
         isSingleLineTitle = false

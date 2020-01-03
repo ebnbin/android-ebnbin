@@ -27,7 +27,7 @@ open class SwitchPreference(context: Context) :
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         sharedPreferences ?: return
         key ?: return
-        if (this.key != key) return
+        if (this.sharedPreferences != sharedPreferences || this.key != key) return
         val value = sharedPreferences.get(key, isChecked)
         invalidateIcons(value)
         if (isChecked == value) return

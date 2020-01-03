@@ -43,22 +43,18 @@ open class Sp<T>(
 
     private val onChangeds: ArrayList<(value: T) -> Unit> = ArrayList()
 
-    private fun internalAddOnChanged(onChanged: (value: T) -> Unit) {
+    fun addOnChanged(onChanged: (value: T) -> Unit) {
         if (onChangeds.isEmpty()) {
             getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
         }
         onChangeds.add(onChanged)
     }
 
-    private fun internalRemoveOnChanged(onChanged: (value: T) -> Unit) {
+    fun removeOnChanged(onChanged: (value: T) -> Unit) {
         onChangeds.remove(onChanged)
         if (onChangeds.isEmpty()) {
             getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
         }
-    }
-
-    fun addOnChanged(onChanged: (value: T) -> Unit) {
-        internalAddOnChanged(onChanged)
     }
 
     fun addOnChanged(lifecycle: Lifecycle, onChanged: (value: T) -> Unit) {
@@ -66,10 +62,10 @@ open class Sp<T>(
             @Suppress("unused")
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                internalRemoveOnChanged(onChanged)
+                removeOnChanged(onChanged)
             }
         })
-        internalAddOnChanged(onChanged)
+        addOnChanged(onChanged)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

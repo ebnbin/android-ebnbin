@@ -5,7 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.getNightModeToString
-import com.ebnbin.eb.preference.ListPreference
+import com.ebnbin.eb.preference.DropDownPreference
 import com.ebnbin.eb.preference.PreferenceCategory
 import com.ebnbin.ebapp.EBAppSpManager
 
@@ -25,7 +25,7 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat() {
             it.title = "Night Mode"
         }
 
-        ListPreference(requireContext()).also {
+        DropDownPreference(requireContext()).also {
             it.key = EBAppSpManager.night_mode.key
             it.setDefaultValue(EBAppSpManager.night_mode.defaultValue)
             nightModePreferenceGroup.addPreference(it)
