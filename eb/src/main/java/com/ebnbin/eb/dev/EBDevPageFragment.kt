@@ -63,13 +63,11 @@ internal class EBDevPageFragment : PreferenceFragmentCompat(), AlertDialogFragme
             floatingPreferenceGroup.addPreference(it)
             it.title = "悬浮按钮位置（像素）"
             it.summary = summary()
-            DevSpManager.dev_floating_x.addOnChange(viewLifecycleOwner.lifecycle) { _, newValue ->
-                it.summary = summary(floatingX = newValue)
-                false
+            DevSpManager.dev_floating_x.addOnChanged(viewLifecycleOwner.lifecycle) { value ->
+                it.summary = summary(floatingX = value)
             }
-            DevSpManager.dev_floating_y.addOnChange(viewLifecycleOwner.lifecycle) { _, newValue ->
-                it.summary = summary(floatingY = newValue)
-                false
+            DevSpManager.dev_floating_y.addOnChanged(viewLifecycleOwner.lifecycle) { value ->
+                it.summary = summary(floatingY = value)
             }
         }
 

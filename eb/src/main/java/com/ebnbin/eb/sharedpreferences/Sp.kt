@@ -11,16 +11,12 @@ open class Sp<T>(
     val key: String,
     val defaultValue: T,
     val getName: () -> String = { getContext().getSharedPreferencesName() }
-) {
+) : SharedPreferences.OnSharedPreferenceChangeListener {
     var value: T
         get() = get()
         set(value) {
-            val oldValue = get()
-            if (oldValue == value) return
-            val intercept = onChanges.map {
-                it(oldValue, value)
-            }.any { it }
-            if (!intercept) put(value)
+            if (get() == value) return
+            put(value)
         }
 
     fun getSharedPreferences(): SharedPreferences {
@@ -45,16 +41,41 @@ open class Sp<T>(
 
     //*****************************************************************************************************************
 
-    private val onChanges: ArrayList<(oldValue: T, newValue: T) -> Boolean> = ArrayList()
+    private val onChangeds: ArrayList<(value: T) -> Unit> = ArrayList()
 
-    fun addOnChange(lifecycle: Lifecycle, onChange: (oldValue: T, newValue: T) -> Boolean) {
+    private fun internalAddOnChanged(onChanged: (value: T) -> Unit) {
+        if (onChangeds.isEmpty()) {
+            getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        }
+        onChangeds.add(onChanged)
+    }
+
+    private fun internalRemoveOnChanged(onChanged: (value: T) -> Unit) {
+        onChangeds.remove(onChanged)
+        if (onChangeds.isEmpty()) {
+            getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+        }
+    }
+
+    fun addOnChanged(onChanged: (value: T) -> Unit) {
+        internalAddOnChanged(onChanged)
+    }
+
+    fun addOnChanged(lifecycle: Lifecycle, onChanged: (value: T) -> Unit) {
         lifecycle.addObserver(object : LifecycleObserver {
             @Suppress("unused")
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                onChanges.remove(onChange)
+                internalRemoveOnChanged(onChanged)
             }
         })
-        onChanges.add(onChange)
+        internalAddOnChanged(onChanged)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences !== getSharedPreferences() || key != this.key) return
+        onChangeds.forEach {
+            it(get())
+        }
     }
 }

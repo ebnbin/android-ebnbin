@@ -1,11 +1,9 @@
 package com.ebnbin.eb2.debug
 
-import androidx.appcompat.app.AppCompatDelegate
 import com.ebnbin.eb.app2.dev.DevFragment2
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.eb2.update.UpdateFragment
-import com.ebnbin.eb2.util.AppHelper
 
 /**
  * Debug EB 页面.
@@ -33,14 +31,6 @@ open class EBDebugPageFragment : DevFragment2() {
 
         addDevItem("更新") {
             UpdateFragment.start(childFragmentManager, false)
-        }
-
-        addDevItem("夜间模式", "关闭") {
-            AppHelper.setNightMode(requireActivity(), AppCompatDelegate.MODE_NIGHT_NO)
-        }
-
-        addDevItem("夜间模式", "开启") {
-            AppHelper.setNightMode(requireActivity(), AppCompatDelegate.MODE_NIGHT_YES)
         }
 
         addDevItem("重置偏好", "TODO")

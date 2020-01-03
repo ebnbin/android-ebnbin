@@ -1,5 +1,6 @@
 package com.ebnbin.ebapp
 
+import androidx.appcompat.app.AppCompatDelegate
 import com.crashlytics.android.Crashlytics
 import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.dev.CreateDevPage
@@ -14,6 +15,7 @@ open class EBAppApplication : EBApplication() {
         instance = this
         initFirebaseAnalytics()
         initCrashlytics()
+        initNightMode()
     }
 
     private fun initFirebaseAnalytics() {
@@ -24,6 +26,12 @@ open class EBAppApplication : EBApplication() {
     private fun initCrashlytics() {
         if (com.ebnbin.eb.BuildConfig.DEBUG) return
         Crashlytics.setUserIdentifier(deviceId)
+    }
+
+    private fun initNightMode() {
+        EBAppSpManager.night_mode.value.toIntOrNull()?.let {
+            AppCompatDelegate.setDefaultNightMode(it)
+        }
     }
 
     override val createDevPages: List<CreateDevPage>
