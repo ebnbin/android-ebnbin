@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.preference.PreferenceFragmentCompat
+import com.ebnbin.eb.coroutine.Loading
 import com.ebnbin.eb.getNightModeToString
 import com.ebnbin.eb.preference.DropDownPreference
 import com.ebnbin.eb.preference.Preference
 import com.ebnbin.eb.preference.PreferenceCategory
+import com.ebnbin.eb.toast
 import com.ebnbin.ebapp.EBAppSpManager
+import kotlinx.coroutines.Job
 
 internal class EBAppDevPageFragment : PreferenceFragmentCompat() {
     private val viewModel: EBAppDevPageViewModel by viewModels()
@@ -61,12 +64,28 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat() {
         Preference(requireContext()).also {
             apiPreferenceGroup.addPreference(it)
             it.title = "Api"
-            viewModel.sample.observe(viewLifecycleOwner, Observer { sample ->
-                it.summary = sample
+            viewModel.ebappJson.observe(viewLifecycleOwner, Observer { value ->
+                it.summary = value
             })
-            it.setOnPreferenceClickListener {
-                viewModel.sample.value = null
-                viewModel.coroutine()
+            viewModel.ebappJson.addLoading(viewLifecycleOwner.lifecycle, object : Loading<String?> {
+                override fun onStart(job: Job) {
+                    super.onStart(job)
+                    requireContext().toast("onStart $job")
+                }
+
+                override fun onSuccess(result: String?) {
+                    super.onSuccess(result)
+                    requireContext().toast("onSuccess $result")
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    super.onFailure(throwable)
+                    requireContext().toast("onFailure $throwable")
+                }
+            })
+            it.setOnPreferenceClickListener { _ ->
+                it.summary = null
+                viewModel.ebappJson.coroutineSetValue()
                 true
             }
         }

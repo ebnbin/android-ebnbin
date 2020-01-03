@@ -10,10 +10,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface GitHubApi {
     @GET("$PREFIX/{repo}/contents/{path}")
-    suspend fun getContentsFile(@Path("repo") repo: String, @Path("path") path: String): Content
+    suspend fun getContentsFile(
+        @Path("repo") repo: String,
+        @Path("path") path: String,
+        @Query("ref") ref: String
+    ): Content
 
     @Parcelize
     class Content(
