@@ -1,10 +1,16 @@
 package com.ebnbin.windowcamera.imagevideo
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ebnbin.eb.applicationId
 import com.ebnbin.windowcamera.R
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Util
 import kotlinx.android.synthetic.main.video_page_fragment.*
 
 class VideoPageFragment : BaseImageVideoPageFragment() {
@@ -15,16 +21,15 @@ class VideoPageFragment : BaseImageVideoPageFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        simple_video_view.setFile(imageVideo.file)
-    }
-
-    override fun onPause() {
-        simple_video_view.onVideoPause()
-        super.onPause()
+        val player = SimpleExoPlayer.Builder(requireContext()).build()
+        player_view.player = player
+        val dataSourceFactory = DefaultDataSourceFactory(requireContext(), Util.getUserAgent(requireContext(), requireContext().applicationId))
+        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.fromFile(imageVideo.file))
+        player.prepare(mediaSource)
     }
 
     override fun onDestroyView() {
-        simple_video_view.release()
+        player_view.player?.release()
         super.onDestroyView()
     }
 }
