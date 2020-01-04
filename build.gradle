@@ -23,11 +23,7 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-
-        // TODO
-        maven {
-            url 'https://jitpack.io'
-        }
+        maven { url 'https://jitpack.io' }
     }
 }
 

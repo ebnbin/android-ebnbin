@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.album
+package com.ebnbin.windowcamera.album2
 
 import android.app.Activity
 import android.content.Intent

@@ -7,7 +7,7 @@ import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb2.about.AboutFragment
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.album.AlbumActivity
+import com.ebnbin.windowcamera.album2.AlbumActivity
 import com.jeremyliao.liveeventbus.LiveEventBus
 
 class MenuPreferenceFragment : PreferenceFragmentCompat() {

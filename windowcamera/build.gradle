@@ -15,11 +15,15 @@ android {
 }
 
 dependencies {
+    api 'com.github.chrisbanes:PhotoView:2.3.0' // https://github.com/chrisbanes/PhotoView
+
+
+
+
     api 'io.reactivex.rxjava2:rxjava:2.2.12' // https://github.com/ReactiveX/RxJava
     api 'io.reactivex.rxjava2:rxandroid:2.1.1' // https://github.com/ReactiveX/RxAndroid
     api 'com.squareup.retrofit2:adapter-rxjava2:2.7.0'
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46' // https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-    api 'com.github.chrisbanes:PhotoView:2.3.0' // https://github.com/chrisbanes/PhotoView
     api 'com.shuyu:gsyVideoPlayer-java:7.0.1' // https://github.com/CarGuo/GSYVideoPlayer
     api 'com.shuyu:GSYVideoPlayer-exo2:7.0.1'
     api 'com.shuyu:gsyVideoPlayer-armv7a:7.0.1'

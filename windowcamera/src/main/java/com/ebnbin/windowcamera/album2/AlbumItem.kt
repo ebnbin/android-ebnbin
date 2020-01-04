@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.album
+package com.ebnbin.windowcamera.album2
 
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.ebnbin.windowcamera.imagevideo.ImageVideo

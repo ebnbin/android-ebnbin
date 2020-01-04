@@ -7,6 +7,6 @@
         <intent
             android:action="com.ebnbin.windowcamera.shortcut_album"
             android:targetPackage="com.ebnbin.windowcamera"
-            android:targetClass="com.ebnbin.windowcamera.album.AlbumActivity"/>
+            android:targetClass="com.ebnbin.windowcamera.album2.AlbumActivity"/>
     </shortcut>
 </shortcuts>

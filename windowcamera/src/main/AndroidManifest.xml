@@ -47,15 +47,15 @@
             android:name=".main.MainActivity"
             android:screenOrientation="fullUser"/>
 
-        <activity android:name=".album.AlbumActivity"/>
+        <activity android:name=".album2.AlbumActivity"/>
 
-        <activity android:name=".album.AlbumShortcutActivity"/>
+        <activity android:name=".album2.AlbumShortcutActivity"/>
 
         <activity-alias
             android:name="AlbumShortcutActivity"
             android:icon="@mipmap/shortcut_album"
             android:label="@string/album"
-            android:targetActivity=".album.AlbumShortcutActivity">
+            android:targetActivity=".album2.AlbumShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
             </intent-filter>
