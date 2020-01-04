@@ -12,6 +12,12 @@ android {
         consumerProguardFiles util.proguardFiles
         buildConfigField 'long', 'BUILD_TIMESTAMP', "${System.currentTimeMillis()}L"
     }
+    sourceSets.main.res.srcDirs(
+            'src/main/res-databinding',
+            'src/main/res-permission',
+            'src/main/res-dev',
+            'src/main/res-crash'
+    )
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
