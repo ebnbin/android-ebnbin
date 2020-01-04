@@ -17,7 +17,7 @@ import com.ebnbin.eb.requireSystemService
 import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.util.RotationSize
 import com.ebnbin.eb2.util.WindowHelper
-import com.ebnbin.windowcamera.dev.Report
+import com.ebnbin.windowcamera.dev2.Report
 
 /**
  * 相机帮助类.

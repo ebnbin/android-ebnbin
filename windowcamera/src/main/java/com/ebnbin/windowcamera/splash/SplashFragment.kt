@@ -16,7 +16,7 @@ import com.ebnbin.eb2.splash.EBSplashFragment
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.camera.CameraHelper
 import com.ebnbin.windowcamera.camera.exception.CameraInvalidException
-import com.ebnbin.windowcamera.dev.Report
+import com.ebnbin.windowcamera.dev2.Report
 import com.ebnbin.windowcamera.main.MainActivity
 
 class SplashFragment : EBSplashFragment() {

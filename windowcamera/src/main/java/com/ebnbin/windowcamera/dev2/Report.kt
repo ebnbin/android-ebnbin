@@ -1,4 +1,4 @@
-package com.ebnbin.windowcamera.dev
+package com.ebnbin.windowcamera.dev2
 
 import com.ebnbin.eb2.dev.EBReport
 import com.ebnbin.eb2.util.EBModel
