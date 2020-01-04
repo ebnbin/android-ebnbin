@@ -103,10 +103,11 @@ open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
             fragmentIsView: Boolean = true,
             fragmentPermissions: Array<out String>? = null,
             theme: Int = 0,
+            fragmentActivityClass: Class<out FragmentActivity> = FragmentActivity::class.java,
             activityIntent: Intent? = null
         ): Intent {
             return (if (activityIntent == null) Intent() else Intent(activityIntent))
-                .setClass(context, FragmentActivity::class.java)
+                .setClass(context, fragmentActivityClass)
                 .putExtra(KEY_FRAGMENT_CLASS, fragmentClass)
                 .putExtra(KEY_FRAGMENT_ARGUMENTS, fragmentArguments)
                 .putExtra(KEY_FRAGMENT_TAG, fragmentTag)

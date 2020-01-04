@@ -69,6 +69,7 @@ fun Context.openFragment(
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
     theme: Int = 0,
+    fragmentActivityClass: Class<out FragmentActivity> = FragmentActivity::class.java,
     activityIntent: Intent? = null,
     activityOptions: Bundle? = null
 ) {
@@ -81,6 +82,7 @@ fun Context.openFragment(
             fragmentIsView = fragmentIsView,
             fragmentPermissions = fragmentPermissions,
             theme = theme,
+            fragmentActivityClass = fragmentActivityClass,
             activityIntent = activityIntent
         ),
         activityOptions
@@ -94,6 +96,7 @@ fun Activity.openFragment(
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
     theme: Int = 0,
+    fragmentActivityClass: Class<out FragmentActivity> = FragmentActivity::class.java,
     activityIntent: Intent? = null,
     activityRequestCode: Int = 0,
     activityOptions: Bundle? = null
@@ -107,6 +110,7 @@ fun Activity.openFragment(
             fragmentIsView = fragmentIsView,
             fragmentPermissions = fragmentPermissions,
             theme = theme,
+            fragmentActivityClass = fragmentActivityClass,
             activityIntent = activityIntent
         ),
         activityRequestCode,
@@ -121,6 +125,7 @@ fun Fragment.openFragment(
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
     theme: Int = 0,
+    fragmentActivityClass: Class<out FragmentActivity> = FragmentActivity::class.java,
     activityIntent: Intent? = null,
     activityRequestCode: Int = 0,
     activityOptions: Bundle? = null
@@ -134,6 +139,7 @@ fun Fragment.openFragment(
             fragmentIsView = fragmentIsView,
             fragmentPermissions = fragmentPermissions,
             theme = theme,
+            fragmentActivityClass = fragmentActivityClass,
             activityIntent = activityIntent
         ),
         activityRequestCode,
@@ -149,6 +155,7 @@ inline fun <reified T : Fragment> Context.openFragment(
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
     theme: Int = 0,
+    fragmentActivityClass: Class<out FragmentActivity> = FragmentActivity::class.java,
     activityIntent: Intent? = null,
     activityOptions: Bundle? = null
 ) {
@@ -159,6 +166,7 @@ inline fun <reified T : Fragment> Context.openFragment(
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
         theme = theme,
+        fragmentActivityClass = fragmentActivityClass,
         activityIntent = activityIntent,
         activityOptions = activityOptions
     )
@@ -170,6 +178,7 @@ inline fun <reified T : Fragment> Activity.openFragment(
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
     theme: Int = 0,
+    fragmentActivityClass: Class<out FragmentActivity> = FragmentActivity::class.java,
     activityIntent: Intent? = null,
     activityRequestCode: Int = 0,
     activityOptions: Bundle? = null
@@ -181,6 +190,7 @@ inline fun <reified T : Fragment> Activity.openFragment(
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
         theme = theme,
+        fragmentActivityClass = fragmentActivityClass,
         activityIntent = activityIntent,
         activityRequestCode = activityRequestCode,
         activityOptions = activityOptions
@@ -193,6 +203,7 @@ inline fun <reified T : Fragment> Fragment.openFragment(
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
     theme: Int = 0,
+    fragmentActivityClass: Class<out FragmentActivity> = FragmentActivity::class.java,
     activityIntent: Intent? = null,
     activityRequestCode: Int = 0,
     activityOptions: Bundle? = null
@@ -204,6 +215,7 @@ inline fun <reified T : Fragment> Fragment.openFragment(
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
         theme = theme,
+        fragmentActivityClass = fragmentActivityClass,
         activityIntent = activityIntent,
         activityRequestCode = activityRequestCode,
         activityOptions = activityOptions

@@ -22,7 +22,7 @@ class AlbumAdapter : BaseMultiItemQuickAdapter<AlbumItem, BaseViewHolder>(null) 
         when (helper.itemViewType) {
             ImageVideo.Type.IMAGE.ordinal, ImageVideo.Type.VIDEO.ordinal -> {
                 Glide.with(helper.itemView)
-                    .load(item.file)
+                    .load(item.uri)
                     .placeholder(R.drawable.album_placeholder)
                     .into(helper.getView(R.id.image_view))
                 when (item.multiSelect) {

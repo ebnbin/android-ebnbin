@@ -17,7 +17,7 @@ class ImagePageFragment : BaseImageVideoPageFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Glide.with(this)
-            .load(imageVideo.file)
+            .load(imageVideo.uri)
             .into(simple_image_view)
     }
 }

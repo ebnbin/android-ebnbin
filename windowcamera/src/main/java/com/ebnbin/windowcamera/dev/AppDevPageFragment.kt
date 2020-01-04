@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.activity.openActivity
+import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.preference.Preference
 import com.ebnbin.eb.preference.PreferenceCategory
+import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.album2.AlbumActivity
 import com.ebnbin.windowcamera.viewer.ViewerActivity
+import com.ebnbin.windowcamera.viewer.ViewerFragment
 
 class AppDevPageFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -37,7 +40,10 @@ class AppDevPageFragment : PreferenceFragmentCompat() {
             appPreferenceGroup.addPreference(it)
             it.title = "ViewerActivity"
             it.setOnPreferenceClickListener {
-                openActivity<ViewerActivity>()
+                openFragment<ViewerFragment>(
+                    theme = R.style.EBAppTheme_Viewer,
+                    fragmentActivityClass = ViewerActivity::class.java
+                )
                 true
             }
         }

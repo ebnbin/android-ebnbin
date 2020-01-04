@@ -1,9 +1,11 @@
 package com.ebnbin.windowcamera.imagevideo
 
-import java.io.File
-import java.io.Serializable
+import android.net.Uri
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-open class ImageVideo(val type: Type, val file: File, val index: Int): Serializable {
+@Parcelize
+open class ImageVideo(val type: Type, val uri: Uri, val index: Int): Parcelable {
     enum class Type {
         IMAGE,
         VIDEO

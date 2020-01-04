@@ -1,6 +1,5 @@
 package com.ebnbin.windowcamera.imagevideo
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +23,7 @@ class VideoPageFragment : BaseImageVideoPageFragment() {
         val player = SimpleExoPlayer.Builder(requireContext()).build()
         player_view.player = player
         val dataSourceFactory = DefaultDataSourceFactory(requireContext(), Util.getUserAgent(requireContext(), requireContext().applicationId))
-        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.fromFile(imageVideo.file))
+        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(imageVideo.uri)
         player.prepare(mediaSource)
     }
 

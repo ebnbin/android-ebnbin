@@ -61,10 +61,6 @@
             </intent-filter>
         </activity-alias>
 
-        <activity
-            android:name=".imagevideo.ImageVideoActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
-
         <service android:name=".service.WindowCameraService"/>
 
         <receiver android:name=".service.StopWindowCameraServiceBroadcastReceiver"/>
@@ -82,6 +78,8 @@
 
 
 
-        <activity android:name=".viewer.ViewerActivity"/>
+        <activity
+            android:name=".viewer.ViewerActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"/>
     </application>
 </manifest>

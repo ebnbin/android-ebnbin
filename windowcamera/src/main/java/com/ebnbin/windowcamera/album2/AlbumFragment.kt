@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toFile
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.dialog.AlertDialogFragment
 import com.ebnbin.eb.dialog.openAlertDialogFragment
+import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.pxToDp
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.fragment.EBFragment
@@ -19,8 +21,9 @@ import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.R
 import com.ebnbin.windowcamera.imagevideo.ImageVideo
-import com.ebnbin.windowcamera.imagevideo.ImageVideoActivity
+import com.ebnbin.windowcamera.imagevideo.ImageVideoFragment
 import com.ebnbin.windowcamera.util.IOHelper
+import com.ebnbin.windowcamera.viewer.ViewerActivity
 import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.album_fragment.*
 
@@ -59,7 +62,11 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         adapter.setOnItemClickListener { _, _, position ->
             when (adapter.data[position].multiSelect) {
                 MultiSelect.NORMAL -> {
-                    openActivity(ImageVideoActivity.intent(requireContext(), ArrayList(adapter.data), position))
+                    openFragment<ImageVideoFragment>(
+                        fragmentArguments = ImageVideoFragment.createArguments(ArrayList(adapter.data.map { ImageVideo(it.type, it.uri, it.index) }), position),
+                        theme = R.style.EBAppTheme_Viewer,
+                        fragmentActivityClass = ViewerActivity::class.java
+                    )
                 }
                 MultiSelect.UNSELECTED -> {
                     multiSelect(position, true)
@@ -104,7 +111,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
                 "mp4", "3gp" -> ImageVideo.Type.VIDEO
                 else -> return@forEachIndexed
             }
-            albumItems.add(AlbumItem(type, file, index))
+            albumItems.add(AlbumItem(type, file.toUri(), index))
         }
         adapter.setNewData(albumItems)
     }
@@ -231,7 +238,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     override fun onAlertDialogPositive(alertDialog: AlertDialog, callbackBundle: Bundle): Boolean {
         adapter.data
             .filter { it.multiSelect == MultiSelect.SELECTED }
-            .forEach { it.file.delete() }
+            .forEach { it.uri.toFile().delete() }
         invalidateAlbumItems()
 
         multiSelectNormal()
