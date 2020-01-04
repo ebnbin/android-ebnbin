@@ -68,6 +68,7 @@ fun Context.openFragment(
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
+    theme: Int = 0,
     activityIntent: Intent? = null,
     activityOptions: Bundle? = null
 ) {
@@ -79,6 +80,7 @@ fun Context.openFragment(
             fragmentTag = fragmentTag,
             fragmentIsView = fragmentIsView,
             fragmentPermissions = fragmentPermissions,
+            theme = theme,
             activityIntent = activityIntent
         ),
         activityOptions
@@ -91,6 +93,7 @@ fun Activity.openFragment(
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
+    theme: Int = 0,
     activityIntent: Intent? = null,
     activityRequestCode: Int = 0,
     activityOptions: Bundle? = null
@@ -103,6 +106,7 @@ fun Activity.openFragment(
             fragmentTag = fragmentTag,
             fragmentIsView = fragmentIsView,
             fragmentPermissions = fragmentPermissions,
+            theme = theme,
             activityIntent = activityIntent
         ),
         activityRequestCode,
@@ -116,6 +120,7 @@ fun Fragment.openFragment(
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
+    theme: Int = 0,
     activityIntent: Intent? = null,
     activityRequestCode: Int = 0,
     activityOptions: Bundle? = null
@@ -128,6 +133,7 @@ fun Fragment.openFragment(
             fragmentTag = fragmentTag,
             fragmentIsView = fragmentIsView,
             fragmentPermissions = fragmentPermissions,
+            theme = theme,
             activityIntent = activityIntent
         ),
         activityRequestCode,
@@ -142,6 +148,7 @@ inline fun <reified T : Fragment> Context.openFragment(
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
+    theme: Int = 0,
     activityIntent: Intent? = null,
     activityOptions: Bundle? = null
 ) {
@@ -151,6 +158,7 @@ inline fun <reified T : Fragment> Context.openFragment(
         fragmentTag = fragmentTag,
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
+        theme = theme,
         activityIntent = activityIntent,
         activityOptions = activityOptions
     )
@@ -161,6 +169,7 @@ inline fun <reified T : Fragment> Activity.openFragment(
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
+    theme: Int = 0,
     activityIntent: Intent? = null,
     activityRequestCode: Int = 0,
     activityOptions: Bundle? = null
@@ -171,6 +180,7 @@ inline fun <reified T : Fragment> Activity.openFragment(
         fragmentTag = fragmentTag,
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
+        theme = theme,
         activityIntent = activityIntent,
         activityRequestCode = activityRequestCode,
         activityOptions = activityOptions
@@ -182,6 +192,7 @@ inline fun <reified T : Fragment> Fragment.openFragment(
     fragmentTag: String? = null,
     fragmentIsView: Boolean = true,
     fragmentPermissions: Array<out String>? = null,
+    theme: Int = 0,
     activityIntent: Intent? = null,
     activityRequestCode: Int = 0,
     activityOptions: Bundle? = null
@@ -192,6 +203,7 @@ inline fun <reified T : Fragment> Fragment.openFragment(
         fragmentTag = fragmentTag,
         fragmentIsView = fragmentIsView,
         fragmentPermissions = fragmentPermissions,
+        theme = theme,
         activityIntent = activityIntent,
         activityRequestCode = activityRequestCode,
         activityOptions = activityOptions

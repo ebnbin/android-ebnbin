@@ -31,8 +31,14 @@ open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
         get() = getExtraOrDefault(KEY_FRAGMENT_IS_VIEW, true)
     protected open val fragmentPermissions: Array<out String>?
         get() = getExtra(KEY_FRAGMENT_PERMISSIONS)
+    protected open val theme: Int
+        get() = getExtraOrDefault(KEY_THEME, 0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val theme = theme
+        if (theme != 0) {
+            setTheme(theme)
+        }
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             val fragmentPermissions = fragmentPermissions
@@ -87,6 +93,7 @@ open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
         const val KEY_FRAGMENT_TAG: String = "fragment_tag"
         const val KEY_FRAGMENT_IS_VIEW: String = "fragment_is_view"
         const val KEY_FRAGMENT_PERMISSIONS: String = "fragment_permissions"
+        const val KEY_THEME: String = "theme"
 
         fun createIntent(
             context: Context,
@@ -95,6 +102,7 @@ open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
             fragmentTag: String? = null,
             fragmentIsView: Boolean = true,
             fragmentPermissions: Array<out String>? = null,
+            theme: Int = 0,
             activityIntent: Intent? = null
         ): Intent {
             return (if (activityIntent == null) Intent() else Intent(activityIntent))
@@ -104,6 +112,7 @@ open class FragmentActivity : AppCompatActivity(), PermissionFragment.Callback {
                 .putExtra(KEY_FRAGMENT_TAG, fragmentTag)
                 .putExtra(KEY_FRAGMENT_IS_VIEW, fragmentIsView)
                 .putExtra(KEY_FRAGMENT_PERMISSIONS, fragmentPermissions)
+                .putExtra(KEY_THEME, theme)
         }
     }
 }

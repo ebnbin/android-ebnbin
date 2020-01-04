@@ -63,7 +63,6 @@
 
         <activity
             android:name=".imagevideo.ImageVideoActivity"
-            android:theme="@style/EBAppTheme.ImageVideo"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <service android:name=".service.WindowCameraService"/>
@@ -79,5 +78,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/eb_file_paths"/>
         </provider>
+
+
+
+
+        <activity android:name=".viewer.ViewerActivity"/>
     </application>
 </manifest>

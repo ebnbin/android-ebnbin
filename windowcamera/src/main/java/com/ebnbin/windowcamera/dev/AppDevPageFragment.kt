@@ -7,6 +7,7 @@ import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.preference.Preference
 import com.ebnbin.eb.preference.PreferenceCategory
 import com.ebnbin.windowcamera.album2.AlbumActivity
+import com.ebnbin.windowcamera.viewer.ViewerActivity
 
 class AppDevPageFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -28,6 +29,15 @@ class AppDevPageFragment : PreferenceFragmentCompat() {
             it.title = "AlbumActivity"
             it.setOnPreferenceClickListener {
                 openActivity<AlbumActivity>()
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            appPreferenceGroup.addPreference(it)
+            it.title = "ViewerActivity"
+            it.setOnPreferenceClickListener {
+                openActivity<ViewerActivity>()
                 true
             }
         }

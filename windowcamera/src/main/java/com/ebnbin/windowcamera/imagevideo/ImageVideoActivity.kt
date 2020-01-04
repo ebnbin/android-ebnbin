@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.ebnbin.eb.fragment.FragmentActivity
+import com.ebnbin.windowcamera.R
 
 class ImageVideoActivity : FragmentActivity() {
     override val fragmentClass: Class<out Fragment>
@@ -15,6 +16,8 @@ class ImageVideoActivity : FragmentActivity() {
             KEY_IMAGE_VIDEOS to (intent?.getSerializableExtra(KEY_IMAGE_VIDEOS) ?: throw RuntimeException()),
             KEY_INDEX to (intent?.getIntExtra(KEY_INDEX, 0) ?: 0)
         )
+    override val theme: Int
+        get() = R.style.EBAppTheme_ImageVideo
 
     companion object {
         const val KEY_IMAGE_VIDEOS = "image_videos"
