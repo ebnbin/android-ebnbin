@@ -99,7 +99,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         IOHelper.refreshFiles()
         val albumItems = ArrayList<AlbumItem>()
         IOHelper.files.forEachIndexed { index, file ->
-            val type = when (file.name.substringAfterLast(".", "")) {
+            val type = when (file.name.substringAfterLast(".", "").toLowerCase()) {
                 "jpg" -> ImageVideo.Type.IMAGE
                 "mp4", "3gp" -> ImageVideo.Type.VIDEO
                 else -> return@forEachIndexed

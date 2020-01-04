@@ -28,7 +28,7 @@ object IOHelper {
     fun refreshFiles() {
         files = getPath()
             .listFiles { _, name ->
-                when (name.substringAfterLast(".")) {
+                when (name.substringAfterLast(".").toLowerCase()) {
                     "jpg", "mp4", "3gp" -> true
                     else -> false
                 }
