@@ -36,6 +36,11 @@ fun setAdapter(view: ViewPager, adapter: PagerAdapter?) {
     view.adapter = adapter
 }
 
+@BindingAdapter("offscreenPageLimit")
+fun setOffscreenPageLimit(view: ViewPager, offscreenPageLimit: Int) {
+    view.offscreenPageLimit = offscreenPageLimit
+}
+
 @BindingAdapter("currentItem")
 fun setCurrentItem(view: ViewPager, item: Int) {
     view.currentItem = item

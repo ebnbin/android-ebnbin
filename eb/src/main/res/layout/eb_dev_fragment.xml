@@ -57,6 +57,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             adapter="@{pagerAdapter}"
+            offscreenPageLimit="@{Integer.MAX_VALUE}"
             currentItem="@{page}"
             onPageSelected="@{onPageSelected}"/>
 
