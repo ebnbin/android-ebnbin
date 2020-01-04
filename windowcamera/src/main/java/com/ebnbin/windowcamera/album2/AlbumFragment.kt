@@ -20,10 +20,11 @@ import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.imagevideo.ImageVideo
-import com.ebnbin.windowcamera.imagevideo.ImageVideoFragment
 import com.ebnbin.windowcamera.util.IOHelper
 import com.ebnbin.windowcamera.viewer.ViewerActivity
+import com.ebnbin.windowcamera.viewer.ViewerFragment
+import com.ebnbin.windowcamera.viewer.ViewerItem
+import com.ebnbin.windowcamera.viewer.ViewerType
 import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.album_fragment.*
 
@@ -62,11 +63,20 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         adapter.setOnItemClickListener { _, _, position ->
             when (adapter.data[position].multiSelect) {
                 MultiSelect.NORMAL -> {
-                    openFragment<ImageVideoFragment>(
-                        fragmentArguments = ImageVideoFragment.createArguments(ArrayList(adapter.data.map { ImageVideo(it.type, it.uri, it.index) }), position),
+                    openFragment<ViewerFragment>(
+                        fragmentArguments = ViewerFragment.createArguments(
+                            adapter.data.map { ViewerItem(it.type, it.uri) },
+                            position
+                        ),
                         theme = R.style.EBAppTheme_Viewer,
                         fragmentActivityClass = ViewerActivity::class.java
                     )
+
+//                    openFragment<ImageVideoFragment>(
+//                        fragmentArguments = ImageVideoFragment.createArguments(ArrayList(adapter.data.map { ImageVideo(it.type, it.uri, it.index) }), position),
+//                        theme = R.style.EBAppTheme_Viewer,
+//                        fragmentActivityClass = ViewerActivity::class.java
+//                    )
                 }
                 MultiSelect.UNSELECTED -> {
                     multiSelect(position, true)
@@ -107,8 +117,8 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         val albumItems = ArrayList<AlbumItem>()
         IOHelper.files.forEachIndexed { index, file ->
             val type = when (file.name.substringAfterLast(".", "").toLowerCase()) {
-                "jpg" -> ImageVideo.Type.IMAGE
-                "mp4", "3gp" -> ImageVideo.Type.VIDEO
+                "jpg" -> ViewerType.IMAGE
+                "mp4", "3gp" -> ViewerType.VIDEO
                 else -> return@forEachIndexed
             }
             albumItems.add(AlbumItem(type, file.toUri(), index))

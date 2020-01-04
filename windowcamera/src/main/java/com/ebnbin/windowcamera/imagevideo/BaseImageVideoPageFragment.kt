@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.fragment.FragmentHelper
+import com.ebnbin.windowcamera.viewer.ViewerType
 
 abstract class BaseImageVideoPageFragment : EBFragment() {
     protected val imageVideo: ImageVideo
@@ -15,8 +16,8 @@ abstract class BaseImageVideoPageFragment : EBFragment() {
 
         fun newInstance(fm: FragmentManager, imageVideo: ImageVideo): BaseImageVideoPageFragment {
             val fragmentClass = when (imageVideo.type) {
-                ImageVideo.Type.IMAGE -> ImagePageFragment::class.java
-                ImageVideo.Type.VIDEO -> VideoPageFragment::class.java
+                ViewerType.IMAGE -> ImagePageFragment::class.java
+                ViewerType.VIDEO -> VideoPageFragment::class.java
             }
             return FragmentHelper.instantiate(fm, fragmentClass, bundleOf(
                 KEY_IMAGE_VIDEO to imageVideo

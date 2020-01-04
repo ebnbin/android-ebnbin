@@ -1,6 +1,8 @@
 package com.ebnbin.eb.databinding
 
+import android.net.Uri
 import android.view.View
+import android.widget.ImageView
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
@@ -8,6 +10,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.adapters.ListenerUtil
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
 import com.ebnbin.eb.R
 import com.ebnbin.eb.requireOtherViewById
 import com.google.android.material.tabs.TabLayout
@@ -15,6 +18,13 @@ import com.google.android.material.tabs.TabLayout
 @BindingAdapter("isVisible")
 fun setVisible(view: View, isVisible: Boolean) {
     view.isVisible = isVisible
+}
+
+@BindingAdapter("load")
+fun load(view: ImageView, uri: Uri?) {
+    Glide.with(view)
+        .load(uri)
+        .into(view)
 }
 
 @BindingAdapter("navigationOnClickListener")

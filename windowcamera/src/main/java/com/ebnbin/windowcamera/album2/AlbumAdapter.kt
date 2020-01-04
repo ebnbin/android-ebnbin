@@ -8,19 +8,19 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.dpToPxRound
 import com.ebnbin.windowcamera.R
-import com.ebnbin.windowcamera.imagevideo.ImageVideo
+import com.ebnbin.windowcamera.viewer.ViewerType
 
 class AlbumAdapter : BaseMultiItemQuickAdapter<AlbumItem, BaseViewHolder>(null) {
     init {
-        addItemType(ImageVideo.Type.IMAGE.ordinal, R.layout.album_item_image)
-        addItemType(ImageVideo.Type.VIDEO.ordinal, R.layout.album_item_video)
+        addItemType(ViewerType.IMAGE.ordinal, R.layout.album_item_image)
+        addItemType(ViewerType.VIDEO.ordinal, R.layout.album_item_video)
     }
 
     override fun convert(helper: BaseViewHolder?, item: AlbumItem?) {
         helper ?: return
         item ?: return
         when (helper.itemViewType) {
-            ImageVideo.Type.IMAGE.ordinal, ImageVideo.Type.VIDEO.ordinal -> {
+            ViewerType.IMAGE.ordinal, ViewerType.VIDEO.ordinal -> {
                 Glide.with(helper.itemView)
                     .load(item.uri)
                     .placeholder(R.drawable.album_placeholder)

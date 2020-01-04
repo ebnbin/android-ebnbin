@@ -17,9 +17,8 @@ internal class DevPagerAdapter(
     }
 
     override fun getItem(position: Int): Fragment {
-        return fm.instantiate(context, devPages[position].fragmentClass).also {
-            it.arguments = devPages[position].fragmentArguments
-        }
+        val devPage = devPages[position]
+        return fm.instantiate(context, devPage.fragmentClass, devPage.fragmentArguments)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

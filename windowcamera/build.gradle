@@ -12,7 +12,10 @@ android {
     defaultConfig {
         ndk.abiFilters 'armeabi-v7a'/*, 'x86'*/
     }
-    sourceSets.main.res.srcDirs = ['src/main/res', 'src/main/res-old']
+    sourceSets.main.res.srcDirs(
+            'src/main/res-viewer',
+            'src/main/res-old'
+    )
 }
 
 dependencies {

@@ -232,7 +232,13 @@ fun Fragment.removeSelf() {
 
 //*********************************************************************************************************************
 
-fun <T : Fragment> FragmentManager.instantiate(context: Context, fragmentClass: Class<T>): T {
+fun <T : Fragment> FragmentManager.instantiate(
+    context: Context,
+    fragmentClass: Class<T>,
+    arguments: Bundle? = null
+): T {
     @Suppress("UNCHECKED_CAST")
-    return fragmentFactory.instantiate(context.classLoader, fragmentClass.name) as T
+    return (fragmentFactory.instantiate(context.classLoader, fragmentClass.name) as T).also {
+        if (arguments != null) it.arguments = arguments
+    }
 }
