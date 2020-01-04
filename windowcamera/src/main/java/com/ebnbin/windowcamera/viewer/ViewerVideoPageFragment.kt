@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ebnbin.eb.applicationId
 import com.ebnbin.windowcamera.databinding.ViewerVideoPageFragmentBinding
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -24,22 +25,45 @@ class ViewerVideoPageFragment : ViewerPageFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
+    private var reset: Boolean = true
+    private var playWhenReady: Boolean = true
+    private var currentPosition: Long = 0L
+
     override fun onResume() {
         super.onResume()
-        if (binding.playerView.player == null) {
-            val dataSource = DefaultDataSourceFactory(
-                requireContext(),
-                Util.getUserAgent(requireContext(), requireContext().applicationId)
-            )
-            val mediaSource = ProgressiveMediaSource.Factory(dataSource).createMediaSource(viewerItem.uri)
-            val player = SimpleExoPlayer.Builder(requireContext()).build()
-            player.prepare(mediaSource)
-            binding.playerView.player = player
+        if (reset) {
+            playWhenReady = true
+            currentPosition = 0L
         }
+        val dataSource = DefaultDataSourceFactory(
+            requireContext(),
+            Util.getUserAgent(requireContext(), requireContext().applicationId)
+        )
+        val mediaSource = ProgressiveMediaSource.Factory(dataSource).createMediaSource(viewerItem.uri)
+        val player = SimpleExoPlayer.Builder(requireContext()).build()
+        player.repeatMode = Player.REPEAT_MODE_ONE
+        player.playWhenReady = playWhenReady
+        player.seekTo(currentPosition)
+        player.prepare(mediaSource, reset, reset)
+        binding.playerView.player = player
+        binding.playerView.controllerShowTimeoutMs = 3000
+        binding.playerView.onResume()
+        reset = false
     }
 
-    override fun onDestroyView() {
-        binding.playerView.player?.release()
-        super.onDestroyView()
+    override fun onPause() {
+        binding.playerView.onPause()
+        binding.playerView.player?.let {
+            playWhenReady = it.playWhenReady
+            currentPosition = it.currentPosition
+            it.release()
+            binding.playerView.player = null
+        }
+        super.onPause()
+    }
+
+    override fun onPageUnselected() {
+        super.onPageUnselected()
+        reset = true
     }
 }

@@ -22,9 +22,12 @@ class ViewerFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.pagerAdapter = ViewerPagerAdapter(requireContext(), childFragmentManager,
             requireArgument(KEY_VIEWER_ITEMS))
-        binding.page = requireArgument(KEY_INDEX)
         binding.setBackOnClick {
             activity?.finish()
+        }
+        if (savedInstanceState == null) {
+            binding.executePendingBindings()
+            binding.viewPager.currentItem = requireArgument(KEY_INDEX)
         }
     }
 

@@ -19,4 +19,10 @@ class ViewerImagePageFragment : ViewerPageFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.uri = viewerItem.uri
     }
+
+    override fun onPageUnselected() {
+        super.onPageUnselected()
+        binding.uri = null
+        binding.uri = viewerItem.uri
+    }
 }

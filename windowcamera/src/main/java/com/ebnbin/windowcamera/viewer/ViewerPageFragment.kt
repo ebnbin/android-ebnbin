@@ -9,6 +9,8 @@ abstract class ViewerPageFragment : Fragment() {
     protected val viewerItem: ViewerItem
         get() = requireArgument(KEY_VIEWER_ITEM)
 
+    open fun onPageUnselected() = Unit
+
     companion object {
         private const val KEY_VIEWER_ITEM: String = "viewer_item"
 

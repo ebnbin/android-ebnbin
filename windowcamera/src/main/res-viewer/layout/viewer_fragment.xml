@@ -10,10 +10,6 @@
             type="androidx.viewpager.widget.PagerAdapter"/>
 
         <variable
-            name="page"
-            type="Integer"/>
-
-        <variable
             name="backOnClick"
             type="android.view.View.OnClickListener"/>
 
@@ -27,8 +23,7 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            adapter="@{pagerAdapter}"
-            currentItem="@{page}"/>
+            adapter="@{pagerAdapter}"/>
 
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
