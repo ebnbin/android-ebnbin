@@ -12,8 +12,8 @@ import com.ebnbin.windowcamera.viewer.ViewerType
 
 class AlbumAdapter : BaseMultiItemQuickAdapter<AlbumItem, BaseViewHolder>(null) {
     init {
-        addItemType(ViewerType.IMAGE.ordinal, R.layout.album_item_image)
-        addItemType(ViewerType.VIDEO.ordinal, R.layout.album_item_video)
+        addItemType(ViewerType.IMAGE.ordinal, R.layout.album2_item_image)
+        addItemType(ViewerType.VIDEO.ordinal, R.layout.album2_item_video)
     }
 
     override fun convert(helper: BaseViewHolder?, item: AlbumItem?) {
@@ -23,7 +23,7 @@ class AlbumAdapter : BaseMultiItemQuickAdapter<AlbumItem, BaseViewHolder>(null) 
             ViewerType.IMAGE.ordinal, ViewerType.VIDEO.ordinal -> {
                 Glide.with(helper.itemView)
                     .load(item.uri)
-                    .placeholder(R.drawable.album_placeholder)
+                    .placeholder(R.drawable.album2_placeholder)
                     .into(helper.getView(R.id.image_view))
                 when (item.multiSelect) {
                     MultiSelect.NORMAL -> {
@@ -34,14 +34,14 @@ class AlbumAdapter : BaseMultiItemQuickAdapter<AlbumItem, BaseViewHolder>(null) 
                         }
                     }
                     MultiSelect.UNSELECTED -> {
-                        helper.itemView.foreground = helper.itemView.context.getDrawable(R.drawable.album_unselected)
+                        helper.itemView.foreground = helper.itemView.context.getDrawable(R.drawable.album2_unselected)
                         helper.getView<View>(R.id.image_view).doOnLayout {
                             it.scaleX = 1f
                             it.scaleY = 1f
                         }
                     }
                     MultiSelect.SELECTED -> {
-                        helper.itemView.foreground = helper.itemView.context.getDrawable(R.drawable.album_selected)
+                        helper.itemView.foreground = helper.itemView.context.getDrawable(R.drawable.album2_selected)
                         helper.getView<View>(R.id.image_view).doOnLayout {
                             it.scaleX = (it.width - EBApplication.instance.dpToPxRound(16f)).toFloat() / it.width
                             it.scaleY = (it.height - EBApplication.instance.dpToPxRound(16f)).toFloat() / it.height

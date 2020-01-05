@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="album">相册</string>
-    <string name="album_selected">已选择%1$d项</string>
-    <string name="album_refresh">刷新</string>
-    <string name="album_multi_select">选择</string>
-    <string name="album_delete">删除</string>
-    <string name="album_delete_message">永久删除选中的照片/视频？</string>
-    <string name="album_delete_position">确定</string>
-    <string name="album_delete_negative">取消</string>
-    <string name="album_selected_empty">没有选中的照片/视频</string>
-    <string name="album_empty">没有拍摄的照片/视频</string>
+    <string name="album2">相册</string>
+    <string name="album2_selected">已选择%1$d项</string>
+    <string name="album2_refresh">刷新</string>
+    <string name="album2_multi_select">选择</string>
+    <string name="album2_delete">删除</string>
+    <string name="album2_delete_message">永久删除选中的照片/视频？</string>
+    <string name="album2_delete_position">确定</string>
+    <string name="album2_delete_negative">取消</string>
+    <string name="album2_selected_empty">没有选中的照片/视频</string>
+    <string name="album2_empty">没有拍摄的照片/视频</string>
 </resources>

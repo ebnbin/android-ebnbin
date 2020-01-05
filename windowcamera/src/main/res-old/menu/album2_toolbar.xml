@@ -4,10 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/refresh"
-        android:title="@string/album_refresh"
+        android:title="@string/album2_refresh"
         app:showAsAction="never"/>
     <item
         android:id="@+id/multi_select"
-        android:title="@string/album_multi_select"
+        android:title="@string/album2_multi_select"
         app:showAsAction="never"/>
 </menu>

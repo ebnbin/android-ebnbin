@@ -54,7 +54,7 @@
         <activity-alias
             android:name="AlbumShortcutActivity"
             android:icon="@mipmap/shortcut_album"
-            android:label="@string/album"
+            android:label="@string/album2"
             android:targetActivity=".album2.AlbumShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>

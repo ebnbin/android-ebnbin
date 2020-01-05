@@ -26,7 +26,7 @@ import com.ebnbin.windowcamera.viewer.ViewerFragment
 import com.ebnbin.windowcamera.viewer.ViewerItem
 import com.ebnbin.windowcamera.viewer.ViewerType
 import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.android.synthetic.main.album_fragment.*
+import kotlinx.android.synthetic.main.album2_fragment.*
 
 class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(false) {
@@ -43,7 +43,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.album_fragment, container, false)
+        return inflater.inflate(R.layout.album2_fragment, container, false)
     }
 
     private lateinit var adapter: AlbumAdapter
@@ -105,7 +105,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
             }
             true
         }
-        adapter.setEmptyView(R.layout.album_empty, recycler_view)
+        adapter.setEmptyView(R.layout.album2_empty, recycler_view)
         recycler_view.adapter = adapter
 
         invalidateAlbumItems()
@@ -133,24 +133,24 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     private fun enterActionMode() {
         onBackPressedCallback.isEnabled = true
 
-        toolbar.setNavigationIcon(R.drawable.album_close)
+        toolbar.setNavigationIcon(R.drawable.album2_close)
         toolbar.setNavigationOnClickListener {
             multiSelectNormal()
             exitActionMode()
         }
         toolbar.setTitleTextColor(ResHelper.getColorAttr(requireContext(), R.attr.colorPrimary))
         toolbar.menu.clear()
-        toolbar.inflateMenu(R.menu.album_action_mode)
+        toolbar.inflateMenu(R.menu.album2_action_mode)
         toolbar.setOnMenuItemClickListener {
             when (it?.itemId) {
                 R.id.delete -> {
                     if (adapter.data.none { albumItem -> albumItem.multiSelect == MultiSelect.SELECTED }) {
-                        requireContext().toast(R.string.album_selected_empty)
+                        requireContext().toast(R.string.album2_selected_empty)
                     } else {
                         childFragmentManager.openAlertDialogFragment(
-                            message = getString(R.string.album_delete_message),
-                            positiveText = getString(R.string.album_delete_position),
-                            negativeText = getString(R.string.album_delete_negative),
+                            message = getString(R.string.album2_delete_message),
+                            positiveText = getString(R.string.album2_delete_position),
+                            negativeText = getString(R.string.album2_delete_negative),
                             fragmentTag = "delete"
                         )
                     }
@@ -166,7 +166,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     private fun invalidateActionMode() {
         if (!isActionMode()) return
         val selectedCount = adapter.data.filter { it.multiSelect == MultiSelect.SELECTED }.size
-        toolbar.title = getString(R.string.album_selected, selectedCount)
+        toolbar.title = getString(R.string.album2_selected, selectedCount)
     }
 
     private fun exitActionMode() {
@@ -176,10 +176,10 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
         }
-        toolbar.setTitle(R.string.album)
+        toolbar.setTitle(R.string.album2)
         toolbar.setTitleTextColor(ResHelper.getColorAttr(requireContext(), android.R.attr.textColorPrimary))
         toolbar.menu.clear()
-        toolbar.inflateMenu(R.menu.album_toolbar)
+        toolbar.inflateMenu(R.menu.album2_toolbar)
         toolbar.setOnMenuItemClickListener {
             when (it?.itemId) {
                 R.id.refresh -> {

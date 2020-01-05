@@ -9,12 +9,12 @@
     <ImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:src="@drawable/album_empty"/>
+        android:src="@drawable/album2_empty"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/album_empty"/>
+        android:text="@string/album2_empty"/>
 
 </LinearLayout>

@@ -16,7 +16,7 @@ class AlbumShortcutActivity : EBActivity() {
             val shortcut = ShortcutInfoCompat.Builder(this, "shortcut_album")
                 .setIntent(Intent(this, AlbumActivity::class.java).setAction(Intent.ACTION_MAIN))
                 .setIcon(IconCompat.createWithResource(this, R.mipmap.shortcut_album))
-                .setShortLabel(getString(R.string.album))
+                .setShortLabel(getString(R.string.album2))
                 .build()
             setResult(Activity.RESULT_OK, ShortcutManagerCompat.createShortcutResultIntent(this, shortcut))
         } else {
