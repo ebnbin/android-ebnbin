@@ -3,7 +3,7 @@
     <shortcut
         android:shortcutId="album"
         android:icon="@mipmap/shortcut_album"
-        android:shortcutShortLabel="@string/album">
+        android:shortcutShortLabel="@string/album2">
         <intent
             android:action="com.ebnbin.windowcamera.shortcut_album"
             android:targetPackage="com.ebnbin.windowcamera"

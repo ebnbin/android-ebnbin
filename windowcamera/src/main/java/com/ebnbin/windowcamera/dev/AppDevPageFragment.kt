@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.activity.openActivity
+import com.ebnbin.eb.fragment.openFragment
 import com.ebnbin.eb.preference.Preference
 import com.ebnbin.eb.preference.PreferenceCategory
+import com.ebnbin.windowcamera.album.AlbumFragment
 import com.ebnbin.windowcamera.album2.AlbumActivity
 
 class AppDevPageFragment : PreferenceFragmentCompat() {
@@ -25,25 +27,20 @@ class AppDevPageFragment : PreferenceFragmentCompat() {
 
         Preference(requireContext()).also {
             appPreferenceGroup.addPreference(it)
-            it.title = "AlbumActivity"
+            it.title = "Old AlbumActivity"
             it.setOnPreferenceClickListener {
                 openActivity<AlbumActivity>()
                 true
             }
         }
-//
-//        Preference(requireContext()).also {
-//            appPreferenceGroup.addPreference(it)
-//            it.title = "ViewerActivity"
-//            it.setOnPreferenceClickListener {
-//                openFragment<ViewerFragment>(
-//                    fragmentArguments = ViewerFragment.createArguments(
-//                    ),
-//                    theme = R.style.EBAppTheme_Viewer,
-//                    fragmentActivityClass = ViewerActivity::class.java
-//                )
-//                true
-//            }
-//        }
+
+        Preference(requireContext()).also {
+            appPreferenceGroup.addPreference(it)
+            it.title = "AlbumFragment"
+            it.setOnPreferenceClickListener {
+                openFragment<AlbumFragment>()
+                true
+            }
+        }
     }
 }
