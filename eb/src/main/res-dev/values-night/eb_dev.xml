@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="eb_dev_floating_background">@color/eb_material_blue_gray_700</color>
+    <color name="eb_dev_floating_background">@color/eb_material_blue_gray_500</color>
 
     <string name="eb_dev">Dev</string>
 </resources>
