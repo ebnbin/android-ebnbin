@@ -6,7 +6,6 @@ import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.base64Decode
 import com.ebnbin.eb.coroutine.CoroutineLiveData
 import com.ebnbin.eb.coroutine.Loading
-import com.ebnbin.eb.library.gson
 import com.ebnbin.eb.log
 import com.ebnbin.ebapp.api.GitHubApi
 import kotlinx.coroutines.Dispatchers
@@ -42,16 +41,16 @@ internal class EBAppDevPageViewModel : ViewModel() {
         })
     }
 
-    val releases: CoroutineLiveData<String> = (CoroutineLiveData<String>(viewModelScope) {
-        gson.toJson(GitHubApi.instance.getReleases("android-ebnbin"))
+    val releases: CoroutineLiveData<Any> = (CoroutineLiveData<Any>(viewModelScope) {
+        GitHubApi.instance.getReleases("android-ebnbin")
     }).also {
-        it.addLoading(object : Loading<String> {
+        it.addLoading(object : Loading<Any> {
             override fun onStart(job: Job) {
                 super.onStart(job)
                 log("onStart $job")
             }
 
-            override fun onSuccess(result: String) {
+            override fun onSuccess(result: Any) {
                 super.onSuccess(result)
                 log("onSuccess $result")
             }

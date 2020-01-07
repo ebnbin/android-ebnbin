@@ -39,6 +39,17 @@ interface GitHubApi {
         var content: String? = null
     ) : Parcelable
 
+    @Parcelize
+    class Release(
+        var assets: List<Asset>? = null
+    ) : Parcelable {
+        @Parcelize
+        class Asset(
+            var id: Long? = null,
+            var name: String? = null
+        ) : Parcelable
+    }
+
     companion object {
         private const val PREFIX: String = "/repos/ebnbin"
 

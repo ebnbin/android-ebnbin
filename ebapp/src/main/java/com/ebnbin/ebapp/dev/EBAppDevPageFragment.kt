@@ -3,19 +3,26 @@ package com.ebnbin.ebapp.dev
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.coroutine.Loading
+import com.ebnbin.eb.dialog.AlertDialogFragment
+import com.ebnbin.eb.dialog.DialogCancelable
+import com.ebnbin.eb.dialog.JsonApiDialogFragment
 import com.ebnbin.eb.getNightModeToString
+import com.ebnbin.eb.library.gson
 import com.ebnbin.eb.preference.DropDownPreference
 import com.ebnbin.eb.preference.Preference
 import com.ebnbin.eb.preference.PreferenceCategory
 import com.ebnbin.eb.toast
 import com.ebnbin.ebapp.EBAppSpManager
+import com.ebnbin.ebapp.api.GitHubApi
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
-internal class EBAppDevPageFragment : PreferenceFragmentCompat() {
+internal class EBAppDevPageFragment : PreferenceFragmentCompat(), JsonApiDialogFragment.Callback {
     private val viewModel: EBAppDevPageViewModel by viewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -59,6 +66,25 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat() {
         val apiPreferenceGroup = PreferenceCategory(requireContext()).also {
             preferenceScreen.addPreference(it)
             it.title = "Api"
+        }
+
+        Preference(requireContext()).also {
+            apiPreferenceGroup.addPreference(it)
+            it.title = "JsonApiDialogFragment"
+            it.setOnPreferenceClickListener {
+                childFragmentManager.commit(true) {
+                    add(
+                        JsonApiDialogFragment::class.java,
+                        AlertDialogFragment.createArguments(
+                            title = "Title",
+                            negativeText = "取消",
+                            dialogCancelable = DialogCancelable.NOT_CANCELABLE_ON_TOUCH_OUTSIDE
+                        ),
+                        "JsonApiDialogFragment"
+                    )
+                }
+                true
+            }
         }
 
         Preference(requireContext()).also {
@@ -107,5 +133,9 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat() {
                 true
             }
         }
+    }
+
+    override suspend fun onGetJson(coroutineScope: CoroutineScope): String {
+        return gson.toJson(GitHubApi.instance.getReleases("android-ebnbin"))
     }
 }
