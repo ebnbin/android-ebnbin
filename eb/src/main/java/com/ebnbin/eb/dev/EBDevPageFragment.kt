@@ -1,5 +1,6 @@
 package com.ebnbin.eb.dev
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -7,7 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceFragmentCompat
+import com.ebnbin.eb.BuildConfig
 import com.ebnbin.eb.EBApplication
+import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.closeApp
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.dialog.AlertDialogFragment
@@ -79,6 +82,27 @@ internal class EBDevPageFragment : PreferenceFragmentCompat(), AlertDialogFragme
             it.min = 1
             it.max = 60
             it.seekBarIncrement = 1
+        }
+
+        //*************************************************************************************************************
+
+        val leakCanaryPreferenceGroup = PreferenceCategory(requireContext()).also {
+            preferenceScreen.addPreference(it)
+            it.title = "LeakCanary"
+            it.isVisible = BuildConfig.DEBUG
+        }
+
+        Preference(requireContext()).also {
+            leakCanaryPreferenceGroup.addPreference(it)
+            it.title = "LeakCanary"
+            it.setOnPreferenceClickListener {
+                runCatching {
+                    openActivity(Intent().setClassName(requireContext(), "leakcanary.internal.activity.LeakActivity"))
+                }.onFailure {
+                    requireContext().toast("打开 LeakCanary 失败。")
+                }
+                true
+            }
         }
 
         //*************************************************************************************************************

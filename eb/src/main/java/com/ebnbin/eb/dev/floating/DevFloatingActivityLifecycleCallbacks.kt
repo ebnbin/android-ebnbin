@@ -20,7 +20,7 @@ internal object DevFloatingActivityLifecycleCallbacks : Application.ActivityLife
     private val onAttachStateChangeListeners: ArrayMap<Activity, DevFloatingOnAttachStateChangeListener> = ArrayMap()
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        if (EBApplication.instance.devFloatingExceptActivityClasses.contains(activity::class.java)) return
+        if (EBApplication.instance.devFloatingExceptActivityClassNames.contains(activity::class.java.name)) return
         val onAttachStateChangeListener = DevFloatingOnAttachStateChangeListener(activity)
         onAttachStateChangeListeners[activity] = onAttachStateChangeListener
         activity.window.decorView.addOnAttachStateChangeListener(onAttachStateChangeListener)
@@ -30,13 +30,13 @@ internal object DevFloatingActivityLifecycleCallbacks : Application.ActivityLife
     }
 
     override fun onActivityResumed(activity: Activity) {
-        if (EBApplication.instance.devFloatingExceptActivityClasses.contains(activity::class.java)) return
+        if (EBApplication.instance.devFloatingExceptActivityClassNames.contains(activity::class.java.name)) return
         currentActivity = activity
         onAttachStateChangeListeners[activity]?.invalidatePopupWindow()
     }
 
     override fun onActivityPaused(activity: Activity) {
-        if (EBApplication.instance.devFloatingExceptActivityClasses.contains(activity::class.java)) return
+        if (EBApplication.instance.devFloatingExceptActivityClassNames.contains(activity::class.java.name)) return
         currentActivity = null
     }
 
@@ -47,7 +47,7 @@ internal object DevFloatingActivityLifecycleCallbacks : Application.ActivityLife
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        if (EBApplication.instance.devFloatingExceptActivityClasses.contains(activity::class.java)) return
+        if (EBApplication.instance.devFloatingExceptActivityClassNames.contains(activity::class.java.name)) return
         onAttachStateChangeListeners.remove(activity)
     }
 }

@@ -1,6 +1,5 @@
 package com.ebnbin.eb
 
-import android.app.Activity
 import android.app.Application
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.ebnbin.eb.crash.CrashActivity
@@ -30,8 +29,11 @@ open class EBApplication : Application() {
         registerActivityLifecycleCallbacks(DevFloatingActivityLifecycleCallbacks)
     }
 
-    open val devFloatingExceptActivityClasses: List<Class<out Activity>>
-        get() = listOf(CrashActivity::class.java)
+    open val devFloatingExceptActivityClassNames: List<String>
+        get() = listOf(
+            CrashActivity::class.java.name,
+            "leakcanary.internal.activity.LeakActivity"
+        )
 
     open val createDevPages: List<CreateDevPage>
         get() = listOf(
