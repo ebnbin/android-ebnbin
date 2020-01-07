@@ -67,13 +67,13 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat() {
             viewModel.ebappJson.observe(viewLifecycleOwner, Observer { value ->
                 it.summary = value
             })
-            viewModel.ebappJson.addLoading(viewLifecycleOwner.lifecycle, object : Loading<String?> {
+            viewModel.ebappJson.addLoading(viewLifecycleOwner.lifecycle, object : Loading<String> {
                 override fun onStart(job: Job) {
                     super.onStart(job)
                     requireContext().toast("onStart $job")
                 }
 
-                override fun onSuccess(result: String?) {
+                override fun onSuccess(result: String) {
                     super.onSuccess(result)
                     requireContext().toast("onSuccess $result")
                 }
@@ -86,6 +86,24 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat() {
             it.setOnPreferenceClickListener { _ ->
                 it.summary = null
                 viewModel.ebappJson.coroutineSetValue()
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            apiPreferenceGroup.addPreference(it)
+            it.title = "releases"
+            it.setOnPreferenceClickListener {
+                viewModel.releases.coroutineSetValue()
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            apiPreferenceGroup.addPreference(it)
+            it.title = "releaseAsset"
+            it.setOnPreferenceClickListener {
+                viewModel.releaseAsset.coroutineSetValue()
                 true
             }
         }
