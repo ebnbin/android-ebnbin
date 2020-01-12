@@ -42,27 +42,6 @@ internal class EBAppDevPageViewModel : ViewModel() {
         })
     }
 
-    val releases: CoroutineLiveData<Any> = (CoroutineLiveData<Any>(viewModelScope) {
-        GitHubApi.instance.getReleases("android-ebnbin")
-    }).also {
-        it.addLoading(object : Loading<Any> {
-            override fun onStart(job: Job) {
-                super.onStart(job)
-                log("onStart $job")
-            }
-
-            override fun onSuccess(result: Any) {
-                super.onSuccess(result)
-                log("onSuccess $result")
-            }
-
-            override fun onFailure(throwable: Throwable) {
-                super.onFailure(throwable)
-                log("onFailure $throwable")
-            }
-        })
-    }
-
     val releaseAsset: CoroutineLiveData<ResponseBody> = (CoroutineLiveData<ResponseBody>(viewModelScope) {
         val responseBody = GitHubApi.instance.getReleaseAsset("android-ebnbin", 13279496L)
         responseBody.download(object : DownloadListener {

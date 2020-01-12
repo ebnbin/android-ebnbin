@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="eb_cancel">取消</string>
+    <string name="eb_copy">复制</string>
+    <string name="eb_copied">已复制</string>
+
     <string name="eb_open_market_failure">打开应用商店失败。</string>
     <string name="eb_open_browser_failure">打开浏览器失败。</string>
 </resources>

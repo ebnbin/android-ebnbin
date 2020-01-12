@@ -40,3 +40,28 @@ fun FragmentManager.openAlertDialogFragment(
         )
     }
 }
+
+fun FragmentManager.openJsonApiDialogFragment(
+    isMaterial: Boolean = false,
+    themeId: Int = 0,
+    request: CharSequence? = null,
+    dialogCancelable: DialogCancelable = DialogCancelable.NOT_CANCELABLE_ON_TOUCH_OUTSIDE,
+    fragmentCallback: FragmentCallback = FragmentCallback.PREFER_PARENT_FRAGMENT,
+    callbackBundle: Bundle = Bundle.EMPTY,
+    fragmentTag: String? = null
+) {
+    commit(true) {
+        add(
+            JsonApiDialogFragment::class.java,
+            JsonApiDialogFragment.createArguments(
+                isMaterial = isMaterial,
+                themeId = themeId,
+                request = request,
+                dialogCancelable = dialogCancelable,
+                fragmentCallback = fragmentCallback,
+                callbackBundle = callbackBundle
+            ),
+            fragmentTag
+        )
+    }
+}

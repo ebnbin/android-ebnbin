@@ -3,16 +3,13 @@ package com.ebnbin.ebapp.dev
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.preference.PreferenceFragmentCompat
 import com.ebnbin.eb.coroutine.Loading
-import com.ebnbin.eb.dialog.AlertDialogFragment
-import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.JsonApiDialogFragment
+import com.ebnbin.eb.dialog.openJsonApiDialogFragment
 import com.ebnbin.eb.getNightModeToString
-import com.ebnbin.eb.library.gson
 import com.ebnbin.eb.preference.DropDownPreference
 import com.ebnbin.eb.preference.Preference
 import com.ebnbin.eb.preference.PreferenceCategory
@@ -72,17 +69,10 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat(), JsonApiDialogF
             apiPreferenceGroup.addPreference(it)
             it.title = "JsonApiDialogFragment"
             it.setOnPreferenceClickListener {
-                childFragmentManager.commit(true) {
-                    add(
-                        JsonApiDialogFragment::class.java,
-                        AlertDialogFragment.createArguments(
-                            title = "Title",
-                            negativeText = "取消",
-                            dialogCancelable = DialogCancelable.NOT_CANCELABLE_ON_TOUCH_OUTSIDE
-                        ),
-                        "JsonApiDialogFragment"
-                    )
-                }
+                childFragmentManager.openJsonApiDialogFragment(
+                    request = "https://api.github.com/repos/ebnbin/android-ebnbin/releases",
+                    fragmentTag = "JsonApiDialogFragment"
+                )
                 true
             }
         }
@@ -118,15 +108,6 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat(), JsonApiDialogF
 
         Preference(requireContext()).also {
             apiPreferenceGroup.addPreference(it)
-            it.title = "releases"
-            it.setOnPreferenceClickListener {
-                viewModel.releases.coroutineSetValue()
-                true
-            }
-        }
-
-        Preference(requireContext()).also {
-            apiPreferenceGroup.addPreference(it)
             it.title = "releaseAsset"
             it.setOnPreferenceClickListener {
                 viewModel.releaseAsset.coroutineSetValue()
@@ -135,7 +116,7 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat(), JsonApiDialogF
         }
     }
 
-    override suspend fun onGetJson(coroutineScope: CoroutineScope): String {
-        return gson.toJson(GitHubApi.instance.getReleases("android-ebnbin"))
+    override suspend fun onGetJson(coroutineScope: CoroutineScope, callbackBundle: Bundle): Any {
+        return GitHubApi.instance.getReleases("android-ebnbin")
     }
 }
