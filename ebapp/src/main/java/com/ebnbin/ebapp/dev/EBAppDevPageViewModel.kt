@@ -7,10 +7,11 @@ import com.ebnbin.eb.base64Decode
 import com.ebnbin.eb.coroutine.CoroutineLiveData
 import com.ebnbin.eb.coroutine.Loading
 import com.ebnbin.eb.log
+import com.ebnbin.eb.net.DownloadListener
+import com.ebnbin.eb.net.download
 import com.ebnbin.ebapp.api.GitHubApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.withContext
+import okhttp3.MediaType
 import okhttp3.ResponseBody
 import java.io.File
 
@@ -63,20 +64,27 @@ internal class EBAppDevPageViewModel : ViewModel() {
     }
 
     val releaseAsset: CoroutineLiveData<ResponseBody> = (CoroutineLiveData<ResponseBody>(viewModelScope) {
-        val responseBody = GitHubApi.instance.getReleaseAsset("android-ebnbin", 0L)
-        withContext(Dispatchers.IO) {
-            val file = File(EBApplication.instance.getExternalFilesDir(null), "test.apk")
-            val os = file.outputStream()
-            val `is` = responseBody.byteStream()
-            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-            var len: Int
-            while (true) {
-                len = `is`.read(buffer)
-                log("$len")
-                if (len == -1) break
-                os.write(buffer, 0, len)
+        val responseBody = GitHubApi.instance.getReleaseAsset("android-ebnbin", 13279496L)
+        responseBody.download(object : DownloadListener {
+            override fun onStart(contentType: MediaType?, contentLength: Long): File {
+                return File(EBApplication.instance.getExternalFilesDir(null), "test.apk")
             }
-        }
+
+            override fun onProgress(percent: Float, currentLength: Long, totalLength: Long) {
+                super.onProgress(percent, currentLength, totalLength)
+                log("$percent,$currentLength,$totalLength,${Thread.currentThread()}")
+            }
+
+            override fun onSuccess() {
+                super.onSuccess()
+                log("onSuccess")
+            }
+
+            override fun onFailure() {
+                super.onFailure()
+                log("onFailure")
+            }
+        })
         responseBody
     }).also {
         it.addLoading(object : Loading<ResponseBody> {
