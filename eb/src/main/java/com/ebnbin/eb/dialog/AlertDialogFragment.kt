@@ -15,8 +15,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 open class AlertDialogFragment : AppCompatDialogFragment() {
     protected open val isMaterial: Boolean
         get() = getArgumentOrDefault(KEY_IS_MATERIAL, false)
-    protected open val themeId: Int
-        get() = getArgumentOrDefault(KEY_THEME_ID, 0)
     protected open val title: CharSequence?
         get() = getArgument(KEY_TITLE)
     protected open val message: CharSequence?
@@ -38,9 +36,9 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = if (isMaterial) {
-            MaterialAlertDialogBuilder(requireContext(), themeId)
+            MaterialAlertDialogBuilder(requireContext(), theme)
         } else {
-            AlertDialog.Builder(requireContext(), themeId)
+            AlertDialog.Builder(requireContext(), theme)
         }.setTitle(title)
             .setMessage(message)
             .setPositiveButton(positiveText, null)
@@ -155,7 +153,6 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val KEY_IS_MATERIAL: String = "is_material"
-        const val KEY_THEME_ID: String = "theme_id"
         const val KEY_TITLE: String = "title"
         const val KEY_MESSAGE: String = "message"
         const val KEY_POSITIVE_TEXT: String = "positive_text"
@@ -165,13 +162,11 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
         const val KEY_FRAGMENT_CALLBACK = "fragment_callback"
         const val KEY_CALLBACK_BUNDLE = "callback_bundle"
 
-
         fun createArguments(
             /**
              * 是否使用 [MaterialAlertDialogBuilder].
              */
             isMaterial: Boolean = false,
-            themeId: Int = 0,
             title: CharSequence? = null,
             message: CharSequence? = null,
             positiveText: CharSequence? = null,
@@ -183,7 +178,6 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
         ): Bundle {
             return bundleOf(
                 KEY_IS_MATERIAL to isMaterial,
-                KEY_THEME_ID to themeId,
                 KEY_TITLE to title,
                 KEY_MESSAGE to message,
                 KEY_POSITIVE_TEXT to positiveText,

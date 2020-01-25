@@ -93,7 +93,6 @@ class JsonApiDialogFragment : AlertDialogFragment() {
 
         fun createArguments(
             isMaterial: Boolean = false,
-            themeId: Int = 0,
             request: CharSequence? = null,
             dialogCancelable: DialogCancelable = DialogCancelable.NOT_CANCELABLE_ON_TOUCH_OUTSIDE,
             fragmentCallback: FragmentCallback = FragmentCallback.PREFER_PARENT_FRAGMENT,
@@ -101,7 +100,6 @@ class JsonApiDialogFragment : AlertDialogFragment() {
         ): Bundle {
             return AlertDialogFragment.createArguments(
                 isMaterial = isMaterial,
-                themeId = themeId,
                 dialogCancelable = dialogCancelable,
                 fragmentCallback = fragmentCallback,
                 callbackBundle = callbackBundle

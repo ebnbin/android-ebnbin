@@ -10,7 +10,6 @@ import com.ebnbin.eb.fragment.FragmentCallback
  */
 fun FragmentManager.openAlertDialogFragment(
     isMaterial: Boolean = false,
-    themeId: Int = 0,
     title: CharSequence? = null,
     message: CharSequence? = null,
     positiveText: CharSequence? = null,
@@ -26,7 +25,6 @@ fun FragmentManager.openAlertDialogFragment(
             AlertDialogFragment::class.java,
             AlertDialogFragment.createArguments(
                 isMaterial = isMaterial,
-                themeId = themeId,
                 title = title,
                 message = message,
                 positiveText = positiveText,
@@ -43,7 +41,6 @@ fun FragmentManager.openAlertDialogFragment(
 
 fun FragmentManager.openJsonApiDialogFragment(
     isMaterial: Boolean = false,
-    themeId: Int = 0,
     request: CharSequence? = null,
     dialogCancelable: DialogCancelable = DialogCancelable.NOT_CANCELABLE_ON_TOUCH_OUTSIDE,
     fragmentCallback: FragmentCallback = FragmentCallback.PREFER_PARENT_FRAGMENT,
@@ -55,7 +52,6 @@ fun FragmentManager.openJsonApiDialogFragment(
             JsonApiDialogFragment::class.java,
             JsonApiDialogFragment.createArguments(
                 isMaterial = isMaterial,
-                themeId = themeId,
                 request = request,
                 dialogCancelable = dialogCancelable,
                 fragmentCallback = fragmentCallback,
