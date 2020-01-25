@@ -28,7 +28,7 @@ abstract class DialogFragment : AppCompatDialogFragment() {
         }
         dialog.setCanceledOnTouchOutside(dialogCancelable == DialogCancelable.CANCELABLE)
         isCancelable = dialogCancelable != DialogCancelable.NOT_CANCELABLE
-        onCreateDialog(dialog)
+        onDialogCreated(dialog, savedInstanceState)
         return dialog
     }
 
@@ -55,8 +55,8 @@ abstract class DialogFragment : AppCompatDialogFragment() {
 
     //*****************************************************************************************************************
 
-    protected open fun onCreateDialog(dialog: AppCompatDialog) {
-        getCallback<Callback>(fragmentCallback)?.onCreateDialog(dialog, callbackBundle)
+    protected open fun onDialogCreated(dialog: AppCompatDialog, savedInstanceState: Bundle?) {
+        getCallback<Callback>(fragmentCallback)?.onDialogCreated(dialog, callbackBundle)
     }
 
     protected open fun onDialogShow(dialog: AppCompatDialog) {
@@ -74,7 +74,7 @@ abstract class DialogFragment : AppCompatDialogFragment() {
     //*****************************************************************************************************************
 
     interface Callback {
-        fun onCreateDialog(dialog: AppCompatDialog, callbackBundle: Bundle) = Unit
+        fun onDialogCreated(dialog: AppCompatDialog, callbackBundle: Bundle) = Unit
 
         fun onDialogShow(dialog: AppCompatDialog, callbackBundle: Bundle) = Unit
 

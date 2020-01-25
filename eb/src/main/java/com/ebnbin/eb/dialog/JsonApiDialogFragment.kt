@@ -1,7 +1,6 @@
 package com.ebnbin.eb.dialog
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -12,6 +11,7 @@ import com.ebnbin.eb.databinding.EbDialogJsonApiDialogFragmentBinding
 import com.ebnbin.eb.fragment.FragmentCallback
 import com.ebnbin.eb.fragment.getArgument
 import com.ebnbin.eb.fragment.requireCallback
+import com.ebnbin.eb.layoutInflater
 import com.ebnbin.eb.library.gson
 import com.ebnbin.eb.toast
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -34,8 +34,8 @@ class JsonApiDialogFragment : AlertDialogFragment() {
     override val neutralText: CharSequence?
         get() = getString(R.string.eb_dialog_json_api_request)
 
-    override fun onCreateAlertDialogBuilder(builder: AlertDialog.Builder) {
-        binding = EbDialogJsonApiDialogFragmentBinding.inflate(LayoutInflater.from(requireContext()))
+    override fun onAlertDialogBuilderCreated(builder: AlertDialog.Builder, savedInstanceState: Bundle?) {
+        binding = EbDialogJsonApiDialogFragmentBinding.inflate(requireContext().layoutInflater)
         builder.setView(binding.root)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -45,7 +45,7 @@ class JsonApiDialogFragment : AlertDialogFragment() {
             alertDialog?.getButton(AlertDialog.BUTTON_NEUTRAL)?.isEnabled = !isLoading
         })
         binding.request = getArgument(KEY_REQUEST)
-        super.onCreateAlertDialogBuilder(builder)
+        super.onAlertDialogBuilderCreated(builder, savedInstanceState)
     }
 
     override fun onAlertDialogShow(alertDialog: AlertDialog) {

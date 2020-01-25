@@ -61,3 +61,22 @@ fun FragmentManager.openJsonApiDialogFragment(
         )
     }
 }
+
+fun FragmentManager.openLoadingDialogFragment(
+    dialogCancelable: DialogCancelable = DialogCancelable.NOT_CANCELABLE_ON_TOUCH_OUTSIDE,
+    fragmentCallback: FragmentCallback = FragmentCallback.PREFER_PARENT_FRAGMENT,
+    callbackBundle: Bundle = Bundle.EMPTY,
+    fragmentTag: String? = null
+) {
+    commit(true) {
+        add(
+            LoadingDialogFragment::class.java,
+            DialogFragment.createArguments(
+                dialogCancelable = dialogCancelable,
+                fragmentCallback = fragmentCallback,
+                callbackBundle = callbackBundle
+            ),
+            fragmentTag
+        )
+    }
+}

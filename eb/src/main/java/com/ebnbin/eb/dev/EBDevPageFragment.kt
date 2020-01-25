@@ -14,7 +14,9 @@ import com.ebnbin.eb.activity.openActivity
 import com.ebnbin.eb.closeApp
 import com.ebnbin.eb.crash.CrashException
 import com.ebnbin.eb.dialog.AlertDialogFragment
+import com.ebnbin.eb.dialog.DialogCancelable
 import com.ebnbin.eb.dialog.openAlertDialogFragment
+import com.ebnbin.eb.dialog.openLoadingDialogFragment
 import com.ebnbin.eb.fragment.requireArgument
 import com.ebnbin.eb.getValue
 import com.ebnbin.eb.openBrowser
@@ -162,6 +164,17 @@ internal class EBDevPageFragment : PreferenceFragmentCompat(), AlertDialogFragme
                     positiveText = "确定",
                     negativeText = "取消",
                     fragmentTag = "isMaterial = true"
+                )
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            dialogPreferenceGroup.addPreference(it)
+            it.title = "LoadingDialogFragment"
+            it.setOnPreferenceClickListener {
+                childFragmentManager.openLoadingDialogFragment(
+                    dialogCancelable = DialogCancelable.NOT_CANCELABLE_ON_TOUCH_OUTSIDE
                 )
                 true
             }

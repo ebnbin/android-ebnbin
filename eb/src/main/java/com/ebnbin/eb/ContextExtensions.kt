@@ -15,6 +15,7 @@ import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.Settings
+import android.view.LayoutInflater
 import android.view.Surface
 import android.view.WindowManager
 import androidx.core.app.ActivityCompat
@@ -248,3 +249,8 @@ fun Context.openBrowser(
         onFailure?.invoke(it)
     }
 }
+
+//*********************************************************************************************************************
+
+val Context.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(this)

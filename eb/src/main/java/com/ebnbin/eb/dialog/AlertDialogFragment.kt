@@ -44,7 +44,7 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
             .setPositiveButton(positiveText, null)
             .setNegativeButton(negativeText, null)
             .setNeutralButton(neutralText, null)
-        onCreateAlertDialogBuilder(builder)
+        onAlertDialogBuilderCreated(builder, savedInstanceState)
         val alertDialog = builder.create()
         alertDialog.setOnShowListener {
             it as AlertDialog
@@ -61,7 +61,7 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
         }
         alertDialog.setCanceledOnTouchOutside(dialogCancelable == DialogCancelable.CANCELABLE)
         isCancelable = dialogCancelable != DialogCancelable.NOT_CANCELABLE
-        onCreateAlertDialog(alertDialog)
+        onAlertDialogCreated(alertDialog, savedInstanceState)
         return alertDialog
     }
 
@@ -88,12 +88,12 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
 
     //*****************************************************************************************************************
 
-    protected open fun onCreateAlertDialogBuilder(builder: AlertDialog.Builder) {
-        getCallback<Callback>(fragmentCallback)?.onCreateAlertDialogBuilder(builder, callbackBundle)
+    protected open fun onAlertDialogBuilderCreated(builder: AlertDialog.Builder, savedInstanceState: Bundle?) {
+        getCallback<Callback>(fragmentCallback)?.onAlertDialogBuilderCreated(builder, callbackBundle)
     }
 
-    protected open fun onCreateAlertDialog(alertDialog: AlertDialog) {
-        getCallback<Callback>(fragmentCallback)?.onCreateAlertDialog(alertDialog, callbackBundle)
+    protected open fun onAlertDialogCreated(alertDialog: AlertDialog, savedInstanceState: Bundle?) {
+        getCallback<Callback>(fragmentCallback)?.onAlertDialogCreated(alertDialog, callbackBundle)
     }
 
     protected open fun onAlertDialogPositive(alertDialog: AlertDialog): Boolean {
@@ -123,9 +123,9 @@ open class AlertDialogFragment : AppCompatDialogFragment() {
     //*****************************************************************************************************************
 
     interface Callback {
-        fun onCreateAlertDialogBuilder(builder: AlertDialog.Builder, callbackBundle: Bundle) = Unit
+        fun onAlertDialogBuilderCreated(builder: AlertDialog.Builder, callbackBundle: Bundle) = Unit
 
-        fun onCreateAlertDialog(alertDialog: AlertDialog, callbackBundle: Bundle) = Unit
+        fun onAlertDialogCreated(alertDialog: AlertDialog, callbackBundle: Bundle) = Unit
 
         /**
          * @return 点击按钮是否 dismiss 对话框.
