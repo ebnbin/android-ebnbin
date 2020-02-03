@@ -16,6 +16,7 @@ import com.ebnbin.eb.preference.PreferenceCategory
 import com.ebnbin.eb.toast
 import com.ebnbin.ebapp.EBAppSpManager
 import com.ebnbin.ebapp.api.GitHubApi
+import com.ebnbin.ebapp.update.openUpdateFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
@@ -111,6 +112,15 @@ internal class EBAppDevPageFragment : PreferenceFragmentCompat(), JsonApiDialogF
             it.title = "releaseAsset"
             it.setOnPreferenceClickListener {
                 viewModel.releaseAsset.coroutineSetValue()
+                true
+            }
+        }
+
+        Preference(requireContext()).also {
+            apiPreferenceGroup.addPreference(it)
+            it.title = "Update"
+            it.setOnPreferenceClickListener {
+                childFragmentManager.openUpdateFragment()
                 true
             }
         }

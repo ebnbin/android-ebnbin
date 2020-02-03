@@ -242,3 +242,13 @@ fun <T : Fragment> FragmentManager.instantiate(
         if (arguments != null) it.arguments = arguments
     }
 }
+
+//*********************************************************************************************************************
+
+inline fun <reified T : Fragment> FragmentManager.findFragment(tag: String): T? {
+    return findFragmentByTag(tag) as? T
+}
+
+inline fun <reified T : Fragment> FragmentManager.requireFragment(tag: String): T {
+    return findFragment(tag) ?: throw IllegalArgumentException("找不到 tag 为 $tag 的 fragment.")
+}

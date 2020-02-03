@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.ebnbin.eb.fragment.FragmentCallback
+import com.ebnbin.eb.fragment.findFragment
 
 /**
  * 打开 AlertDialog.
@@ -79,4 +80,11 @@ fun FragmentManager.openLoadingDialogFragment(
             fragmentTag
         )
     }
+}
+
+fun FragmentManager.closeLoadingDialogFragment(
+    fragmentTag: String
+) {
+    findFragment<LoadingDialogFragment>(fragmentTag)
+        ?.dismissAllowingStateLoss()
 }

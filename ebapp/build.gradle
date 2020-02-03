@@ -12,6 +12,9 @@ android {
         consumerProguardFiles util.proguardFiles
         buildConfigField 'String', 'GITHUB_API_TOKEN', "\"${util.localProperties['githubApiToken']}\""
     }
+    sourceSets.main.res.srcDirs(
+            'src/main/res-update'
+    )
     buildTypes {
         release {
             manifestPlaceholders = [firebaseCrashlyticsCollectionEnabled: true]

@@ -17,9 +17,9 @@ import retrofit2.http.Query
 interface GitHubApi {
     @GET("$PREFIX/{repo}/contents/{path}")
     suspend fun getContentsFile(
-        @Path("repo") repo: String,
+        @Path("repo") repo: String = "android-ebnbin",
         @Path("path") path: String,
-        @Query("ref") ref: String
+        @Query("ref") ref: String = "master"
     ): Content
 
     @GET("$PREFIX/{repo}/releases")
@@ -49,6 +49,13 @@ interface GitHubApi {
             var name: String? = null
         ) : Parcelable
     }
+
+    @Parcelize
+    class Update(
+        var version: Int? = null,
+        var minVersion: Int? = null,
+        var message: String? = null
+    ) : Parcelable
 
     companion object {
         private const val PREFIX: String = "/repos/ebnbin"
