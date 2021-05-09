@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.isVisible
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.R
@@ -37,11 +37,10 @@ internal class CrashActivity : AppCompatActivity() {
             finish()
             return
         }
-        binding = DataBindingUtil.setContentView(this, R.layout.eb_crash_activity)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.icon = applicationInfo.loadIcon(packageManager)
-        binding.setIconOnClick {
+        binding = EbCrashActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.icon.setImageDrawable(applicationInfo.loadIcon(packageManager))
+        binding.iconContainer.setOnClickListener {
             binding.ebBug.rotation = 0f
             binding.ebBug.animate().cancel()
             binding.ebBug.animate()
@@ -71,19 +70,21 @@ internal class CrashActivity : AppCompatActivity() {
                 })
                 .start()
         }
-        binding.label = applicationInfo.loadLabel(packageManager).toString()
-        binding.setCopyOnClick {
-            val clipboardManager = getSystemService<ClipboardManager>() ?: return@setCopyOnClick
-            val log = viewModel.log.value ?: return@setCopyOnClick
+        binding.iconContainer.setOnLongClickListener(viewModel::iconOnLongClick)
+        binding.title.text = getString(R.string.eb_crash_title, applicationInfo.loadLabel(packageManager).toString())
+        binding.logContainer.isVisible = viewModel.logVisible.value!!
+        binding.copy.setOnClickListener {
+            val clipboardManager = getSystemService<ClipboardManager>() ?: return@setOnClickListener
+            val log = viewModel.log.value ?: return@setOnClickListener
             clipboardManager.setPrimaryClip(ClipData.newPlainText(CrashActivity::class.java.name, log))
             Toast.makeText(this, R.string.eb_crash_copied, Toast.LENGTH_SHORT).show()
         }
-        binding.setCloseOnClick {
+        binding.close.setOnClickListener {
             runCatching {
                 CustomActivityOnCrash.closeApplication(this, caocConfig)
             }
         }
-        binding.setRestartOnClick {
+        binding.restart.setOnClickListener {
             runCatching {
                 CustomActivityOnCrash.restartApplication(this, caocConfig)
             }
@@ -97,6 +98,7 @@ internal class CrashActivity : AppCompatActivity() {
                 }
             }.getOrNull()
         }
+        binding.log.text = viewModel.log.value
     }
 
     override fun onBackPressed() {

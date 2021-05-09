@@ -1,73 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <data>
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="8dp"/>
 
-        <variable
-            name="viewModel"
-            type="com.ebnbin.eb.dialog.JsonApiDialogViewModel"/>
-
-        <variable
-            name="request"
-            type="CharSequence"/>
-
-    </data>
-
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/eb_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollIndicators="top|bottom">
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="8dp"/>
-
-        <ScrollView
-            android:id="@+id/eb_scroll_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scrollIndicators="top|bottom">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/eb_request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp">
+                android:layout_marginBottom="8dp"
+                android:textSize="12sp"
+                android:textColor="?attr/colorPrimary"
+                android:fontFamily="monospace"
+                android:textIsSelectable="true"/>
 
-                <TextView
-                    android:id="@+id/eb_request"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{request}"
-                    android:textSize="12sp"
-                    android:textColor="?attr/colorPrimary"
-                    android:fontFamily="monospace"
-                    android:textIsSelectable="true"
-                    isVisible="@{request != null}"/>
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    isVisible="@{viewModel.isLoading()}"/>
+            <TextView
+                android:id="@+id/eb_response"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:textIsSelectable="true"/>
 
-                <TextView
-                    android:id="@+id/eb_response"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.response}"
-                    android:textSize="12sp"
-                    android:fontFamily="monospace"
-                    android:textIsSelectable="true"
-                    isVisible="@{!viewModel.isLoading()}"/>
+        </LinearLayout>
 
-            </LinearLayout>
+    </ScrollView>
 
-        </ScrollView>
-
-    </LinearLayout>
-
-</layout>
+</LinearLayout>

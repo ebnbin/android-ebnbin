@@ -2,6 +2,7 @@ package com.ebnbin.eb.dialog
 
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
@@ -37,14 +38,17 @@ class JsonApiDialogFragment : AlertDialogFragment() {
     override fun onAlertDialogBuilderCreated(builder: AlertDialog.Builder, savedInstanceState: Bundle?) {
         binding = EbDialogJsonApiDialogFragmentBinding.inflate(requireContext().layoutInflater)
         builder.setView(binding.root)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
         viewModel.isLoading.observe(this, Observer {
             val isLoading = it ?: true
             alertDialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = !isLoading
             alertDialog?.getButton(AlertDialog.BUTTON_NEUTRAL)?.isEnabled = !isLoading
         })
-        binding.request = getArgument(KEY_REQUEST)
+        val request = getArgument<CharSequence>(KEY_REQUEST)
+        binding.ebRequest.text = request
+        binding.ebRequest.isVisible = request != null
+        binding.progressBar.isVisible = viewModel.isLoading.value!!
+        binding.ebResponse.text = viewModel.response.value
+        binding.ebResponse.isVisible = !viewModel.isLoading.value!!
         super.onAlertDialogBuilderCreated(builder, savedInstanceState)
     }
 

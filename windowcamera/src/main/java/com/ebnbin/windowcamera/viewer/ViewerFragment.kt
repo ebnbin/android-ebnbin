@@ -19,14 +19,12 @@ class ViewerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.pagerAdapter = ViewerPagerAdapter(requireContext(), childFragmentManager,
+        binding.viewPager.adapter = ViewerPagerAdapter(requireContext(), childFragmentManager,
             requireArgument(KEY_VIEWER_ITEMS))
-        binding.setBackOnClick {
+        binding.toolbar.setNavigationOnClickListener {
             activity?.finish()
         }
         if (savedInstanceState == null) {
-            binding.executePendingBindings()
             binding.viewPager.currentItem = requireArgument(KEY_INDEX)
         }
     }

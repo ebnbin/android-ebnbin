@@ -1,66 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <data>
-
-        <variable
-            name="closeOnClick"
-            type="android.view.View.OnClickListener"/>
-
-        <variable
-            name="pagerAdapter"
-            type="androidx.viewpager.widget.PagerAdapter"/>
-
-        <variable
-            name="page"
-            type="Integer"/>
-
-        <variable
-            name="onPageSelected"
-            type="com.ebnbin.eb.databinding.ViewPagerOnPageSelected"/>
-
-    </data>
-
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="?attr/colorBackgroundFloating"
+            app:navigationIcon="@drawable/eb_dev_close">
 
-            <com.google.android.material.appbar.MaterialToolbar
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/eb_tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorBackgroundFloating"
-                app:navigationIcon="@drawable/eb_dev_close"
-                navigationOnClickListener="@{closeOnClick}">
+                android:backgroundTint="?attr/colorBackgroundFloating"
+                app:tabMode="scrollable"/>
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/eb_tab_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/colorBackgroundFloating"
-                    app:tabMode="scrollable"
-                    setupWithViewPager="@{@id/eb_view_pager}"/>
+        </com.google.android.material.appbar.MaterialToolbar>
 
-            </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/eb_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/eb_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            adapter="@{pagerAdapter}"
-            offscreenPageLimit="@{Integer.MAX_VALUE}"
-            currentItem="@{page}"
-            onPageSelected="@{onPageSelected}"/>
-
-    </LinearLayout>
-
-</layout>
+</LinearLayout>

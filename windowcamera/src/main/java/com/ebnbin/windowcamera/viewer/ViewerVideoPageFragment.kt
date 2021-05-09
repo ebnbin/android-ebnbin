@@ -20,11 +20,6 @@ class ViewerVideoPageFragment : ViewerPageFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
-    }
-
     private var reset: Boolean = true
     private var playWhenReady: Boolean = true
     private var currentPosition: Long = 0L
