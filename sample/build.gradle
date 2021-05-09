@@ -13,11 +13,11 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion compile_sdk_version
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.ebnbin.${project.applicationId}"
-        minSdkVersion min_sdk_version
-        targetSdkVersion target_sdk_version
+        minSdkVersion 23
+        targetSdkVersion 29
         versionCode util.versionCode
         versionName project.versionName
     }
