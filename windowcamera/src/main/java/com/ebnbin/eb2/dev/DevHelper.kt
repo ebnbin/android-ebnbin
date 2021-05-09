@@ -1,7 +1,6 @@
 package com.ebnbin.eb2.dev
 
 import android.os.Bundle
-import com.crashlytics.android.Crashlytics
 import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb2.async.AsyncHelper
 import com.ebnbin.eb2.sharedpreferences.EBSpManager
@@ -9,13 +8,14 @@ import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.ebapp.deviceId
 import com.ebnbin.ebapp.library.firebaseAnalytics
 import com.ebnbin.windowcamera.BuildConfig
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 object DevHelper {
     private const val REPORT_EXPIRATION = 24 * 60 * 60 * 1000L
 
     fun reportThrowable(throwable: Throwable) {
         if (BuildConfig.DEBUG) return
-        Crashlytics.logException(throwable)
+        FirebaseCrashlytics.getInstance().recordException(throwable)
     }
 
     fun <T : EBReport> report(report: () -> T) {

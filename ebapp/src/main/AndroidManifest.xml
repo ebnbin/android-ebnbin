@@ -8,8 +8,8 @@
         android:roundIcon="@mipmap/ebapp_icon"
         android:logo="@drawable/ebapp_logo"
         android:theme="@style/EBAppTheme">
-        <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="${firebaseCrashlyticsCollectionEnabled}"/>
+<!--        <meta-data-->
+<!--            android:name="firebase_crashlytics_collection_enabled"-->
+<!--            android:value="${firebaseCrashlyticsCollectionEnabled}"/>-->
     </application>
 </manifest>
