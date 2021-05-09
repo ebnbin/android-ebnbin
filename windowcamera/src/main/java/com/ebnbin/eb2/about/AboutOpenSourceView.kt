@@ -2,11 +2,10 @@ package com.ebnbin.eb2.about
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.ebnbin.eb.openBrowser
-import com.ebnbin.windowcamera.R
-import kotlinx.android.synthetic.main.eb_about_open_source_view.view.*
+import com.ebnbin.windowcamera.databinding.EbAboutOpenSourceViewBinding
 
 /**
  * 关于页面开源 item.
@@ -17,13 +16,11 @@ internal class AboutOpenSourceView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
-    init {
-        View.inflate(context, R.layout.eb_about_open_source_view, this)
-    }
+    private val binding: EbAboutOpenSourceViewBinding = EbAboutOpenSourceViewBinding.inflate(LayoutInflater.from(context), this, true)
 
     fun setData(pair: Pair<String, String>) {
-        eb_name.text = pair.first
-        eb_url.text = pair.second
+        binding.ebName.text = pair.first
+        binding.ebUrl.text = pair.second
         setOnClickListener {
             context.openBrowser(pair.second)
         }

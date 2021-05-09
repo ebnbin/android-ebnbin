@@ -16,7 +16,7 @@ import com.ebnbin.eb.signatures
 import com.ebnbin.eb.toTimeString
 import com.ebnbin.eb.versionCode
 import com.ebnbin.eb.versionName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize

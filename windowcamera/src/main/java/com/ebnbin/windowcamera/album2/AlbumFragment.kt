@@ -20,13 +20,13 @@ import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.util.ResHelper
 import com.ebnbin.eb2.util.WindowHelper
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.databinding.Album2FragmentBinding
 import com.ebnbin.windowcamera.util.IOHelper
 import com.ebnbin.windowcamera.viewer.ViewerActivity
 import com.ebnbin.windowcamera.viewer.ViewerFragment
 import com.ebnbin.windowcamera.viewer.ViewerItem
 import com.ebnbin.windowcamera.viewer.ViewerType
 import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.android.synthetic.main.album2_fragment.*
 
 class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(false) {
@@ -41,9 +41,11 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    private lateinit var binding: Album2FragmentBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.album2_fragment, container, false)
+        binding = Album2FragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     private lateinit var adapter: AlbumAdapter
@@ -57,7 +59,7 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
         val width = WindowHelper.getDisplaySize(requireContext()).width
         val spanCount = (requireContext().pxToDp(width) / 90f).toInt()
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recycler_view.layoutManager = layoutManager
+        binding.recyclerView.layoutManager = layoutManager
 
         adapter = AlbumAdapter()
         adapter.setOnItemClickListener { _, _, position ->
@@ -105,8 +107,8 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
             }
             true
         }
-        adapter.setEmptyView(R.layout.album2_empty, recycler_view)
-        recycler_view.adapter = adapter
+        adapter.setEmptyView(R.layout.album2_empty, binding.recyclerView)
+        binding.recyclerView.adapter = adapter
 
         invalidateAlbumItems()
         exitActionMode()
@@ -133,15 +135,15 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     private fun enterActionMode() {
         onBackPressedCallback.isEnabled = true
 
-        toolbar.setNavigationIcon(R.drawable.album2_close)
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationIcon(R.drawable.album2_close)
+        binding.toolbar.setNavigationOnClickListener {
             multiSelectNormal()
             exitActionMode()
         }
-        toolbar.setTitleTextColor(ResHelper.getColorAttr(requireContext(), R.attr.colorPrimary))
-        toolbar.menu.clear()
-        toolbar.inflateMenu(R.menu.album2_action_mode)
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setTitleTextColor(ResHelper.getColorAttr(requireContext(), R.attr.colorPrimary))
+        binding.toolbar.menu.clear()
+        binding.toolbar.inflateMenu(R.menu.album2_action_mode)
+        binding.toolbar.setOnMenuItemClickListener {
             when (it?.itemId) {
                 R.id.delete -> {
                     if (adapter.data.none { albumItem -> albumItem.multiSelect == MultiSelect.SELECTED }) {
@@ -166,21 +168,21 @@ class AlbumFragment : EBFragment(), AlertDialogFragment.Callback {
     private fun invalidateActionMode() {
         if (!isActionMode()) return
         val selectedCount = adapter.data.filter { it.multiSelect == MultiSelect.SELECTED }.size
-        toolbar.title = getString(R.string.album2_selected, selectedCount)
+        binding.toolbar.title = getString(R.string.album2_selected, selectedCount)
     }
 
     private fun exitActionMode() {
         onBackPressedCallback.isEnabled = false
 
-        toolbar.setNavigationIcon(R.drawable.eb_toolbar_back)
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationIcon(R.drawable.eb_toolbar_back)
+        binding.toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
         }
-        toolbar.setTitle(R.string.album2)
-        toolbar.setTitleTextColor(ResHelper.getColorAttr(requireContext(), android.R.attr.textColorPrimary))
-        toolbar.menu.clear()
-        toolbar.inflateMenu(R.menu.album2_toolbar)
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setTitle(R.string.album2)
+        binding.toolbar.setTitleTextColor(ResHelper.getColorAttr(requireContext(), android.R.attr.textColorPrimary))
+        binding.toolbar.menu.clear()
+        binding.toolbar.inflateMenu(R.menu.album2_toolbar)
+        binding.toolbar.setOnMenuItemClickListener {
             when (it?.itemId) {
                 R.id.refresh -> {
                     invalidateAlbumItems()

@@ -3,7 +3,7 @@ package com.ebnbin.eb.dev
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.fragment.app.Fragment
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class DevPage(

@@ -17,6 +17,7 @@ import com.ebnbin.eb2.dev.DevHelper
 import com.ebnbin.eb2.fragment.EBFragment
 import com.ebnbin.eb2.update.UpdateFragment
 import com.ebnbin.windowcamera.R
+import com.ebnbin.windowcamera.databinding.MainFragmentBinding
 import com.ebnbin.windowcamera.menu.MenuFragment
 import com.ebnbin.windowcamera.profile.CameraState
 import com.ebnbin.windowcamera.profile.ProfileHelper
@@ -26,7 +27,6 @@ import com.ebnbin.windowcamera.util.SpManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.android.synthetic.main.main_fragment.*
 import kotlin.random.Random
 
 class MainFragment : EBFragment(),
@@ -34,9 +34,11 @@ class MainFragment : EBFragment(),
     ViewPager.OnPageChangeListener,
     PermissionFragment.Callback
 {
+    private lateinit var binding: MainFragmentBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +50,7 @@ class MainFragment : EBFragment(),
             if (WindowCameraService.isRunning()) {
                 imageId = R.drawable.main_stop
                 listener = View.OnClickListener {
-                    floating_action_button.isEnabled = false
+                    binding.floatingActionButton.isEnabled = false
                     WindowCameraService.stop(requireContext())
                     DevHelper.reportEvent("window_camera_service_fab", bundleOf(
                         FirebaseAnalytics.Param.VALUE to "stop"
@@ -66,30 +68,30 @@ class MainFragment : EBFragment(),
                 isEnabled = true
             }
 
-            floating_action_button.setImageResource(imageId)
-            floating_action_button.setOnClickListener(listener)
-            spinner.isEnabled = isEnabled
+            binding.floatingActionButton.setImageResource(imageId)
+            binding.floatingActionButton.setOnClickListener(listener)
+            binding.spinner.isEnabled = isEnabled
         })
         LiveEventBus.get("CameraStateEvent").observe(viewLifecycleOwner, Observer {
-            floating_action_button.isEnabled = ProfileHelper.cameraState != CameraState.STATING
+            binding.floatingActionButton.isEnabled = ProfileHelper.cameraState != CameraState.STATING
         })
 
         if (savedInstanceState == null) {
             UpdateFragment.start(childFragmentManager, true)
         }
 
-        bottom_app_bar.setNavigationOnClickListener {
+        binding.bottomAppBar.setNavigationOnClickListener {
             MenuFragment.start(childFragmentManager)
         }
-        spinner.adapter = MainSpinnerAdapter(bottom_app_bar.context)
-        spinner.onItemSelectedListener = this
-        tab_layout.setupWithViewPager(view_pager)
-        tab_layout.isInlineLabel = true
-        view_pager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
-        view_pager.addOnPageChangeListener(this)
+        binding.spinner.adapter = MainSpinnerAdapter(binding.bottomAppBar.context)
+        binding.spinner.onItemSelectedListener = this
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
+        binding.tabLayout.isInlineLabel = true
+        binding.viewPager.offscreenPageLimit = MainPagerAdapter.ITEMS.size - 1
+        binding.viewPager.addOnPageChangeListener(this)
 
         if (savedInstanceState == null) {
-            spinner.setSelection(Profile.indexOf(), false)
+            binding.spinner.setSelection(Profile.indexOf(), false)
         }
 
         view.post {
@@ -103,7 +105,7 @@ class MainFragment : EBFragment(),
     }
 
     override fun onDestroyView() {
-        view_pager.removeOnPageChangeListener(this)
+        binding.viewPager.removeOnPageChangeListener(this)
         super.onDestroyView()
     }
 
@@ -111,17 +113,17 @@ class MainFragment : EBFragment(),
         val changed = ProfileHelper.profile.value != Profile.get(position).key
         ProfileHelper.profile.value = Profile.get(position).key
         if (changed) {
-            (spinner.adapter as MainSpinnerAdapter?)?.notifyDataSetChanged()
+            (binding.spinner.adapter as MainSpinnerAdapter?)?.notifyDataSetChanged()
             DevHelper.reportEvent("profile_spinner", bundleOf(
                 FirebaseAnalytics.Param.VALUE to ProfileHelper.profile.value
             ))
         }
-        view_pager.adapter = MainPagerAdapter(childFragmentManager)
-        (0 until tab_layout.tabCount).forEach {
-            val tab = tab_layout.getTabAt(it) ?: return@forEach
+        binding.viewPager.adapter = MainPagerAdapter(childFragmentManager)
+        (0 until binding.tabLayout.tabCount).forEach {
+            val tab = binding.tabLayout.getTabAt(it) ?: return@forEach
             tab.setIcon(MainPagerAdapter.ITEMS[it].third)
         }
-        view_pager.setCurrentItem(ProfileHelper.page.value, false)
+        binding.viewPager.setCurrentItem(ProfileHelper.page.value, false)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -144,7 +146,7 @@ class MainFragment : EBFragment(),
         callbackBundle: Bundle
     ): CharSequence? {
         if (result == PermissionFragment.Result.GRANTED) {
-            floating_action_button.isEnabled = false
+            binding.floatingActionButton.isEnabled = false
             WindowCameraService.start(requireContext())
         }
         return super.onPermissionResult(context, result, deniedPermission, callbackBundle)
@@ -156,10 +158,10 @@ class MainFragment : EBFragment(),
         if (!SpManager.is_tip_enabled.value) return
         if (tipShown) return
         tipShown = true
-        floating_action_button.post {
+        binding.floatingActionButton.post {
             val tip = "${getString(R.string.main_tip_title)}${TIPS[Random.nextInt(TIPS.size)]}"
-            val snackbar = Snackbar.make(floating_action_button, tip, Snackbar.LENGTH_INDEFINITE)
-                .setAnchorView(floating_action_button)
+            val snackbar = Snackbar.make(binding.floatingActionButton, tip, Snackbar.LENGTH_INDEFINITE)
+                .setAnchorView(binding.floatingActionButton)
             snackbar.view.findViewById<TextView>(R.id.snackbar_text).maxLines = 4
             snackbar.show()
         }

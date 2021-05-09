@@ -1,8 +1,8 @@
 apply from: rootProject.file('util.gradle.kts')
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'com.google.gms.google-services'
 //apply plugin: 'io.fabric'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -50,9 +50,6 @@ android {
     }
     viewBinding {
         enabled true
-    }
-    androidExtensions {
-        experimental = true
     }
     applicationVariants.all { applicationVariant ->
         applicationVariant.outputs.all {

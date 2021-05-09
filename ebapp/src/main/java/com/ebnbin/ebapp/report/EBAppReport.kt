@@ -5,7 +5,7 @@ import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.report.Report
 import com.ebnbin.ebapp.BuildConfig
 import com.ebnbin.ebapp.deviceId
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize

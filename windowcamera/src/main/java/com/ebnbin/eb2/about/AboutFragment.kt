@@ -19,28 +19,30 @@ import com.ebnbin.eb2.util.TimeHelper
 import com.ebnbin.ebapp.deviceId
 import com.ebnbin.ebapp.isGoogleFlavor
 import com.ebnbin.windowcamera.R
-import kotlinx.android.synthetic.main.eb_about_fragment2.*
+import com.ebnbin.windowcamera.databinding.EbAboutFragment2Binding
 
 class AboutFragment : EBFragment() {
     private val openSources: ArrayList<Pair<String, String>>?
         get() = getArgument("open_sources")
 
+    private lateinit var binding: EbAboutFragment2Binding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.eb_about_fragment2, container, false)
+        binding = EbAboutFragment2Binding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        eb_toolbar.setNavigationOnClickListener {
+        binding.ebToolbar.setNavigationOnClickListener {
             activity?.finish()
         }
-        eb_toolbar.setOnLongClickListener {
+        binding.ebToolbar.setOnLongClickListener {
             requireContext().copy(requireContext().deviceId)
             requireContext().toast(R.string.eb_about_device_id_copied)
             true
         }
-        eb_icon.setOnLongClickListener {
+        binding.ebIcon.setOnLongClickListener {
             it.isLongClickable = false
             it.animate()
                 .rotationYBy(360f)
@@ -55,14 +57,14 @@ class AboutFragment : EBFragment() {
                 .start()
             true
         }
-        eb_version.text = getString(R.string.eb_about_version,
+        binding.ebVersion.text = getString(R.string.eb_about_version,
             EBApplication.instance.versionName,
             if (BuildConfig.DEBUG) " ${BuildConfig.BUILD_TYPE}" else "",
             TimeHelper.longToString(BuildConfig.BUILD_TIMESTAMP, "yyyy-MM-dd"))
-        eb_update.setOnClickListener {
+        binding.ebUpdate.setOnClickListener {
             UpdateFragment.start(childFragmentManager, false)
         }
-        eb_open_market.setOnClickListener {
+        binding.ebOpenMarket.setOnClickListener {
             requireContext().openMarket(isGoogleFlavor)
         }
         OPEN_SOURCES.forEach {
@@ -76,7 +78,7 @@ class AboutFragment : EBFragment() {
     private fun addOpenSource(pair: Pair<String, String>) {
         val aboutOpenSourceView = AboutOpenSourceView(requireContext())
         aboutOpenSourceView.setData(pair)
-        eb_open_source_linear_layout.addView(aboutOpenSourceView)
+        binding.ebOpenSourceLinearLayout.addView(aboutOpenSourceView)
     }
 
     companion object {
