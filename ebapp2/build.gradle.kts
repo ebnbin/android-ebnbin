@@ -54,7 +54,7 @@ android {
 }
 
 dependencies {
-    api(project(":eb"))
+    api(project(":eb2"))
     api("com.google.firebase:firebase-crashlytics:17.4.1")
     api("com.google.firebase:firebase-analytics:18.0.3") // https://firebase.google.com/docs/android/setup
 //    api 'com.crashlytics.sdk.android:crashlytics:2.10.1' // https://firebase.google.com/docs/crashlytics/get-started?platform=android

@@ -85,7 +85,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":ebapp"))
+    implementation(project(":ebapp2"))
 
     api("com.github.chrisbanes:PhotoView:2.3.0") // https://github.com/chrisbanes/PhotoView
     api("com.google.android.exoplayer:exoplayer:2.11.1") // https://github.com/google/ExoPlayer
