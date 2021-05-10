@@ -1,24 +1,17 @@
 package com.ebnbin.windowcamera.view
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.PixelFormat
 import android.graphics.SurfaceTexture
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.ebnbin.eb.EBApplication
 import com.ebnbin.eb.closeApp
-import com.ebnbin.eb.dpToPxRound
-import com.ebnbin.eb.permission.hasPermissions
 import com.ebnbin.eb.requireSystemService
-import com.ebnbin.eb.sdk26O
 import com.ebnbin.eb.toast
 import com.ebnbin.eb2.util.AppHelper
 import com.ebnbin.windowcamera.R
@@ -68,45 +61,46 @@ class WindowCameraView(context: Context) : CardView(context),
     override fun toast(text: String, long: Boolean, profileToast: ProfileToast) {
         when (profileToast) {
             ProfileToast.SYSTEM_ALERT_WINDOW, ProfileToast.SYSTEM_ALERT_WINDOW_CENTER -> {
-                if (!context.hasPermissions(Manifest.permission.SYSTEM_ALERT_WINDOW)) return
-                lastToastView?.run {
-                    val runnable = tag as Runnable
-                    removeCallbacks(runnable)
-                    runnable.run()
-                }
-                val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
-                val view = toast.view
-                val params = WindowManager.LayoutParams()
-                params.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                params.type = if (sdk26O()) {
-                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                } else {
-                    @Suppress("DEPRECATION")
-                    WindowManager.LayoutParams.TYPE_PHONE
-                }
-                params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
-                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                params.format = PixelFormat.TRANSLUCENT
-                params.windowAnimations = android.R.style.Animation_Toast
-                if (profileToast == ProfileToast.SYSTEM_ALERT_WINDOW) {
-                    params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
-                    params.y = context.dpToPxRound(24f)
-                }
-                EBApplication.instance.requireSystemService<WindowManager>().addView(view, params)
-                lastToastView = view
-                val delay = if (long) 5000L else 2000L
-                val runnable = Runnable {
-                    lastToastView = null
-                    try {
-                        EBApplication.instance.requireSystemService<WindowManager>().removeView(view)
-                    } catch (e: Exception) {
-                        // Ignore.
-                    }
-                }
-                view.tag = runnable
-                view.postDelayed(runnable, delay)
+//                if (!context.hasPermissions(Manifest.permission.SYSTEM_ALERT_WINDOW)) return
+//                lastToastView?.run {
+//                    val runnable = tag as Runnable
+//                    removeCallbacks(runnable)
+//                    runnable.run()
+//                }
+//                val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
+//                val view = toast.view
+//                val params = WindowManager.LayoutParams()
+//                params.width = ViewGroup.LayoutParams.WRAP_CONTENT
+//                params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+//                params.type = if (sdk26O()) {
+//                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+//                } else {
+//                    @Suppress("DEPRECATION")
+//                    WindowManager.LayoutParams.TYPE_PHONE
+//                }
+//                params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+//                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+//                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+//                params.format = PixelFormat.TRANSLUCENT
+//                params.windowAnimations = android.R.style.Animation_Toast
+//                if (profileToast == ProfileToast.SYSTEM_ALERT_WINDOW) {
+//                    params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+//                    params.y = context.dpToPxRound(24f)
+//                }
+//                EBApplication.instance.requireSystemService<WindowManager>().addView(view, params)
+//                lastToastView = view
+//                val delay = if (long) 5000L else 2000L
+//                val runnable = Runnable {
+//                    lastToastView = null
+//                    try {
+//                        EBApplication.instance.requireSystemService<WindowManager>().removeView(view)
+//                    } catch (e: Exception) {
+//                        // Ignore.
+//                    }
+//                }
+//                view.tag = runnable
+//                view.postDelayed(runnable, delay)
+                context.toast(text, long)
             }
             ProfileToast.SYSTEM -> {
                 context.toast(text, long)

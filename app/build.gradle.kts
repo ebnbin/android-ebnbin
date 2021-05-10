@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
     defaultConfig {
         applicationId = "com.ebnbin.windowcamera"
         minSdkVersion(23)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
         versionCode = "0.6".split(".").let {
             1000000 * it[0].toInt() +
                     10000 * it[1].toInt() +
